@@ -4,6 +4,8 @@ import sqlite3
 from app import get_db
 import time
 from datetime import datetime
+from random import choice
+from string import ascii_lowercase, digits
 
 def get_temp(what:str, table:str, cond_a:str, cond_b:any) -> list:
     """
@@ -55,6 +57,17 @@ def get_username(pid:int) -> str:
     Returns the username
     """
     return get_temp("username", "Players", "pid", pid)[0][0]
+
+def get_pid(username:str) -> int:
+    """
+    Function to pull the id of a player from the database
+
+    username: the player’s username
+
+    Returns the id
+    """
+    return get_temp("pid", "Players", "username", username)[0][0]
+
 
 def get_token(pid:int) -> str:
     """
@@ -122,10 +135,10 @@ def new_player(username:str, password:str) -> bool:
     """
     c = get_db().cursor()
     pid = (c.execute("SELECT MAX(pid) FROM Players").fetchone()[0] or 0) + 1
-    token = TODO
-    token_duration = TODO # in days
+    token = 2
+    token_duration = 4 # in days
     token_expiration = time.time() + token_duration*24*60*60
-    encrypted_pw = TODO
+    encrypted_pw = password
 
     c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
     get_db().commit()
@@ -163,9 +176,13 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> None:
     p4: the fourth player's id (can be None)
     """
     c = get_db().cursor()
+    chars = ascii_lowercase + digits
+    gameid = ''.join(choice(chars) for i in range(6))
+    while get_temp("*", "Games", "gameid", gameid):
+        gameid = ''.join(choice(chars) for i in range(6))
 
-    gameid = TODO # Check whether code already exists
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?)),", (gameid, p1, p2, p3, p4, False))
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, False))
+    
     get_db().commit()
 
 def end_game(gameid:int) -> None:
