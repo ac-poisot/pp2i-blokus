@@ -5,6 +5,8 @@ import time
 import os
 app = Flask(__name__)
 
+##from db import new_player
+
 # DB connection
 
 DATABASE = 'blokus.db'
@@ -50,8 +52,17 @@ def home():
     # print(get_history(g))
     return render_template("index.html", time=time.localtime()[5])
 
-
-@app.route("/data")
-def send_data():
-    print(time.localtime()[5])
-    return {'token': request.args.get('token'), 'gameid':request.args.get('gameid'), 'time':time.localtime()[5]}
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template("login.html")
+    else:
+        print(request.form)
+        if(request.form["password"]==request.form["confirmation"]):
+            ##res = new_player(request.form["username"], request.form["password"])
+            res = "e25102u", "azerty"
+            if(res):
+                pid, token = res
+                return redirect(f"/?token={token}")
+        else:
+            return render_template("login.html")

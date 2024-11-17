@@ -173,7 +173,7 @@ def new_player(username:str, password:str) -> any:
 
     c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
     get_db().commit()
-    return pid
+    return pid, token
 
 def update_username(pid:int, username:str) -> bool:
     """
