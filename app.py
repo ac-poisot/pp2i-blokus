@@ -1,10 +1,11 @@
-from flask import Flask, request, abort, redirect, url_for, render_template, g
+from flask import Flask, request, abort, redirect, url_for, render_template, g, flash
 import sqlite3
 import random
 import time
 import os
-app = Flask(__name__)
 
+app = Flask(__name__)
+app.secret_key = b',DTuzn=#c9"F.)_'
 ##from db import new_player
 
 # DB connection
@@ -48,21 +49,30 @@ def home():
     # g = new_game(p1, p2, p3, p4)
     # new_move(g, 2, 2, 5, 1, 1, 3)
     # new_move(g, 1, 1, 5, 4, 5, 3)
+    # end_game(g)
+    # update_username(p1, "Korkoro")
     # print(get_game(g))
     # print(get_history(g))
+    # print(get_game_history(p3))
+    
     return render_template("index.html", time=time.localtime()[5])
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/signup", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("login.html")
+        return render_template("signup.html")
     else:
         print(request.form)
         if(request.form["password"]==request.form["confirmation"]):
-            ##res = new_player(request.form["username"], request.form["password"])
-            res = "e25102u", "azerty"
+            res = new_player(request.form["username"], request.form["password"])
+            #res = "e25102u", "azerty"
             if(res):
                 pid, token = res
                 return redirect(f"/?token={token}")
+            else:
+                flash("Ce pseudo est déjà pris !")
+                return render_template("signup.html")
+        
         else:
-            return render_template("login.html")
+            flash("Les deux mots de passe ne correspondent pas…")
+            return render_template("signup.html")

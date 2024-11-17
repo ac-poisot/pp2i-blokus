@@ -364,4 +364,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Databse files
+*.db
+
 # End of https://www.toptal.com/developers/gitignore/api/linux,windows,macos,visualstudiocode,python,venv,flask
