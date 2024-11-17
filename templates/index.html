@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox</title>
+</head>
+<body>
+    <span id="time">{{ time }}</span>
+    <div id="otherPlayers">
+        <div class="closed" id="p1">
+            <span class="playerName">Joueur 1</span>
+            <div class="more">More</div>
+        </div>
+        <div class="closed" id="p2">
+            <span class="playerName">Joueur 2</span>
+            <div class="more">More</div>
+        </div>
+        <div class="closed" id="p3">
+            <span class="playerName">Joueur 3</span>
+            <div class="more">More</div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+    
+</body>
+</html>
