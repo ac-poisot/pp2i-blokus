@@ -7,6 +7,17 @@ from datetime import datetime
 from random import choice
 from string import ascii_lowercase, digits
 
+# Constants
+
+TOKEN_LENGTH = 6
+GAMEID_LENGTH = 6
+TOKEN_DURATION = 4 # in days
+
+TOKEN_CHARS = ascii_lowercase + digits # Characters to use in tokens
+GAMEID_CHARS = ascii_lowercase + digits # Characters to use in gameIDs
+
+# Templates
+
 def get_temp(what:str, table:str, cond_a:str, cond_b:any) -> list[tuple[any]]:
     """
     Template to pull specific data from the database
@@ -24,7 +35,7 @@ def get_temp(what:str, table:str, cond_a:str, cond_b:any) -> list[tuple[any]]:
 
 def set_temp(table:str, what:str, towhat:any, cond_a:str, cond_b:any) -> None:
     """
-    Template to update specific data from the database
+    Template to update a specific attribute from the database
 
     table: the table to search in
     what: the attribute to update
@@ -37,6 +48,8 @@ def set_temp(table:str, what:str, towhat:any, cond_a:str, cond_b:any) -> None:
     c = get_db().cursor()
     c.execute(f"UPDATE {table} SET {what} = (?) WHERE {cond_a} = (?);", (towhat, cond_b))
     get_db().commit()
+
+# Getters & setters
 
 def get_password(pid:int) -> str:
     """
@@ -68,7 +81,6 @@ def get_pid(username:str) -> int:
     """
     return get_temp("pid", "Players", "username", username)[0][0]
 
-
 def get_token(pid:int) -> str:
     """
     Function to pull the token of a player from the database
@@ -92,7 +104,7 @@ def get_game_history(pid:int) -> list[str]:
     Returns a list of all the ids of games the player has participated in
     """
     c = get_db().cursor()
-    c.execute("SELECT * FROM Games WHERE over = True AND (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,pid,pid,pid))
+    c.execute("SELECT * FROM Games WHERE over = True AND (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4)
     return [i[0] for i in c.fetchall()]
 
 def get_game(gameid:str) -> tuple:
@@ -112,12 +124,13 @@ def get_history(gameid:str) -> list[tuple]:
 
     gameid: the game's id
 
-    Returns all the moves of the game as a list of
-        (gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int)
+    Returns all the moves of the game sorted by number as a list of
+        (movenumber:int, colour:int, piece:int, x:int, y:int, angle:int)
     """
     c = get_db().cursor()
+
     c.execute("SELECT * FROM Moves WHERE gameid = (?) ORDER BY movenumber ASC;", (gameid,))
-    return c.fetchall()
+    return [move[1:] for move in c.fetchall()]
 
 def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int) -> None:
     """
@@ -151,14 +164,12 @@ def new_player(username:str, password:str) -> any:
     
     pid = (c.execute("SELECT MAX(pid) FROM Players").fetchone()[0] or 0) + 1
 
-    chars = ascii_lowercase + digits
-    token = ''.join(choice(chars) for i in range(6))
+    token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
     while get_temp("*", "Players", "token", token):
-        token = ''.join(choice(chars) for i in range(6))
+        token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
 
-    token_duration = 4 # in days
-    token_expiration = time.time() + token_duration*24*60*60
-    encrypted_pw = password
+    token_expiration = time.time() + TOKEN_DURATION*24*60*60
+    encrypted_pw = password # TODO
 
     c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
     get_db().commit()
@@ -179,7 +190,6 @@ def update_username(pid:int, username:str) -> bool:
     set_temp("Players", "username", username, "pid", pid)
     return True
 
-
 def update_password(pid:int, password:str) -> None:
     """
     Function to modify the password of a player
@@ -188,6 +198,21 @@ def update_password(pid:int, password:str) -> None:
     password: the new password
     """
     set_temp("Players", "password", password, "pid", pid)
+
+def update_token(pid:int) -> None:
+    """
+    Function to renew the token of a player
+
+    pid: the player's id
+    """
+    token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
+    while get_temp("*", "Players", "token", token):
+        token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
+
+    token_expiration = time.time() + TOKEN_DURATION*24*60*60
+
+    set_temp("Players", "token", token, "pid", pid)
+    set_temp("Players", "tokenexpiration", token_expiration, "pid", pid)
 
 def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     """
@@ -201,15 +226,13 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     Returns the id of the newly created game
     """
     c = get_db().cursor()
-    chars = ascii_lowercase + digits
-    gameid = ''.join(choice(chars) for i in range(6))
+
+    gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
     while get_temp("*", "Games", "gameid", gameid):
-        gameid = ''.join(choice(chars) for i in range(6))
+        gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), False))
-    
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), False)) 
     get_db().commit()
-
     return gameid
 
 def end_game(gameid:str) -> None:
