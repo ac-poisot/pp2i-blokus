@@ -7,7 +7,7 @@ from datetime import datetime
 from random import choice
 from string import ascii_lowercase, digits
 
-def get_temp(what:str, table:str, cond_a:str, cond_b:any) -> list:
+def get_temp(what:str, table:str, cond_a:str, cond_b:any) -> list[tuple[any]]:
     """
     Template to pull specific data from the database
 
@@ -62,7 +62,7 @@ def get_pid(username:str) -> int:
     """
     Function to pull the id of a player from the database
 
-    username: the player’s username
+    username: the player's username
 
     Returns the id
     """
@@ -83,31 +83,43 @@ def get_token(pid:int) -> str:
     else:
         return get_temp("token", "Players", "pid", pid)[0][0]
 
-def get_game(gameid:int) -> list:
+def get_game_history(pid:int) -> list[str]:
+    """
+    Function to pull all the games that a specific player has participated in
+
+    pid: the player'id
+
+    Returns a list of all the ids of games the player has participated in
+    """
+    c = get_db().cursor()
+    c.execute("SELECT * FROM Games WHERE over = True AND (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,pid,pid,pid))
+    return [i[0] for i in c.fetchall()]
+
+def get_game(gameid:str) -> tuple:
     """
     Function to pull all the data related to a game from the databse
 
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        (gameid:int, p1:int, p2:int, p3:int, p4:int, over:bool)
+        (gameid:str, p1:int, p2:int, p3:int, p4:int, over:bool)
     """
     return get_temp("*", "Games", "gameid", gameid)[0]
 
-def get_history(gameid:int) -> list:
+def get_history(gameid:str) -> list[tuple]:
     """
     Function to pull all played moves from a game from the database
 
     gameid: the game's id
 
     Returns all the moves of the game as a list of
-        (gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int)
+        (gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int)
     """
     c = get_db().cursor()
     c.execute("SELECT * FROM Moves WHERE gameid = (?) ORDER BY movenumber ASC;", (gameid,))
     return c.fetchall()
 
-def new_move(gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int) -> None:
+def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int) -> None:
     """
     Function to push a specific move to the database
 
@@ -123,19 +135,27 @@ def new_move(gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, an
     c.execute("INSERT INTO Moves VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, movenumber, colour, piece, x, y, angle))
     get_db().commit()
 
-# We have yet to decide whether two users can have the same username
-def new_player(username:str, password:str) -> bool:
+def new_player(username:str, password:str) -> any:
     """
     Function to store a new user in the database if they don't already exist
 
     username: the new player's username
     password: the new player's password
 
-    Returns the id of the newly created player
+    Returns the id of the newly created player, False if username is already taken
     """
+    if get_temp("*", "Players", "username", username):
+        return False
+    
     c = get_db().cursor()
+    
     pid = (c.execute("SELECT MAX(pid) FROM Players").fetchone()[0] or 0) + 1
-    token = 2
+
+    chars = ascii_lowercase + digits
+    token = ''.join(choice(chars) for i in range(6))
+    while get_temp("*", "Players", "token", token):
+        token = ''.join(choice(chars) for i in range(6))
+
     token_duration = 4 # in days
     token_expiration = time.time() + token_duration*24*60*60
     encrypted_pw = password
@@ -144,7 +164,6 @@ def new_player(username:str, password:str) -> bool:
     get_db().commit()
     return pid
 
-# We have yet to decide whether two users can have the same username
 def update_username(pid:int, username:str) -> bool:
     """
     Function to change the username of a player
@@ -152,9 +171,13 @@ def update_username(pid:int, username:str) -> bool:
     pid: the player's id
     username: the new username
 
-    Returns whether the change of username was successfull
+    Returns whether the change of username was successful
     """
-    set_temp("Players", "pid", username, "pid", pid)
+    if get_temp("*", "Players", "username", username):
+        return False
+
+    set_temp("Players", "username", username, "pid", pid)
+    return True
 
 
 def update_password(pid:int, password:str) -> None:
@@ -166,7 +189,7 @@ def update_password(pid:int, password:str) -> None:
     """
     set_temp("Players", "password", password, "pid", pid)
 
-def new_game(p1:int, p2:int, p3:int, p4:int) -> None:
+def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     """
     Function to create a new game with the players's ids
 
@@ -183,13 +206,13 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> None:
     while get_temp("*", "Games", "gameid", gameid):
         gameid = ''.join(choice(chars) for i in range(6))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, False))
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), False))
     
     get_db().commit()
 
     return gameid
 
-def end_game(gameid:int) -> None:
+def end_game(gameid:str) -> None:
     """
     Function to end a game
 
