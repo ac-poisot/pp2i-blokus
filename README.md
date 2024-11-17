@@ -1,4 +1,4 @@
-# Projet PPII - Semestre S5
+# Projet PPII — Semestre S5
 
 ## Table des matières
 1. [Introduction](#introduction)
@@ -21,6 +21,7 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 - **Loisil Tom** - [tom.loisil@telecomnancy.eu](mailto:tom.loisil@telecomnancy.eu)
 - **Estivals Raphaël** - [raphael.estivals@telecomnancy.eu](mailto:raphael.estivals@telecomnancy.eu)
 - **Bui Kévin** - [kevin.bui@telecomnancy.eu](mailto:kevin.bui@telecomnancy.eu)
+
 
 ## Description du projet
 
@@ -51,9 +52,6 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
     pip install -r requirements.txt
     ```
 
-3. Autres étapes spécifiques à votre projet.
-
-
 ## Exécution
 
 1. Lancez l’application :
@@ -61,5 +59,3 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
     ```bash
     python app.py
     ```
-
-2. Autres instructions spécifiques à votre projet.
