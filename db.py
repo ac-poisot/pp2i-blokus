@@ -92,7 +92,7 @@ def get_game(gameid:int) -> list:
     Returns a list of all the data in the format 
         (gameid:int, p1:int, p2:int, p3:int, p4:int, over:bool)
     """
-    return get_temp("*", "Games", "gameid", gameid)
+    return get_temp("*", "Games", "gameid", gameid)[0]
 
 def get_history(gameid:int) -> list:
     """
@@ -120,7 +120,7 @@ def new_move(gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, an
     angle: the orientation of the piece [TODO what kind of int do we want]
     """
     c = get_db().cursor()
-    c.execute("INSERT INTO Moves VALUES ((?), (?), (?), (?));", (gameid, movenumber, colour, piece, x, y, angle))
+    c.execute("INSERT INTO Moves VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, movenumber, colour, piece, x, y, angle))
     get_db().commit()
 
 # We have yet to decide whether two users can have the same username
@@ -131,7 +131,7 @@ def new_player(username:str, password:str) -> bool:
     username: the new player's username
     password: the new player's password
 
-    Returns whether the account was successfully created
+    Returns the id of the newly created player
     """
     c = get_db().cursor()
     pid = (c.execute("SELECT MAX(pid) FROM Players").fetchone()[0] or 0) + 1
@@ -142,7 +142,7 @@ def new_player(username:str, password:str) -> bool:
 
     c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
     get_db().commit()
-    return True
+    return pid
 
 # We have yet to decide whether two users can have the same username
 def update_username(pid:int, username:str) -> bool:
@@ -174,6 +174,8 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> None:
     p2: the second player's id (can be None)
     p3: the third player's id (can be None)
     p4: the fourth player's id (can be None)
+
+    Returns the id of the newly created game
     """
     c = get_db().cursor()
     chars = ascii_lowercase + digits
@@ -184,6 +186,8 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> None:
     c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, False))
     
     get_db().commit()
+
+    return gameid
 
 def end_game(gameid:int) -> None:
     """

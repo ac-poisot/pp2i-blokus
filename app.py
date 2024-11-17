@@ -39,6 +39,15 @@ def close_connection(exception):
 @app.route("/")
 def home():
     init_db()
+    # p1 = new_player("Bouthier", "a")
+    # p2 = new_player("Heurtel", "b")
+    # p3 = new_player("Festor", "c")
+    # p4 = new_player("Heudiard", "d")
+    # g = new_game(p1, p2, p3, p4)
+    # new_move(g, 2, 2, 5, 1, 1, 3)
+    # new_move(g, 1, 1, 5, 4, 5, 3)
+    # print(get_game(g))
+    # print(get_history(g))
     return render_template("index.html", time=time.localtime()[5])
 
 

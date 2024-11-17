@@ -1,0 +1,37 @@
+CREATE TABLE Games
+(
+    gameid TEXT,
+    p1 INT,
+    p2 INT,
+    p3 INT,
+    p4 INT,
+    over BOOL,
+    PRIMARY KEY (gameid),
+    FOREIGN KEY (p1) REFERENCES Players(pid),
+    FOREIGN KEY (p2) REFERENCES Players(pid),
+    FOREIGN KEY (p3) REFERENCES Players(pid),
+    FOREIGN KEY (p4) REFERENCES Players(pid)
+);
+
+CREATE TABLE Players
+(
+    pid INT,
+    username TEXT,
+    password TEXT,
+    token TEXT,
+    tokenexpiration FLOAT,
+    PRIMARY KEY (pid)
+);
+
+CREATE TABLE Moves
+(
+    gameid TEXT,
+    movenumber INT,
+    colour INT,
+    piece INT,
+    x INT,
+    y INT,
+    angle INT,
+    PRIMARY KEY (gameid, movenumber),
+    FOREIGN KEY (gameid) REFERENCES Games(gameid)
+);
