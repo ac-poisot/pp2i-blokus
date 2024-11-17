@@ -24,8 +24,6 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 
 ## Description du projet
 
-Ajoutez ici une description du projet, ses objectifs, et toute autre information pertinente :
-
 - **Sujet :** 
 - **Objectifs :**
 - **Technologies utilisées :**
@@ -33,14 +31,12 @@ Ajoutez ici une description du projet, ses objectifs, et toute autre information
 
 ## Prérequis
 
-- **Langage(s) :** Python 3.10, JavaScript
+- **Langages :** Python 3.10, JavaScript
 - **Frameworks :** Flask
 - **Dépendances :** Voir le fichier `requirements.txt`
 
 
 ## Installation
-
-Expliquez comment installer le projet sur une machine locale.
 
 ### Étapes générales :
 
@@ -59,8 +55,6 @@ Expliquez comment installer le projet sur une machine locale.
 
 
 ## Exécution
-
-Expliquez comment exécuter le projet.
 
 1. Lancez l’application :
 
