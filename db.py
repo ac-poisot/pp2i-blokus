@@ -2,7 +2,8 @@
 
 import sqlite3
 from app import get_db
-from time import time
+import time
+from datetime import datetime
 
 def get_temp(what:str, table:str, cond_a:str, cond_b:any) -> list:
     """
@@ -16,8 +17,8 @@ def get_temp(what:str, table:str, cond_a:str, cond_b:any) -> list:
     Returns the corresponding data as a list of tuples
     """
     c = get_db().cursor()
-    c.executemany("SELECT (?) FROM (?) WHERE (?) = (?);", [what, table, cond_a, cond_b])
-    return c.fetchall()
+    a = c.execute(f"SELECT {what} FROM {table} WHERE {cond_a} = (?);", (cond_b,))
+    return a.fetchall()
 
 def set_temp(table:str, what:str, towhat:any, cond_a:str, cond_b:any) -> None:
     """
@@ -32,7 +33,7 @@ def set_temp(table:str, what:str, towhat:any, cond_a:str, cond_b:any) -> None:
     Returns the corresponding data as a list of tuples
     """
     c = get_db().cursor()
-    c.execute("UPDATE (?) SET (?) = (?) WHERE (?) = (?);", [table, what, cond_a, cond_b])
+    c.execute(f"UPDATE {table} SET {what} = (?) WHERE {cond_a} = (?);", (towhat, cond_b))
     get_db().commit()
 
 def get_password(pid:int) -> str:
@@ -43,7 +44,17 @@ def get_password(pid:int) -> str:
 
     Returns the password
     """
-    return get_temp("password", "Players", "pid", pid)
+    return get_temp("password", "Players", "pid", pid)[0][0]
+
+def get_username(pid:int) -> str:
+    """
+    Function to pull the username of a player from the database
+
+    pid: the player's id
+
+    Returns the username
+    """
+    return get_temp("username", "Players", "pid", pid)[0][0]
 
 def get_token(pid:int) -> str:
     """
@@ -54,10 +65,10 @@ def get_token(pid:int) -> str:
     Returns the token if it has not expired, None if it has
     """
     exp_date = get_temp("tokenexpiration", "Players", "pid", pid)
-    if time() > exp_date:
+    if time.time() > exp_date:
         return None
     else:
-        return get_temp("token", "Players", "pid", pid)
+        return get_temp("token", "Players", "pid", pid)[0][0]
 
 def get_game(gameid:int) -> list:
     """
@@ -66,7 +77,7 @@ def get_game(gameid:int) -> list:
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        [gameid:int, p1:int, p2:int, p3:int, p4:int, over:bool]
+        (gameid:int, p1:int, p2:int, p3:int, p4:int, over:bool)
     """
     return get_temp("*", "Games", "gameid", gameid)
 
@@ -77,10 +88,10 @@ def get_history(gameid:int) -> list:
     gameid: the game's id
 
     Returns all the moves of the game as a list of
-        [gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int]
+        (gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int)
     """
     c = get_db().cursor()
-    c.executemany("SELECT * FROM Moves WHERE gameid = (?) ORDER BY movenumber ASC;", [gameid])
+    c.execute("SELECT * FROM Moves WHERE gameid = (?) ORDER BY movenumber ASC;", (gameid,))
     return c.fetchall()
 
 def new_move(gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int) -> None:
@@ -96,7 +107,7 @@ def new_move(gameid:int, movenumber:int, colour:int, piece:int, x:int, y:int, an
     angle: the orientation of the piece [TODO what kind of int do we want]
     """
     c = get_db().cursor()
-    c.executemany("INSERT INTO Moves VALUES ((?), (?), (?), (?)),", [gameid, movenumber, colour, piece, x, y, angle])
+    c.execute("INSERT INTO Moves VALUES ((?), (?), (?), (?));", (gameid, movenumber, colour, piece, x, y, angle))
     get_db().commit()
 
 # We have yet to decide whether two users can have the same username
@@ -109,16 +120,16 @@ def new_player(username:str, password:str) -> bool:
 
     Returns whether the account was successfully created
     """
-    pid = TODO
+    c = get_db().cursor()
+    pid = (c.execute("SELECT MAX(pid) FROM Players").fetchone()[0] or 0) + 1
     token = TODO
-    if get_temp("*", "Players", "pid", pid):
-        return False
+    token_duration = TODO # in days
+    token_expiration = time.time() + token_duration*24*60*60
+    encrypted_pw = TODO
 
-    else:
-        c = get_db().cursor()
-        c.executemany("INSERT INTO Players VALUES ((?), (?), (?), (?)),", [pid, password, token, time()])
-        get_db().commit()
-        return True
+    c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
+    get_db().commit()
+    return True
 
 # We have yet to decide whether two users can have the same username
 def update_username(pid:int, username:str) -> bool:
@@ -130,12 +141,8 @@ def update_username(pid:int, username:str) -> bool:
 
     Returns whether the change of username was successfull
     """
-    if get_temp("*", "Players", "pid", username):
-        return False
+    set_temp("Players", "pid", username, "pid", pid)
 
-    else:
-        set_temp("Players", "pid", username, "pid", pid)
-        return True
 
 def update_password(pid:int, password:str) -> None:
     """
@@ -157,8 +164,8 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> None:
     """
     c = get_db().cursor()
 
-    gameid = TODO
-    c.executemany("INSERT INTO Games VALUES ((?), (?), (?), (?)),", [gameid, p1, p2, p3, p4, False])
+    gameid = TODO # Check whether code already exists
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?)),", (gameid, p1, p2, p3, p4, False))
     get_db().commit()
 
 def end_game(gameid:int) -> None:
