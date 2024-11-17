@@ -18,10 +18,10 @@ Bienvenue dans le projet **PPII - Semestre S5**. Ce projet est réalisé dans le
 ## Membres du groupe
 Veuillez compléter cette section avec les noms des membres du groupe :
 
-- **Nom Prénom 1** - [email@example.com](mailto:email@example.com)
-- **Nom Prénom 2** - [email@example.com](mailto:email@example.com)
-- **Nom Prénom 3** - [email@example.com](mailto:email@example.com)
-- **Nom Prénom 4** - [email@example.com](mailto:email@example.com)
+- **Poisot Anne-Cécile** - [anne-cecile.poisot@telecomnancy.eu](mailto:anne-cecile.poisot@telecomnancy.net)
+- **Loisil Tom** - [tom.loisil@telecomnancy.eu](mailto:tom.loisil@telecomnancy.eu)
+- **Estivals Raphaël** - [raphael.estivals@telecomnancy.eu](mailto:raphael.estivals@telecomnancy.eu)
+- **Bui Kévin** - [kevin.bui@telecomnancy.eu](mailto:kevin.bui@telecomnancy.eu)
 - ...
 
 
@@ -36,11 +36,9 @@ Ajoutez ici une description du projet, ses objectifs, et toute autre information
 
 ## Prérequis
 
-Listez les prérequis nécessaires pour utiliser ce projet (langages, dépendances, etc.) :
-
-- **Langage(s) :** Ex. Python 3.10
-- **Frameworks :** Ex. Flask, Django, etc.
-- **Dépendances :** Voir le fichier `requirements.txt` (si applicable).
+- **Langage(s) :** Python 3.10, JavaScript
+- **Frameworks :** Flask
+- **Dépendances :** Voir le fichier `requirements.txt`
 
 
 ## Installation
@@ -51,8 +49,8 @@ Expliquez comment installer le projet sur une machine locale.
 
 1. Clonez ce dépôt :
    ```bash
-   git clone https://gibson.telecomnancy.univ-lorraine.fr/projets/2425/ppii-s5/grpXX
-   cd grpXX
+   git clone https://gibson.telecomnancy.univ-lorraine.fr/projets/2425/ppii-s5/grp02
+   cd grp02
    ```
 
 2. Installez les dépendances (si applicable) :
@@ -67,10 +65,10 @@ Expliquez comment installer le projet sur une machine locale.
 
 Expliquez comment exécuter le projet.
 
-1. Lancer l'application :
+1. Lancez l'application :
 
     ```bash
-    python main.py
+    python app.py
     ```
 
 2. Autres instructions spécifiques à votre projet.
