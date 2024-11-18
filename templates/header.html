@@ -9,30 +9,30 @@
     <header>
             <nav id="navbar">
                 <ul>
-                    <li>
+                    <li id="name">
                         <a href="/">BLOKUS</a>
                     </li>
-                    <li>
+                    <li id="games">
                         <a href="/games">Jouer</a>
                     </li>
-                    <li>
+                    <li id="credits">
                         <a href="/credits">Crédits</a>
                     </li>
                     {% if pid != -1 %}
-                        <li>
+                        <li id="profile">
                             <a href="/profile/{{pid}}">Mon profil</a>
                         </li>
                     {% else %}
-                        <li>
+                        <li id="login">
                             <a href="/login">Se connecter</a>
                         </li>
-                        <li>
+                        <li id="signup">
                             <a href="/signup">S'inscrire</a>
                         </li>
-                        <li>
+                        <li id="english">
                             <a href="./" onclick="changeLanguage('en')">English</a>
                         </li>
-                        <li>
+                        <li id="french">
                             <a href="./" onclick="changeLanguage('fr')">Français</a>
                         </li>
                     {% endif %}
