@@ -55,12 +55,12 @@ def home():
     # print(get_history(g))
     # print(get_game_history(p3))
     
-    return render_template("header.html")+render_template("index.html", time=time.localtime()[5])
+    return render_template("header.html")+render_template("index.html", time=time.localtime()[5])+render_template("footer.html")
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        return render_template("header.html")+render_template("signup.html")
+        return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
     else:
         print(request.form)
         if(request.form["password"]==request.form["confirmation"]):
@@ -70,17 +70,17 @@ def signup():
                 return redirect(f"/?token={token}")
             else:
                 flash("Ce pseudo est déjà pris !")
-                return render_template("header.html")+render_template("signup.html")
+                return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
         
         else:
             flash("Les deux mots de passe ne correspondent pas…")
-            return render_template("header.html")+render_template("signup.html")
+            return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
         
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("header.html")+render_template("login.html")
+        return render_template("header.html")+render_template("login.html")+render_template("footer.html")
     else:
         pid = get_pid(request.form["username"])
         if(request.form["password"]==get_password(pid)): ## TODO : décrypter le mdp chiffré
@@ -90,12 +90,12 @@ def login():
         
         else:
             flash("L'identifiant et le mot de passe ne correspondent pas")
-            return render_template("header.html")+render_template("login.html")
+            return render_template("header.html")+render_template("login.html")+render_template("footer.html")
         
 
 @app.route("/game")
 def game():
-    return render_template("header.html")+render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)])
+    return render_template("header.html")+render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)])+render_template("footer.html")
 
 @app.route("/data")
 def send_data():
