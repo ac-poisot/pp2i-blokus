@@ -58,14 +58,13 @@ def home():
     return render_template("index.html", time=time.localtime()[5])
 
 @app.route("/signup", methods=['GET', 'POST'])
-def login():
+def signup():
     if request.method == 'GET':
         return render_template("signup.html")
     else:
         print(request.form)
         if(request.form["password"]==request.form["confirmation"]):
             res = new_player(request.form["username"], request.form["password"])
-            #res = "e25102u", "azerty"
             if(res):
                 pid, token = res
                 return redirect(f"/?token={token}")
@@ -76,3 +75,19 @@ def login():
         else:
             flash("Les deux mots de passe ne correspondent pas…")
             return render_template("signup.html")
+        
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template("login.html")
+    else:
+        pid = get_pid(request.form["username"])
+        if(request.form["password"]==get_password(pid)): ## TODO : décrypter le mdp chiffré
+            res = new_player(request.form["username"], request.form["password"])
+            token = update_token(pid)
+            return redirect(f"/?token={token}")
+        
+        else:
+            flash("L'identifiant et le mot de passe ne correspondent pas")
+            return render_template("login.html")

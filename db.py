@@ -199,7 +199,7 @@ def update_password(pid:int, password:str) -> None:
     """
     set_temp("Players", "password", password, "pid", pid)
 
-def update_token(pid:int) -> None:
+def update_token(pid:int) -> str:
     """
     Function to renew the token of a player
 
@@ -213,6 +213,7 @@ def update_token(pid:int) -> None:
 
     set_temp("Players", "token", token, "pid", pid)
     set_temp("Players", "tokenexpiration", token_expiration, "pid", pid)
+    return token
 
 def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     """
