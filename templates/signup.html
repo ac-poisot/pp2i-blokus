@@ -7,16 +7,16 @@
 </head>
 <body>
     <form action="" method="post">
-        <label for="username">Pseudo : </label>
+        <label for="username" data="username"></label>
         <input type="text" name="username" placeholder="john_doe"><br>
-        <label for="password">Mot de passe : </label>
+        <label for="password" data="password"></label>
         <input type="password" name="password">
-        <p>Doit faire au moins 6 caractères, contenir une lettre, un chiffre ainsi qu’un 
-            <span class="tooltip">caractère spécial
+        <p data="password_requirements">
+            <span class="tooltip" data="special_character">
                 <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
             </span>
         </p><br>
-        <label for="confirmation">Confirmation du mot de passe : </label>
+        <label for="confirmation" data="password_confirmation"></label>
         <input type="password" name="confirmation"><br>
         <input type="submit">
     </form>

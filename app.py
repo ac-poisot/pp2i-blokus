@@ -38,7 +38,7 @@ def wrap(template):
         pid = request.cookies.get('pid')
     else:
         pid = -1
-    print("pid: ", pid, float(request.cookies.get('exptoken')) > time.time(), float(request.cookies.get('exptoken')), time.time())
+    #print("pid: ", pid, float(request.cookies.get('exptoken')) > time.time(), float(request.cookies.get('exptoken')), time.time())
     return render_template("header.html", pid=pid) + template + render_template("footer.html")
 
 @app.teardown_appcontext

@@ -18,6 +18,8 @@
     display: none;
 }
 
+/* hoverable information */
+
 .tooltip {
     position: relative;
     display: inline-block;

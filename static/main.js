@@ -29,6 +29,12 @@ function updatedata() {
     .then(data => document.querySelector("#time").innerText = data["time"])
 }
 
+function updateContent(langData) {
+    document.querySelectorAll('[data]').forEach(element => {
+        const key = element.getAttribute('data');
+        element.innerHTML = langData[key];
+    });
+}
 
 //adress="http://127.0.0.1:5500/"
 

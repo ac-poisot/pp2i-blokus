@@ -1,0 +1,27 @@
+{
+    "play": "Play",
+    "credits": "Credits",
+    "login": "Login",
+    "signup": "Signup",
+    "my_profile": "My Profile",
+    "footer": "Blokus® is a SEKKOIA registered trademark",
+
+    "profile":"Profile of",
+    "wins":"Wins:",
+    "Losses":"Losses:",
+    "Draws":"Draws:",
+    "Ratio":"Wins/Losses Ratio",
+
+
+    "username": "Username:",
+    "password": "Password:",
+    "password_confirmation": "Confirm password:",
+    "password_requirements": "Password must contain at least 6 characters, a digit, a letter and a",
+    "special_character": "special character",
+    "error_requirements": "Password does not meet the requirements…",
+    "error_username_taken": "Username is already taken…",
+    "error_empty_field": "Username or password cannot be empty!",
+    "error_confirmation": "Passwords don’t match…"
+    
+}
+
