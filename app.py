@@ -33,8 +33,8 @@ def init_db():
 
 from db import *
 
-def wrap(template):
-    return render_template("header.html") + template + render_template("footer.html")
+def wrap(template, pid=-1):
+    return render_template("header.html", pid=pid) + template + render_template("footer.html")
 
 @app.teardown_appcontext
 def close_connection(exception):
