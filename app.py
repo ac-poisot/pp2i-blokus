@@ -7,7 +7,6 @@ from hashlib import sha512
 
 app = Flask(__name__)
 app.secret_key = b',DTuzn=#c9"F.)_'
-##from db import new_player
 
 # DB connection
 
@@ -64,23 +63,29 @@ def signup():
         return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
     else:
         print(request.form)
+        username = request.form["username"]
         password = request.form["password"]
 
         # check if the two passwords are the same
         if(password==request.form["confirmation"]):
-            # check if the passwords meets the requirements
-            if len(password) >= 8 and any(char.isdigit() for char in password) and any(char.isalpha() for char in password) and any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
-                res = new_player(request.form["username"], request.form["password"])
-                # check if the username is already taken
-                if(res):
-                    pid, token = res
-                    return redirect(f"/?token={token}")
-                else:
-                    flash("Ce pseudo est déjà pris !")
-                    return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
-            else:
-                flash("Le mot de passe ne satisfait pas les critères demandés…")
+            # check if one of the fields is empty
+            if not username or not password:
+                flash("Le nom d’utilisateur ou le mot de passe ne peuvent pas être vides !")
                 return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+            else:
+                # check if the passwords meets the requirements
+                if len(password) >= 8 and any(char.isdigit() for char in password) and any(char.isalpha() for char in password) and any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
+                    res = new_player(username, password)
+                    # check if the username is already taken
+                    if(res):
+                        pid, token = res
+                        return redirect(f"/?token={token}")
+                    else:
+                        flash("Ce pseudo est déjà pris !")
+                        return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+                else:
+                    flash("Le mot de passe ne satisfait pas les critères demandés…")
+                    return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
         
         else:
             flash("Les deux mots de passe ne correspondent pas…")
@@ -94,13 +99,13 @@ def login():
     else:
         pid = get_pid(request.form["username"])
         password = request.form["password"].encode("utf-8")
-        if(sha512(password).digest()==get_password(pid)): ## TODO : décrypter le mdp chiffré
+        if(sha512(password).digest()==get_password(pid)):
             res = new_player(request.form["username"], request.form["password"])
             token = update_token(pid)
             return redirect(f"/?token={token}")
         
         else:
-            flash("L'identifiant et le mot de passe ne correspondent pas")
+            flash("L’identifiant et le mot de passe ne correspondent pas…")
             return render_template("header.html")+render_template("login.html")+render_template("footer.html")
         
 
