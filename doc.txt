@@ -54,3 +54,6 @@ Il y a la fonction d'ajout de pièces, pour ajouter des pieces SANS vérificatio
 
 fonction empty_space :
 permet de verifier qu'une piece est bien ajouter sur une case vide
+
+
+teste
