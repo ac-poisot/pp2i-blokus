@@ -3,6 +3,7 @@ import sqlite3
 import random
 import time
 import os
+from hashlib import sha512
 
 app = Flask(__name__)
 app.secret_key = b',DTuzn=#c9"F.)_'
@@ -83,7 +84,8 @@ def login():
         return render_template("header.html")+render_template("login.html")+render_template("footer.html")
     else:
         pid = get_pid(request.form["username"])
-        if(request.form["password"]==get_password(pid)): ## TODO : décrypter le mdp chiffré
+        password = request.form["password"].encode("utf-8")
+        if(sha512(password).digest()==get_password(pid)): ## TODO : décrypter le mdp chiffré
             res = new_player(request.form["username"], request.form["password"])
             token = update_token(pid)
             return redirect(f"/?token={token}")

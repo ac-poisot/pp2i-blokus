@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 from random import choice
 from string import ascii_lowercase, digits
+from hashlib import sha512
 
 # Constants
 
@@ -169,7 +170,7 @@ def new_player(username:str, password:str) -> any:
         token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
 
     token_expiration = time.time() + TOKEN_DURATION*24*60*60
-    encrypted_pw = password # TODO
+    encrypted_pw = sha512(password.encode("utf-8")).digest()
 
     c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
     get_db().commit()
