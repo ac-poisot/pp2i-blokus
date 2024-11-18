@@ -260,3 +260,14 @@ def delete_player(pid:int):
     set_temp("Players", "password", "NULL", "pid", pid)
     set_temp("Players", "token", "NULL", "pid", pid)
     set_temp("Players", "tokenexpiration", "NULL", "pid", pid)
+
+def verify_identity(pid:int, token:str) -> bool:
+    """
+    Function de verify if the player is he who he claims to be
+    
+    pid: the id of the player
+    token: the token of the player
+
+    Returns whether his identity can be certified or not
+    """
+    return (token == get_token(pid))
