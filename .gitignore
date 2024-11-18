@@ -368,3 +368,6 @@ $RECYCLE.BIN/
 *.db
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,windows,macos,visualstudiocode,python,venv,flask
+
+# Sass .css.map files
+*.css.map
