@@ -24,6 +24,8 @@ Les pièces sont pas défaut représentées sans orientation. On utilisera ensui
 Les pièces sont repérées par la case en haut à gauche (coordonées (0 ; 0))
 Attention, x correspond aux ordonnees et y aux abscisses.
 
+-Retournement
+Les pieces ont des symetriques. Il faut donc d'abord preciser l'orientation puis la retourner
 
 
 *********************** Le stockage dans le dictionnaire *******************************
@@ -53,4 +55,4 @@ Il y a deux fonctions d’affichage random, pour le débug:
 Il y a la fonction d'ajout de pièces, pour ajouter des pieces SANS vérification, juste on pose, on vérifie la légalité avant. ATTENTION quand on teste la fonction, il faut bien penser que la case repère est en haut à gauch et que faute de vérification, on peut sortir du tableau !!!!
 
 fonction empty_space :
-permet de verifier qu'une piece est bien ajouter sur une case vide
+permet de verifier qu'une piece est bien ajoutee sur une case vide
