@@ -7,7 +7,7 @@ La documentation, mise au fur et à mesure.
 - Stockage
 Les pièces sont rangées dans des rectangles plus grands :
 
-ex : 2 0 2
+ex :2 0 2
     0 1 0
     2 0 2
 
@@ -15,7 +15,7 @@ ex : 2 0 2
 1 est le corps de la pièce (noir).
 2 est la zone qui doit être en contact avec une autre pièce (les coins) (rouge).
 0 désigne une zone où il ne doit pas y avoir une pièce d'une autre couleur (blanc).
-
+3 désigne les zones où il ne peut y avoir d'autre pièces du joueur
 
 - Orientation
 Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner.
