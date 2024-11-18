@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blokus</title>
+</head>
+<body>
+    <h1>Profil de {{username}}</h1>
+    <table id="stats">
+        <tr>
+            <td>
+                <span>Nombre de victoires: {{nbvictories}}</span>
+            </td>
+            <td>
+                <span>Nombre de défaites: {{nbdefeats}}</span>
+            </td>
+            <td>
+                <span>Nombre de parties nulles: {{nbdraws}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">Ratio Victoires/Défaites: {{ratio}}</td>
+        </tr>
+
+    </table>
+    <table>
+        <thead>
+            <td>Date de la partie</td>
+            <td>ID de la partie</td>
+            <td>Etat de la partie</td>
+        </thead>
+        <tbody>
+            {% for p in games %}
+            <td>{{p.date}}</td>
+            <td>{{p.id}}</td>
+            <td>{{p.state}}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

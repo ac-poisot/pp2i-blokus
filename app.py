@@ -116,3 +116,13 @@ def game():
 @app.route("/data")
 def send_data():
     return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
+
+@app.route("/profile/<pid>")
+def profile(pid):
+    username = get_username(pid)
+    nbvictories = 5
+    nbdefeats = 2
+    nbdraws = 1
+    ratio = round(nbvictories/nbdefeats, 2)
+    games=[]
+    return render_template("header.html")+render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games)+render_template("footer.html")
