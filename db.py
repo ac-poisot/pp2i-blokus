@@ -204,6 +204,8 @@ def update_token(pid:int) -> str:
     Function to renew the token of a player
 
     pid: the player's id
+
+    Returns the new token
     """
     token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
     while get_temp("*", "Players", "token", token):
