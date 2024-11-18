@@ -1,10 +1,4 @@
-# game.py, cf la doc
-
-#pieces = {'id_piece': [i for i in range(22)],
-#          'form' : []}
-#
-#use = {'id_piece' : [], 'position': []}
-
+# game.py, pour le jeu
 
 class Game:
     def __init__(self,nb_players,pieces):
