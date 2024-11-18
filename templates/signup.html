@@ -8,11 +8,12 @@
 <body>
     <form action="" method="post">
         <label for="username">Pseudo : </label>
-        <input type="text" name="username" placeholder="john_doe">
+        <input type="text" name="username" placeholder="john_doe"><br>
         <label for="password">Mot de passe : </label>
         <input type="password" name="password">
+        <p>Doit faire au moins 6 caractères, contenir une lettre, un chiffre ainsi qu’un caractère spécial</p><br>
         <label for="confirmation">Confirmation du mot de passe : </label>
-        <input type="password" name="confirmation">
+        <input type="password" name="confirmation"><br>
         <input type="submit">
     </form>
     {% with messages = get_flashed_messages() %}

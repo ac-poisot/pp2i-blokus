@@ -64,13 +64,22 @@ def signup():
         return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
     else:
         print(request.form)
-        if(request.form["password"]==request.form["confirmation"]):
-            res = new_player(request.form["username"], request.form["password"])
-            if(res):
-                pid, token = res
-                return redirect(f"/?token={token}")
+        password = request.form["password"]
+
+        # check if the two passwords are the same
+        if(password==request.form["confirmation"]):
+            # check if the passwords meets the requirements
+            if len(password) >= 8 and any(char.isdigit() for char in password) and any(char.isalpha() for char in password) and any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
+                res = new_player(request.form["username"], request.form["password"])
+                # check if the username is already taken
+                if(res):
+                    pid, token = res
+                    return redirect(f"/?token={token}")
+                else:
+                    flash("Ce pseudo est déjà pris !")
+                    return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
             else:
-                flash("Ce pseudo est déjà pris !")
+                flash("Le mot de passe ne satisfait pas les critères demandés…")
                 return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
         
         else:
