@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, redirect, url_for, render_template, g, flash
+from flask import Flask, request, abort, redirect, url_for, render_template, g, flash, make_response
 import sqlite3
 import random
 import time
@@ -33,7 +33,12 @@ def init_db():
 
 from db import *
 
-def wrap(template, pid=-1):
+def wrap(template):
+    if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+        pid = request.cookies.get('pid')
+    else:
+        pid = -1
+    print("pid: ", pid, float(request.cookies.get('exptoken')) > time.time(), float(request.cookies.get('exptoken')), time.time())
     return render_template("header.html", pid=pid) + template + render_template("footer.html")
 
 @app.teardown_appcontext
@@ -81,8 +86,14 @@ def signup():
                     res = new_player(username, password)
                     # check if the username is already taken
                     if(res):
-                        pid, token = res
-                        return redirect(f"/?token={token}")
+                        pid, token, exptoken = res
+
+                        resp = make_response(redirect(f"/?token={token}"))
+                        resp.set_cookie('pid', str(pid))
+                        resp.set_cookie('token', token)
+                        resp.set_cookie('exptoken', str(exptoken))
+
+                        return resp
                     else:
                         flash("Ce pseudo est déjà pris !")
                         return wrap(render_template("signup.html"))
@@ -104,8 +115,14 @@ def login():
         password = request.form["password"].encode("utf-8")
         if(sha512(password).digest()==get_password(pid)):
             res = new_player(request.form["username"], request.form["password"])
-            token = update_token(pid)
-            return redirect(f"/?token={token}")
+            token, exptoken = update_token(pid)
+            
+            resp = make_response(redirect(f"/?token={token}"))
+            resp.set_cookie('pid', str(pid))
+            resp.set_cookie('token', token)
+            resp.set_cookie('exptoken', str(exptoken))
+
+            return resp
         
         else:
             flash("L’identifiant et le mot de passe ne correspondent pas…")

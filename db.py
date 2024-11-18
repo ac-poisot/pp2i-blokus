@@ -174,7 +174,7 @@ def new_player(username:str, password:str) -> any:
 
     c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
     get_db().commit()
-    return pid, token
+    return pid, token, token_expiration
 
 def update_username(pid:int, username:str) -> bool:
     """
@@ -200,13 +200,13 @@ def update_password(pid:int, password:str) -> None:
     """
     set_temp("Players", "password", password, "pid", pid)
 
-def update_token(pid:int) -> str:
+def update_token(pid:int) -> tuple[str, int]:
     """
     Function to renew the token of a player
 
     pid: the player's id
 
-    Returns the new token
+    Returns the new token and its expiration date
     """
     token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
     while get_temp("*", "Players", "token", token):
@@ -216,7 +216,7 @@ def update_token(pid:int) -> str:
 
     set_temp("Players", "token", token, "pid", pid)
     set_temp("Players", "tokenexpiration", token_expiration, "pid", pid)
-    return token
+    return token, token_expiration
 
 def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     """
