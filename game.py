@@ -27,43 +27,68 @@ class Game:
                 line = line + str(self.board[i][j]) + '|'
             print(line)
 
-    def add_piece(self,piece,rotation,position):
+    def add_piece(self,piece,rotation,position,retourne):
         """rajoute une piece sur le plateau sans aucune verification
             la piece vient normalement du dictionnaire global qui n'est pas def ici
             ATTENTION : piece est donc un int !
             position est un tuple (x,y)
+            retourne est un booleen qui vaut True ssi la piece est retournee (par rappport au dico)
 
             Peut-etre a faire : modification des pieces utilisees, ajout case rouge, suppression case rouge utilisee
         """
         x = position[0]
         y = position[1]
-        if rotation==0:
-            p = self.pieces[piece]
+        p = self.pieces[piece]
+        #cas piece a l endroit
+        if rotation==0 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[i+y][x+j] = self.is_playing
-        if rotation==90:
-            p = self.pieces[piece]
+        if rotation==90 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+j][x+len(p)-i-1] = self.is_playing
 
-        if rotation==180:
-            p = self.pieces[piece]
+        if rotation==180 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+len(p)-i-1][x+len(p[0])-j-1] = self.is_playing
 
-        if rotation==270:
-            p = self.pieces[piece]
+        if rotation==270 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+len(p[0])-j-1][x+i] = self.is_playing
-        
+
+        #cas piece a l envers
+        if rotation==0 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1:
+                        self.board[y+len(p)-i-1][x+j] = self.is_playing
+
+        if rotation==90 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1:
+                        self.board[y+j][x+i] = self.is_playing
+
+        if rotation==180 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1:
+                        self.board[y+len(p)-i-1][x+j] = self.is_playing
+
+        if rotation==270 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1:
+                        self.board[y+len(p[0])-j-1][x+len(p)-i-1] = self.is_playing
+
+
 
     def empty_space(self,piece,rotation,position):
         x = position[0]
@@ -96,7 +121,7 @@ class Game:
             p = self.pieces[piece]
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and self.board[y+len(p[0])-j-1][x+i] !=0:
+                    if p[i][j]==1 and self.board[y+len(p[0])-j][x+i] !=0:
                         return False
             return True
         
@@ -148,6 +173,7 @@ p_tempo = {'1' : [[2,0,2],[0,1,0],[2,0,2]],
 # TEST __INIT__
 #print(p_tempo['1'])
 g1 = Game(2,p_tempo)
+g2 = Game(2,p_tempo)
 #print(g1.is_playing)
 #plateau = g1.board
 #p = g1.players
@@ -156,30 +182,39 @@ g1 = Game(2,p_tempo)
 
 # TEST ADD_PIECE ET PRINT_BOARD
 #g1.print_board_all()
-#print('')
+print('')
 #g1.print_board_see()
-#g1.add_piece('1',0,(0,0))
-#g1.add_piece('2',0,(1,1))
-#g1.add_piece('3',0,(3,2))
-#g1.add_piece('4',0,(6,6))
-#g1.add_piece('6',0,(8,8))
-#print('')
-#g1.print_board_see()
-#print('')
+g1.add_piece('1',270,(0,0),False)
+g1.add_piece('2',270,(1,1),False)
+g1.add_piece('3',270,(3,2),False)
+g1.add_piece('4',270,(6,6),False)
+g1.add_piece('6',270,(8,10),False)
+print('')
+g1.print_board_see()
+
+g2.add_piece('1',270,(0,0),True)
+g2.add_piece('2',270,(1,1),True)
+g2.add_piece('3',270,(3,2),True)
+g2.add_piece('4',270,(6,6),True)
+g2.add_piece('6',270,(8,10),True)
+print('')
+g2.print_board_see()
+
+print('')
 #g1.print_board_all()
 
 
 # TEST FULL_EMPTY
 
-g1.add_piece('6',90,(0,0))
-g1.print_board_see()
-g1.is_playing = g1.is_playing + 1
-print(g1.is_playing)
-print(g1.empty_space('3',0,(0,0)))
-print(g1.empty_space('3',0,(19,17)))
-g1.add_piece('3',0,(19,17))
-g1.print_board_see()
-print(g1.empty_space('11',270,(2,1)))
-print(g1.empty_space('11',180,(2,2)))
-g1.add_piece('11',180,(2,2))
-g1.print_board_see()
+#g1.add_piece('6',90,(0,0))
+#g1.print_board_see()
+#g1.is_playing = g1.is_playing + 1
+#print(g1.is_playing)
+#print(g1.empty_space('3',0,(0,0)))
+#print(g1.empty_space('3',0,(19,17)))
+#g1.add_piece('3',0,(19,17))
+#g1.print_board_see()
+#print(g1.empty_space('11',270,(2,1)))
+#print(g1.empty_space('11',180,(2,2)))
+#g1.add_piece('11',180,(2,2))
+#g1.print_board_see()
