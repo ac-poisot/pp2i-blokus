@@ -1,0 +1,8 @@
+#navbar > ul {
+  display: flex;
+  flex-direction: row;
+}
+#navbar > ul li {
+  display: block;
+  padding: 0.2vh;
+}/*# sourceMappingURL=header.css.map */

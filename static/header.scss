@@ -1,0 +1,9 @@
+#navbar>ul {
+    display: flex;
+    flex-direction: row;
+
+    li {
+        display: block;
+        padding: 0.2vh;
+    }
+}
