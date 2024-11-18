@@ -11,7 +11,11 @@
         <input type="text" name="username" placeholder="john_doe"><br>
         <label for="password">Mot de passe : </label>
         <input type="password" name="password">
-        <p>Doit faire au moins 6 caractères, contenir une lettre, un chiffre ainsi qu’un caractère spécial</p><br>
+        <p>Doit faire au moins 6 caractères, contenir une lettre, un chiffre ainsi qu’un 
+            <span class="tooltip">caractère spécial
+                <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
+            </span>
+        </p><br>
         <label for="confirmation">Confirmation du mot de passe : </label>
         <input type="password" name="confirmation"><br>
         <input type="submit">
@@ -24,4 +28,6 @@
     {% endif %}
     {% endwith %}
 </body>
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+
 </html>
