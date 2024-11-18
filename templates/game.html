@@ -18,7 +18,11 @@
         {% endfor %}
     </table>
 
+    {% from 'piece.txt' import piece %}
+    {{ piece([[1, 0], [1, 1]]) }}
+
     <script src="{{url_for('static', filename='updateGrid.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='css/grid.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/piece.css')}}">
 </body>
 </html>

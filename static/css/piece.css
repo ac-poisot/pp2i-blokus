@@ -1,0 +1,16 @@
+.piece td {
+  width: 3vh;
+  height: 3vh;
+}
+.piece .c1 {
+  background-color: red;
+}
+.piece .c2 {
+  background-color: green;
+}
+.piece .c3 {
+  background-color: yellow;
+}
+.piece .c4 {
+  background-color: blue;
+}/*# sourceMappingURL=piece.css.map */
