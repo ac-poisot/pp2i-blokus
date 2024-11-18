@@ -1,0 +1,56 @@
+La documentation, mise au fur et à mesure.
+
+
+
+************************** Pièces ***************************
+
+- Stockage
+Les pièces sont rangées dans des rectangles plus grands :
+
+ex : 2 0 2
+    0 1 0
+    2 0 2
+
+
+1 est le corps de la pièce (noir).
+2 est la zone qui doit être en contact avec une autre pièce (les coins) (rouge).
+0 désigne une zone où il ne doit pas y avoir une pièce d'une autre couleur (blanc).
+
+
+- Orientation
+Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner.
+
+- Position
+Les pièces sont repérées par la case en haut à gauche (coordonées (0 ; 0))
+Attention, x correspond aux ordonnees et y aux abscisses.
+
+
+
+*********************** Le stockage dans le dictionnaire *******************************
+
+Un dictionnaire contient l’ensemble des pièces. Elles ont un identifiant, puis on regarde dans deux tableaux :
+- un pour avoir la forme correspondante -> on a toutes les pièces
+- un pour l'orientation -> vu qu’on a dit qu'on passait par un système de classes, est-ce que le dico est dans la classe ? (Sinon liste vide au début puis on rajoute (coor
+
+INDEXATION ? faire un tableau de 22 cases pour eviter les problèmes d’indice ? Oui
+
+
+POUR LE DICTIONNAIRE :
+plutôt associer (id : [forme]) que l'autre
+et (id:position, rotation, joueur)
+
+
+
+******************** Pour la game ****************************************
+
+il y a le nombre de joueurs (players est un tableau), le dico des pièces (pieces) parce que toutes les parties sont à des points différents, les pieces utilisées (dico used), le plateau (board), le joueur actuel (is_playing)
+
+
+Il y a deux fonctions d’affichage random, pour le débug:
+    - print_board_all qui affiche le tableau avec les bords
+    - print_board_see qui affiche uniquement la zone où on peut poser des pièces
+
+Il y a la fonction d'ajout de pièces, pour ajouter des pieces SANS vérification, juste on pose, on vérifie la légalité avant. ATTENTION quand on teste la fonction, il faut bien penser que la case repère est en haut à gauch et que faute de vérification, on peut sortir du tableau !!!!
+
+fonction empty_space :
+permet de verifier qu'une piece est bien ajouter sur une case vide
