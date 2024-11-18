@@ -263,7 +263,7 @@ def delete_player(pid:int):
 
 def verify_identity(pid:int, token:str) -> bool:
     """
-    Function de verify if the player is he who he claims to be
+    Function to verify if the player is he who he claims to be
     
     pid: the id of the player
     token: the token of the player
