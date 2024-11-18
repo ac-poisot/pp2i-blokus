@@ -115,7 +115,7 @@ def get_game(gameid:str) -> tuple:
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        (gameid:str, p1:int, p2:int, p3:int, p4:int, over:bool)
+        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, over:bool, winner:int)
     """
     return get_temp("*", "Games", "gameid", gameid)[0]
 
@@ -235,17 +235,19 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     while get_temp("*", "Games", "gameid", gameid):
         gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), False)) 
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), False, None)) 
     get_db().commit()
     return gameid
 
-def end_game(gameid:str) -> None:
+def end_game(gameid:str, winner:int) -> None:
     """
     Function to end a game
 
     gameid: the id of the game to end
+    winner: the id of the winner of the game, congrats to them!
     """
     set_temp("Games", "over", True, "gameid", gameid)
+    set_temp("Games", "over", True, "winner", winner)
 
 def delete_player(pid:int):
     """
