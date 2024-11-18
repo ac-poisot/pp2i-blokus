@@ -1,0 +1,28 @@
+#grid {
+    display: table;
+
+    td {
+        width:3vh;
+        height: 3vh;
+    }
+
+    .c0 {
+        background-color: black;
+    }
+    
+    .c1 {
+        background-color: red;
+    }
+    
+    .c2 {
+        background-color: green;
+    }
+    
+    .c3 {
+        background-color: yellow;
+    }
+    
+    .c4 {
+        background-color: blue;
+    }
+}

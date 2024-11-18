@@ -1,0 +1,22 @@
+#grid {
+  display: table;
+}
+#grid td {
+  width: 3vh;
+  height: 3vh;
+}
+#grid .c0 {
+  background-color: black;
+}
+#grid .c1 {
+  background-color: red;
+}
+#grid .c2 {
+  background-color: green;
+}
+#grid .c3 {
+  background-color: yellow;
+}
+#grid .c4 {
+  background-color: blue;
+}/*# sourceMappingURL=grid.css.map */

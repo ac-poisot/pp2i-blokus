@@ -91,3 +91,12 @@ def login():
         else:
             flash("L'identifiant et le mot de passe ne correspondent pas")
             return render_template("login.html")
+        
+
+@app.route("/game")
+def game():
+    return render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)])
+
+@app.route("/data")
+def send_data():
+    return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
