@@ -11,6 +11,5 @@ function updatedata() {
 }
 
 setInterval(() => {
-    console.log("test")
     updatedata()
 }, 1000)
