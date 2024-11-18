@@ -1,1 +1,30 @@
-{}
+{
+    "play": "Jouer",
+    "credits": "Crédits",
+    "login": "Se connecter",
+    "signup": "S’inscrire",
+    "my_profile": "Mon profil",
+    "footer": "Blokus® est une marque déposée par SEKKOIA.",
+
+    "profile":"Profil de",
+    "wins":"Victoires :",
+    "losses":"Défaites :",
+    "draws":"Matchs nuls :",
+    "ratio":"Ratio Victoires/Défaites :",
+    "game_date":"Date de la partie",
+    "game_id":"ID de la partie",
+    "game_state":"État",
+
+
+    "username": "Pseudo :",
+    "password": "Mot de passe :",
+    "password_confirmation": "Confirmation du mot de passe :",
+    "password_requirements": "Le mot de passe doit contenir au moins 6 caractères, une lettre, un chiffre et un  <span class='tooltip'>caractère spécial",
+    "special_character": "caractère spécial",
+    "error_requirements": "Le mot de passe ne satisfait pas les critères demandés…",
+    "error_username_taken": "Ce pseudo est déjà pris !",
+    "error_empty_field": "Le nom d’utilisateur ou le mot de passe ne peuvent pas être vides !",
+    "error_confirmation": "Les deux mots de passe ne correspondent pas…"
+    
+}
+

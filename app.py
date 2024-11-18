@@ -78,7 +78,7 @@ def signup():
         if(password==request.form["confirmation"]):
             # check if one of the fields is empty
             if not username or not password:
-                flash("Le nom d’utilisateur ou le mot de passe ne peuvent pas être vides !")
+                flash("error_empty_field")
                 return wrap(render_template("signup.html"))
             else:
                 # check if the passwords meets the requirements
@@ -95,14 +95,14 @@ def signup():
 
                         return resp
                     else:
-                        flash("Ce pseudo est déjà pris !")
+                        flash("error_username_taken")
                         return wrap(render_template("signup.html"))
                 else:
-                    flash("Le mot de passe ne satisfait pas les critères demandés…")
+                    flash("error_requirements")
                     return wrap(render_template("signup.html"))
         
         else:
-            flash("Les deux mots de passe ne correspondent pas…")
+            flash("error_confirmation")
             return wrap(render_template("signup.html"))
         
 

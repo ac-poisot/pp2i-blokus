@@ -6,29 +6,29 @@
     <title>Blokus</title>
 </head>
 <body>
-    <h1>Profil de {{username}}</h1>
+    <h1 data="profile"> {{username}}</h1>
     <table id="stats">
         <tr>
             <td>
-                <span>Nombre de victoires: {{nbvictories}}</span>
+                <span data="wins"> {{nbvictories}}</span>
             </td>
             <td>
-                <span>Nombre de défaites: {{nbdefeats}}</span>
+                <span data="losses"> {{nbdefeats}}</span>
             </td>
             <td>
-                <span>Nombre de parties nulles: {{nbdraws}}</span>
+                <span data="draws"> {{nbdraws}}</span>
             </td>
         </tr>
         <tr>
-            <td colspan="3">Ratio Victoires/Défaites: {{ratio}}</td>
+            <td colspan="3" data="ratio"> {{ratio}}</td>
         </tr>
 
     </table>
     <table>
         <thead>
-            <td>Date de la partie</td>
-            <td>ID de la partie</td>
-            <td>Etat de la partie</td>
+            <td data="game_date"></td>
+            <td data="game_id"></td>
+            <td data="game_state"></td>
         </thead>
         <tbody>
             {% for p in games %}

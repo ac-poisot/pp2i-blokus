@@ -263,11 +263,11 @@ def delete_player(pid:int):
 
 def verify_identity(pid:int, token:str) -> bool:
     """
-    Function to verify if the player is he who he claims to be
+    Function to verify if the user is who they claim to be
     
     pid: the id of the player
     token: the token of the player
 
-    Returns whether his identity can be certified or not
+    Returns whether the identity can be certified or not
     """
     return (token == get_token(pid))

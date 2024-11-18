@@ -30,13 +30,37 @@ function updatedata() {
 }
 
 function updateContent(langData) {
+    console.log("a")
     document.querySelectorAll('[data]').forEach(element => {
         const key = element.getAttribute('data');
-        element.innerHTML = langData[key];
+        console.log(key)
+        element.innerHTML = langData[key] + element.innerHTML;
     });
 }
 
-//adress="http://127.0.0.1:5500/"
+async function fetchLanguageData(lang) {
+    const response = await fetch(`/static/lang/${lang}.json`);
+    return response.json();
+}
+
+async function changeLanguage(lang) {
+    await setLanguagePreference(lang);
+    
+    const langData = await fetchLanguageData(lang);
+    updateContent(langData);
+}
+
+function setLanguagePreference(lang) {
+    localStorage.setItem('language', lang);
+    location.reload();
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+    console.log("b")
+    const userPreferredLanguage = localStorage.getItem('language') || 'en';
+    const langData = await fetchLanguageData(userPreferredLanguage);
+    updateContent(langData);
+});
 
 setInterval(() => {
     updatedata()

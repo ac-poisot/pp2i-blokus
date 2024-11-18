@@ -12,7 +12,6 @@
         <label for="password" data="password"></label>
         <input type="password" name="password">
         <p data="password_requirements">
-            <span class="tooltip" data="special_character">
                 <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
             </span>
         </p><br>
@@ -23,11 +22,10 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
-        <p>{{message}}</p>
+        <p data="{{message}}"></p>
         {% endfor %}
     {% endif %}
     {% endwith %}
 </body>
 <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-
 </html>
