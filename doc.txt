@@ -56,4 +56,10 @@ fonction empty_space :
 permet de verifier qu'une piece est bien ajouter sur une case vide
 
 
-teste
+*********************Pour les notations*******************************************
+Le board game est composé de liste de liste de liste 22*22*4, composé du tableau 20*20 avec une bordure de 1, puis pour chaque case, on a une liste de 4, qui permet d'avoir la relation de la case avec chaque joueur indépendament
+"P" -> la case est prise par un joueur
+"A" -> la case est accessible par un joueur
+"I" -> la case est inaccessible par un joueur
+"N" -> la case est "nothing", le joueur n'a pas encore atteint cette case
+
