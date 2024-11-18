@@ -25,14 +25,14 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 
 ## Description du projet
 
-- **Sujet :** 
-- **Objectifs :**
-- **Technologies utilisées :**
+- **Sujet : Blokus en ligne** 
+- **Objectifs : Réalisation d'un Blokus en version web jouable en local et à distance**
+- **Technologies utilisées : Python, Flask, HTML, SASS, JS, SQlite3**
 
 
 ## Prérequis
 
-- **Langages :** Python 3.10, JavaScript
+- **Langages :** Python 3.10, JavaScript, HTML, Sass (sous la syntaxe scss)
 - **Frameworks :** Flask
 - **Dépendances :** Voir le fichier `requirements.txt`
 
@@ -57,5 +57,5 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 1. Lancez l’application :
 
     ```bash
-    python app.py
+    flask run
     ```
