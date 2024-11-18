@@ -40,9 +40,9 @@ def afficher(T):
                 print("⬜", end = "")
         print("\n")
     print("\n")
-
+"""
 for i in range(1, 22):
     print(i)
     var_name = f"p{i}"
     value = globals().get(var_name)
-    afficher(value)
+    afficher(value)"""
