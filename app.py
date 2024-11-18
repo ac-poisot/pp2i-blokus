@@ -33,6 +33,9 @@ def init_db():
 
 from db import *
 
+def wrap(template, pid=-1):
+    return render_template("header.html", pid=pid) + template + render_template("footer.html")
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -55,12 +58,12 @@ def home():
     # print(get_history(g))
     # print(get_game_history(p3))
     
-    return render_template("header.html")+render_template("index.html", time=time.localtime()[5])+render_template("footer.html")
+    return wrap(render_template("index.html", time=time.localtime()[5]))
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+        return wrap(render_template("signup.html"))
     else:
         print(request.form)
         username = request.form["username"]
@@ -71,7 +74,7 @@ def signup():
             # check if one of the fields is empty
             if not username or not password:
                 flash("Le nom d’utilisateur ou le mot de passe ne peuvent pas être vides !")
-                return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+                return wrap(render_template("signup.html"))
             else:
                 # check if the passwords meets the requirements
                 if len(password) >= 8 and any(char.isdigit() for char in password) and any(char.isalpha() for char in password) and any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
@@ -82,20 +85,20 @@ def signup():
                         return redirect(f"/?token={token}")
                     else:
                         flash("Ce pseudo est déjà pris !")
-                        return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+                        return wrap(render_template("signup.html"))
                 else:
                     flash("Le mot de passe ne satisfait pas les critères demandés…")
-                    return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+                    return wrap(render_template("signup.html"))
         
         else:
             flash("Les deux mots de passe ne correspondent pas…")
-            return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+            return wrap(render_template("signup.html"))
         
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("header.html")+render_template("login.html")+render_template("footer.html")
+        return wrap(render_template("login.html"))
     else:
         pid = get_pid(request.form["username"])
         password = request.form["password"].encode("utf-8")
@@ -106,13 +109,23 @@ def login():
         
         else:
             flash("L’identifiant et le mot de passe ne correspondent pas…")
-            return render_template("header.html")+render_template("login.html")+render_template("footer.html")
+            return wrap(render_template("login.html"))
         
 
 @app.route("/game")
 def game():
-    return render_template("header.html")+render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)])+render_template("footer.html")
+    return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)]))
 
 @app.route("/data")
 def send_data():
     return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
+
+@app.route("/profile/<pid>")
+def profile(pid):
+    username = get_username(pid)
+    nbvictories = 5
+    nbdefeats = 2
+    nbdraws = 1
+    ratio = round(nbvictories/nbdefeats, 2)
+    games=[]
+    return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games))
