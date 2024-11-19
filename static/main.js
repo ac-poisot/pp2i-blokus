@@ -1,9 +1,3 @@
-function updatedata() {
-    fetch("/data?"+window.location.search.split("?")[1])
-    .then(res => res.json())
-    .then(data => document.querySelector("#time").innerText = data["time"])
-}
-
 // localisation system
 
 function updateContent(lang, langData) {
@@ -48,7 +42,3 @@ disconnectBtn.addEventListener('click', () => {
     document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}`;
     location.reload()
 })
-
-setInterval(() => {
-    updatedata()
-}, 1000)

@@ -6,7 +6,6 @@ CREATE TABLE Games
     p3 INT,
     p4 INT,
     start_time FLOAT,
-    over BOOL,
     winner INT,
     PRIMARY KEY (gameid),
     FOREIGN KEY (p1) REFERENCES Players(pid),

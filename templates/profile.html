@@ -24,7 +24,7 @@
         </tr>
 
     </table>
-    <table>
+    <table id="games">
         <thead>
             <td data="game_date"></td>
             <td data="game_id"></td>
@@ -32,11 +32,15 @@
         </thead>
         <tbody>
             {% for p in games %}
-            <td>{{p.date}}</td>
-            <td>{{p.id}}</td>
-            <td>{{p.state}}</td>
+            <tr>
+                <td>{{p.date}}</td>
+                <td>{{p.id}}</td>
+                <td>{{p.state}}</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}">
 </body>
 </html>

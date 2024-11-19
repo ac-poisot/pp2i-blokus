@@ -106,11 +106,11 @@ def get_game_history(pid:int) -> list[str]:
 
     pid: the player'id
 
-    Returns a list of all the ids of games the player has participated in
+    Returns a list of all the ids of games the player has participated in, the 4 players, the time at the start and the winner if he exists
     """
     c = get_db().cursor()
-    c.execute("SELECT * FROM Games WHERE over = True AND (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4)
-    return [i[0] for i in c.fetchall()]
+    c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4) ## remove  winner <>-1 AND
+    return [(i[0], i[1], i[2], i[3], i[4], i[5], i[6]) for i in c.fetchall()]
 
 def get_game(gameid:str) -> tuple:
     """
@@ -119,7 +119,7 @@ def get_game(gameid:str) -> tuple:
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, over:bool, winner:int)
+        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, winner:int)
     """
     return get_temp("*", "Games", "gameid", gameid)[0]
 
@@ -239,7 +239,7 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     while get_temp("*", "Games", "gameid", gameid):
         gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), False, None)) 
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), None)) 
     get_db().commit()
     return gameid
 
@@ -250,8 +250,7 @@ def end_game(gameid:str, winner:int) -> None:
     gameid: the id of the game to end
     winner: the id of the winner of the game, congrats to them!
     """
-    set_temp("Games", "over", True, "gameid", gameid)
-    set_temp("Games", "over", True, "winner", winner)
+    set_temp("Games", "winner", winner, "gameid", gameid)
 
 def delete_player(pid:int):
     """

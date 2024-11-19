@@ -1,0 +1,6 @@
+table#games {
+  border-collapse: collapse;
+}
+table#games th, table#games td {
+  border: 1px solid black;
+}/*# sourceMappingURL=profile.css.map */
