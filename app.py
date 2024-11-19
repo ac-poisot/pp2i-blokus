@@ -84,18 +84,26 @@ def signup():
                 # check if the passwords meets the requirements
                 if len(password) >= 8 and any(char.isdigit() for char in password) and any(char.isalpha() for char in password) and any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
                     res = new_player(username, password)
-                    # check if the username is already taken
-                    if(res):
-                        pid, token, exptoken = res
 
-                        resp = make_response(redirect(f"/?token={token}"))
-                        resp.set_cookie('pid', str(pid))
-                        resp.set_cookie('token', token)
-                        resp.set_cookie('exptoken', str(exptoken))
+                    # check if the username is too long
+                    if len(username) <= 20:
 
-                        return resp
+                        # check if the username is already taken
+                        if(res):
+                            pid, token, exptoken = res
+
+                            resp = make_response(redirect(f"/?token={token}"))
+                            resp.set_cookie('pid', str(pid))
+                            resp.set_cookie('token', token)
+                            resp.set_cookie('exptoken', str(exptoken))
+
+                            return resp
+                    
+                        else:
+                            flash("error_username_taken")
+                            return wrap(render_template("signup.html"))
                     else:
-                        flash("error_username_taken")
+                        flash("error_username_length")
                         return wrap(render_template("signup.html"))
                 else:
                     flash("error_requirements")
@@ -125,7 +133,7 @@ def login():
             return resp
         
         else:
-            flash("L’identifiant et le mot de passe ne correspondent pas…")
+            flash("error_login")
             return wrap(render_template("login.html"))
         
 

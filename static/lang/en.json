@@ -22,7 +22,9 @@
     "error_requirements": "Password does not meet the requirements…",
     "error_username_taken": "Username is already taken!",
     "error_empty_field": "Username or password cannot be empty!",
-    "error_confirmation": "Passwords don’t match…"
-    
+    "error_confirmation": "Passwords don’t match…",
+    "error_username_length": "Username is too long! 20 characters maximum.",
+    "error_login": "Wrong username or password!"
+
 }
 
