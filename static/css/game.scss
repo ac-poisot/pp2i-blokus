@@ -1,0 +1,25 @@
+#gameInterface {
+    display: grid;
+    grid-template-columns: 15vh, 60vh, 15vh;
+    gap: 2.5vh;
+}
+
+#player {
+    grid-column: 1;
+}
+
+#otherPlayers {
+    grid-column: 3;
+}
+
+#otherPlayers>div>span {
+    display: block;
+}
+
+.pieces {
+    height: 100%;
+}
+
+.closed>.pieces {
+    display: none;
+}

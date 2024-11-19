@@ -1,0 +1,19 @@
+{% macro playerInterface(username, opened) -%}
+{% if opened == true %}
+<div class="playerInterface">
+<span>{{username}}</span>
+<div class="pieces">
+{% from 'piece.txt' import piece %}
+{{ piece([[1, 0], [1, 1]]) }}
+</div>
+</div>
+{% else %}
+<div class="playerInterface closed">
+<span>{{username}}</span>
+<div class="pieces">
+{% from 'piece.txt' import piece %}
+{{ piece([[1, 0], [1, 1]]) }}
+</div>
+</div>
+{% endif %}
+{%- endmacro %}

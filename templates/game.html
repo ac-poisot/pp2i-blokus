@@ -6,23 +6,33 @@
     <title>Blokus</title>
 </head>
 <body>
-    <table id="grid">
-        {% for line in grid %}
-        <tr>
-            {% for cell in line %}
-
-            <td class="c{{ cell }}"></td>
-
+    <div id="gameInterface">
+        <div id="player">
+            {% from 'playerInterface.txt' import playerInterface %}
+            {{ playerInterface("test3") }}
+        </div>
+        <table id="grid">
+            {% for line in grid %}
+            <tr>
+                {% for cell in line %}
+    
+                <td class="c{{ cell }}"></td>
+    
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+        </table>
+        <div id="otherPlayers">
+            {{ playerInterface("test1", true) }}
+            {{ playerInterface("test2", false) }}
+            {{ playerInterface("test4", false) }}
 
-    {% from 'piece.txt' import piece %}
-    {{ piece([[1, 0], [1, 1]]) }}
+        </div>
+    </div>
 
-    <script src="{{url_for('static', filename='updateGrid.js')}}"></script>
+    <script src="{{url_for('static', filename='game.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='css/grid.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/piece.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/game.css')}}">
 </body>
 </html>
