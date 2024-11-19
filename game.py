@@ -2,7 +2,7 @@
 
 class Game:
     def __init__(self,nb_players,pieces):
-        game_board = [[0 for i in range(22)] for j in range(22)]
+        game_board = [['N' for i in range(22)] for j in range(22)]
         used= {'id_piece' : [], 'position': []}
         players = [i for i in range(1,nb_players+1)]
         self.players = players
@@ -33,6 +33,8 @@ class Game:
             ATTENTION : piece est donc un int !
             position est un tuple (x,y)
             retourne est un booleen qui vaut True ssi la piece est retournee (par rappport au dico)
+
+            se referer au code PAIN
 
             Peut-etre a faire : modification des pieces utilisees, ajout case rouge, suppression case rouge utilisee
         """
@@ -90,40 +92,69 @@ class Game:
 
 
 
-    def empty_space(self,piece,rotation,position):
+    def empty_space(self,piece,rotation,position,retourne):
+        """
+            fonction qui verifie qu'on pose une piece sur une case accessible, donc pas Prise par le joueur ou Inacessible
+        """
         x = position[0]
         y = position[1]
+        p = self.pieces[piece]
         if rotation==0:
             p = self.pieces[piece]
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and self.board[i+y][x+j]!=0:
+                    if p[i][j]==1 and (self.board[i+y][x+j]=='P' or self.board[i+y][x+j]=='I'):
                         return False
             return True
         
-        if rotation==90:
-            p = self.pieces[piece]
+        if rotation==90 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and self.board[y+j][x+len(p)-i-1] !=0:
+                    if p[i][j]==1 and (self.board[y+j][x+len(p)-i-1] == 'P'or  self.board[y+j][x+len(p)-i-1]== 'I'):
                         return False
             return True
 
-        if rotation==180:
-            p = self.pieces[piece]
+        if rotation==180 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and self.board[y+len(p)-i-1][x+len(p[0])-j-1] !=0:
+                    if p[i][j]==1 and (self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'P' or self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'I'):
                         return False
             return True
 
-        if rotation==270:
-            p = self.pieces[piece]
+        if rotation==270 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and self.board[y+len(p[0])-j][x+i] !=0:
+                    if p[i][j]==1 and (self.board[y+len(p[0])-j][x+i] == 'P' or self.board[y+len(p[0])-j][x+i] == 'I'):
                         return False
             return True
+        
+        if rotation==0 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1 and (self.board[y+len(p)-i-1][x+j] == 'P' or self.board[y+len(p)-i-1][x+j] == 'I'):
+                        return False
+            return True
+
+        if rotation==90 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1 and (self.board[y+j][x+i] == 'P' or self.board[y+j][x+i] =='I'):
+                        return False
+            return True
+
+        if rotation==180 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1 and (self.board[y+len(p)-i-1][x+j] == 'P' or self.board[y+len(p)-i-1][x+j] == 'I'):
+                        return False
+            return True
+
+        if rotation==270 and retourne:
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    if p[i][j]==1 and (self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'P' or self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'I'):
+                        return False
+            return False
         
     #def legal_add_piece(self,piece,rotation,position):
     #    """verifie si un coup est legal en trois etapes:
