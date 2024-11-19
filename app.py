@@ -77,8 +77,8 @@ def signup():
         # check if the two passwords are the same
         if(password==request.form["confirmation"]):
             # check if one of the fields is empty
-            if not username or not password:
-                flash("error_empty_field")
+            if not username:
+                flash("error_empty_username")
                 return wrap(render_template("signup.html"))
             else:
                 # check if the passwords meets the requirements

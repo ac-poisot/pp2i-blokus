@@ -22,7 +22,7 @@
     "password_requirements": "Le mot de passe doit contenir au moins 6 caractères, une lettre, un chiffre et un <span class='tooltip'>caractère spécial",
     "error_requirements": "Le mot de passe ne satisfait pas les critères demandés…",
     "error_username_taken": "Ce pseudo est déjà pris !",
-    "error_empty_field": "Le nom d’utilisateur ou le mot de passe ne peuvent pas être vides !",
+    "error_empty_username": "Le nom d’utilisateur ne peut pas être vide !",
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
     "error_username_length": "Pseudo trop long ! 20 caractères maximum.",
     "error_username": "Cet utilisateur n’existe pas !",
