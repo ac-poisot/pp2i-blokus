@@ -8,6 +8,8 @@ from hashlib import sha512
 app = Flask(__name__)
 app.secret_key = b',DTuzn=#c9"F.)_'
 
+from game import p_tempo
+
 # DB connection
 
 DATABASE = 'blokus.db'
@@ -144,7 +146,7 @@ def login():
 
 @app.route("/game")
 def game():
-    return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)]))
+    return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)], players=["test", "test2", "test3", "test4"], pieces=[list(map(lambda elt: [elt[j][1:-1] for j in range(1, len(elt)-1)], p_tempo.values())) for i in range(4)]))
 
 @app.route("/data")
 def send_data():
