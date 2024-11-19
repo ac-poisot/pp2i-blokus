@@ -29,11 +29,11 @@ function updatedata() {
     .then(data => document.querySelector("#time").innerText = data["time"])
 }
 
+// localisation system
+
 function updateContent(langData) {
-    console.log("a")
     document.querySelectorAll('[data]').forEach(element => {
         const key = element.getAttribute('data');
-        console.log(key)
         element.innerHTML = langData[key] + element.innerHTML;
     });
 }
@@ -56,7 +56,6 @@ function setLanguagePreference(lang) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
-    console.log("b")
     const userPreferredLanguage = localStorage.getItem('language') || 'en';
     const langData = await fetchLanguageData(userPreferredLanguage);
     updateContent(langData);
