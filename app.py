@@ -120,20 +120,25 @@ def login():
         return wrap(render_template("login.html"))
     else:
         pid = get_pid(request.form["username"])
-        password = request.form["password"].encode("utf-8")
-        if(sha512(password).digest()==get_password(pid)):
-            res = new_player(request.form["username"], request.form["password"])
-            token, exptoken = update_token(pid)
-            
-            resp = make_response(redirect(f"/?token={token}"))
-            resp.set_cookie('pid', str(pid))
-            resp.set_cookie('token', token)
-            resp.set_cookie('exptoken', str(exptoken))
+        if pid:
+            password = request.form["password"].encode("utf-8")
+            if(sha512(password).digest()==get_password(pid)):
+                res = new_player(request.form["username"], request.form["password"])
+                token, exptoken = update_token(pid)
+                
+                resp = make_response(redirect(f"/?token={token}"))
+                resp.set_cookie('pid', str(pid))
+                resp.set_cookie('token', token)
+                resp.set_cookie('exptoken', str(exptoken))
 
-            return resp
+                return resp
         
+        
+            else:
+                flash("error_password")
+                return wrap(render_template("login.html"))
         else:
-            flash("error_login")
+            flash("error_username")
             return wrap(render_template("login.html"))
         
 

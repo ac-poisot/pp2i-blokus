@@ -78,9 +78,13 @@ def get_pid(username:str) -> int:
 
     username: the player's username
 
-    Returns the id
+    Returns the id if the user exists, none otherwise
     """
-    return get_temp("pid", "Players", "username", username)[0][0]
+    pid = get_temp("pid", "Players", "username", username)
+    if pid:
+        return pid[0][0]
+    else:
+        return None
 
 def get_token(pid:int) -> str:
     """

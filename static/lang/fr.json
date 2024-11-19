@@ -25,7 +25,8 @@
     "error_empty_field": "Le nom d’utilisateur ou le mot de passe ne peuvent pas être vides !",
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
     "error_username_length": "Pseudo trop long ! 20 caractères maximum.",
-    "error_login": "L’identifiant et le mot de passe ne correspondent pas"
+    "error_username": "Cet utilisateur n’existe pas !",
+    "error_password": "Mot de passe incorrect !"
 
     
 }
