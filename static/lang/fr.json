@@ -17,17 +17,17 @@
     "game_state":"État",
 
 
-    "username": "Pseudo%nbsp;:",
-    "password": "Mot de passe%nbsp;:",
-    "password_confirmation": "Confirmation du mot de passe%nbsp,:",
+    "username": "Pseudo&nbsp;:",
+    "password": "Mot de passe&nbsp;:",
+    "password_confirmation": "Confirmation du mot de passe&nbsp;:",
     "password_requirements": "Le mot de passe doit contenir au moins six caractères, une lettre, un chiffre et un <span class='tooltip'>caractère spécial",
     "error_requirements": "Le mot de passe ne satisfait pas les critères demandés…",
-    "error_username_taken": "Ce pseudo est déjà pris%thinsp;!",
-    "error_empty_username": "Le nom d’utilisateur ne peut pas être vide%thinsp;!",
+    "error_username_taken": "Ce pseudo est déjà pris&thinsp;!",
+    "error_empty_username": "Le nom d’utilisateur ne peut pas être vide&thinsp;!",
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
-    "error_username_length": "Pseudo trop long%thinsp;! Vingt caractères maximum.",
-    "error_username": "Cet utilisateur n’existe pas%thinsp;!",
-    "error_password": "Mot de passe incorrect%thinsp;!"
+    "error_username_length": "Pseudo trop long&thinsp;! Vingt caractères maximum.",
+    "error_username": "Cet utilisateur n’existe pas&thinsp;!",
+    "error_password": "Mot de passe incorrect&thinsp;!"
 
     
 }
