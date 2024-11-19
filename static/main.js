@@ -31,10 +31,16 @@ function updatedata() {
 
 // localisation system
 
-function updateContent(langData) {
+function updateContent(lang, langData) {
     document.querySelectorAll('[data]').forEach(element => {
         const key = element.getAttribute('data');
-        element.innerHTML = langData[key] + element.innerHTML;
+        // edge cases
+        if (key == "profile" && lang == 'en') {
+            element.innerHTML = element.innerHTML + langData[key];
+        }
+        else {
+            element.innerHTML = langData[key] + element.innerHTML;
+        }
     });
 }
 
@@ -47,7 +53,7 @@ async function changeLanguage(lang) {
     await setLanguagePreference(lang);
     
     const langData = await fetchLanguageData(lang);
-    updateContent(langData);
+    updateContent(lang, langData);
 }
 
 function setLanguagePreference(lang) {
@@ -58,7 +64,7 @@ function setLanguagePreference(lang) {
 window.addEventListener('DOMContentLoaded', async () => {
     const userPreferredLanguage = localStorage.getItem('language') || 'en';
     const langData = await fetchLanguageData(userPreferredLanguage);
-    updateContent(langData);
+    updateContent(userPreferredLanguage, langData);
 });
 
 setInterval(() => {

@@ -30,8 +30,10 @@
                             <a href="/signup" data="signup"></a>
                         </li>
                         <li id="english">
-                            <a href="" onclick="changeLanguage('en', `{{url_for('static', filename='lang/en.json')}}`)">English</a>                        <li id="french">
-                            <a href="" onclick="changeLanguage('fr', `{{url_for('static', filename='lang/fr.json')}}`)">Français</a>
+                            <a href="" onclick="changeLanguage('en')">English</a>
+                        </li>                      
+                        <li id="french">
+                            <a href="" onclick="changeLanguage('fr')">Français</a>
                         </li>
                     {% endif %}
                 </ul>
