@@ -99,60 +99,59 @@ class Game:
         x = position[0]
         y = position[1]
         p = self.pieces[piece]
-        if rotation==0:
-            p = self.pieces[piece]
+        if rotation==0 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[i+y][x+j]=='P' or self.board[i+y][x+j]=='I'):
+                    if p[i][j]==1 and not(self.board[i+y][x+j]=='A' or self.board[i+y][x+j]=='N'):
                         return False
             return True
         
         if rotation==90 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[y+j][x+len(p)-i-1] == 'P'or  self.board[y+j][x+len(p)-i-1]== 'I'):
+                    if p[i][j]==1 and not(self.board[y+j][x+len(p)-i-1] == 'A' or self.board[y+j][x+len(p)-i-1]== 'N'):
                         return False
             return True
 
         if rotation==180 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'P' or self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'I'):
+                    if p[i][j]==1 and not(self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'A' or self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'N'):
                         return False
             return True
 
         if rotation==270 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[y+len(p[0])-j][x+i] == 'P' or self.board[y+len(p[0])-j][x+i] == 'I'):
+                    if p[i][j]==1 and not(self.board[y+len(p[0])-j][x+i] == 'A' or self.board[y+len(p[0])-j][x+i] == 'N'):
                         return False
             return True
         
         if rotation==0 and retourne:
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[y+len(p)-i-1][x+j] == 'P' or self.board[y+len(p)-i-1][x+j] == 'I'):
+                    if p[i][j]==1 and not(self.board[y+len(p)-i-1][x+j] == 'A' or self.board[y+len(p)-i-1][x+j] == 'N'):
                         return False
             return True
 
         if rotation==90 and retourne:
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[y+j][x+i] == 'P' or self.board[y+j][x+i] =='I'):
+                    if p[i][j]==1 and not(self.board[y+j][x+i] == 'A' or self.board[y+j][x+i] =='N'):
                         return False
             return True
 
         if rotation==180 and retourne:
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[y+len(p)-i-1][x+j] == 'P' or self.board[y+len(p)-i-1][x+j] == 'I'):
+                    if p[i][j]==1 and not(self.board[y+len(p)-i-1][x+j] == 'A' or self.board[y+len(p)-i-1][x+j] == 'N'):
                         return False
             return True
 
         if rotation==270 and retourne:
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    if p[i][j]==1 and (self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'P' or self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'I'):
+                    if p[i][j]==1 and not(self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'A' or self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'N'):
                         return False
             return False
         
@@ -213,38 +212,39 @@ g2 = Game(2,p_tempo)
 
 # TEST ADD_PIECE ET PRINT_BOARD
 #g1.print_board_all()
-print('')
+#print('')
 #g1.print_board_see()
-g1.add_piece('1',270,(0,0),False)
-g1.add_piece('2',270,(1,1),False)
-g1.add_piece('3',270,(3,2),False)
-g1.add_piece('4',270,(6,6),False)
-g1.add_piece('6',270,(8,10),False)
-print('')
-g1.print_board_see()
+#g1.add_piece('1',270,(0,0),False)
+#g1.add_piece('2',270,(1,1),False)
+#g1.add_piece('3',270,(3,2),False)
+#g1.add_piece('4',270,(6,6),False)
+#g1.add_piece('6',270,(8,10),False)
+#print('')
+#g1.print_board_see()
 
-g2.add_piece('1',270,(0,0),True)
-g2.add_piece('2',270,(1,1),True)
-g2.add_piece('3',270,(3,2),True)
-g2.add_piece('4',270,(6,6),True)
-g2.add_piece('6',270,(8,10),True)
-print('')
-g2.print_board_see()
+#g2.add_piece('1',270,(0,0),True)
+#g2.add_piece('2',270,(1,1),True)
+#g2.add_piece('3',270,(3,2),True)
+#g2.add_piece('4',270,(6,6),True)
+#g2.add_piece('6',270,(8,10),True)
+#print('')
+#g2.print_board_see()
 
-print('')
+#print('')
 #g1.print_board_all()
 
 
 # TEST FULL_EMPTY
-
-#g1.add_piece('6',90,(0,0))
-#g1.print_board_see()
-#g1.is_playing = g1.is_playing + 1
-#print(g1.is_playing)
-#print(g1.empty_space('3',0,(0,0)))
-#print(g1.empty_space('3',0,(19,17)))
-#g1.add_piece('3',0,(19,17))
-#g1.print_board_see()
+print(g1.empty_space('6',90,(0,0),False))
+g1.add_piece('6',90,(0,0),False)
+g1.print_board_see()
+g1.is_playing = g1.is_playing + 1
+print(g1.is_playing)
+#print(g1.empty_space('3',0,(0,0),False))
+print(g1.empty_space('3',90,(1,0),True))
+#g1.add_piece('3',0,(0,0),False)
+g1.add_piece('3',90,(1,0),True)
+g1.print_board_see()
 #print(g1.empty_space('11',270,(2,1)))
 #print(g1.empty_space('11',180,(2,2)))
 #g1.add_piece('11',180,(2,2))
