@@ -1,4 +1,4 @@
-{% macro playerInterface(username, opened) -%}
+{% macro playerInterface(username, opened=false) -%}
 {% if opened == true %}
 <div class="playerInterface">
 <span>{{username}}</span>

@@ -9,7 +9,7 @@
     <div id="gameInterface">
         <div id="player">
             {% from 'playerInterface.txt' import playerInterface %}
-            {{ playerInterface("test3") }}
+            {{ playerInterface("test3", true) }}
         </div>
         <table id="grid">
             {% for line in grid %}
@@ -24,8 +24,8 @@
         </table>
         <div id="otherPlayers">
             {{ playerInterface("test1", true) }}
-            {{ playerInterface("test2", false) }}
-            {{ playerInterface("test4", false) }}
+            {{ playerInterface("test2") }}
+            {{ playerInterface("test4") }}
 
         </div>
     </div>
