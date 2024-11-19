@@ -42,6 +42,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     updateContent(userPreferredLanguage, langData);
 });
 
+let disconnectBtn = document.querySelector("#disconnect");
+
+disconnectBtn.addEventListener('click', () => {
+    document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}`;
+    location.reload()
+})
+
 setInterval(() => {
     updatedata()
 }, 1000)
