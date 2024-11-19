@@ -100,17 +100,17 @@ def get_token(pid:int) -> str:
     else:
         return get_temp("token", "Players", "pid", pid)[0][0]
 
-def get_game_history(pid:int) -> list[str]:
+def get_game_history(pid:int) -> list[tuple[any]]:
     """
     Function to pull all the games that a specific player has participated in
 
-    pid: the player'id
+    pid: the player's id
 
-    Returns a list of all the ids of games the player has participated in, the 4 players, the time at the start and the winner if he exists
+    Returns a list of all the ids, the 4 players, the starting time and the winner (if applicable) of games the player has participated in
     """
     c = get_db().cursor()
     c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4) ## remove  winner <>-1 AND
-    return [(i[0], i[1], i[2], i[3], i[4], i[5], i[6]) for i in c.fetchall()]
+    return c.fetchall()
 
 def get_game(gameid:str) -> tuple:
     """
@@ -139,7 +139,7 @@ def get_history(gameid:str) -> list[tuple]:
 
 def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int) -> None:
     """
-    Function to push a specific move to the database
+    Function to push a specific move to the database, assumes the move is valid
 
     gameid: the game's id
     movenumber: which move it is (number since the beginning of the game)
@@ -252,12 +252,12 @@ def end_game(gameid:str, winner:int) -> None:
     """
     set_temp("Games", "winner", winner, "gameid", gameid)
 
-def delete_player(pid:int):
+def delete_player(pid:int) -> None:
     """
     Function to remove a player from the database
     Note: only the username and password of the player are removed
 
-    pid: the id of the player to delete 
+    pid: the id of the player to delete
     """
     set_temp("Players", "username", "NULL", "pid", pid)
     set_temp("Players", "password", "NULL", "pid", pid)

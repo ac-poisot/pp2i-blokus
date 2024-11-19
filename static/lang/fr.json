@@ -4,29 +4,30 @@
     "login": "Se connecter",
     "signup": "S’inscrire",
     "my_profile": "Mon profil",
+    "logout": "Se déconnecter",
     "footer": "Blokus® est une marque déposée par SEKKOIA.",
 
     "profile":"Profil de ",
-    "wins":"Victoires :",
-    "losses":"Défaites :",
-    "draws":"Matchs nuls :",
-    "ratio":"Ratio Victoires/Défaites :",
+    "wins":"Victoires&nbsp;:",
+    "losses":"Défaites&nbsp;:",
+    "draws":"Matchs nuls&nbsp;:",
+    "ratio":"Ratio Victoires/Défaites&nbsp;:",
     "game_date":"Date de la partie",
     "game_id":"ID de la partie",
     "game_state":"État",
 
 
-    "username": "Pseudo :",
-    "password": "Mot de passe :",
-    "password_confirmation": "Confirmation du mot de passe :",
-    "password_requirements": "Le mot de passe doit contenir au moins 6 caractères, une lettre, un chiffre et un <span class='tooltip'>caractère spécial",
+    "username": "Pseudo%nbsp;:",
+    "password": "Mot de passe%nbsp;:",
+    "password_confirmation": "Confirmation du mot de passe%nbsp,:",
+    "password_requirements": "Le mot de passe doit contenir au moins six caractères, une lettre, un chiffre et un <span class='tooltip'>caractère spécial",
     "error_requirements": "Le mot de passe ne satisfait pas les critères demandés…",
-    "error_username_taken": "Ce pseudo est déjà pris !",
-    "error_empty_username": "Le nom d’utilisateur ne peut pas être vide !",
+    "error_username_taken": "Ce pseudo est déjà pris%thinsp;!",
+    "error_empty_username": "Le nom d’utilisateur ne peut pas être vide%thinsp;!",
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
-    "error_username_length": "Pseudo trop long ! 20 caractères maximum.",
-    "error_username": "Cet utilisateur n’existe pas !",
-    "error_password": "Mot de passe incorrect !"
+    "error_username_length": "Pseudo trop long%thinsp;! Vingt caractères maximum.",
+    "error_username": "Cet utilisateur n’existe pas%thinsp;!",
+    "error_password": "Mot de passe incorrect%thinsp;!"
 
     
 }

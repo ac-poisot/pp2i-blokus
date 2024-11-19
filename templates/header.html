@@ -23,7 +23,7 @@
                             <a href="/profile/{{pid}}" data="my_profile"></a>
                         </li>
                         <li>
-                            <button id="disconnect">Se déconnecter</button>
+                            <button id="disconnect" data="logout"></button>
                         </li>
                     {% else %}
                         <li id="login">
@@ -32,13 +32,13 @@
                         <li id="signup">
                             <a href="/signup" data="signup"></a>
                         </li>
+                    {% endif %}
                         <li id="english">
                             <a href="" onclick="changeLanguage('en')">English</a>
                         </li>                      
                         <li id="french">
                             <a href="" onclick="changeLanguage('fr')">Français</a>
                         </li>
-                    {% endif %}
                 </ul>
             </nav>
     </header>
