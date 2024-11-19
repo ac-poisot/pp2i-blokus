@@ -6,26 +6,30 @@
     <title>Blokus</title>
 </head>
 <body>
+    <div class="form_container">
     <form action="" method="post">
         <label for="username" data="username"></label>
-        <input type="text" name="username" placeholder="john_doe"><br>
+        <input type="text" name="username" placeholder="john_doe">
         <label for="password" data="password"></label>
         <input type="password" name="password">
-        <p data="password_requirements">
+        <p data="password_requirements" class="info">
                 <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
             </span>
-        </p><br>
+        </p>
         <label for="confirmation" data="password_confirmation"></label>
-        <input type="password" name="confirmation"><br>
-        <input type="submit">
+        <input type="password" name="confirmation">
+        <button type="submit" data="signup_button"></button>
     </form>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
-        <p data="{{message}}"></p>
+        <div class="flash">
+            <p data="{{message}}"></p>
+            </div>
         {% endfor %}
     {% endif %}
     {% endwith %}
+    </div>
 </body>
 <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 </html>

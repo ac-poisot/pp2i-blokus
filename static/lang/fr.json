@@ -5,7 +5,7 @@
     "signup": "S’inscrire",
     "my_profile": "Mon profil",
     "logout": "Se déconnecter",
-    "footer": "Blokus® est une marque déposée par SEKKOIA.",
+    "footer": "Blokus® est une marque déposée par Sᴇᴋᴋᴏɪᴀ.",
 
     "profile":"Profil de ",
     "wins":"Victoires&nbsp;:",
@@ -26,9 +26,9 @@
     "error_empty_username": "Le nom d’utilisateur ne peut pas être vide&thinsp;!",
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
     "error_username_length": "Pseudo trop long&thinsp;! Vingt caractères maximum.",
-    "error_username": "Cet utilisateur n’existe pas&thinsp;!",
-    "error_password": "Mot de passe incorrect&thinsp;!"
-
-    
+    "error_username": "Ce compte n’existe pas&thinsp;!",
+    "error_password": "Mot de passe incorrect&thinsp;!",
+    "login_button": "Se connecter&thinsp;!",
+    "signup_button": "Créer un compte&thinsp;!"
 }
 

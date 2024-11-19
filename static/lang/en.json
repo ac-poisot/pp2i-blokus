@@ -5,7 +5,7 @@
     "signup": "Signup",
     "my_profile": "My Profile",
     "logout": "Logout",
-    "footer": "Blokus® is a SEKKOIA registered trademark.",
+    "footer": "Blokus® is a Sᴇᴋᴋᴏɪᴀ registered trademark.",
 
     "profile":"’s Profile",
     "wins":"Wins:",
@@ -26,7 +26,8 @@
     "error_confirmation": "Passwords don’t match…",
     "error_username_length": "Username is too long! Twenty characters maximum.",
     "error_username": "This user doesn’t exist!",
-    "error_password": "Wrong password!"
-
+    "error_password": "Wrong password!",
+    "login_button": "Login!",
+    "signup_button": "Create an account!"
 }
 
