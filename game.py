@@ -1,4 +1,5 @@
 # game.py, pour le jeu
+from pieces import *
 
 class Game:
     def __init__(self,nb_players,pieces):
@@ -47,23 +48,40 @@ class Game:
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[i+y][x+j] = self.is_playing
+                    elif p[i][j]==3 and self.board[i+y][x+j] == 'N' :
+                        self.board[i+y][x+j] == 'I'
+                    elif p[i][j]==2 and self.board[i+y][x+j] == 'N':
+                        self.board[i+y][x+j] == 'A'
+
         if rotation==90 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+j][x+len(p)-i-1] = self.is_playing
+                    elif p[i][j]==3 and self.board[y+j][x+len(p)-i-1] == 'N':
+                        self.board[y+j][x+len(p)-i-1] = 'I'
+                    elif p[i][j]==2 and self.board[y+j][x+len(p)-i-1] == 'N':
+                        self.board[y+j][x+len(p)-i-1] = 'A'
 
         if rotation==180 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+len(p)-i-1][x+len(p[0])-j-1] = self.is_playing
+                    elif p[i][j]==3 and self.board[y+len(p)-i-1][x+len(p[0])-j-1] =='N':
+                        self.board[y+len(p)-i-1][x+len(p[0])-j-1] = 'I'
+                    elif p[i][j]==2 and self.board[y+len(p)-i-1][x+len(p[0])-j-1] =='N':
+                        self.board[y+len(p)-i-1][x+len(p[0])-j-1] = 'A'
 
         if rotation==270 and not(retourne):
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+len(p[0])-j-1][x+i] = self.is_playing
+                    elif p[i][j]==3 and self.board[y+len(p[0])-j-1][x+i] == 'N':
+                        self.board[y+len(p[0])-j-1][x+i] = 'I'
+                    elif p[i][j]==2 and self.board[y+len(p[0])-j-1][x+i] =='N':
+                        self.board[y+len(p[0])-j-1][x+i] = 'A'
 
         #cas piece a l envers
         if rotation==0 and retourne:
@@ -71,24 +89,40 @@ class Game:
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+len(p)-i-1][x+j] = self.is_playing
+                    elif p[i][j]==3 and self.board[y+len(p)-i-1][x+j] == 'N':
+                        self.board[y+len(p)-i-1][x+j] = 'I'
+                    elif p[i][j]==2 and self.board[y+len(p)-i-1][x+j] == 'N':
+                        self.board[y+len(p)-i-1][x+j] = 'A'
 
         if rotation==90 and retourne:
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+j][x+i] = self.is_playing
+                    elif p[i][j]==2 and self.board[y+j][x+i] == 'N':
+                        self.board[y+j][x+i] = 'I'
+                    elif p[i][j]==3 and self.board[y+j][x+i] =='N':
+                        self.board[y+j][x+i] = 'A'
 
         if rotation==180 and retourne:
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+len(p)-i-1][x+j] = self.is_playing
+                    elif p[i][j]==3 and self.board[y+len(p)-i-1][x+j] == 'N':
+                        self.board[y+len(p)-i-1][x+j] = 'I'
+                    elif p[i][j]==2 and self.board[y+len(p)-i-1][x+j] == 'N':
+                        self.board[y+len(p)-i-1][x+j] = 'A'
 
         if rotation==270 and retourne:
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     if p[i][j]==1:
                         self.board[y+len(p[0])-j-1][x+len(p)-i-1] = self.is_playing
+                    elif p[i][j]==3 and self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'N':
+                        self.board[y+len(p[0])-j-1][x+len(p)-i-1] = 'I'
+                    elif p[i][j]==2 and self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'N':
+                        self.board[y+len(p[0])-j-1][x+len(p)-i-1] = 'A'
 
 
 
@@ -214,13 +248,13 @@ g2 = Game(2,p_tempo)
 #g1.print_board_all()
 #print('')
 #g1.print_board_see()
-#g1.add_piece('1',270,(0,0),False)
-#g1.add_piece('2',270,(1,1),False)
-#g1.add_piece('3',270,(3,2),False)
-#g1.add_piece('4',270,(6,6),False)
-#g1.add_piece('6',270,(8,10),False)
-#print('')
-#g1.print_board_see()
+g1.add_piece('1',270,(0,0),False)
+g1.add_piece('2',270,(1,1),False)
+g1.add_piece('3',270,(3,2),False)
+g1.add_piece('4',270,(6,6),False)
+g1.add_piece('6',270,(8,10),False)
+print('')
+g1.print_board_see()
 
 #g2.add_piece('1',270,(0,0),True)
 #g2.add_piece('2',270,(1,1),True)
@@ -235,16 +269,16 @@ g2 = Game(2,p_tempo)
 
 
 # TEST FULL_EMPTY
-print(g1.empty_space('6',90,(0,0),False))
-g1.add_piece('6',90,(0,0),False)
-g1.print_board_see()
-g1.is_playing = g1.is_playing + 1
-print(g1.is_playing)
-#print(g1.empty_space('3',0,(0,0),False))
-print(g1.empty_space('3',90,(1,0),True))
-#g1.add_piece('3',0,(0,0),False)
-g1.add_piece('3',90,(1,0),True)
-g1.print_board_see()
+#print(g1.empty_space('6',90,(0,0),False))
+#g1.add_piece('6',90,(0,0),False)
+#g1.print_board_see()
+#g1.is_playing = g1.is_playing + 1
+#print(g1.is_playing)
+##print(g1.empty_space('3',0,(0,0),False))
+#print(g1.empty_space('3',90,(1,0),True))
+##g1.add_piece('3',0,(0,0),False)
+#g1.add_piece('3',90,(1,0),True)
+#g1.print_board_see()
 #print(g1.empty_space('11',270,(2,1)))
 #print(g1.empty_space('11',180,(2,2)))
 #g1.add_piece('11',180,(2,2))
