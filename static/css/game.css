@@ -17,9 +17,6 @@
   flex-direction: column;
   border: 1px solid black;
 }
-#gameInterface #otherPlayers div > span {
-  display: block;
-}
 #gameInterface #otherPlayers .playerInterface {
   max-height: 93%;
 }
@@ -29,9 +26,14 @@
   flex-direction: column;
   max-height: 100%;
 }
+#gameInterface .playerInterface span {
+  display: block;
+  height: 5%;
+}
 #gameInterface .playerInterface .pieces {
   flex-grow: 1;
   display: grid;
+  height: 80%;
   grid-template-columns: repeat(auto-fit, 9vh);
   padding: 0.5vh;
   gap: 0.25vh;

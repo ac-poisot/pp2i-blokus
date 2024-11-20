@@ -17,10 +17,6 @@
         flex-direction: column;
         border: 1px solid black;
 
-        div>span {
-            display: block;
-        }
-
         .playerInterface {
             max-height: 93%;
         }
@@ -32,9 +28,15 @@
         flex-direction: column;
         max-height: 100%;
 
+        span {
+            display: block;
+            height: 5%;
+        }
+
         .pieces {
             flex-grow: 1;
             display: grid;
+            height: 80%;
             //grid-template-columns: repeat(2, 9vh);
             grid-template-columns: repeat(auto-fit, 9vh);
             padding: 0.5vh;
