@@ -52,3 +52,9 @@ function togglePasswordVisibility() {
     const toggleCheckbox = document.getElementById("togglePassword");
     passwordInput.type = toggleCheckbox.checked ? "text" : "password";
 }
+
+function togglePasswordConfVisibility() {
+    const passwordInput = document.getElementById("confirmation");
+    const toggleCheckbox = document.getElementById("togglePasswordConf");
+    passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+}

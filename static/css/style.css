@@ -115,13 +115,6 @@ button[type="submit"]:hover {
   font-size: small;
 }
 
-.password-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 300px;
-}
-
 .eye-checkbox {
   display: none;
 }
@@ -130,6 +123,14 @@ button[type="submit"]:hover {
   position: absolute;
   left: 295px;
   top: 181px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.eye-icon-conf {
+  position: absolute;
+  left: 295px;
+  top: 357px;
   cursor: pointer;
   font-size: 20px;
 }
