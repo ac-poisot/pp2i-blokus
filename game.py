@@ -42,87 +42,8 @@ class Game:
         x = position[0]
         y = position[1]
         p = self.pieces[piece]
-        #cas piece a l endroit
-        if rotation==0 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[i+y][x+j] = self.is_playing
-                    elif p[i][j]==3 and self.board[i+y][x+j] == 'N' :
-                        self.board[i+y][x+j] == 'I'
-                    elif p[i][j]==2 and self.board[i+y][x+j] == 'N':
-                        self.board[i+y][x+j] == 'A'
+        pass
 
-        if rotation==90 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[y+j][x+len(p)-i-1] = self.is_playing
-                    elif p[i][j]==3 and self.board[y+j][x+len(p)-i-1] == 'N':
-                        self.board[y+j][x+len(p)-i-1] = 'I'
-                    elif p[i][j]==2 and self.board[y+j][x+len(p)-i-1] == 'N':
-                        self.board[y+j][x+len(p)-i-1] = 'A'
-
-        if rotation==180 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[y+len(p)-i-1][x+len(p[0])-j-1] = self.is_playing
-                    elif p[i][j]==3 and self.board[y+len(p)-i-1][x+len(p[0])-j-1] =='N':
-                        self.board[y+len(p)-i-1][x+len(p[0])-j-1] = 'I'
-                    elif p[i][j]==2 and self.board[y+len(p)-i-1][x+len(p[0])-j-1] =='N':
-                        self.board[y+len(p)-i-1][x+len(p[0])-j-1] = 'A'
-
-        if rotation==270 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[y+len(p[0])-j-1][x+i] = self.is_playing
-                    elif p[i][j]==3 and self.board[y+len(p[0])-j-1][x+i] == 'N':
-                        self.board[y+len(p[0])-j-1][x+i] = 'I'
-                    elif p[i][j]==2 and self.board[y+len(p[0])-j-1][x+i] =='N':
-                        self.board[y+len(p[0])-j-1][x+i] = 'A'
-
-        #cas piece a l envers
-        if rotation==0 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[y+len(p)-i-1][x+j] = self.is_playing
-                    elif p[i][j]==3 and self.board[y+len(p)-i-1][x+j] == 'N':
-                        self.board[y+len(p)-i-1][x+j] = 'I'
-                    elif p[i][j]==2 and self.board[y+len(p)-i-1][x+j] == 'N':
-                        self.board[y+len(p)-i-1][x+j] = 'A'
-
-        if rotation==90 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[y+j][x+i] = self.is_playing
-                    elif p[i][j]==2 and self.board[y+j][x+i] == 'N':
-                        self.board[y+j][x+i] = 'I'
-                    elif p[i][j]==3 and self.board[y+j][x+i] =='N':
-                        self.board[y+j][x+i] = 'A'
-
-        if rotation==180 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[y+len(p)-i-1][x+j] = self.is_playing
-                    elif p[i][j]==3 and self.board[y+len(p)-i-1][x+j] == 'N':
-                        self.board[y+len(p)-i-1][x+j] = 'I'
-                    elif p[i][j]==2 and self.board[y+len(p)-i-1][x+j] == 'N':
-                        self.board[y+len(p)-i-1][x+j] = 'A'
-
-        if rotation==270 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1:
-                        self.board[y+len(p[0])-j-1][x+len(p)-i-1] = self.is_playing
-                    elif p[i][j]==3 and self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'N':
-                        self.board[y+len(p[0])-j-1][x+len(p)-i-1] = 'I'
-                    elif p[i][j]==2 and self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'N':
-                        self.board[y+len(p[0])-j-1][x+len(p)-i-1] = 'A'
 
 
 
@@ -133,61 +54,10 @@ class Game:
         x = position[0]
         y = position[1]
         p = self.pieces[piece]
-        if rotation==0 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[i+y][x+j]=='A' or self.board[i+y][x+j]=='N'):
-                        return False
-            return True
-        
-        if rotation==90 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[y+j][x+len(p)-i-1] == 'A' or self.board[y+j][x+len(p)-i-1]== 'N'):
-                        return False
-            return True
+        pass
 
-        if rotation==180 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'A' or self.board[y+len(p)-i-1][x+len(p[0])-j-1] == 'N'):
-                        return False
-            return True
 
-        if rotation==270 and not(retourne):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[y+len(p[0])-j][x+i] == 'A' or self.board[y+len(p[0])-j][x+i] == 'N'):
-                        return False
-            return True
-        
-        if rotation==0 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[y+len(p)-i-1][x+j] == 'A' or self.board[y+len(p)-i-1][x+j] == 'N'):
-                        return False
-            return True
 
-        if rotation==90 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[y+j][x+i] == 'A' or self.board[y+j][x+i] =='N'):
-                        return False
-            return True
-
-        if rotation==180 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[y+len(p)-i-1][x+j] == 'A' or self.board[y+len(p)-i-1][x+j] == 'N'):
-                        return False
-            return True
-
-        if rotation==270 and retourne:
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    if p[i][j]==1 and not(self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'A' or self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'N'):
-                        return False
-            return False
     def rotate(self,piece,rotation,retourne):
         p = self.pieces[piece]
         if rotation==0 and not(retourne):
