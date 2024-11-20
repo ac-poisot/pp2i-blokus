@@ -188,7 +188,47 @@ class Game:
                     if p[i][j]==1 and not(self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'A' or self.board[y+len(p[0])-j-1][x+len(p)-i-1] == 'N'):
                         return False
             return False
-        
+    def rotate(self,piece,rotation,retourne):
+        p = self.pieces[piece]
+        if rotation==0 and not(retourne):
+            G = p  
+        if rotation==90 and not(retourne):
+            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    G[j][len(p)-1-i] = p[i][j]
+        if rotation==180 and not(retourne): # 
+            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    G[len(p)-i-1][len(p[0])-j-1] = p[i][j]
+        if rotation==270 and not(retourne):
+            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    G[len(p[0])-j-1][i] = p[i][j]
+        if rotation==0 and retourne: 
+            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    G[len(p)-i-1][j] = p[i][j]
+        if rotation==90 and retourne:
+            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    G[j][i] = p[i][j]
+        if rotation==180 and retourne:
+            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    G[len(p)-i-1][j] = p[i][j]
+        if rotation==270 and retourne:###
+            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    G[len(p[0])-j-1][len(p)-i-1] = p[i][j]
+        return G
+
     #def legal_add_piece(self,piece,rotation,position):
     #    """verifie si un coup est legal en trois etapes:
     #        - un coin de la piece est dans une case rouge
