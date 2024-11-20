@@ -8,6 +8,8 @@
     "footer": "Blokus® is a Sᴇᴋᴋᴏɪᴀ registered trademark.",
 
     "profile":"’s Profile",
+    "profile_s":"’ Profile",
+    "profile_vowel":"’s Profile",
     "wins":"Wins:",
     "losses":"Losses:",
     "draws":"Draws:",
@@ -29,6 +31,9 @@
     "error_username": "This user doesn’t exist!",
     "error_password": "Wrong password!",
     "login_button": "Login!",
-    "signup_button": "Create an account!"
+    "signup_button": "Create an account!",
+
+    "non_existent_user": "User doesn’t exist!",
+    "404": "404: Page doesn’t exist!"
 }
 

@@ -6,7 +6,14 @@
     <title>Blokus</title>
 </head>
 <body>
-    <h1 data="profile">{{username}}</h1>
+    {% if username[0] in "aeiouyAEIOUYéèêëàâäôöûüùîïÿÉÈÊËÀÂÄÔÖÛÜÙÎÏ" %}
+        <h1 data="profile_vowel">{{username}}</h1>
+    {% else %}{% if username[-1] in "sS" %}
+        <h1 data="profile_s">{{username}}</h1>
+    {% else %}
+        <h1 data="profile">{{username}}</h1>
+    {% endif %}
+    {% endif %}
     <table id="stats">
         <tr>
             <td>

@@ -149,23 +149,32 @@ def send_data():
 @app.route("/profile/<pid>")
 def profile(pid):
     username = get_username(pid)
-    nbvictories = 0
-    nbdefeats = 0
-    nbdraws = 0
-    data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
-    states = []
-    for i in range(len(data)):
-        if(data[i][3] == 0):
-            nbdraws += 1
-            states.append("0")
-        elif(data[i][3] == -1):
-            states.append("?")
-        elif(data[i][1][data[i][3]-1] == int(pid)):
-            nbvictories += 1
-            states.append("1")
-        else:
-            nbdefeats += 1
-            states.append("-1")
-    games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
-    ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
-    return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games))
+    if username:
+        nbvictories = 0
+        nbdefeats = 0
+        nbdraws = 0
+        data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
+        states = []
+        for i in range(len(data)):
+            if(data[i][3] == 0):
+                nbdraws += 1
+                states.append("0")
+            elif(data[i][3] == -1):
+                states.append("?")
+            elif(data[i][1][data[i][3]-1] == int(pid)):
+                nbvictories += 1
+                states.append("1")
+            else:
+                nbdefeats += 1
+                states.append("-1")
+        games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+        ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
+        return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games))
+    else:
+        flash("non_existent_user")
+        return wrap(render_template("404.html"))
+    
+@app.errorhandler(404)
+def page_not_found(e):
+    flash("404")
+    return wrap(render_template('404.html'))
