@@ -18,6 +18,7 @@
 
     "username": "Username:",
     "password": "Password:",
+    "show_password": "Show Password",
     "password_confirmation": "Confirm password:",
     "password_requirements": "Password must contain at least six characters, a digit, a letter as well as a <span class='tooltip'>special character",
     "error_requirements": "Password does not meet the requirements…",

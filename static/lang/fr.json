@@ -19,6 +19,7 @@
 
     "username": "Pseudo&nbsp;:",
     "password": "Mot de passe&nbsp;:",
+    "show_password": "Afficher le mot de passe",
     "password_confirmation": "Confirmation du mot de passe&nbsp;:",
     "password_requirements": "Le mot de passe doit contenir au moins six caractères, une lettre, un chiffre et un <span class='tooltip'>caractère spécial",
     "error_requirements": "Le mot de passe ne satisfait pas les critères demandés…",

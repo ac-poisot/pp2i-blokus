@@ -31,9 +31,13 @@ function setLanguagePreference(lang) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
-    const userPreferredLanguage = localStorage.getItem('language') || 'en';
+    const userPreferredLanguage = localStorage.getItem('language') || 'fr';
     const langData = await fetchLanguageData(userPreferredLanguage);
     updateContent(userPreferredLanguage, langData);
+
+    // uncheck checkbox by defeault
+    const checkbox = document.querySelector('input[type="checkbox"]');
+    checkbox.checked = false;
 });
 
 let disconnectBtn = document.querySelector("#disconnect");
@@ -42,3 +46,9 @@ disconnectBtn.addEventListener('click', () => {
     document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}`;
     location.reload()
 })
+
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById("password");
+    const toggleCheckbox = document.getElementById("togglePassword");
+    passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+}

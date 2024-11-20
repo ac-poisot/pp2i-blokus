@@ -76,43 +76,37 @@ def signup():
         username = request.form["username"]
         password = request.form["password"]
 
-        # check if the two passwords are the same
-        if(password==request.form["confirmation"]):
-            # check if one of the fields is empty
-            if not username:
-                flash("error_empty_username")
-                return wrap(render_template("signup.html"))
-            else:
-                # check if the passwords meets the requirements
-                if len(password) >= 8 and any(char.isdigit() for char in password) and any(char.isalpha() for char in password) and any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
-                    res = new_player(username, password)
-
-                    # check if the username is too long
-                    if len(username) <= 20:
-
-                        # check if the username is already taken
-                        if(res):
-                            pid, token, exptoken = res
-
-                            resp = make_response(redirect(f"/?token={token}"))
-                            resp.set_cookie('pid', str(pid))
-                            resp.set_cookie('token', token)
-                            resp.set_cookie('exptoken', str(exptoken))
-
-                            return resp
-                    
-                        else:
-                            flash("error_username_taken")
-                            return wrap(render_template("signup.html"))
-                    else:
-                        flash("error_username_length")
-                        return wrap(render_template("signup.html"))
-                else:
-                    flash("error_requirements")
-                    return wrap(render_template("signup.html"))
-        
-        else:
+        # check different requirements
+        valid = True
+        if(password!=request.form["confirmation"]):
+            valid = False
             flash("error_confirmation")
+        if(not username):
+            valid = False
+            flash("error_empty_username")
+        if len(password) < 8 or not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password) or not any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
+            valid = False
+            flash("error_requirements")
+        if len(username) > 20:
+            valid = False
+            flash("error_username_length")
+        res = new_player(username, password)
+        print(res)
+        if username and not res:
+            valid = False
+            flash("error_username_taken")
+        
+        if valid:
+            pid, token, exptoken = res
+
+            resp = make_response(redirect(f"/?token={token}"))
+            resp.set_cookie('pid', str(pid))
+            resp.set_cookie('token', token)
+            resp.set_cookie('exptoken', str(exptoken))
+
+            return resp
+                    
+        else:
             return wrap(render_template("signup.html"))
         
 
@@ -122,7 +116,7 @@ def login():
         return wrap(render_template("login.html"))
     else:
         pid = get_pid(request.form["username"])
-        if pid:
+        if request.form["username"] and pid:
             password = request.form["password"].encode("utf-8")
             if(sha512(password).digest()==get_password(pid)):
                 res = new_player(request.form["username"], request.form["password"])
