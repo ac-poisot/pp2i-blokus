@@ -47,7 +47,7 @@ function change_username() {
 let disconnectBtn = document.querySelector("#disconnect");
 
 disconnectBtn.addEventListener('click', () => {
-    document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}`;
+    document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}; path=/`;
     location.reload()
 })
 
