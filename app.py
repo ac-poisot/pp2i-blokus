@@ -72,7 +72,6 @@ def signup():
     if request.method == 'GET':
         return wrap(render_template("signup.html"))
     else:
-        print(request.form)
         username = request.form["username"]
         password = request.form["password"]
 
@@ -90,13 +89,12 @@ def signup():
         if len(username) > 20:
             valid = False
             flash("error_username_length")
-        res = new_player(username, password)
-        print(res)
-        if username and not res:
+        if (username and get_pid(username)) or username == "DELETED":
             valid = False
             flash("error_username_taken")
         
         if valid:
+            res = new_player(username, password)
             pid, token, exptoken = res
 
             resp = make_response(redirect(f"/?token={token}"))
@@ -184,26 +182,30 @@ def profile(pid):
             vis_username = None
         username = get_username(pid)
         if username:
-            nbvictories = 0
-            nbdefeats = 0
-            nbdraws = 0
-            data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
-            states = []
-            for i in range(len(data)):
-                if(data[i][3] == 0):
-                    nbdraws += 1
-                    states.append("0")
-                elif(data[i][3] == -1):
-                    states.append("?")
-                elif(data[i][1][data[i][3]-1] == int(pid)):
-                    nbvictories += 1
-                    states.append("1")
-                else:
-                    nbdefeats += 1
-                    states.append("-1")
-            games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
-            ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
-            return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
+            if username == "DELETED":
+                flash("user_deleted")
+                return wrap(render_template("404.html"))
+            else:
+                nbvictories = 0
+                nbdefeats = 0
+                nbdraws = 0
+                data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
+                states = []
+                for i in range(len(data)):
+                    if(data[i][3] == 0):
+                        nbdraws += 1
+                        states.append("0")
+                    elif(data[i][3] == -1):
+                        states.append("?")
+                    elif(data[i][1][data[i][3]-1] == int(pid)):
+                        nbvictories += 1
+                        states.append("1")
+                    else:
+                        nbdefeats += 1
+                        states.append("-1")
+                games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+                ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
+                return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
         else:
             flash("non_existent_user")
             return wrap(render_template("404.html"))

@@ -264,10 +264,10 @@ def delete_player(pid:int) -> None:
 
     pid: the id of the player to delete
     """
-    set_temp("Players", "username", "NULL", "pid", pid)
-    set_temp("Players", "password", "NULL", "pid", pid)
-    set_temp("Players", "token", "NULL", "pid", pid)
-    set_temp("Players", "tokenexpiration", "NULL", "pid", pid)
+    set_temp("Players", "username", "DELETED", "pid", pid)
+    set_temp("Players", "password", None, "pid", pid)
+    set_temp("Players", "token", None, "pid", pid)
+    set_temp("Players", "tokenexpiration", None, "pid", pid)
 
 def verify_identity(pid:int, token:str) -> bool:
     """

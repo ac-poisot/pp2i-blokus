@@ -41,6 +41,7 @@
 
 
     "non_existent_user": "Ce compte n’existe pas&thinsp;!",
+    "user_deleted": "Ce compte a été supprimé&thinsp;!",
     "404": "404&nbsp;: cette page n’existe pas&thinsp;!"
 }
 

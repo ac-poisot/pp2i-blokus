@@ -39,6 +39,7 @@
     "new_username_button": "Change my name!",
 
     "non_existent_user": "User doesn’t exist!",
+    "user_deleted": "This user has been deleted!",
     "404": "404: Page doesn’t exist!"
 }
 

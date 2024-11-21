@@ -20,13 +20,13 @@
                     </li>
 
 
-                    <p>{{pid}}</p>
+                    <!-- <p>{{pid}}</p> -->
                     {% if pid != -1 %}
                         <li id="profile">
                             <a href="/profile/{{pid}}" data="my_profile"></a>
                         </li>
                         <li>
-                            <button id="disconnect" data="logout"></button>
+                            <button data="logout" onclick="deleteCookies()"></button>
                         </li>
                     {% else %}
                         <li id="login">
