@@ -40,6 +40,10 @@ window.addEventListener('DOMContentLoaded', async () => {
     checkbox.checked = false;
 });
 
+function change_username() {
+    window.location.replace = "../../change_username"
+}
+
 let disconnectBtn = document.querySelector("#disconnect");
 
 disconnectBtn.addEventListener('click', () => {

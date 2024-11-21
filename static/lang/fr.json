@@ -10,6 +10,8 @@
     "profile":"Profil de ",
     "profile_s":"Profil de ",
     "profile_vowel":"Profil d’",
+    "change_username":"Changer de pseudo",
+    "delete_account":"Supprimer mon compte",
     "wins":"Victoires&nbsp;:",
     "losses":"Défaites&nbsp;:",
     "draws":"Matchs nuls&nbsp;:",
@@ -20,6 +22,7 @@
 
 
     "username": "Pseudo&nbsp;:",
+    "new_username": "Nouveau pseudo&nbsp;:",
     "password": "Mot de passe&nbsp;:",
     "show_password": "Afficher le mot de passe",
     "password_confirmation": "Confirmation du mot de passe&nbsp;:",
@@ -30,9 +33,12 @@
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
     "error_username_length": "Pseudo trop long&thinsp;! Vingt caractères maximum.",
     "error_username": "Ce compte n’existe pas&thinsp;!",
+    "error_not_connected": "Il faut d’abord se connecter…",
     "error_password": "Mot de passe incorrect&thinsp;!",
     "login_button": "Se connecter&thinsp;!",
     "signup_button": "Créer un compte&thinsp;!",
+    "new_username_button": "Changer de nom&thinsp;!",
+
 
     "non_existent_user": "Ce compte n’existe pas&thinsp;!",
     "404": "404&nbsp;: cette page n’existe pas&thinsp;!"

@@ -14,6 +14,12 @@
         <h1 data="profile">{{username}}</h1>
     {% endif %}
     {% endif %}
+    {% if username == vis_username %}
+    <a href="../../change_username" data="change_username"></a>
+    <form action="" method="post">
+    <button data="delete_account"></button>
+    </form>
+    {% endif %}
     <table id="stats">
         <tr>
             <td>

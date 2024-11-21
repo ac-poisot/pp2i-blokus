@@ -10,6 +10,8 @@
     "profile":"’s Profile",
     "profile_s":"’ Profile",
     "profile_vowel":"’s Profile",
+    "change_username":"Change Username",
+    "delete_account":"Delete Account",
     "wins":"Wins:",
     "losses":"Losses:",
     "draws":"Draws:",
@@ -19,6 +21,7 @@
     "game_state":"State",
 
     "username": "Username:",
+    "new_username": "New Username",
     "password": "Password:",
     "show_password": "Show Password",
     "password_confirmation": "Confirm password:",
@@ -30,8 +33,10 @@
     "error_username_length": "Username is too long! Twenty characters maximum.",
     "error_username": "This user doesn’t exist!",
     "error_password": "Wrong password!",
+    "error_not_connected": "You are not logged in…",
     "login_button": "Login!",
     "signup_button": "Create an account!",
+    "new_username_button": "Change my name!",
 
     "non_existent_user": "User doesn’t exist!",
     "404": "404: Page doesn’t exist!"

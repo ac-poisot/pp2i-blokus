@@ -39,7 +39,7 @@ def wrap(template):
     if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
         pid = request.cookies.get('pid')
     else:
-        pid = -1
+        pid =-1
     #print("pid: ", pid, float(request.cookies.get('exptoken')) > time.time(), float(request.cookies.get('exptoken')), time.time())
     return render_template("header.html", pid=pid) + template + render_template("footer.html")
 
@@ -146,33 +146,72 @@ def game():
 def send_data():
     return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
 
-@app.route("/profile/<pid>")
-def profile(pid):
-    username = get_username(pid)
-    if username:
-        nbvictories = 0
-        nbdefeats = 0
-        nbdraws = 0
-        data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
-        states = []
-        for i in range(len(data)):
-            if(data[i][3] == 0):
-                nbdraws += 1
-                states.append("0")
-            elif(data[i][3] == -1):
-                states.append("?")
-            elif(data[i][1][data[i][3]-1] == int(pid)):
-                nbvictories += 1
-                states.append("1")
-            else:
-                nbdefeats += 1
-                states.append("-1")
-        games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
-        ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
-        return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games))
+@app.route("/change_username", methods=['GET', 'POST'])
+def change_username():
+    if request.method == 'GET':
+        if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            return wrap(render_template("change_username.html"))
+        else:
+            flash("error_not_connected")
+            return wrap(render_template("404.html"))
     else:
-        flash("non_existent_user")
-        return wrap(render_template("404.html"))
+        pid = request.cookies.get('pid')
+        if request.form["username"]:
+            password = request.form["password"].encode("utf-8")
+            if(sha512(password).digest()==get_password(pid)):
+                if not update_username(pid , request.form["username"]):
+                    flash("error_username_taken")
+                    return wrap(render_template("change_username.html"))
+                    
+                resp = make_response(redirect(f"/profile/{pid}"))
+                return resp
+        
+        
+            else:
+                flash("error_password")
+                return wrap(render_template("change_username.html"))
+        else:
+            flash("error_empty_username")
+            return wrap(render_template("change_username.html"))
+
+
+@app.route("/profile/<pid>", methods=['GET', 'POST'])
+def profile(pid):
+    if request.method == 'GET':
+        if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            vis_username = get_username(request.cookies.get('pid'))
+        else:
+            vis_username = None
+        username = get_username(pid)
+        if username:
+            nbvictories = 0
+            nbdefeats = 0
+            nbdraws = 0
+            data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
+            states = []
+            for i in range(len(data)):
+                if(data[i][3] == 0):
+                    nbdraws += 1
+                    states.append("0")
+                elif(data[i][3] == -1):
+                    states.append("?")
+                elif(data[i][1][data[i][3]-1] == int(pid)):
+                    nbvictories += 1
+                    states.append("1")
+                else:
+                    nbdefeats += 1
+                    states.append("-1")
+            games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+            ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
+            return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
+        else:
+            flash("non_existent_user")
+            return wrap(render_template("404.html"))
+    else:
+        
+        delete_player(pid)
+        return make_response(redirect("/"))
+
     
 @app.errorhandler(404)
 def page_not_found(e):
