@@ -1,10 +1,10 @@
-{% macro piece(shape) -%}
+{% macro piece(shape, color) -%}
 <div class="piece">
     <table>
         {% for line in shape %}
             <tr>
                 {% for cell in line %}
-                    <td class="c{{cell if cell != 0 else ''}}"></td>
+                    <td class="c{{color if cell != 0 else ''}}"></td>
                 {% endfor %}
             </tr>
         {% endfor %}
