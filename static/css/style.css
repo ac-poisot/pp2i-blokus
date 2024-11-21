@@ -99,7 +99,7 @@ button[type="submit"]:hover {
 
 .flash {
   margin-top: 20px;
-  padding: 15px;
+  padding: 5px;
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
@@ -113,4 +113,24 @@ button[type="submit"]:hover {
 .info {
   color: #555555;
   font-size: small;
+}
+
+.eye-checkbox {
+  display: none;
+}
+
+.eye-icon {
+  position: absolute;
+  left: 295px;
+  top: 181px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.eye-icon-conf {
+  position: absolute;
+  left: 295px;
+  top: 357px;
+  cursor: pointer;
+  font-size: 20px;
 }

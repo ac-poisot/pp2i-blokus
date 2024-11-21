@@ -68,9 +68,14 @@ def get_username(pid:int) -> str:
 
     pid: the player's id
 
-    Returns the username
+    Returns the username if found, None otherwise
     """
-    return get_temp("username", "Players", "pid", pid)[0][0]
+    username = get_temp("username", "Players", "pid", pid)
+    if username:
+        return username[0][0]
+    else:
+        return None
+
 
 def get_pid(username:str) -> int:
     """
@@ -78,7 +83,7 @@ def get_pid(username:str) -> int:
 
     username: the player's username
 
-    Returns the id if the user exists, none otherwise
+    Returns the id if the user exists, None otherwise
     """
     pid = get_temp("pid", "Players", "username", username)
     if pid:

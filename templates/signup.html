@@ -9,15 +9,21 @@
     <div class="form_container">
     <form action="" method="post">
         <label for="username" data="username"></label>
-        <input type="text" name="username" placeholder="john_doe">
+        <input type="text" name="username">
         <label for="password" data="password"></label>
-        <input type="password" name="password">
+        <input type="password" name="password" id="password">
+        <input type="checkbox" id="togglePassword" class="eye-checkbox" onclick="togglePasswordVisibility()">
+        <label for="togglePassword" class="eye-icon">👁️</label>
         <p data="password_requirements" class="info">
                 <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
             </span>
+
         </p>
+        <label for="show_password" data="show_password"></label>
         <label for="confirmation" data="password_confirmation"></label>
-        <input type="password" name="confirmation">
+        <input type="password" name="confirmation" id="confirmation">
+        <input type="checkbox" id="togglePasswordConf" class="eye-checkbox" onclick="togglePasswordConfVisibility()">
+        <label for="togglePasswordConf" class="eye-icon-conf">👁️</label>
         <button type="submit" data="signup_button"></button>
     </form>
     {% with messages = get_flashed_messages() %}
