@@ -12,11 +12,12 @@
             {{ playerInterface(players[0], pieces[0], 1, true, true) }}
         </div>
         <table id="grid">
-            {% for line in grid %}
+            {% for i in range(grid|length) %}
             <tr>
-                {% for cell in line %}
-    
-                <td class="c{{ cell }}"></td>
+                {% for j in range(grid[i]|length) %}
+                {% set x = i %}
+                {% set y = j %}
+                <td class="c{{ grid[i][j] }}" onMouseOver="selectSpot({{x}}, {{y}})" onMouseOut="unselectSpot()"></td>
     
                 {% endfor %}
             </tr>

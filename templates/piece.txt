@@ -1,11 +1,11 @@
 {% macro piece(shape, color, clickable=false) -%}
 {% if clickable %}
 <div class="piece">
-    <table onClick="selectPiece(this, {{shape}})">
-        {% for line in shape %}
+    <table onClick="selectPiece(event, this, {{shape}}, {{color}})">
+        {% for i in range(1, shape|length - 1) %}
             <tr>
-                {% for cell in line %}
-                    <td class="c{{color if cell != 0 else ''}}"></td>
+                {% for j in range(1, shape[i]|length - 1) %}
+                    <td class="c{{color if shape[i][j] == 1 else ''}}"></td>
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -14,10 +14,10 @@
 {% else %}
 <div class="piece">
     <table>
-        {% for line in shape %}
+        {% for i in range(1, shape|length - 1) %}
             <tr>
-                {% for cell in line %}
-                    <td class="c{{color if cell != 0 else ''}}"></td>
+                {% for j in range(1, shape[i]|length - 1) %}
+                    <td class="c{{color if shape[i][j] == 1 else ''}}"></td>
                 {% endfor %}
             </tr>
         {% endfor %}
