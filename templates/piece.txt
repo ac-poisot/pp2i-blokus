@@ -10,6 +10,7 @@
             </tr>
         {% endfor %}
     </table>
+    <img class='rotate' src="{{url_for('static', filename='images/rotate.svg')}}" alt='rotate' onClick="rotatePiece()">
 </div>
 {% else %}
 <div class="piece">

@@ -1,3 +1,6 @@
+.piece {
+  position: relative;
+}
 .piece td {
   width: 3vh;
   height: 3vh;
@@ -13,4 +16,16 @@
 }
 .piece .c4 {
   background-color: blue;
+}
+.piece .rotate {
+  visibility: hidden;
+  max-width: 8vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.piece.chosenOne .rotate {
+  visibility: visible;
+  filter: none;
 }/*# sourceMappingURL=piece.css.map */

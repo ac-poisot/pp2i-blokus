@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, redirect, url_for, render_template, g, flash, make_response
+from flask import Flask, request, abort, redirect, url_for, render_template, g, flash, make_response, jsonify
 import sqlite3
 import random
 import time
@@ -148,9 +148,14 @@ def login():
 def game():
     return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)], players=["test", "test2", "test3", "test4"], pieces=[list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)]))
 
-@app.route("/data")
-def send_data():
-    return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
+@app.route("/data", methods=['GET', 'POST'])
+def handle_data():
+    if request.method == 'GET':
+        return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
+    else:
+        data = request.json
+        print(data)
+        return jsonify("Move successfully played")
 
 @app.route("/change_username", methods=['GET', 'POST'])
 def change_username():

@@ -17,7 +17,7 @@
                 {% for j in range(grid[i]|length) %}
                 {% set x = i %}
                 {% set y = j %}
-                <td class="c{{ grid[i][j] }}" onMouseOver="selectSpot({{x}}, {{y}})" onMouseOut="unselectSpot()"></td>
+                <td class="c{{ grid[i][j] }}" onMouseOver="selectSpot({{x}}, {{y}})" onMouseOut="unselectSpot()" onClick="play()"></td>
     
                 {% endfor %}
             </tr>

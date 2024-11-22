@@ -1,4 +1,6 @@
 .piece {
+    position: relative;
+
     td {
         width:3vh;
         height: 3vh;
@@ -18,5 +20,24 @@
     
     .c4 {
         background-color: blue;
+    }
+
+    .rotate {
+        visibility: hidden;
+        max-width: 8vh;
+        
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+    }
+
+    &.chosenOne {
+        
+        .rotate {
+            visibility: visible;
+            filter: none;
+        }
     }
 }

@@ -35,12 +35,26 @@ for(i = 0; i < players.length; i++) {
     players[i].children[0].addEventListener("click", playerSelected.bind(null, i))
 }
 
+
+
+
+
+
+
+
 var currentShape = [[]]
 var color;
+var spots = []
+var oriented = 0
+var correct = false
 
 function selectPiece(event, elt, shape, col) {
-    if(document.querySelector(".selected")) document.querySelector(".selected").remove()
+    if(document.querySelector(".selected")) {
+        document.querySelector(".selected").remove()
+        document.querySelector(".chosenOne").classList.remove("chosenOne")
+    }
     var clone = elt.parentNode.cloneNode(true)
+    elt.parentNode.classList.add("chosenOne")
     clone.classList.add("selected")
     document.querySelector("#gameInterface").appendChild(clone)
     var selected = document.querySelector(".selected")
@@ -50,13 +64,36 @@ function selectPiece(event, elt, shape, col) {
     color = col
 }
 
-var overCell = false
-spots = []
+function rotateMat(mat) {
+    oriented = (oriented + 1)%4
+    return mat.map((_, i) => {
+        var col = []
+        for(j = 0; j < mat.length; j++) {
+            col.push(mat[j][i])
+        }
+        return  col.reverse()
+    })
+}
+
+function rotatePiece() {
+    currentShape = rotateMat(currentShape)
+    var code = "<table>"
+    for(let i = 1; i < currentShape.length - 1; i++) {
+        code += "<tr>"
+        for(let j = 1; j < currentShape[i].length - 1; j++) {
+            code += `<td class="c${currentShape[i][j] == 1 ? color : ''}"></td>`
+        }
+        code += "</tr>"
+    }
+    code += "</table>"
+    document.querySelector(".selected").innerHTML = code
+}
+
+
 
 function selectSpot(x, y) {
     var possible = true
-    var angleContact = false 
-    overCell = true
+    var angleContact = false
     var selected = document.querySelector(".selected")
     if(selected) selected.style.visibility = "hidden"
     for(i = 0; i < currentShape.length; i++) {
@@ -75,8 +112,10 @@ function selectSpot(x, y) {
     }
     if(possible && angleContact) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
+        correct = true
     } else {
         spots.forEach(elt => elt.style.border = "solid 3px red")
+        correct = false
     }
     
 }
@@ -84,15 +123,12 @@ function selectSpot(x, y) {
 function unselectSpot() {
     spots.forEach(elt => elt.style.border = "0px")
     spots = []
-    // var selected = document.querySelector(".selected")
-    // if(selected) selected.style.visibility = "visible"
-    overCell = false
+    correct = false
 }
 
 document.addEventListener("pointermove", (event) => {
     var selected = document.querySelector(".selected")
     if(!selected) return
-    if(overCell) return
     if(!event.composedPath().includes(grid)) {
         
         var selected = document.querySelector(".selected")
@@ -109,9 +145,21 @@ document.addEventListener("click", (event) => {
     if(!event.composedPath().includes(grid) && !Array.from(playerInterfaces).map(elt => event.composedPath().includes(elt)).includes(true)) {
         var selected = document.querySelector(".selected")
         if(selected) selected.remove()
-            currentShape = [[]]
+        currentShape = [[]]
+        document.querySelector(".chosenOne").classList.remove("chosenOne")
     }
 })
+
+function play() {
+    fetch("/data", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"piece": currentShape, "orientation": oriented})
+    }).then(res => {
+        if(!res.ok) throw new Error(`Response status: ${res.status}`)
+            console.log(res.json())
+    })
+}
 
 
 setInterval(() => {
