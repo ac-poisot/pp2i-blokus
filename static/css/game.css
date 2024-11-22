@@ -59,4 +59,8 @@
 }
 #gameInterface .closed > .pieces {
   display: none;
+}
+#gameInterface .selected {
+  position: absolute;
+  pointer-events: none;
 }/*# sourceMappingURL=game.css.map */

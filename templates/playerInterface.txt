@@ -1,11 +1,11 @@
-{% macro playerInterface(username, pieces, color, opened=false) -%}
+{% macro playerInterface(username, pieces, color, opened=false, clickable=false) -%}
 {% if opened == true %}
 <div class="playerInterface">
 <span>{{username}}</span>
 <div class="pieces">
 {% from 'piece.txt' import piece %}
 {% for p in pieces %}
-{{ piece(p, color) }}
+{{ piece(p, color, clickable) }}
 {% endfor %}
 </div>
 </div>
@@ -15,7 +15,7 @@
 <div class="pieces">
 {% from 'piece.txt' import piece %}
 {% for p in pieces %}
-{{ piece(p, color) }}
+{{ piece(p, color, clickable) }}
 {% endfor %}
 </div>
 </div>

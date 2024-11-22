@@ -70,4 +70,9 @@
     .closed>.pieces {
         display: none;
     }
+
+    .selected {
+        position: absolute;
+        pointer-events: none;
+    }
 }
