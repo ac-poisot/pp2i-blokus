@@ -34,6 +34,7 @@
     "error_username_length": "Pseudo trop long&thinsp;! Vingt caractères maximum.",
     "error_username": "Ce compte n’existe pas&thinsp;!",
     "error_not_connected": "Il faut d’abord se connecter…",
+    "already_logged_in": "Tu ne peux pas te connecter une deuxième fois&thinsp;!",
     "error_password": "Mot de passe incorrect&thinsp;!",
     "login_button": "Se connecter&thinsp;!",
     "signup_button": "Créer un compte&thinsp;!",

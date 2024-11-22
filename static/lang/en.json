@@ -34,6 +34,7 @@
     "error_username": "This user doesn’t exist!",
     "error_password": "Wrong password!",
     "error_not_connected": "You are not logged in…",
+    "already_logged_in": "You are already logged in!",
     "login_button": "Login!",
     "signup_button": "Create an account!",
     "new_username_button": "Change my name!",

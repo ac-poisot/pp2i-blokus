@@ -70,7 +70,11 @@ def home():
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        return wrap(render_template("signup.html"))
+        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            return wrap(render_template("signup.html"))
+        else:
+            flash("already_logged_in")
+            return wrap(render_template("404.html"))
     else:
         username = request.form["username"]
         password = request.form["password"]
@@ -111,7 +115,11 @@ def signup():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return wrap(render_template("login.html"))
+        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            return wrap(render_template("login.html"))
+        else:
+            flash("alread_logged_in")
+            return wrap(render_template("404.html"))
     else:
         pid = get_pid(request.form["username"])
         if request.form["username"] and pid:
