@@ -47,6 +47,7 @@ var color;
 var spots = []
 var oriented = 0
 var correct = false
+var inverted = false
 
 function selectPiece(event, elt, shape, col) {
     if(document.querySelector(".selected")) {
@@ -61,11 +62,12 @@ function selectPiece(event, elt, shape, col) {
     selected.style.left = `${event.clientX - 1.5 * window.innerHeight / 100}px`
     selected.style.top = `${event.clientY - 1.5 * window.innerHeight / 100}px`
     currentShape = shape
+    oriented = 0
+    inverted = false
     color = col
 }
 
 function rotateMat(mat) {
-    oriented = (oriented + 1)%4
     turned = []
     for(var i = 0; i < Math.max(mat.length, mat[0].length); i++) {
         var col = []
@@ -79,6 +81,11 @@ function rotateMat(mat) {
 
 function rotatePiece() {
     currentShape = rotateMat(currentShape)
+    if(inverted) {
+        oriented = (oriented + 3) % 4
+    } else {
+        oriented = (oriented + 1) % 4
+    }
     var code = "<table>"
     for(let i = 1; i < currentShape.length - 1; i++) {
         code += "<tr>"
@@ -93,6 +100,7 @@ function rotatePiece() {
 
 function reversePiece() {
     currentShape = currentShape.map(li => li.reverse())
+    inverted = !inverted
     var code = "<table>"
     for(let i = 1; i < currentShape.length - 1; i++) {
         code += "<tr>"
@@ -170,7 +178,7 @@ function play() {
     fetch("/data", {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"piece": currentShape, "orientation": oriented})
+        body: JSON.stringify({"piece": currentShape, "orientation": oriented, "inverted": inverted})
     }).then(res => {
         if(!res.ok) throw new Error(`Response status: ${res.status}`)
             console.log(res.json())
