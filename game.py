@@ -9,7 +9,7 @@ class Game:
         game_board[21][0] = ['P','P','P','P']
         game_board[0][21] = ['P','P','P','P']
         game_board[21][21] = ['P','P','P','P']
-        red_pieces = [[],[],[],[]] #pour stocker les pieces 'accessibles', utile fin partie
+        red_pieces = [[(0,0)],[(0,0)],[(0,0)],[(0,0)]] #pour stocker les pieces 'accessibles', utile fin partie
         players = [i for i in range(1,nb_players+1)]
         self.players = players
         self.used = used
@@ -214,3 +214,35 @@ class Game:
             while i<t and self.players[i] != self.is_playing:
                 i=i+1
             self.players.pop(i)
+
+    def endgame(self):
+        """renvoie True ssi la partie est finie"""
+        if self.players == []:
+            return True
+        else:
+            return False
+        
+    def play_game(self):
+        while not(self.endgame()):
+            self.print_board_see(self.is_playing)
+            print('')
+            if self.possible_moves() != []:
+                print("joueur "+ str(self.is_playing-1)+ " poser une piece:")
+                piece = input("poser piece  num? ")
+                retourne = bool(input("piece retourne ? (appuyer directement sur Entree si non)"))
+                rotation = int(input("inclinaison ? "))
+                y = int(input("abscisse ? "))
+                x = int(input("ordonnee ? "))
+                if self.is_legal(piece,rotation,(x,y),retourne):
+                    self.add_piece(piece,rotation,(x,y),retourne)
+
+                else:
+                    print("pas possible de poser piece, rip")
+                self.print_board_see(self.is_playing-1)
+                print('')
+                t = len(self.players)
+                self.is_playing = self.is_playing + 1
+                if self.is_playing > t:
+                    self.is_playing = 1
+            else:
+                self.delete_player()
