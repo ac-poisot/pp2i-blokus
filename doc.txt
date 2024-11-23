@@ -18,7 +18,12 @@ ex : 2 0 2
 
 
 - Orientation
-Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner.
+Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner. Pour le cas où on retounre la piece, d'abord on retourne la piece verticalement, pour on la tourne
+
+  O        O
+  OOO -> OOO  -> on tourne avec la même convention
+   O      O
+
 
 - Position
 Les pièces sont repérées par la case en haut à gauche (coordonées (0 ; 0))
