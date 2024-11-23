@@ -43,7 +43,7 @@ class Game:
                 for j in range(len(p[0])):
                     G[j][len(p)-1-i] = p[i][j]
         if rotation==180 and not(retourne): # 
-            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            G = [[None for i in range(len(p[0]))] for j in range(len(p))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[len(p)-i-1][len(p[0])-j-1] = p[i][j]
@@ -53,7 +53,7 @@ class Game:
                 for j in range(len(p[0])):
                     G[len(p[0])-j-1][i] = p[i][j]
         if rotation==0 and retourne: 
-            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            G = [[None for i in range(len(p[0]))] for j in range(len(p))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[len(p)-i-1][j] = p[i][j]
@@ -63,10 +63,10 @@ class Game:
                 for j in range(len(p[0])):
                     G[j][i] = p[i][j]
         if rotation==180 and retourne:
-            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
+            G = [[None for i in range(len(p[0]))] for j in range(len(p))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
-                    G[len(p)-i-1][j] = p[i][j]
+                    G[i][len(p[0])-j-1] = p[i][j]
         if rotation==270 and retourne:###
             G = [[None for i in range(len(p))] for j in range(len(p[0]))]
             for i in range(len(p)):
