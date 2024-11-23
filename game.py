@@ -160,12 +160,54 @@ class Game:
             - la piece ne touche pas le bord d'une piece de la meme couleur
             
             renvoie True ssi on peut poser la piece à cet endroit"""
+        # la piece est dans le plateau
+        p_act = self.rotate(piece,rotation,retourne)
+        if position[0]+len(p_act[0])>21 or position[1]+len(p_act)>21 or position[0]<0 or position[1]<0:
+            return False
         #coin sur une case rouge
         corner_on_red = self.on_red(piece,rotation,position,retourne)
+        print(corner_on_red)
         # la piece est entierement sur une case vide
         free = self.empty_space(piece,rotation,position,retourne)
+        print(free)
         #la piece n'est pas tangente a une case de la meme couleur
         not_tangent = self.no_near_other(piece,rotation,position,retourne)
+        print(not_tangent)
+        print('')
 
         return corner_on_red and free and not_tangent
+    
+
+    def possible_moves(self):
+        """renvoie la liste des coups possibles pour le joueur actuel"""
+        rotation = [0,90,180,270]
+        retourne = [True,False]
+
+        res = []
+
+        #recupuere les pieces restantes
+        not_used = []
+        for i in range(1,22):
+            key = 'p'+str(i)
+            if not(key in self.used[self.is_playing-1]) :
+                not_used.append(key)
         
+        # on parcourt la liste des cases accessibles en verifiant pour chaque rotation que la piece est posable, en remarquant les differentes positions possibles
+        print(not_used)
+        print(self.red_pieces[self.is_playing-1])
+        for p in not_used:
+            for c in self.red_pieces[self.is_playing-1]:
+                for r in rotation:
+                    for b in retourne:
+                        # les quatre cas
+                        p_act = self.rotate(p,r,b)
+                        xmin = c[0]-len(p_act[0])
+                        xmax = c[0]
+                        ymin = c[1]-len(p_act)
+                        ymax = c[1]
+                        for x in range(xmin,xmax+1):
+                            for y in range(ymin,ymax+1):
+                                if self.is_legal(p,r,(x,y),b):
+                                    res.append((p,r,(x,y),b))
+        
+        return res
