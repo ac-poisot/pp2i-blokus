@@ -43,7 +43,7 @@
             justify-content: center;
             margin: 2vh;
             //grid-template-columns: repeat(2, 9vh);
-            grid-template-columns: repeat(auto-fit, 9vh);
+            grid-template-columns: repeat(auto-fit, 12vh);
             padding: 0.5vh;
             gap:0.25vh;
             overflow: scroll;
@@ -52,7 +52,7 @@
     
             .piece {
                 height: 18vh;
-                width: 9vh;
+                width: 12vh;
                 border: solid black 1px;
                 border-radius: 5%;
     
