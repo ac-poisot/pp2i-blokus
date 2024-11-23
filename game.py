@@ -22,18 +22,20 @@ class Game:
                 line = line + str(self.board[i][j]) + '|'
             print(line)
 
-    def print_board_see(self):
-        """affiche le  plateau vu par les joueurs, fonction de debugg, peut-etre utile pour front-end"""
+    def print_board_see(self,joueur):
+        """affiche le  plateau vu par le joueur passe en parametre, fonction de debugg, peut-etre utile pour front-end"""
         for i in range(1,21): #pour chaque ligne
             line = '|'
             for j in range(1,21):
-                line = line + str(self.board[i][j]) + '|'
+                line = line + str(self.board[i][j][joueur-1]) + '|'
             print(line)
 
    
 
     def rotate(self,piece,rotation,retourne):
-        """retourne la piece et la renvoie"""
+        """retourne la piece et la renvoie
+            rotation est dans {0,90,180,270} en sens horaire
+            retourne est un bool qui vaut True si la piece est retournee (sens horizontal pour piece)"""
         p = self.pieces[piece]
         if rotation==0 and not(retourne):
             G = p  

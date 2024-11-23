@@ -18,8 +18,7 @@ ex : 2 0 2
 
 
 - Orientation
-Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner. Pour le cas où on retounre la piece, d'abord on retourne la piece verticalement, pour on la tourne
-
+Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner. Pour le cas où on retounre la piece, d'abord on retourne la piece horizontalemnt puis on la tourne. Pas de probleme de compatibilite avec le plateau
   O        O
   OOO -> OOO  -> on tourne avec la même convention
    O      O
