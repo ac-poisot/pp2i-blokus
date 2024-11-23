@@ -69,10 +69,10 @@ function rotateMat(mat) {
     return mat.map((_, i) => {
         var col = []
         for(j = 0; j < mat.length; j++) {
-            col.push(mat[j][i])
+            if(mat[j][i] != undefined) col.push(mat[j][i])
         }
         return  col.reverse()
-    })
+    }).filter(elt => elt != [])
 }
 
 function rotatePiece() {
