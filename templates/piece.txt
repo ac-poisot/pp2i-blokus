@@ -11,6 +11,7 @@
         {% endfor %}
     </table>
     <img class='rotate' src="{{url_for('static', filename='images/rotate.svg')}}" alt='rotate' onClick="rotatePiece()">
+    <img class='reverse' src="{{url_for('static', filename='images/reverse.svg')}}" alt='rotate' onClick="reversePiece()">
 </div>
 {% else %}
 <div class="piece">

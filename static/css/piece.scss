@@ -22,20 +22,28 @@
         background-color: blue;
     }
 
-    .rotate {
+    .rotate, .reverse {
         visibility: hidden;
-        max-width: 8vh;
+        max-width: 6vh;
         
-        position: absolute;
-        top: 50%;
+        position: absolute;        
+    }
+
+    .rotate {
+        top: 25%;
         left: 50%;
-        transform: translate(-50%, -50%);
-        
+        transform: translate(-50%, -25%);
+    }
+
+    .reverse {
+        top: 75%;
+        left: 50%;
+        transform: translate(-50%, -75%);
     }
 
     &.chosenOne {
         
-        .rotate {
+        .rotate, .reverse {
             visibility: visible;
             filter: none;
         }

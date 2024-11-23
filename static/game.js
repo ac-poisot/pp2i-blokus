@@ -66,17 +66,33 @@ function selectPiece(event, elt, shape, col) {
 
 function rotateMat(mat) {
     oriented = (oriented + 1)%4
-    return mat.map((_, i) => {
+    turned = []
+    for(var i = 0; i < Math.max(mat.length, mat[0].length); i++) {
         var col = []
         for(j = 0; j < mat.length; j++) {
-            if(mat[j][i] != undefined) col.push(mat[j][i])
+            if(mat[j] && mat[j][i] != undefined) col.push(mat[j][i])
         }
-        return  col.reverse()
-    }).filter(elt => elt != [])
+        turned.push(col.reverse())
+    }
+    return turned.filter(elt => elt != [])
 }
 
 function rotatePiece() {
     currentShape = rotateMat(currentShape)
+    var code = "<table>"
+    for(let i = 1; i < currentShape.length - 1; i++) {
+        code += "<tr>"
+        for(let j = 1; j < currentShape[i].length - 1; j++) {
+            code += `<td class="c${currentShape[i][j] == 1 ? color : ''}"></td>`
+        }
+        code += "</tr>"
+    }
+    code += "</table>"
+    document.querySelector(".selected").innerHTML = code
+}
+
+function reversePiece() {
+    currentShape = currentShape.map(li => li.reverse())
     var code = "<table>"
     for(let i = 1; i < currentShape.length - 1; i++) {
         code += "<tr>"

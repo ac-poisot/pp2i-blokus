@@ -17,15 +17,22 @@
 .piece .c4 {
   background-color: blue;
 }
-.piece .rotate {
+.piece .rotate, .piece .reverse {
   visibility: hidden;
-  max-width: 8vh;
+  max-width: 6vh;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
-.piece.chosenOne .rotate {
+.piece .rotate {
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -25%);
+}
+.piece .reverse {
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+}
+.piece.chosenOne .rotate, .piece.chosenOne .reverse {
   visibility: visible;
   filter: none;
 }/*# sourceMappingURL=piece.css.map */
