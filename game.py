@@ -166,14 +166,10 @@ class Game:
             return False
         #coin sur une case rouge
         corner_on_red = self.on_red(piece,rotation,position,retourne)
-        print(corner_on_red)
         # la piece est entierement sur une case vide
         free = self.empty_space(piece,rotation,position,retourne)
-        print(free)
         #la piece n'est pas tangente a une case de la meme couleur
         not_tangent = self.no_near_other(piece,rotation,position,retourne)
-        print(not_tangent)
-        print('')
 
         return corner_on_red and free and not_tangent
     
@@ -193,8 +189,6 @@ class Game:
                 not_used.append(key)
         
         # on parcourt la liste des cases accessibles en verifiant pour chaque rotation que la piece est posable, en remarquant les differentes positions possibles
-        print(not_used)
-        print(self.red_pieces[self.is_playing-1])
         for p in not_used:
             for c in self.red_pieces[self.is_playing-1]:
                 for r in rotation:
@@ -211,3 +205,12 @@ class Game:
                                     res.append((p,r,(x,y),b))
         
         return res
+    
+    def delete_player(self):
+        """retire un joueur qui ne peut plus jouer"""
+        if len(self.possible_moves())==0:
+            t = len(self.players)
+            i = 0
+            while i<t and self.players[i] != self.is_playing:
+                i=i+1
+            self.players.pop(i)
