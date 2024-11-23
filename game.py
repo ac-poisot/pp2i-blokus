@@ -5,6 +5,10 @@ class Game:
     def __init__(self,nb_players,pieces):
         game_board = [[['N','N','N','N'] for i in range(22)] for j in range(22)]
         used= [[],[],[],[]]
+        game_board[0][0] = ['P','P','P','P']
+        game_board[21][0] = ['P','P','P','P']
+        game_board[0][21] = ['P','P','P','P']
+        game_board[21][21] = ['P','P','P','P']
         red_pieces = [[],[],[],[]] #pour stocker les pieces 'accessibles', utile fin partie
         players = [i for i in range(1,nb_players+1)]
         self.players = players
@@ -92,7 +96,7 @@ class Game:
             for j in range(len(p_act[0])):
                 # retirer la case rouge
                 if self.board[x+i][y+j][self.is_playing-1] == 'A' and p_act[i][j] == 1:
-                    self.red_pieces[self.is_playing-1].remove((x+i,y+j))
+                        self.red_pieces[self.is_playing-1].remove((x+i,y+j))
                 
                 #on rajoute la piece et ses composantes
                 if p_act[i][j] == 1:
@@ -117,24 +121,51 @@ class Game:
         p_act = self.rotate(piece,rotation,retourne)
         for i in range(len(p_act)):
             for j in range(len(p_act[0])):
+                # cas sur une piece non vide ou inaccessible
                 if p_act[i][j] == 1 and (self.board[x+i][y+j][self.is_playing-1] == 'I' or self.board[x+i][y+j][self.is_playing-1] == 'P'):
+                    return False
+        return True
+    
+    def no_near_other(self,piece,rotation,position,retourne):
+        """verifie que la piece n'est pas tangente a une piece de la meme couleur"""
+
+        x = position[0]
+        y = position[1]
+        p_act = self.rotate(piece,rotation,retourne)
+        for i in range(len(p_act)):
+            for j in range(len(p_act[0])):
+                if p_act[i][j] == 3 and self.board[x+i][y+j][self.is_playing-1] == 'P':
                     return False
         return True
 
 
+    def on_red(self,piece,rotation,position,retourne):
+        """ fonction qui verifie que la piece est bien place sur une case rouge"""
+        x = position[0]
+        y = position[1]
+        p_act = self.rotate(piece,rotation,retourne)
+        red_piece = self.red_pieces[self.is_playing-1]
+        for i in range(len(p_act)):
+            for j in range(len(p_act[0])):
+                if p_act[i][j]== 2 and self.board[x+i][y+j][self.is_playing-1] == 'P':
+                    return True
+        return False
 
-    #def legal_add_piece(self,piece,rotation,position):
-    #    """verifie si un coup est legal en trois etapes:
-    #        - un coin de la piece est dans une case rouge
-    #        - la piece est entierement dans une zone vide
-    #        - la piece ne touche pas le bord d'une piece de la meme couleur
-    #        
-    #        renvoie True ssi on peut poser la piece à cet endroit"""
-    #    #coin sur une case rouge
-    #    # a faire car modif possible de la structure des pieces
 
-    #    # la piece est entierement sur une case vide
 
-    #    # la piece n'est pas tangente a une case de la meme couleur
+    def is_legal(self,piece,rotation,position,retourne):
+        """verifie si un coup est legal en trois etapes:
+            - un coin de la piece est dans une case rouge
+            - la piece est entierement dans une zone vide
+            - la piece ne touche pas le bord d'une piece de la meme couleur
+            
+            renvoie True ssi on peut poser la piece à cet endroit"""
+        #coin sur une case rouge
+        corner_on_red = self.on_red(piece,rotation,position,retourne)
+        # la piece est entierement sur une case vide
+        free = self.empty_space(piece,rotation,position,retourne)
+        #la piece n'est pas tangente a une case de la meme couleur
+        not_tangent = self.no_near_other(piece,rotation,position,retourne)
 
+        return corner_on_red and free and not_tangent
         
