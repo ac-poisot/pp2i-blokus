@@ -18,23 +18,21 @@ class Game:
         self.red_pieces = red_pieces
         self.is_playing = 1
 
-    def print_board_all(self):
+    def print_board_all(self,id_players): #check
         """affiche le  plateau et les bords virtuels, fonction de debugg, peut-etre utile pour front-end"""
         for i in range(22): #pour chaque ligne
             line = '|'
             for j in range(22):
-                line = line + str(self.board[i][j]) + '|'
+                line = line + str(self.board[i][j][id_players]) + '|'
             print(line)
 
-    def print_board_see(self,joueur):
+    def print_board_see(self,joueur): #check
         """affiche le  plateau vu par le joueur passe en parametre, fonction de debugg, peut-etre utile pour front-end"""
         for i in range(1,21): #pour chaque ligne
             line = '|'
             for j in range(1,21):
                 line = line + str(self.board[i][j][joueur-1]) + '|'
             print(line)
-
-   
 
     def add_piece(self,piece,rotation,position,retourne):
         """rajoute une piece sur le plateau sans aucune verification
@@ -64,9 +62,6 @@ class Game:
                 elif p_act[i][j] == 3 and not(self.board[x+i][y+j][self.is_playing-1] == 'P'):
                     self.board[x+i][y+j][self.is_playing-1] = 'I'
                 
-                
-
-
     def empty_space(self,piece,rotation,position,retourne):
         """
             fonction qui verifie qu'on pose une piece sur une case accessible, donc pas Prise par le joueur ou Inacessible
@@ -93,7 +88,6 @@ class Game:
                     return False
         return True
 
-
     def on_red(self,piece,rotation,position,retourne):
         """ fonction qui verifie que la piece est bien place sur une case rouge"""
         x = position[0]
@@ -105,8 +99,6 @@ class Game:
                 if p_act[i][j]== 2 and self.board[x+i][y+j][self.is_playing-1] == 'P':
                     return True
         return False
-
-
 
     def is_legal(self,piece,rotation,position,retourne):
         """verifie si un coup est legal en trois etapes:
@@ -128,7 +120,6 @@ class Game:
 
         return corner_on_red and free and not_tangent
     
-
     def possible_moves(self):
         """renvoie la liste des coups possibles pour le joueur actuel"""
         rotation = [0,90,180,270]
@@ -201,3 +192,11 @@ class Game:
                     self.is_playing = 1
             else:
                 self.delete_player()
+
+    def rotate(self,piece,rotation,retourne): #check
+        """Doit prendre un int, un angle et un bool pour retourner la pièces dans le bond sens"""
+        return PIECES.rotate(globals().get(f"p{piece}"),rotation,retourne)
+
+
+
+

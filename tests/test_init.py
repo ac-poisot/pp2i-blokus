@@ -1,4 +1,4 @@
-from game import *
+from ..game import *
 
 # importation des pieces et def du dictionnaire
 p_tempo = {}
@@ -21,3 +21,4 @@ g3 = Game(3,p_tempo)
 #p = g1.players
 #print(plateau)
 #print(p)
+g1.print_board_all()
