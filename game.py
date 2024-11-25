@@ -36,51 +36,6 @@ class Game:
 
    
 
-    def rotate(self,piece,rotation,retourne):
-        """retourne la piece et la renvoie
-            rotation est dans {0,90,180,270} en sens horaire
-            retourne est un bool qui vaut True si la piece est retournee (sens horizontal pour piece)"""
-        p = self.pieces[piece]
-        if rotation==0 and not(retourne):
-            G = p  
-        if rotation==90 and not(retourne):
-            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    G[j][len(p)-1-i] = p[i][j]
-        if rotation==180 and not(retourne): # 
-            G = [[None for i in range(len(p[0]))] for j in range(len(p))]
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    G[len(p)-i-1][len(p[0])-j-1] = p[i][j]
-        if rotation==270 and not(retourne):
-            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    G[len(p[0])-j-1][i] = p[i][j]
-        if rotation==0 and retourne: 
-            G = [[None for i in range(len(p[0]))] for j in range(len(p))]
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    G[len(p)-i-1][j] = p[i][j]
-        if rotation==90 and retourne:
-            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    G[j][i] = p[i][j]
-        if rotation==180 and retourne:
-            G = [[None for i in range(len(p[0]))] for j in range(len(p))]
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    G[i][len(p[0])-j-1] = p[i][j]
-        if rotation==270 and retourne:###
-            G = [[None for i in range(len(p))] for j in range(len(p[0]))]
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    G[len(p[0])-j-1][len(p)-i-1] = p[i][j]
-        return G
-
-
     def add_piece(self,piece,rotation,position,retourne):
         """rajoute une piece sur le plateau sans aucune verification
             la piece vient normalement du dictionnaire global qui n'est pas def ici
