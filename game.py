@@ -5,7 +5,7 @@ class Game:
     def __init__(self,nb_players,pieces):
         game_board = [[['N','N','N','N'] for i in range(22)] for j in range(22)]
         used= [[],[],[],[]]
-        game_board[0][0] = ['P','P','P','P']
+        game_board[0][0] = ['P','P','P','P'] # Ca devrait pas être ['P','I','I','I'] ?
         game_board[21][0] = ['P','P','P','P']
         game_board[0][21] = ['P','P','P','P']
         game_board[21][21] = ['P','P','P','P']
@@ -34,7 +34,7 @@ class Game:
                 line = line + str(self.board[i][j][joueur-1]) + '|'
             print(line)
 
-    def add_piece(self,piece,rotation,position,retourne):
+    def add_piece(self,piece,rotation,position,retourne): #Modifié
         """rajoute une piece sur le plateau sans aucune verification
             la piece vient normalement du dictionnaire global qui n'est pas def ici
             ATTENTION : piece est donc un int !
@@ -42,25 +42,24 @@ class Game:
             
             a faire : ajout case rouge, suppression case rouge utilisee
         """
-        x = position[0]
-        y = position[1]
-        p_act = self.rotate(piece,rotation,retourne)
-        for i in range(len(p_act)):
-            for j in range(len(p_act[0])):
-                # retirer la case rouge
-                if self.board[x+i][y+j][self.is_playing-1] == 'A' and p_act[i][j] == 1:
-                        self.red_pieces[self.is_playing-1].remove((x+i,y+j))
-                
-                #on rajoute la piece et ses composantes
-                if p_act[i][j] == 1:
-                    self.board[x+i][y+j] = ['I','I','I','I']
-                    self.board[x+i][y+j][self.is_playing-1] = 'P'
-                    self.used[self.is_playing-1].append(piece)
-                elif p_act[i][j] == 2 and not(self.board[x+i][y+j][self.is_playing-1] == 'I' or self.board[x+i][y+j][self.is_playing-1] == 'P'):
-                    self.board[x+i][y+j][self.is_playing-1] = 'A'
-                    self.red_pieces[self.is_playing-1].append((x+i,y+j))
-                elif p_act[i][j] == 3 and not(self.board[x+i][y+j][self.is_playing-1] == 'P'):
-                    self.board[x+i][y+j][self.is_playing-1] = 'I'
+        x,y = position
+        piece_ajoutable =  self.rotate(piece,rotation,retourne)
+        n = len(piece_ajoutable)
+        l = len(piece_ajoutable[0])
+        for i in range(n):
+            for j in range(l):
+                if piece_ajoutable[i][j] == 1:
+                    if "A" in self.board[i+x][j+y]:
+                        if (i+x,j+y) in self.red_pieces[0]:
+                            self.red_pieces[0].remove((i+x,j+y))
+                        elif(i+x,j+y) in self.red_pieces[1]:
+                            self.red_pieces[1].remove((i+x,j+y))
+                        elif(i+x,j+y) in self.red_pieces[2]:
+                            self.red_pieces[2].remove((i+x,j+y))
+                        elif(i+x,j+y) in self.red_pieces[3]:
+                            self.red_pieces[3].remove((i+x,j+y))
+                    self.board[i+x][j+y] = ['I','I','I','I']
+                    self.board[i+x][j+y][self.is_playing -1] = 'P'
                 
     def empty_space(self,piece,rotation,position,retourne):
         """
