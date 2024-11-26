@@ -1,5 +1,9 @@
-from game import *
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
+from game import Game
+from pieces import PIECES as pies
 # importation des pieces et def du dictionnaire
 p_tempo = {}
 
@@ -10,9 +14,9 @@ for i in range(1, 22):
     p_tempo[var_name] = value
     #afficher(value)
 
-g1 = Game(2,p_tempo)
-
-
+g1 = Game(2)
+pies.afficher(pies.get(1))
+"""
 print(0)
 afficher(g1.rotate('p13',0,False))
 print(90)
@@ -28,4 +32,4 @@ afficher(g1.rotate('p13',90,True))
 print(180)
 afficher(g1.rotate('p13',180,True))
 print(270)
-afficher(g1.rotate('p13',270,True))
+afficher(g1.rotate('p13',270,True))"""

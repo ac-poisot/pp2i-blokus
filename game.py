@@ -1,5 +1,5 @@
 # game.py, pour le jeu
-from pieces import *
+from pieces import PIECES as pies
 
 class Game:
     def __init__(self,nb_players):
@@ -9,10 +9,13 @@ class Game:
         game_board[21][0] = ['P'for i in range(nb_players)]
         game_board[0][21] = ['P'for i in range(nb_players)]
         game_board[21][21] = ['P'for i in range(nb_players)]
-        if nb_players == 2:#Faire pour tout les possibilitées
+        if nb_players >= 2:#Faire pour tout les possibilitées
             game_board[1][1][0] = 'A'
-            game_board[20][20][2] = 'A'
-
+            game_board[20][20][1] = 'A'
+        if nb_players >= 3:
+            game_board[1][20][2] = 'A'
+        if nb_players == 4:
+            game_board[20][1][3] = 'A'
         red_pieces = [[(1,1)],[(20,20)],[(1,20)],[(20,1)]] #pour stocker les pieces 'accessibles', utile fin partie
         players = [i for i in range(1,nb_players+1)]
         self.players = players
@@ -47,7 +50,7 @@ class Game:
             a faire : ajout case rouge, suppression case rouge utilisee
         """
         x,y = position
-        piece_ajoutable =  self.rotate(piece,rotation,retourne)
+        piece_ajoutable =  self.rotatePieces(piece,rotation,retourne)
         n = len(piece_ajoutable)
         l = len(piece_ajoutable[0])
         for i in range(n):
@@ -74,7 +77,7 @@ class Game:
         """
         x = position[0]
         y = position[1]
-        p_act = self.rotate(piece,rotation,retourne)
+        p_act = self.rotatePieces(piece,rotation,retourne)
         for i in range(len(p_act)):
             for j in range(len(p_act[0])):
                 # cas sur une piece non vide ou inaccessible
@@ -87,7 +90,7 @@ class Game:
 
         x = position[0]
         y = position[1]
-        p_act = self.rotate(piece,rotation,retourne)
+        p_act = self.rotatePieces(piece,rotation,retourne)
         for i in range(len(p_act)):
             for j in range(len(p_act[0])):
                 if p_act[i][j] == 3 and self.board[x+i][y+j][self.is_playing-1] == 'P':
@@ -98,7 +101,7 @@ class Game:
         """ fonction qui verifie que la piece est bien place sur une case rouge"""
         x = position[0]
         y = position[1]
-        p_act = self.rotate(piece,rotation,retourne)
+        p_act = self.rotatePieces(piece,rotation,retourne)
         red_piece = self.red_pieces[self.is_playing-1]
         for i in range(len(p_act)):
             for j in range(len(p_act[0])):
@@ -114,7 +117,7 @@ class Game:
             
             renvoie True ssi on peut poser la piece à cet endroit"""
         # la piece est dans le plateau
-        p_act = self.rotate(piece,rotation,retourne)
+        p_act = self.rotatePieces(piece,rotation,retourne)
         if position[0]+len(p_act[0])>21 or position[1]+len(p_act)>21 or position[0]<0 or position[1]<0:
             return False
         #coin sur une case rouge
@@ -146,7 +149,7 @@ class Game:
                 for r in rotation:
                     for b in retourne:
                         # les quatre cas
-                        p_act = self.rotate(p,r,b)
+                        p_act = self.rotatePieces(p,r,b)
                         xmin = c[0]-len(p_act[0])
                         xmax = c[0]
                         ymin = c[1]-len(p_act)
@@ -199,16 +202,14 @@ class Game:
             else:
                 self.delete_player()
 
-    def rotate(self,piece,rotation,retourne): #check
+    def rotatePieces(self,id_piece,rotation,retourne): #check
         """Doit prendre un int, un angle et un bool pour retourner la pièces dans le bond sens"""
-        return PIECES.rotate(globals().get(f"p{piece}"),rotation,retourne)
+        return pies.rotate(pies.get(id_piece),rotation,retourne)
 
 
-
-
-g1 = Game(2)
-g1.add_piece(1,0,(5,5),False)
-
-g1.print_board_all(2)
-print(g1.board[6][6])
-print(g1.red_pieces)
+if __name__ == "__init__":
+    g1 = Game(2)
+    g1.add_piece(1,0,(5,5),False)
+    g1.print_board_see(2)
+    print(g1.board[6][6])
+    print(g1.red_pieces)

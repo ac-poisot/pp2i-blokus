@@ -3,9 +3,11 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 
 class PIECES:
+
     def __init__(self,id,tableaux):
         self.id = id
         self.form = tableaux
+
     def rotate(self,rotation,retourne):
         """retourne la piece et la renvoie
             rotation est dans {0,90,180,270} en sens horaire
@@ -65,10 +67,13 @@ class PIECES:
                     print("🟩",end = "")
                 else:
                     print("⬜", end = "")
-            print("\n")
+            print()
         print("\n")
-
-
+    
+    def get(id):######REDDDDDD FLAGS
+        if id == 1:
+            return p1
+        ...
 
 
 p1 = PIECES(1,[[2,3,2],[3,1,3],[2,3,2]])
@@ -92,5 +97,3 @@ p18 = PIECES(18,[[2,3,3,2,0],[3,1,1,3,2],[2,3,1,1,3],[0,2,3,1,3],[0,0,2,3,2]])
 p19 = PIECES(19,[[2,3,2,0,0],[3,1,3,3,2],[3,1,1,1,3],[2,3,3,1,3],[0,0,2,3,2]])
 p20 = PIECES(20,[[2,3,2,0,0],[3,1,3,3,2],[3,1,1,1,3],[2,3,1,3,2],[0,2,3,2,0]])
 p21 = PIECES(21,[[0,2,3,2,0],[2,3,1,3,2],[3,1,1,1,3],[2,3,1,3,2],[0,2,3,2,0]])
-
-
