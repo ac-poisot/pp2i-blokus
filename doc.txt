@@ -60,3 +60,22 @@ Il y a la fonction d'ajout de pièces, pour ajouter des pieces SANS vérificatio
 
 fonction empty_space :
 permet de verifier qu'une piece est bien ajoutee sur une case vide
+
+*********************Pour les notations*******************************************
+Le board game est composé de liste de liste de liste 22*22*4, composé du tableau 20*20 avec une bordure de 1, puis pour chaque case, on a une liste de 4, qui permet d'avoir la relation de la case avec chaque joueur indépendament
+"P" -> la case est prise par un joueur (à noté qu'un joueur qui a mis P doit mettre tout les autres joueur a "I")
+"A" -> la case est accessible par un joueur
+"I" -> la case est inaccessible par un joueur
+"N" -> la case est "nothing", le joueur n'a pas encore atteint cette case
+
+*******************Les classes*****************************
+On a crée 2 classe:
+-PIECES dans pieces.py
+-Game dans game.py
+
+PIECES est appellé dans les autres fichiers sous le nom "pies", elle détient 3 méthodes sans compter init:
+    -rotate permet de renvoyer la pièces tourner avec rotation=0/90/180/270 
+    -afficher permet d'afficher la piece, sert pour le débuggage normalement
+    -get permet de récupérer une piece a partir de l'id associée
+
+Game est appellé dans les autres fichiers sous le nom "Game", elle détient 13 méthodes sans compter init:

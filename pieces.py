@@ -52,8 +52,8 @@ class PIECES:
                     G[len(p[0])-j-1][len(p)-i-1] = p[i][j]
         return G
 
-    def afficher(self):
-        T = self.form
+    def afficher(self,rotation = 0,retourne = False):
+        T = self.rotate(self,rotation,retourne)
         if T == []:
             return ""
         l,n = len(T),len(T[1])
