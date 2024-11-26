@@ -2,28 +2,32 @@
 from pieces import *
 
 class Game:
-    def __init__(self,nb_players,pieces):
-        game_board = [[['N','N','N','N'] for i in range(22)] for j in range(22)]
+    def __init__(self,nb_players):
+        game_board = [[['N' for i in range(nb_players)] for i in range(22)] for j in range(22)]
         used= [[],[],[],[]]
-        game_board[0][0] = ['P','P','P','P'] # Ca devrait pas être ['P','I','I','I'] ?
-        game_board[21][0] = ['P','P','P','P']
-        game_board[0][21] = ['P','P','P','P']
-        game_board[21][21] = ['P','P','P','P']
-        red_pieces = [[(0,0)],[(0,0)],[(0,0)],[(0,0)]] #pour stocker les pieces 'accessibles', utile fin partie
+        game_board[0][0] = ['P'for i in range(nb_players)] # Ca devrait pas être ['P','I','I','I'] ?
+        game_board[21][0] = ['P'for i in range(nb_players)]
+        game_board[0][21] = ['P'for i in range(nb_players)]
+        game_board[21][21] = ['P'for i in range(nb_players)]
+        if nb_players == 2:#Faire pour tout les possibilitées
+            game_board[1][1][0] = 'A'
+            game_board[20][20][2] = 'A'
+
+        red_pieces = [[(1,1)],[(20,20)],[(1,20)],[(20,1)]] #pour stocker les pieces 'accessibles', utile fin partie
         players = [i for i in range(1,nb_players+1)]
         self.players = players
         self.used = used
         self.board = game_board
-        self.pieces = pieces
         self.red_pieces = red_pieces
         self.is_playing = 1
+        self.nb_players = nb_players
 
     def print_board_all(self,id_players): #check
         """affiche le  plateau et les bords virtuels, fonction de debugg, peut-etre utile pour front-end"""
         for i in range(22): #pour chaque ligne
             line = '|'
             for j in range(22):
-                line = line + str(self.board[i][j][id_players]) + '|'
+                line = line + str(self.board[i][j][id_players-1]) + '|'
             print(line)
 
     def print_board_see(self,joueur): #check
@@ -48,8 +52,8 @@ class Game:
         l = len(piece_ajoutable[0])
         for i in range(n):
             for j in range(l):
-                if piece_ajoutable[i][j] == 1:
-                    if "A" in self.board[i+x][j+y]:
+                if piece_ajoutable[i][j] == 1:#On ajoute la piece
+                    if "A" in self.board[i+x][j+y]:#On enlève les pièces rouges
                         if (i+x,j+y) in self.red_pieces[0]:
                             self.red_pieces[0].remove((i+x,j+y))
                         elif(i+x,j+y) in self.red_pieces[1]:
@@ -58,9 +62,12 @@ class Game:
                             self.red_pieces[2].remove((i+x,j+y))
                         elif(i+x,j+y) in self.red_pieces[3]:
                             self.red_pieces[3].remove((i+x,j+y))
-                    self.board[i+x][j+y] = ['I','I','I','I']
+                    self.board[i+x][j+y] = ['I' for i in range(self.nb_players)]
                     self.board[i+x][j+y][self.is_playing -1] = 'P'
-                
+                elif piece_ajoutable[i][j] == 2 and self.board[i+x][j+y][self.is_playing] in ['A','N']:
+                    self.red_pieces[self.is_playing-1].append((i+x,j+y))
+                    self.board[i+x][j+y][self.is_playing] = 'A'
+
     def empty_space(self,piece,rotation,position,retourne):
         """
             fonction qui verifie qu'on pose une piece sur une case accessible, donc pas Prise par le joueur ou Inacessible
@@ -199,3 +206,9 @@ class Game:
 
 
 
+g1 = Game(2)
+g1.add_piece(1,0,(5,5),False)
+
+g1.print_board_all(2)
+print(g1.board[6][6])
+print(g1.red_pieces)
