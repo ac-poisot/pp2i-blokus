@@ -79,3 +79,15 @@ PIECES est appellé dans les autres fichiers sous le nom "pies", elle détient 3
     -get permet de récupérer une piece a partir de l'id associée
 
 Game est appellé dans les autres fichiers sous le nom "Game", elle détient 13 méthodes sans compter init:
+    -print_board_all
+    -print_board_see
+    -add_piece
+    -empty_space
+    -no_near_other
+    -on_red
+    -is_legal
+    -possible_moves
+    -delete_player
+    -endgame
+    -play_game
+    -rotatePieces

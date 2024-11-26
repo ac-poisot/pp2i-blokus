@@ -1,14 +1,9 @@
-from game import *
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-# importation des pieces et def du dictionnaire
-p_tempo = {}
-
-for i in range(1, 22):
-    #print(i)
-    var_name = f"p{i}"
-    value = globals().get(var_name)
-    p_tempo[var_name] = value
-    #afficher(value)
+from game import Game
+from pieces import PIECES as pies
 
 g1 = Game(2,p_tempo)
 

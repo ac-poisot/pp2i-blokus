@@ -53,7 +53,7 @@ class PIECES:
         return G
 
     def afficher(self,rotation = 0,retourne = False):
-        T = self.rotate(self,rotation,retourne)
+        T = self.rotate(rotation,retourne)
         if T == []:
             return ""
         l,n = len(T),len(T[1])
