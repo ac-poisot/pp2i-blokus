@@ -6,12 +6,12 @@ from game import Game
 from pieces import PIECES as pies
 
 
-g1 = Game(2,p_tempo)
+g1 = Game(2)
 
-assert g1.no_near_other('p6',90,(0,0),False)
-g1.add_piece('p6',90,(0,0),False)
+assert g1.no_near_other(6,90,(0,0),False)
+g1.add_piece(6,90,(0,0),False)
 g1.print_board_see(1)
 print('')
-g1.add_piece('p5',0,(2,0),False)
+g1.add_piece(5,0,(2,0),False)
 g1.print_board_see(1)
-assert g1.no_near_other('p5',0,(2,0),False)
+assert not(g1.no_near_other(5,0,(2,0),False))

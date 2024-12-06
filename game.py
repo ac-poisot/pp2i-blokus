@@ -25,7 +25,7 @@ class Game:
         self.is_playing = 1
         self.nb_players = nb_players
 
-    def print_board_all(self,id_players): #check
+    def print_board_all(self,id_players): 
         """affiche le  plateau et les bords virtuels, fonction de debugg, peut-etre utile pour front-end"""
         for i in range(22): #pour chaque ligne
             line = '|'
@@ -33,7 +33,7 @@ class Game:
                 line = line + str(self.board[i][j][id_players-1]) + '|'
             print(line)
 
-    def print_board_see(self,joueur): #check
+    def print_board_see(self,joueur): 
         """affiche le  plateau vu par le joueur passe en parametre, fonction de debugg, peut-etre utile pour front-end"""
         for i in range(1,21): #pour chaque ligne
             line = '|'
@@ -41,7 +41,7 @@ class Game:
                 line = line + str(self.board[i][j][joueur-1]) + '|'
             print(line)
 
-    def add_piece(self,piece,rotation,position,retourne): #Modifié
+    def add_piece(self,piece : int,rotation : {0,90,180,270},position : tuple[int,int],retourne : bool): #Modifié
         """rajoute une piece sur le plateau sans aucune verification
             la piece vient normalement du dictionnaire global qui n'est pas def ici
             ATTENTION : piece est donc un int !
@@ -69,9 +69,9 @@ class Game:
                     self.board[i+x][j+y][self.is_playing -1] = 'P'
                 elif piece_ajoutable[i][j] == 2 and self.board[i+x][j+y][self.is_playing] in ['A','N']:
                     self.red_pieces[self.is_playing-1].append((i+x,j+y))
-                    self.board[i+x][j+y][self.is_playing] = 'A'
+                    self.board[i+x][j+y][self.is_playing-1] = 'A'
 
-    def empty_space(self,piece,rotation,position,retourne):
+    def empty_space(self,piece,rotation,position,retourne): 
         """
             fonction qui verifie qu'on pose une piece sur une case accessible, donc pas Prise par le joueur ou Inacessible
         """
@@ -106,6 +106,7 @@ class Game:
         for i in range(len(p_act)):
             for j in range(len(p_act[0])):
                 if p_act[i][j]== 2 and self.board[x+i][y+j][self.is_playing-1] == 'P':
+                    #self.red_pieces[self.is_playing - 1].remove((x+i,y+j)) #Permet de garder à jour red_piece
                     return True
         return False
 
@@ -205,7 +206,6 @@ class Game:
     def rotatePieces(self,id_piece,rotation,retourne): #check
         """Doit prendre un int, un angle et un bool pour retourner la pièces dans le bond sens"""
         return pies.rotate(pies.get(id_piece),rotation,retourne)
-
 
 if __name__ == "__init__":
     g1 = Game(2)
