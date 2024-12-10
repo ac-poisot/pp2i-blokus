@@ -146,12 +146,17 @@ def login():
 
 @app.route("/game")
 def game():
-    return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)], players=["test", "test2", "test3", "test4"], pieces=[list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)]))
+    return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)], players=["test", "test2", "test3", "test4"], pieces=[list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)], scores=[0, 0, 0, 0]))
 
 @app.route("/data", methods=['GET', 'POST'])
 def handle_data():
     if request.method == 'GET':
-        return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
+        return {
+            "grid": [[random.randint(0, 4) for j in range(20)] for i in range(20)],
+            "players": ["Test", "Test2", "Test3", "Test4"],
+            "pieces": [list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)],
+            "scores": [0, 0, 0, 0]
+        }
     else:
         data = request.json
         print(data)

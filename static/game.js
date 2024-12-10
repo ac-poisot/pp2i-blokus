@@ -1,16 +1,25 @@
+// Functions to update the game grid and players
+
+const players = document.querySelectorAll("#otherPlayers>div")
+const playerNames = document.querySelectorAll(".playerName>span")
+
 function updatedata() {
     fetch("/data?"+window.location.search.split("?")[1])
     .then(res => res.json())
     .then(data => {
         for(i=1; i < 21; i++) {
             for(j=1; j < 21; j++) {
-                document.querySelector(`#grid>tbody>tr:nth-child(${i})>td:nth-child(${j})`).className = `c${data[i-1][j-1]}`
+                document.querySelector(`#grid>tbody>tr:nth-child(${i})>td:nth-child(${j})`).className = `c${data["grid"][i-1][j-1]}`
             }
         }
+        for(i = 0; i < data["players"].length; i++) {
+            playerNames[i].textContent = data["players"][i]
+        }
+        console.log(data["scores"])
     })
 }
 
-const players = document.querySelectorAll("#otherPlayers>div");
+// Functions to open at most one other player's interface in addition to the player's one
 
 function closeAll() {
     players.forEach(p => {
@@ -36,11 +45,7 @@ for(i = 0; i < players.length; i++) {
 }
 
 
-
-
-
-
-
+// Functions to select and move pieces
 
 var currentShape = [[]]
 var color;
@@ -186,6 +191,9 @@ function play() {
 }
 
 
+
+// Automatically update the game informations
+
 setInterval(() => {
-    //updatedata()
+    updatedata()
 }, 1000)
