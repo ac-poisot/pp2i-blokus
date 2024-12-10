@@ -8,6 +8,16 @@ from hashlib import sha512
 app = Flask(__name__)
 app.secret_key = b',DTuzn=#c9"F.)_'
 
+## Only display errors and criticals 
+
+import flask.cli    
+flask.cli.show_server_banner = lambda *args: None
+
+import logging
+logging.getLogger("werkzeug").disabled = True
+
+
+
 from game import p_tempo
 
 # DB connection
