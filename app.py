@@ -151,12 +151,18 @@ def game():
 @app.route("/data", methods=['GET', 'POST'])
 def handle_data():
     if request.method == 'GET':
-        return {
-            "grid": [[random.randint(0, 4) for j in range(20)] for i in range(20)],
-            "players": ["Test", "Test2", "Test3", "Test4"],
-            "pieces": [list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)],
-            "scores": [0, 0, 0, 0]
-        }
+        pid = int(request.cookies.get("pid"))
+        token = request.cookies.get("token")
+        gameData = get_game(request.args.get("gameId"))
+        if(pid and token and get_token(pid) == token and gameData and (pid == gameData[1] or pid == gameData[2] or pid == gameData[3] or pid == gameData[4])):
+            return {
+                "grid": [[random.randint(0, 4) for j in range(20)] for i in range(20)],
+                "players": ["Test", "Test2", "Test3", "Test4"],
+                "pieces": [list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)],
+                "scores": [0, 0, 0, 0]
+            }
+        else:
+            return jsonify({"error": "Not allowed"}) ## send error page ?
     else:
         data = request.json
         print(data)

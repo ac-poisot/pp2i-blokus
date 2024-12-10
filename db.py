@@ -99,7 +99,7 @@ def get_token(pid:int) -> str:
 
     Returns the token if it has not expired, None if it has
     """
-    exp_date = get_temp("tokenexpiration", "Players", "pid", pid)
+    exp_date = get_temp("tokenexpiration", "Players", "pid", pid)[0][0]
     if time.time() > exp_date:
         return None
     else:
@@ -126,7 +126,8 @@ def get_game(gameid:str) -> tuple:
     Returns a list of all the data in the format 
         (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, winner:int)
     """
-    return get_temp("*", "Games", "gameid", gameid)[0]
+    if get_temp("*", "Games", "gameid", gameid): return get_temp("*", "Games", "gameid", gameid)[0]
+    return None
 
 def get_history(gameid:str) -> list[tuple]:
     """
