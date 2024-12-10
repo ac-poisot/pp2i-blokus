@@ -19,6 +19,10 @@
         .playerInterface {
             //max-height: 93%;
             max-height: calc(90% - 6vh);
+            
+            // .playerName {
+            //     height: calc(4.5% + 1.2vh);
+            // }
         }
     }
 
@@ -26,22 +30,26 @@
         display: flex;
         flex-direction: column;
         max-height: calc(100% - 3vh);
-        padding: 1.5vh;
+        padding: 0 1.5vh 1.5vh 1.5vh;
         border: solid 1px black;
         border-radius: 2vh;
+        
 
-        span {
-            display: block;
-            height: 5%;
-            margin-left: 2vh;
+        .playerName {
+            height: 1.2vh;
+            //height: calc(90% - 6vh);
+            //padding: 1.5vh 1.5vh 1.5vh 2vh;
+            padding: 1.5vh;
+            width: 100%;
         }
 
         .pieces {
             flex-grow: 1;
             display: grid;
-            height: calc(80% - 7vh);
+            //height: calc(80% - 7vh);
+            height: calc(95.5% - 5vh);
             justify-content: center;
-            margin: 2vh;
+            margin: 0 2vh 2vh 2vh;
             //grid-template-columns: repeat(2, 9vh);
             grid-template-columns: repeat(auto-fit, 12vh);
             padding: 0.5vh;
@@ -65,10 +73,17 @@
 
     .closed {
         flex-grow: 0;
-    }
+        padding: 0;
 
-    .closed>.pieces {
-        display: none;
+        .playerName {
+            height: 100%;
+            width: 100%;
+            padding: 1.5vh;
+        }
+
+        .pieces {
+            display: none;
+        }
     }
 
     .selected {
