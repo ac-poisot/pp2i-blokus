@@ -97,12 +97,11 @@ class Game:
                     return False
         return True
 
-    def on_red(self,piece,rotation,position,retourne):
+    def on_red(self,piece,rotation,position,retourne):# a modifier
         """ fonction qui verifie que la piece est bien place sur une case rouge"""
         x = position[0]
         y = position[1]
         p_act = self.rotatePieces(piece,rotation,retourne)
-        red_piece = self.red_pieces[self.is_playing-1]
         for i in range(len(p_act)):
             for j in range(len(p_act[0])):
                 if p_act[i][j]== 2 and self.board[x+i][y+j][self.is_playing-1] == 'P':

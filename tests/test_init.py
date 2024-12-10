@@ -7,11 +7,11 @@ from pieces import PIECES as pies
 
 
 # TEST __INIT__
-#print(p_tempo['1'])
-g1 = Game(2,p_tempo)
+#print['1'])
+g1 = Game(2)
 #print(g1.pieces)
-g2 = Game(2,p_tempo)
-g3 = Game(3,p_tempo)
+g2 = Game(2)
+g3 = Game(3)
 #print(g1.is_playing)
 #plateau = g1.board
 #p = g1.players
