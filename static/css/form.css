@@ -1,0 +1,99 @@
+/* hoverable information */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  width: 120px;
+  top: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+/* forms */
+.form_container {
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  flex-direction: column;
+}
+
+form input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button[type=submit] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type=submit]:hover {
+  background-color: #0056b3;
+}
+
+.info {
+  color: #555555;
+  font-size: small;
+}
+
+.eye-checkbox {
+  display: none;
+}
+
+.eye-icon {
+  position: absolute;
+  left: 295px;
+  top: 181px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.eye-icon-conf {
+  position: absolute;
+  left: 295px;
+  top: 306px;
+  cursor: pointer;
+  font-size: 20px;
+}/*# sourceMappingURL=form.css.map */

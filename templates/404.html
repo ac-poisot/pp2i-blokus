@@ -6,16 +6,18 @@
     <title>Blokus</title>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="flash">
-        <p data="{{message}}"></p>
+    <main>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="flash">
+            <p data="{{message}}"></p>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
         </div>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-    </div>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    </main>
 </body>
+<link rel="stylesheet" href="{{url_for('static', filename='css/error.css')}}">
 </html>
