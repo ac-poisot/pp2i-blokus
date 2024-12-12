@@ -2,6 +2,7 @@
 
 import sqlite3
 from app import get_db
+from pieces import *
 import time
 from datetime import datetime
 from random import choice
@@ -257,6 +258,41 @@ def end_game(gameid:str, winner:int) -> None:
     winner: the id of the winner of the game, congrats to them!
     """
     set_temp("Games", "winner", winner, "gameid", gameid)
+
+def colour(gameid:str, pid:int) -> int:
+    """
+    Function to work out the colour of a player in a game
+
+    gameid: the id of the game
+    pid: the id of the player to figure out the colour of
+
+    Returns an integer corresponding to the number of the player (between 1 and 4) 
+    """
+    players = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)[0]
+    return list.index(pid)+1
+
+def score(gameid:str, pid:int) -> int:
+    """
+    Function to calculate the score of a player in a game
+
+    gameid: the id of the game
+    pid: the id of the player to calculate the score of
+
+    Returns the score of the player (amount of tiles placed)
+    """ 
+    colour = colour(gameid, pid)
+    
+    c = get_db().cursor()
+    c.execute("SELECT piece FROM Moves WHERE gameid = (?) AND colour = (?);", (gameid, colour))
+    pieces = c.fetchall()[0]    
+    res = 0
+    # for piece in pieces {
+    #     # TODO when pieces are implemented PROPERLY
+    #     pass
+    # }
+
+    return res
+
 
 def delete_player(pid:int) -> None:
     """
