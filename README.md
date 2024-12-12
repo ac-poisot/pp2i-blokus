@@ -17,10 +17,10 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 
 ## Membres du groupe
 
-- **Poisot Anne-Cécile** - [anne-cecile.poisot@telecomnancy.eu](mailto:anne-cecile.poisot@telecomnancy.net)
-- **Loisil Tom** - [tom.loisil@telecomnancy.eu](mailto:tom.loisil@telecomnancy.eu)
-- **Estivals Raphaël** - [raphael.estivals@telecomnancy.eu](mailto:raphael.estivals@telecomnancy.eu)
-- **Bui Kévin** - [kevin.bui@telecomnancy.eu](mailto:kevin.bui@telecomnancy.eu)
+- **Poisot Anne-Cécile** — [anne-cecile.poisot@telecomnancy.eu](mailto:anne-cecile.poisot@telecomnancy.net)
+- **Loisil Tom** — [tom.loisil@telecomnancy.eu](mailto:tom.loisil@telecomnancy.eu)
+- **Estivals Raphaël** — [raphael.estivals@telecomnancy.eu](mailto:raphael.estivals@telecomnancy.eu)
+- **Bui Kévin** — [kevin.bui@telecomnancy.eu](mailto:kevin.bui@telecomnancy.eu)
 
 
 ## Description du projet
