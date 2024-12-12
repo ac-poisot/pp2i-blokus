@@ -3,22 +3,21 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from game import Game
-from pieces import PIECES as pies
 
 
 g1 = Game(2)
 
 
 g1.add_piece(6,90,(0,0),False)
-print(g1.empty_space(6,90,(1,0),False))
-print(g1.empty_space(6,90,(2,0),False))
-print(g1.empty_space(6,90,(2,1),False))
-print(g1.empty_space(6,90,(1,1),False))
-print(g1.empty_space(6,90,(1,2),False))
-print(g1.empty_space(6,270,(0,1),False))
+print(g1.empty_space(6,90,(1,0),False, 1))
+print(g1.empty_space(6,90,(2,0),False, 1))
+print(g1.empty_space(6,90,(2,1),False, 1))
+print(g1.empty_space(6,90,(1,1),False, 1))
+print(g1.empty_space(6,90,(1,2),False, 1))
+print(g1.empty_space(6,270,(0,1),False, 1))
 g1.add_piece(6,270,(0,1),False)
 
-g1.print_board_see(2)
+g1.print_board_see(1)
 
 
 """

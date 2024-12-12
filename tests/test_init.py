@@ -3,8 +3,6 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from game import Game
-from pieces import PIECES as pies
-
 
 # TEST __INIT__
 #print['1'])
