@@ -117,44 +117,44 @@ class Game:
         
         self.used[self.is_playing - 1].append(piece)
 
-    def empty_space(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool: 
-        """
-        returns whether a piece would be placed on availible cells only if placed
-        """
-        x, y = position
-        cur_p = rotate(piece, rotation, flipped)
-        for i in range(len(cur_p)):
-            for j in range(len(cur_p[0])):
-                # Illegal if the cell is either in an invalid or taken state
-                if cur_p[i][j] == 1 and (self.board[x+i][y+j][player-1] == 'I' or self.board[x+i][y+j][player-1] == 'P'):
-                    return False
+    # def empty_space(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool: 
+    #     """
+    #     returns whether a piece would be placed on availible cells only if placed
+    #     """
+    #     x, y = position
+    #     cur_p = rotate(piece, rotation, flipped)
+    #     for i in range(len(cur_p)):
+    #         for j in range(len(cur_p[0])):
+    #             # Illegal if the cell is either in an invalid or taken state
+    #             if cur_p[i][j] == 1 and (self.board[x+i][y+j][player-1] == 'I' or self.board[x+i][y+j][player-1] == 'P'):
+    #                 return False
                 
-        return True
+    #     return True
     
-    def no_near_other(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
-        """
-        returns whether a piece would be next to another of the same colour if placed
-        """
+    # def no_near_other(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
+    #     """
+    #     returns whether a piece would be next to another of the same colour if placed
+    #     """
 
-        x, y = position
-        cur_p = rotate(piece,rotation,flipped)
-        for i in range(len(cur_p)):
-            for j in range(len(cur_p[0])):
-                if cur_p[i][j] == 3 and self.board[x+i][y+j][player-1] == 'P':
-                    return False
-        return True
+    #     x, y = position
+    #     cur_p = rotate(piece,rotation,flipped)
+    #     for i in range(len(cur_p)):
+    #         for j in range(len(cur_p[0])):
+    #             if cur_p[i][j] == 3 and self.board[x+i][y+j][player-1] == 'P':
+    #                 return False
+    #     return True
 
-    def on_red(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
-        """
-        returns whether a piece would be tangent to another piece of the same color if placed
-        """
-        x,y = position
-        cur_p = rotate(piece,rotation,flipped)
-        for i in range(len(cur_p)):
-            for j in range(len(cur_p[0])):
-                if cur_p[i][j] == 2 and self.board[x+i][y+j][player-1] == 'P':
-                    return True
-        return False
+    # def on_red(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
+    #     """
+    #     returns whether a piece would be tangent to another piece of the same color if placed
+    #     """
+    #     x,y = position
+    #     cur_p = rotate(piece,rotation,flipped)
+    #     for i in range(len(cur_p)):
+    #         for j in range(len(cur_p[0])):
+    #             if cur_p[i][j] == 2 and self.board[x+i][y+j][player-1] == 'P':
+    #                 return True
+    #     return False
 
     def is_legal(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
         """
@@ -168,13 +168,21 @@ class Game:
         cur_p = rotate(piece,rotation,flipped)
         if x+len(cur_p)-1 >= 22 or y+len(cur_p[0])-1 >= 22 or x < 0 or y < 0:
             return False
-        
-        corner_on_red = self.on_red(piece,rotation,position,flipped,player)
-        free = self.empty_space(piece,rotation,position,flipped,player)
-        not_tangent = self.no_near_other(piece,rotation,position,flipped,player)
 
-        return corner_on_red and free and not_tangent
-    
+        valid = False
+        for i in range(len(cur_p)):
+            for j in range(len(cur_p[0])):
+                if cur_p[i][j] == 2 and self.board[x+i][y+j][player-1] == 'P':
+                    valid = True
+
+                if cur_p[i][j] == 1 and (self.board[x+i][y+j][player-1] == 'I' or self.board[x+i][y+j][player-1] == 'P'):
+                    return False
+
+                elif cur_p[i][j] == 3 and self.board[x+i][y+j][player-1] == 'P':
+                    return False
+        
+        return valid
+                    
     def score(self, player:int) -> int:
         """
         returns the score of a player, i.e. the amount of squares of each unused piece
@@ -206,18 +214,52 @@ class Game:
             for c in self.red_pieces[player-1]:
                 for r in rotation:
                     for b in flipped:
+                        
                         cur_p = rotate(p,r,b)
-                        xmin = c[0]-len(cur_p)
-                        xmax = c[0]
-                        ymin = c[1]-len(cur_p[0])
-                        ymax = c[1]
-                        for x in range(xmin,xmax+1):
-                            for y in range(ymin,ymax+1):
-                                if self.is_legal(p,r,(x,y),b, player):
-                                    res.append((p,r,(x,y),b))
+                        # Avoid checking duplicate cases
+                        if cur_p == pieces[p-1].shape and (flipped or rotation > 0):
+                            xmin = c[0]-len(cur_p)
+                            xmax = c[0]
+                            ymin = c[1]-len(cur_p[0])
+                            ymax = c[1]
+                            for x in range(xmin,xmax+1):
+                                for y in range(ymin,ymax+1):
+                                    if self.is_legal(p,r,(x,y),b, player):
+                                        res.append((p,r,(x,y),b))
         
         return res
-    
+
+    def can_play(self, player:int) -> bool:
+        """
+        returns whether a player as an availible move or not
+        """
+        rotation = [0,90,180,270]
+        flipped = [True,False]
+
+        # retrieves availible pieces
+        not_used = [i for i in range(1,22) if i not in self.used[player-1]]
+
+        # we go through every availible cell, and check if every rotation of every piece can be placed there
+        for p in not_used:
+            for c in self.red_pieces[player-1]:
+                for r in rotation:
+                    for b in flipped:
+                        
+                        cur_p = rotate(p,r,b)
+                        # Avoid checking duplicate cases
+                        if cur_p == pieces[p-1].shape and (flipped or rotation > 0):
+                            xmin = c[0]-len(cur_p)
+                            xmax = c[0]
+                            ymin = c[1]-len(cur_p[0])
+                            ymax = c[1]
+                            for x in range(xmin,xmax+1):
+                                for y in range(ymin,ymax+1):
+                                    if self.is_legal(p,r,(x,y),b, player):
+                                        return True
+        
+        return False
+
+
     def delete_player(self, player:int):
         """
         gets rid a player that do not have any availible move
@@ -227,7 +269,7 @@ class Game:
     def play_game(self):
         while self.players:
             pos = self.possible_moves(self.is_playing)
-            if pos:
+            if self.can_play(self.is_playing):
                 self.print_board()
                 # valid = False
                 # while not valid:
