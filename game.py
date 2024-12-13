@@ -7,15 +7,16 @@ def rotate(piece:int, rotation:{0,90,180,270}, flipped:bool) -> list[list[int]]:
 
 class Game:
     def __init__(self, nb_players:int):
-        game_board = [[['N' for _ in range(nb_players)] for _ in range(22)] for _ in range(22)]
-        used = [[] for _ in range(nb_players)]
-        game_board[0] = [['I' for _ in range(nb_players)] for _ in range(22)] # Ca devrait pas être ['P','I','I','I'] ? → non, on peut jouer dans tous les coins
+        game_board = [[['N' for _ in range(nb_players)] for _ in range(22)] for _ in range(22)]        
+        # Board edges
+        game_board[0] = [['I' for _ in range(nb_players)] for _ in range(22)]
         game_board[21] = [['I' for _ in range(nb_players)] for _ in range(22)]
 
         for i in range(21) :
             game_board[i][0] = ['I' for _ in range(nb_players)]
             game_board[i][21] = ['I' for _ in range(nb_players)]
 
+        # Mark every corner as an availible spot
         game_board[0][0] = ['P' for _ in range(nb_players)]
         game_board[1][1] = ['A' for _ in range(nb_players)]
 
@@ -30,6 +31,8 @@ class Game:
 
         red_pieces = [[(1,1),(20,20),(1,20),(20,1)] for _ in range(nb_players)]
         players = [i for i in range(1,nb_players+1)]
+        used = [[] for _ in range(nb_players)]
+
 
         self.players = players
         self.used = used
@@ -38,17 +41,6 @@ class Game:
         self.is_playing = 1
         self.is_playing_index = 0
         self.nb_players = nb_players
-    
-    def score(self, player:int) -> int:
-        not_used = [i for i in range(1,22) if i not in self.used[player-1]]
-        total = 0
-        for piece in not_used:
-            shape = pieces[piece-1].shape
-            for line in shape:
-                for cell in line:
-                    if cell == 1:
-                        total += 1
-        return total
 
     def print_board_all(self, player:int) -> None: 
         """
@@ -60,27 +52,6 @@ class Game:
                 line = line + str(self.board[i][j][player-1]) + '|'
             print(line)
 
-    def print_board(self) -> None:
-        """
-        displays the board as it would be seen on a game page
-        """
-        for i in range(1,21):
-            line = str()
-            for j in range(1,21):
-                if self.board[i][j][0] == "P":
-                    line = line + "🟩 " 
-                elif self.board[i][j][1] == "P":
-                    line = line + "🟥 " 
-                elif self.nb_players > 2 and self.board[i][j][2] == "P":
-                    line = line + "🟦 " 
-                elif self.nb_players > 3 and self.board[i][j][3] == "P":
-                    line = line + "🟨 "
-                else:
-                    line = line + "⬛ "
-
-            print(line)
-        print("")
-
     def print_board_see(self, player:int) -> None: 
         """
         displays the board as seen by a player, debug function
@@ -88,16 +59,38 @@ class Game:
         for i in range(1,21):
             line = '|'
             for j in range(1,21):
-                if self.board[i][j][player-1] == "P":
-                    line = line + "🟩" + '|'
-                elif self.board[i][j][player-1] == "A":
-                    line = line + "🟥" + '|'
-                elif self.board[i][j][player-1] == "I":
-                    line = line + "⬜" + '|'
+                if self.board[i][j][player-1] == 'P':
+                    line = line + "🟩|"
+                elif self.board[i][j][player-1] == 'A':
+                    line = line + "🟥|"
+                elif self.board[i][j][player-1] == 'I':
+                    line = line + "⬜|"
                 else:
-                    line = line + "⬛" + '|'
+                    line = line + "⬛|"
 
             print(line, "\n")
+
+    def print_board(self) -> None:
+        """
+        displays the board as it would be seen on a game page
+        """
+        for i in range(1,21):
+            line = str()
+            for j in range(1,21):
+                if self.board[i][j][0] == 'P':
+                    line = line + "🟩 " 
+                elif self.board[i][j][1] == 'P':
+                    line = line + "🟥 " 
+                elif self.nb_players > 2 and self.board[i][j][2] == 'P':
+                    line = line + "🟦 " 
+                elif self.nb_players > 3 and self.board[i][j][3] == 'P':
+                    line = line + "🟨 "
+                else:
+                    line = line + "⬛ "
+
+            print(line)
+        print("")
+
 
     def add_piece(self, piece:int, rotation:{0,90,180,270}, position:tuple[int,int], flipped:bool) -> None:
         """
@@ -182,6 +175,20 @@ class Game:
 
         return corner_on_red and free and not_tangent
     
+    def score(self, player:int) -> int:
+        """
+        returns the score of a player, i.e. the amount of squares of each unused piece
+        """
+        not_used = [i for i in range(1,22) if i not in self.used[player-1]]
+        total = 0
+        for piece in not_used:
+            shape = pieces[piece-1].shape
+            for line in shape:
+                for cell in line:
+                    if cell == 1:
+                        total += 1
+        return total
+
     def possible_moves(self, player:int):
         """
         returns the list of all possible moves for a player
@@ -224,7 +231,7 @@ class Game:
                 self.print_board()
                 # valid = False
                 # while not valid:
-                #     print("player " + str(self.is_playing) + " make a move:")
+                #     print(f"player {self.is_playing} make a move:")
                 #     piece = int(input("piece to place: "))
                 #     flipped = bool(input("flipped? (press Enter if no)"))
                 #     rotation = int(input("rotation: "))
@@ -249,14 +256,31 @@ class Game:
         print("Game is over!")
         for player in range(1, self.nb_players+1):
             print(f"Player {player} pieces left: {[i for i in range(1,22) if i not in self.used[player-1]]}")
-            print(f"Player {player} score: {self.score(player)}")
+            print(f"Score: {self.score(player)}")
 
 
+def retrieve_game(nb_players:int, moves:list[list[str, int, int, int, int, int, int, bool]]) -> Game:
+    """
+    recreates a game using database data. “moves” is a list of moves with all required information sorted by when the piece is placed, as given by db.py’s get_game_history function
+    """
+    g = Game(nb_players)
+
+    for move in moves:
+        _, _, player, piece, x, y, rotation, flipped = move
+        if g.possible_moves(g.is_playing):
+            g.add_piece(piece, rotation, (x,y), flipped)
+            g.is_playing_index = (g.is_playing_index + 1) % (len(g.players))
+
+        else:
+            g.delete_player(g.is_playing)
+            if g.is_playing_index >= len(g.players):
+                    g.is_playing_index = 0
+            
+        if g.players:
+            g.is_playing = g.players[g.is_playing_index]
+    
+    return g
 
 if __name__ == "__main__":
-    g1 = Game(3)
+    g1 = Game(4)
     g1.play_game()
-    # g1.add_piece(3,90,(5,5),False)
-    # g1.print_board_see(1)
-    # print(g1.board[6][6])
-    # print(g1.red_pieces)
