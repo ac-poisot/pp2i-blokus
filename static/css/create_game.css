@@ -1,0 +1,43 @@
+#selectPlayers {
+  display: grid;
+  grid-template-rows: 30vh 30vh;
+  grid-template-columns: 30vw 30vw;
+  gap: 2vh;
+}
+#selectPlayers .selectPlayer {
+  width: 30vw;
+  height: 30vh;
+  box-sizing: border-box;
+  border-radius: 2vh;
+  padding: 1vw;
+}
+#selectPlayers .selectPlayer.c1 {
+  border: 1px red solid;
+}
+#selectPlayers .selectPlayer.c2 {
+  border: 1px green solid;
+}
+#selectPlayers .selectPlayer.c3 {
+  border: 1px yellow solid;
+}
+#selectPlayers .selectPlayer.c4 {
+  border: 1px blue solid;
+}
+#selectPlayers .selectPlayer.grayed .addHuman, #selectPlayers .selectPlayer.grayed .addAI {
+  display: block;
+}
+#selectPlayers .selectPlayer.grayed .remove {
+  display: none;
+}
+#selectPlayers .selectPlayer:not(.grayed) .addHuman, #selectPlayers .selectPlayer:not(.grayed) .addAI {
+  display: none;
+}
+#selectPlayers .selectPlayer:not(.grayed) .remove {
+  display: block;
+}
+#selectPlayers .selectPlayer .content.grayed {
+  opacity: 0.5;
+}
+#selectPlayers .selectPlayer button.hidden {
+  display: none;
+}/*# sourceMappingURL=create_game.css.map */

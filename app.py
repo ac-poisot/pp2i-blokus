@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, redirect, url_for, render_template, g, flash, make_response, jsonify
+from flask import Flask, request, abort, redirect, url_for, render_template, g, flash, make_response, jsonify, session
 import sqlite3
 import random
 import time
@@ -45,12 +45,16 @@ def init_db():
 
 from db import *
 
+def createRoom(pid):
+    roomid = new_game(pid, None, None, None)
+    return roomid
+
+
 def wrap(template):
     if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
         pid = request.cookies.get('pid')
     else:
         pid =-1
-    #print("pid: ", pid, float(request.cookies.get('exptoken')) > time.time(), float(request.cookies.get('exptoken')), time.time())
     return render_template("header.html", pid=pid) + template + render_template("footer.html")
 
 @app.teardown_appcontext
@@ -153,18 +157,97 @@ def login():
             flash("error_username")
             return wrap(render_template("login.html"))
         
+@app.route("/not_connected")
+def not_connected():
+    return wrap(render_template("not_connected.html"))
+
+@app.route("/not_allowed")
+def not_allowed():
+    return wrap(render_template("not_allowed.html"))
+
+@app.route("/non_existent_room")
+def non_existent_room():
+    return wrap(render_template("non_existent_room.html"))
+
+@app.route("/room_full")
+def game_full():
+    return wrap(render_template("room_full.html"))
+        
+@app.route("/games")
+def games():
+    return wrap(render_template("games.html"))
+
+@app.route("/create")
+def create_game():
+    if(not request.cookies.get("pid")): return redirect("/not_connected")
+    pid = int(request.cookies.get("pid"))
+    roomid = request.args.get("roomid")
+    if(roomid == None):
+        roomid = createRoom(request.cookies.get("pid"))
+        redirection = f"/create?roomid={roomid}"
+        return redirect(redirection)
+    elif (not get_room(roomid)):
+        return redirect("/non_existent_room")
+    players = get_room(roomid)
+    if(pid in players):
+        return wrap(render_template("create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)))
+    else:
+        return redirect("/not_allowed")
+    
+@app.route("/join")
+def join():
+    if(not request.cookies.get("pid")): return redirect("/not_connected")
+    pid = int(request.cookies.get("pid"))
+    roomid = request.args.get("roomid")
+    if(roomid == None):
+        return redirect("/games")
+    players = get_room(roomid)
+    print(players)
+    if(not players):
+        return redirect("/non_existent_room")
+    elif(pid in players):
+        return wrap(render_template("create_game.html", rid=request.args.get("roomid"), master=True))
+    elif(-1 in players):
+        players[players.index(-1)] = pid
+        set_room(players, roomid)
+        return redirect(f"/create?roomid={roomid}")
+    else:
+        return redirect("/room_full")
+
 
 @app.route("/game")
 def game():
     return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)], players=["test", "test2", "test3", "test4"], pieces=[list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)], scores=[0, 0, 0, 0]))
 
+
+@app.route("/API/players", methods=['GET', 'POST'])
+def players():
+    roomid = request.args.get("roomid")
+    if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"})
+    pid = int(request.cookies.get("pid"))
+    if(not get_room(roomid)): return jsonify({"error": "Non-existent room"})
+    if pid in get_room(roomid) :
+        if request.method == 'GET':
+            return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)}) ## -1 pour un "poste" ouvert mais non pris et None pour un fermé
+        else:
+            players = request.json["players"]
+            if "needAI" in request.json.keys():
+                needAI = request.json["needAI"]
+                players[int(needAI['index'])] = f"AI{int(needAI['level'])}" ## TODO : add the AI
+            set_room(players, roomid)
+            print("POST", get_playername_list(roomid))
+            return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
+    else:
+        return jsonify({"error": "Not allowed"})
+
 @app.route("/data", methods=['GET', 'POST'])
 def handle_data():
     if request.method == 'GET':
+        if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"})
         pid = int(request.cookies.get("pid"))
         token = request.cookies.get("token")
         gameData = get_game(request.args.get("gameId"))
-        if(pid and token and get_token(pid) == token and gameData and (pid == gameData[1] or pid == gameData[2] or pid == gameData[3] or pid == gameData[4])):
+        if(token and get_token(pid) == token and gameData and (pid == gameData[1] or pid == gameData[2] or pid == gameData[3] or pid == gameData[4])):
             return {
                 "grid": [[random.randint(0, 4) for j in range(20)] for i in range(20)],
                 "players": ["Test", "Test2", "Test3", "Test4"],
@@ -172,7 +255,7 @@ def handle_data():
                 "scores": [0, 0, 0, 0]
             }
         else:
-            return jsonify({"error": "Not allowed"}) ## send error page ?
+            return jsonify({"error": "Not allowed"})
     else:
         data = request.json
         print(data)

@@ -245,9 +245,57 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     while get_temp("*", "Games", "gameid", gameid):
         gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), None)) 
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), -2)) 
     get_db().commit()
     return gameid
+
+def set_room(players: list[int], gameid: str):
+    """"
+    Function to set the players in the room
+
+    players: the players we want
+    gameid: the id of the game/room
+    """
+    if(get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+        for i in range(4):
+            set_temp("Games", f"p{i+1}", players[i], "gameid", gameid)
+
+def get_room(gameid:str):
+    """"
+    Function to get the players in the room
+
+    gameid: the id of the game/room
+
+    Returns the list of ids of the players currently in the game/room: -1 for an open place and None for a closed one
+    """
+    if(get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+        res = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)
+        if not res: return None
+        return list(res[0])
+    else:
+        return None
+    
+def get_playername_list(gameid: str):
+    """"
+    Function to get the players's names in the room
+
+    gameid: the id of the game/room
+
+    Returns the list of the usernames of the players in the game/room
+    """
+    players = get_room(gameid)
+    if(not players): return None
+    for i in range(4):
+        if isinstance(players[i], int) and players[i] > 0:
+            players[i] = get_username(players[i])
+        elif isinstance(players[i], str) and " " in players[i]:
+            players[i] = f"Guest {i}"
+        elif players[i] == -1:
+            players[i] = "Empty slot"
+        elif players[i] == None:
+            pass
+        
+    return players 
 
 def end_game(gameid:str, winner:int) -> None:
     """

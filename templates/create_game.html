@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blokus</title>
+</head>
+<body>
+    <main id="createGame">
+        <div id="selectPlayers">
+            {% from 'selectPlayer.txt' import selectPlayer %}
+            {{ selectPlayer(1, usernames[0], -1 if players[0] == -1 else (0 if players[0] == None else players[0]), master) }}
+            {{ selectPlayer(2, usernames[1], -1 if players[1] == -1 else (0 if players[1] == None else players[1]), master) }}
+            {{ selectPlayer(3, usernames[2], -1 if players[2] == -1 else (0 if players[2] == None else players[2]), master) }}
+            {{ selectPlayer(4, usernames[3], -1 if players[3] == -1 else (0 if players[3] == None else players[3]), master) }}
+        </div>
+        <span id="roomid">{{roomid}}</span>
+    </main>
+</body>
+<script src="{{url_for('static', filename='createGame.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/create_game.css')}}">
+</html>
