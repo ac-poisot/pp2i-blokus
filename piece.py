@@ -9,43 +9,43 @@ class Piece:
     def rotate(self, rotation:{0, 90, 180, 270}, flipped:bool) -> list[list[int]]:
         """
         returns the shape of the rotated piece
-        rotation must be in {0,90,180,270} and represents clockwise inclination 
+        rotation must be in {0, 90, 180, 270} and represents clockwise inclination 
         flipped is a boolean which corresponds to whether the piece should be flipped horizontally or not
         """
         p = self.shape
         if rotation == 0 and not(flipped):
             G = p
-        if rotation == 90 and not(flipped):
+        elif rotation == 90 and not(flipped):
             G = [[None for i in range(len(p))] for j in range(len(p[0]))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[j][len(p)-1-i] = p[i][j]
-        if rotation == 180 and not(flipped):
+        elif rotation == 180 and not(flipped):
             G = [[None for i in range(len(p[0]))] for j in range(len(p))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[len(p)-i-1][len(p[0])-j-1] = p[i][j]
-        if rotation == 270 and not(flipped):
+        elif rotation == 270 and not(flipped):
             G = [[None for i in range(len(p))] for j in range(len(p[0]))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[len(p[0])-j-1][i] = p[i][j]
-        if rotation == 0 and flipped: 
+        elif rotation == 0 and flipped: 
             G = [[None for i in range(len(p[0]))] for j in range(len(p))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[len(p)-i-1][j] = p[i][j]
-        if rotation == 90 and flipped:
+        elif rotation == 90 and flipped:
             G = [[None for i in range(len(p))] for j in range(len(p[0]))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[j][i] = p[i][j]
-        if rotation == 180 and flipped:
+        elif rotation == 180 and flipped:
             G = [[None for i in range(len(p[0]))] for j in range(len(p))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
                     G[i][len(p[0])-j-1] = p[i][j]
-        if rotation == 270 and flipped:
+        elif rotation == 270 and flipped:
             G = [[None for i in range(len(p))] for j in range(len(p[0]))]
             for i in range(len(p)):
                 for j in range(len(p[0])):
