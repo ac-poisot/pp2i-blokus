@@ -8,7 +8,7 @@ def rotate(piece:int, rotation:{0,90,180,270}, flipped:bool) -> list[list[int]]:
 class Game:
     def __init__(self, nb_players:int):
         game_board = [[['N' for _ in range(nb_players)] for _ in range(22)] for _ in range(22)]
-        used = [[],[],[],[]]
+        used = [[] for _ in range(nb_players)]
         game_board[0] = [['I' for _ in range(nb_players)] for _ in range(22)] # Ca devrait pas être ['P','I','I','I'] ? → non, on peut jouer dans tous les coins
         game_board[21] = [['I' for _ in range(nb_players)] for _ in range(22)]
 
@@ -38,6 +38,17 @@ class Game:
         self.is_playing = 1
         self.is_playing_index = 0
         self.nb_players = nb_players
+    
+    def score(self, player:int) -> int:
+        not_used = [i for i in range(1,22) if i not in self.used[player-1]]
+        total = 0
+        for piece in not_used:
+            shape = pieces[piece-1].shape
+            for line in shape:
+                for cell in line:
+                    if cell == 1:
+                        total += 1
+        return total
 
     def print_board_all(self, player:int) -> None: 
         """
@@ -50,21 +61,25 @@ class Game:
             print(line)
 
     def print_board(self) -> None:
+        """
+        displays the board as it would be seen on a game page
+        """
         for i in range(1,21):
-            line = '|'
+            line = str()
             for j in range(1,21):
                 if self.board[i][j][0] == "P":
-                    line = line + "🟩" + '|'
+                    line = line + "🟩 " 
                 elif self.board[i][j][1] == "P":
-                    line = line + "🟥" + '|'
+                    line = line + "🟥 " 
                 elif self.nb_players > 2 and self.board[i][j][2] == "P":
-                    line = line + "🟦" + '|'
+                    line = line + "🟦 " 
                 elif self.nb_players > 3 and self.board[i][j][3] == "P":
-                    line = line + "🟨" + '|'
+                    line = line + "🟨 "
                 else:
-                    line = line + "⬛" + '|'
+                    line = line + "⬛ "
 
             print(line)
+        print("")
 
     def print_board_see(self, player:int) -> None: 
         """
@@ -82,7 +97,7 @@ class Game:
                 else:
                     line = line + "⬛" + '|'
 
-            print(line)
+            print(line, "\n")
 
     def add_piece(self, piece:int, rotation:{0,90,180,270}, position:tuple[int,int], flipped:bool) -> None:
         """
@@ -90,34 +105,35 @@ class Game:
         CAREFUL: piece is an integer!
         position is a tuple (x,y)
         """
-        x,y = position
-        piece_ajoutable = rotate(piece,rotation,flipped)
-        n = len(piece_ajoutable)
-        l = len(piece_ajoutable[0])
+        x, y = position
+        to_add = rotate(piece, rotation, flipped)
+        n = len(to_add)
+        l = len(to_add[0])
         for i in range(n):
             for j in range(l):
-                if piece_ajoutable[i][j] == 1: #On ajoute la pièce
+                if to_add[i][j] == 1: # Adding the piece
                     for k in self.players:
                         if (i+x,j+y) in self.red_pieces[k-1]:
-                            self.red_pieces[k-1].remove((i+x,j+y))
+                            self.red_pieces[k-1].remove((i+x, j+y))
                     self.board[i+x][j+y] = ['I' for i in range(self.nb_players)]
                     self.board[i+x][j+y][self.is_playing-1] = 'P'
-                elif piece_ajoutable[i][j] == 2 and self.board[i+x][j+y][self.is_playing-1] in ['A','N']:
-                    self.red_pieces[self.is_playing-1].append((i+x,j+y))
+                    
+                elif to_add[i][j] == 2 and self.board[i+x][j+y][self.is_playing-1] in ['A','N']:
+                    self.red_pieces[self.is_playing-1].append((i+x, j+y))
                     self.board[i+x][j+y][self.is_playing-1] = 'A'
         
-        self.used[self.is_playing-1].append(piece)
+        self.used[self.is_playing - 1].append(piece)
 
     def empty_space(self, piece:int, rotation:{0,90,180,270}, position:tuple[int, int], flipped:bool, player:int) -> bool: 
         """
         returns whether a piece would be placed on availible cells only if placed
         """
         x, y = position
-        p_act = rotate(piece, rotation, flipped)
-        for i in range(len(p_act)):
-            for j in range(len(p_act[0])):
-                # cas sur une piece non vide ou inaccessible
-                if p_act[i][j] == 1 and (self.board[x+i][y+j][player-1] == 'I' or self.board[x+i][y+j][player-1] == 'P'):
+        cur_p = rotate(piece, rotation, flipped)
+        for i in range(len(cur_p)):
+            for j in range(len(cur_p[0])):
+                # Illegal if the cell is either in an invalid or taken state
+                if cur_p[i][j] == 1 and (self.board[x+i][y+j][player-1] == 'I' or self.board[x+i][y+j][player-1] == 'P'):
                     return False
                 
         return True
@@ -128,10 +144,10 @@ class Game:
         """
 
         x, y = position
-        p_act = rotate(piece,rotation,flipped)
-        for i in range(len(p_act)):
-            for j in range(len(p_act[0])):
-                if p_act[i][j] == 3 and self.board[x+i][y+j][player-1] == 'P':
+        cur_p = rotate(piece,rotation,flipped)
+        for i in range(len(cur_p)):
+            for j in range(len(cur_p[0])):
+                if cur_p[i][j] == 3 and self.board[x+i][y+j][player-1] == 'P':
                     return False
         return True
 
@@ -140,10 +156,10 @@ class Game:
         returns whether a piece would be tangent to another piece of the same color if placed
         """
         x,y = position
-        p_act = rotate(piece,rotation,flipped)
-        for i in range(len(p_act)):
-            for j in range(len(p_act[0])):
-                if p_act[i][j] == 2 and self.board[x+i][y+j][player-1] == 'P':
+        cur_p = rotate(piece,rotation,flipped)
+        for i in range(len(cur_p)):
+            for j in range(len(cur_p[0])):
+                if cur_p[i][j] == 2 and self.board[x+i][y+j][player-1] == 'P':
                     return True
         return False
 
@@ -154,16 +170,14 @@ class Game:
             2. The piece is located only on availible cells
             3. The piece isn’t directly next to another of the same colour
         """
-        # la piece est dans le plateau
+        # Check if piece is within board bounds
         x, y = position
-        p_act = rotate(piece,rotation,flipped)
-        if x+len(p_act)-1 >= 22 or y+len(p_act[0])-1 >= 22 or x < 0 or y < 0:
+        cur_p = rotate(piece,rotation,flipped)
+        if x+len(cur_p)-1 >= 22 or y+len(cur_p[0])-1 >= 22 or x < 0 or y < 0:
             return False
-        #coin sur une case rouge
+        
         corner_on_red = self.on_red(piece,rotation,position,flipped,player)
-        # la piece est entierement sur une case vide
         free = self.empty_space(piece,rotation,position,flipped,player)
-        #la piece n'est pas tangente a une case de la meme couleur
         not_tangent = self.no_near_other(piece,rotation,position,flipped,player)
 
         return corner_on_red and free and not_tangent
@@ -175,23 +189,20 @@ class Game:
         rotation = [0,90,180,270]
         flipped = [True,False]
 
-        res = []
+        res = list()
 
-        #recupuere les pieces restantes
-        not_used = []
-        for i in range(1,22):
-            if i not in self.used[player-1]:
-                not_used.append(i)
-        # on parcourt la liste des cases accessibles en verifiant pour chaque rotation que la piece est posable, en remarquant les differentes positions possibles
+        # retrieves availible pieces
+        not_used = [i for i in range(1,22) if i not in self.used[player-1]]
+
+        # we go through every availible cell, and check if every rotation of every piece can be placed there
         for p in not_used:
             for c in self.red_pieces[player-1]:
                 for r in rotation:
                     for b in flipped:
-                        # les quatre cas
-                        p_act = rotate(p,r,b)
-                        xmin = c[0]-len(p_act)
+                        cur_p = rotate(p,r,b)
+                        xmin = c[0]-len(cur_p)
                         xmax = c[0]
-                        ymin = c[1]-len(p_act[0])
+                        ymin = c[1]-len(cur_p[0])
                         ymax = c[1]
                         for x in range(xmin,xmax+1):
                             for y in range(ymin,ymax+1):
@@ -205,15 +216,9 @@ class Game:
         gets rid a player that do not have any availible move
         """
         self.players.remove(player)
-
-    def endgame(self):
-        """
-        returns whether a game has ended or not
-        """
-        return not self.players
         
     def play_game(self):
-        while not(self.endgame()):
+        while self.players:
             pos = self.possible_moves(self.is_playing)
             if pos:
                 self.print_board()
@@ -231,25 +236,25 @@ class Game:
                 piece, rotation, (x,y), flipped = pos[randint(0, len(pos)-1)]
                 self.add_piece(piece, rotation, (x,y), flipped)
 
-
-                print('')
-                self.is_playing_index += 1
+                self.is_playing_index = (self.is_playing_index + 1) % (len(self.players))
             else:
-                print("Player", self.is_playing, "does not have any availible move!")
+                print(f"Player {self.is_playing} does not have any availible move!")
                 self.delete_player(self.is_playing)
+                if self.is_playing_index >= len(self.players):
+                    self.is_playing_index = 0
             
             if self.players:
-                if self.is_playing_index == len(self.players):
-                    self.is_playing_index = 0
-                    self.is_playing = self.players[0]
                 self.is_playing = self.players[self.is_playing_index]
 
         print("Game is over!")
+        for player in range(1, self.nb_players+1):
+            print(f"Player {player} pieces left: {[i for i in range(1,22) if i not in self.used[player-1]]}")
+            print(f"Player {player} score: {self.score(player)}")
 
 
 
 if __name__ == "__main__":
-    g1 = Game(4)
+    g1 = Game(3)
     g1.play_game()
     # g1.add_piece(3,90,(5,5),False)
     # g1.print_board_see(1)
