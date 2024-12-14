@@ -6,19 +6,36 @@
     <title>Blokus</title>
 </head>
 <body>
-    <table id="grid">
-        {% for line in grid %}
-        <tr>
-            {% for cell in line %}
+    <main>
+        <div id="gameInterface">
+            <div id="player">
+                {% from 'playerInterface.txt' import playerInterface %}
+                {{ playerInterface(players[0], pieces[0], 1, true, true) }}
+            </div>
+            <table id="grid">
+                {% for i in range(grid|length) %}
+                <tr>
+                    {% for j in range(grid[i]|length) %}
+                    {% set x = i %}
+                    {% set y = j %}
+                    <td class="c{{ grid[i][j] }}" onMouseOver="selectSpot({{x}}, {{y}})" onMouseOut="unselectSpot()" onClick="play()"></td>
+        
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            <div id="otherPlayers">
+                {{ playerInterface(players[1], pieces[1], 2, true) }}
+                {{ playerInterface(players[2], pieces[2], 3) }}
+                {{ playerInterface(players[3], pieces[3], 4) }}
+    
+            </div>
+        </div>
+    </main>
 
-            <td class="c{{ cell }}"></td>
-
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-
-    <link rel="stylesheet" href="{{url_for('static', filename='grid.css')}}">
-    <script src="{{url_for('static', filename='updateGrid.js')}}"></script>
+    <script src="{{url_for('static', filename='game.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/grid.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/piece.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/game.css')}}">
 </body>
 </html>

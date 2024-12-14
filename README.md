@@ -17,22 +17,22 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 
 ## Membres du groupe
 
-- **Poisot Anne-Cécile** - [anne-cecile.poisot@telecomnancy.eu](mailto:anne-cecile.poisot@telecomnancy.net)
-- **Loisil Tom** - [tom.loisil@telecomnancy.eu](mailto:tom.loisil@telecomnancy.eu)
-- **Estivals Raphaël** - [raphael.estivals@telecomnancy.eu](mailto:raphael.estivals@telecomnancy.eu)
-- **Bui Kévin** - [kevin.bui@telecomnancy.eu](mailto:kevin.bui@telecomnancy.eu)
+- **Poisot Anne-Cécile** — [anne-cecile.poisot@telecomnancy.eu](mailto:anne-cecile.poisot@telecomnancy.net)
+- **Loisil Tom** — [tom.loisil@telecomnancy.eu](mailto:tom.loisil@telecomnancy.eu)
+- **Estivals Raphaël** — [raphael.estivals@telecomnancy.eu](mailto:raphael.estivals@telecomnancy.eu)
+- **Bui Kévin** — [kevin.bui@telecomnancy.eu](mailto:kevin.bui@telecomnancy.eu)
 
 
 ## Description du projet
 
-- **Sujet :** 
-- **Objectifs :**
-- **Technologies utilisées :**
+- **Sujet : Blokus en ligne** 
+- **Objectifs : Réalisation d'un Blokus en version web jouable en local et à distance**
+- **Technologies utilisées : Python, Flask, HTML, SASS, JS, SQlite3**
 
 
 ## Prérequis
 
-- **Langages :** Python 3.10, JavaScript
+- **Langages :** Python 3.10, JavaScript, HTML, Sass (sous la syntaxe scss)
 - **Frameworks :** Flask
 - **Dépendances :** Voir le fichier `requirements.txt`
 
@@ -57,5 +57,5 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 1. Lancez l’application :
 
     ```bash
-    python app.py
+    flask run
     ```

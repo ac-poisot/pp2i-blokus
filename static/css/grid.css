@@ -1,9 +1,12 @@
 #grid {
   display: table;
+  grid-column: 2;
+  margin: auto;
 }
 #grid td {
   width: 3vh;
   height: 3vh;
+  box-sizing: border-box;
 }
 #grid .c0 {
   background-color: black;

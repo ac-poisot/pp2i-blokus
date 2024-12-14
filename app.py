@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, redirect, url_for, render_template, g, flash
+from flask import Flask, request, abort, redirect, url_for, render_template, g, flash, make_response, jsonify
 import sqlite3
 import random
 import time
@@ -7,7 +7,18 @@ from hashlib import sha512
 
 app = Flask(__name__)
 app.secret_key = b',DTuzn=#c9"F.)_'
-##from db import new_player
+
+## Only display errors and criticals 
+
+import flask.cli    
+flask.cli.show_server_banner = lambda *args: None
+
+import logging
+logging.getLogger("werkzeug").disabled = True
+
+
+
+from game import p_tempo
 
 # DB connection
 
@@ -34,6 +45,14 @@ def init_db():
 
 from db import *
 
+def wrap(template):
+    if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+        pid = request.cookies.get('pid')
+    else:
+        pid =-1
+    #print("pid: ", pid, float(request.cookies.get('exptoken')) > time.time(), float(request.cookies.get('exptoken')), time.time())
+    return render_template("header.html", pid=pid) + template + render_template("footer.html")
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -56,58 +75,181 @@ def home():
     # print(get_history(g))
     # print(get_game_history(p3))
     
-    return render_template("header.html")+render_template("index.html", time=time.localtime()[5])+render_template("footer.html")
+    return wrap(render_template("index.html", time=time.localtime()[5]))
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            return wrap(render_template("signup.html"))
+        else:
+            flash("already_logged_in")
+            return wrap(render_template("404.html"))
     else:
-        print(request.form)
+        username = request.form["username"]
         password = request.form["password"]
 
-        # check if the two passwords are the same
-        if(password==request.form["confirmation"]):
-            # check if the passwords meets the requirements
-            if len(password) >= 8 and any(char.isdigit() for char in password) and any(char.isalpha() for char in password) and any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
-                res = new_player(request.form["username"], request.form["password"])
-                # check if the username is already taken
-                if(res):
-                    pid, token = res
-                    return redirect(f"/?token={token}")
-                else:
-                    flash("Ce pseudo est déjà pris !")
-                    return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
-            else:
-                flash("Le mot de passe ne satisfait pas les critères demandés…")
-                return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+        # check different requirements
+        valid = True
+        if(password!=request.form["confirmation"]):
+            valid = False
+            flash("error_confirmation")
+        if(not username):
+            valid = False
+            flash("error_empty_username")
+        if len(password) < 8 or not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password) or not any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
+            valid = False
+            flash("error_requirements")
+        if len(username) > 20:
+            valid = False
+            flash("error_username_length")
+        if (username and get_pid(username)) or username == "DELETED":
+            valid = False
+            flash("error_username_taken")
         
+        if valid:
+            res = new_player(username, password)
+            pid, token, exptoken = res
+
+            resp = make_response(redirect(f"/?token={token}"))
+            resp.set_cookie('pid', str(pid))
+            resp.set_cookie('token', token)
+            resp.set_cookie('exptoken', str(exptoken))
+
+            return resp
+                    
         else:
-            flash("Les deux mots de passe ne correspondent pas…")
-            return render_template("header.html")+render_template("signup.html")+render_template("footer.html")
+            return wrap(render_template("signup.html"))
         
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("header.html")+render_template("login.html")+render_template("footer.html")
+        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            return wrap(render_template("login.html"))
+        else:
+            flash("alread_logged_in")
+            return wrap(render_template("404.html"))
     else:
         pid = get_pid(request.form["username"])
-        password = request.form["password"].encode("utf-8")
-        if(sha512(password).digest()==get_password(pid)): ## TODO : décrypter le mdp chiffré
-            res = new_player(request.form["username"], request.form["password"])
-            token = update_token(pid)
-            return redirect(f"/?token={token}")
+        if request.form["username"] and pid:
+            password = request.form["password"].encode("utf-8")
+            if(sha512(password).digest()==get_password(pid)):
+                res = new_player(request.form["username"], request.form["password"])
+                token, exptoken = update_token(pid)
+                
+                resp = make_response(redirect(f"/?token={token}"))
+                resp.set_cookie('pid', str(pid))
+                resp.set_cookie('token', token)
+                resp.set_cookie('exptoken', str(exptoken))
+
+                return resp
         
+        
+            else:
+                flash("error_password")
+                return wrap(render_template("login.html"))
         else:
-            flash("L'identifiant et le mot de passe ne correspondent pas")
-            return render_template("header.html")+render_template("login.html")+render_template("footer.html")
+            flash("error_username")
+            return wrap(render_template("login.html"))
         
 
 @app.route("/game")
 def game():
-    return render_template("header.html")+render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)])+render_template("footer.html")
+    return wrap(render_template("game.html", grid=[[random.randint(0, 4) for j in range(20)] for i in range(20)], players=["test", "test2", "test3", "test4"], pieces=[list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)], scores=[0, 0, 0, 0]))
 
-@app.route("/data")
-def send_data():
-    return [[random.randint(0, 4) for j in range(20)] for i in range(20)]
+@app.route("/data", methods=['GET', 'POST'])
+def handle_data():
+    if request.method == 'GET':
+        pid = int(request.cookies.get("pid"))
+        token = request.cookies.get("token")
+        gameData = get_game(request.args.get("gameId"))
+        if(pid and token and get_token(pid) == token and gameData and (pid == gameData[1] or pid == gameData[2] or pid == gameData[3] or pid == gameData[4])):
+            return {
+                "grid": [[random.randint(0, 4) for j in range(20)] for i in range(20)],
+                "players": ["Test", "Test2", "Test3", "Test4"],
+                "pieces": [list(map(lambda elt: [elt[j] for j in range(len(elt))], p_tempo.values())) for i in range(4)],
+                "scores": [0, 0, 0, 0]
+            }
+        else:
+            return jsonify({"error": "Not allowed"}) ## send error page ?
+    else:
+        data = request.json
+        print(data)
+        return jsonify("Move successfully played")
+
+@app.route("/change_username", methods=['GET', 'POST'])
+def change_username():
+    if request.method == 'GET':
+        if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            return wrap(render_template("change_username.html"))
+        else:
+            flash("error_not_connected")
+            return wrap(render_template("404.html"))
+    else:
+        pid = request.cookies.get('pid')
+        if request.form["username"]:
+            password = request.form["password"].encode("utf-8")
+            if(sha512(password).digest()==get_password(pid)):
+                if not update_username(pid , request.form["username"]):
+                    flash("error_username_taken")
+                    return wrap(render_template("change_username.html"))
+                    
+                resp = make_response(redirect(f"/profile/{pid}"))
+                return resp
+        
+        
+            else:
+                flash("error_password")
+                return wrap(render_template("change_username.html"))
+        else:
+            flash("error_empty_username")
+            return wrap(render_template("change_username.html"))
+
+
+@app.route("/profile/<pid>", methods=['GET', 'POST'])
+def profile(pid):
+    if request.method == 'GET':
+        if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+            vis_username = get_username(request.cookies.get('pid'))
+        else:
+            vis_username = None
+        username = get_username(pid)
+        if username:
+            if username == "DELETED":
+                flash("user_deleted")
+                return wrap(render_template("404.html"))
+            else:
+                nbvictories = 0
+                nbdefeats = 0
+                nbdraws = 0
+                data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
+                states = []
+                for i in range(len(data)):
+                    if(data[i][3] == 0):
+                        nbdraws += 1
+                        states.append("0")
+                    elif(data[i][3] == -1):
+                        states.append("?")
+                    elif(data[i][1][data[i][3]-1] == int(pid)):
+                        nbvictories += 1
+                        states.append("1")
+                    else:
+                        nbdefeats += 1
+                        states.append("-1")
+                games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+                ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
+                return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
+        else:
+            flash("non_existent_user")
+            return wrap(render_template("404.html"))
+    else:
+        
+        delete_player(pid)
+        return make_response(redirect("/"))
+
+    
+@app.errorhandler(404)
+def page_not_found(e):
+    flash("404")
+    return wrap(render_template('404.html'))

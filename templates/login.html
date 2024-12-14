@@ -6,19 +6,26 @@
     <title>Blokus</title>
 </head>
 <body>
-    <form action="" method="post">
-        <label for="username">Pseudo : </label>
-        <input type="text" name="username" placeholder="john_doe">
-        <label for="password">Mot de passe : </label>
-        <input type="password" name="password">
-        <input type="submit">
-    </form>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <p>{{message}}</p>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
+    <main>
+        <div class="form_container">
+            <form action="" method="post">
+                <label for="username" data="username"></label>
+                <input type="text" name="username" placeholder="john_doe">
+                <label for="password" data="password"></label>
+                <input type="password" name="password">
+                <button type="submit" data="login_button"></button>
+            </form>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="flash">
+                <p data="{{message}}"></p>
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </main>
 </body>
+<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
 </html>

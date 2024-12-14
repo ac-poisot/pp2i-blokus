@@ -1,37 +1,58 @@
-const players = document.querySelectorAll("#otherPlayers>div");
+// localisation system
 
-function closeAll() {
-    players.forEach(p => {
-        if(!p.classList.contains("closed")) {
-            p.classList.add("closed")
+function updateContent(lang, langData) {
+    document.querySelectorAll('[data]').forEach(element => {
+        const key = element.getAttribute('data');
+        // edge cases
+        if (["profile", "profile_s", "profile_vowel"].includes(key) && lang == 'en') {
+            element.innerHTML = element.innerHTML + langData[key];
         }
-    })
+        else {
+            element.innerHTML = langData[key] + element.innerHTML;
+        }
+    });
 }
 
-
-function playerSelected(i) {
-    if(players[i].classList.contains("closed")) {
-        closeAll();
-        players[i].classList.remove("closed");
-    } else {
-        players[i].classList.add("closed")
-    }
+async function fetchLanguageData(lang) {
+    const response = await fetch(`/static/lang/${lang}.json`);
+    return response.json();
 }
 
-
-for(i = 0; i < players.length; i++) {
-    players[i].addEventListener("click", playerSelected.bind(null, i))
+async function changeLanguage(lang) {
+    await setLanguagePreference(lang);
+    
+    const langData = await fetchLanguageData(lang);
+    updateContent(lang, langData);
 }
 
-function updatedata() {
-    fetch("/data?"+window.location.search.split("?")[1])
-    .then(res => res.json())
-    .then(data => document.querySelector("#time").innerText = data["time"])
+function setLanguagePreference(lang) {
+    localStorage.setItem('language', lang);
+    location.reload();
 }
 
+window.addEventListener('DOMContentLoaded', async () => {
+    const userPreferredLanguage = localStorage.getItem('language') || 'fr';
+    const langData = await fetchLanguageData(userPreferredLanguage);
+    updateContent(userPreferredLanguage, langData);
+});
 
-//adress="http://127.0.0.1:5500/"
+function change_username() {
+    window.location.replace = "../../change_username"
+}
 
-setInterval(() => {
-    updatedata()
-}, 1000)
+function deleteCookies() {
+    document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}; path=/`;
+    location.reload()
+}
+
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById("password");
+    const toggleCheckbox = document.getElementById("togglePassword");
+    passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+}
+
+function togglePasswordConfVisibility() {
+    const passwordInput = document.getElementById("confirmation");
+    const toggleCheckbox = document.getElementById("togglePasswordConf");
+    passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+}

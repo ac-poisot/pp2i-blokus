@@ -1,0 +1,51 @@
+.piece {
+    position: relative;
+
+    td {
+        width:3vh;
+        height: 3vh;
+    }
+
+    .c1 {
+        background-color: red;
+    }
+    
+    .c2 {
+        background-color: green;
+    }
+    
+    .c3 {
+        background-color: yellow;
+    }
+    
+    .c4 {
+        background-color: blue;
+    }
+
+    .rotate, .reverse {
+        visibility: hidden;
+        max-width: 6vh;
+        
+        position: absolute;        
+    }
+
+    .rotate {
+        top: 25%;
+        left: 50%;
+        transform: translate(-50%, -25%);
+    }
+
+    .reverse {
+        top: 75%;
+        left: 50%;
+        transform: translate(-50%, -75%);
+    }
+
+    &.chosenOne {
+        
+        .rotate, .reverse {
+            visibility: visible;
+            filter: none;
+        }
+    }
+}

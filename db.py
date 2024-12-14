@@ -2,6 +2,7 @@
 
 import sqlite3
 from app import get_db
+from pieces import *
 import time
 from datetime import datetime
 from random import choice
@@ -68,9 +69,14 @@ def get_username(pid:int) -> str:
 
     pid: the player's id
 
-    Returns the username
+    Returns the username if found, None otherwise
     """
-    return get_temp("username", "Players", "pid", pid)[0][0]
+    username = get_temp("username", "Players", "pid", pid)
+    if username:
+        return username[0][0]
+    else:
+        return None
+
 
 def get_pid(username:str) -> int:
     """
@@ -78,9 +84,13 @@ def get_pid(username:str) -> int:
 
     username: the player's username
 
-    Returns the id
+    Returns the id if the user exists, None otherwise
     """
-    return get_temp("pid", "Players", "username", username)[0][0]
+    pid = get_temp("pid", "Players", "username", username)
+    if pid:
+        return pid[0][0]
+    else:
+        return None
 
 def get_token(pid:int) -> str:
     """
@@ -90,23 +100,23 @@ def get_token(pid:int) -> str:
 
     Returns the token if it has not expired, None if it has
     """
-    exp_date = get_temp("tokenexpiration", "Players", "pid", pid)
+    exp_date = get_temp("tokenexpiration", "Players", "pid", pid)[0][0]
     if time.time() > exp_date:
         return None
     else:
         return get_temp("token", "Players", "pid", pid)[0][0]
 
-def get_game_history(pid:int) -> list[str]:
+def get_game_history(pid:int) -> list[tuple[any]]:
     """
     Function to pull all the games that a specific player has participated in
 
-    pid: the player'id
+    pid: the player's id
 
-    Returns a list of all the ids of games the player has participated in
+    Returns a list of all the ids, the 4 players, the starting time and the winner (if applicable) of games the player has participated in
     """
     c = get_db().cursor()
-    c.execute("SELECT * FROM Games WHERE over = True AND (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4)
-    return [i[0] for i in c.fetchall()]
+    c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4) ## remove  winner <>-1 AND
+    return c.fetchall()
 
 def get_game(gameid:str) -> tuple:
     """
@@ -115,9 +125,10 @@ def get_game(gameid:str) -> tuple:
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        (gameid:str, p1:int, p2:int, p3:int, p4:int, over:bool)
+        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, winner:int)
     """
-    return get_temp("*", "Games", "gameid", gameid)[0]
+    if get_temp("*", "Games", "gameid", gameid): return get_temp("*", "Games", "gameid", gameid)[0]
+    return None
 
 def get_history(gameid:str) -> list[tuple]:
     """
@@ -135,7 +146,7 @@ def get_history(gameid:str) -> list[tuple]:
 
 def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int) -> None:
     """
-    Function to push a specific move to the database
+    Function to push a specific move to the database, assumes the move is valid
 
     gameid: the game's id
     movenumber: which move it is (number since the beginning of the game)
@@ -174,7 +185,7 @@ def new_player(username:str, password:str) -> any:
 
     c.execute("INSERT INTO Players VALUES ((?), (?), (?), (?), (?));", (pid, username, encrypted_pw, token, token_expiration))
     get_db().commit()
-    return pid, token
+    return pid, token, token_expiration
 
 def update_username(pid:int, username:str) -> bool:
     """
@@ -200,13 +211,13 @@ def update_password(pid:int, password:str) -> None:
     """
     set_temp("Players", "password", password, "pid", pid)
 
-def update_token(pid:int) -> str:
+def update_token(pid:int) -> tuple[str, int]:
     """
     Function to renew the token of a player
 
     pid: the player's id
 
-    Returns the new token
+    Returns the new token and its expiration date
     """
     token = ''.join(choice(TOKEN_CHARS) for i in range(TOKEN_LENGTH))
     while get_temp("*", "Players", "token", token):
@@ -216,7 +227,7 @@ def update_token(pid:int) -> str:
 
     set_temp("Players", "token", token, "pid", pid)
     set_temp("Players", "tokenexpiration", token_expiration, "pid", pid)
-    return token
+    return token, token_expiration
 
 def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     """
@@ -235,26 +246,73 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     while get_temp("*", "Games", "gameid", gameid):
         gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), False)) 
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), None)) 
     get_db().commit()
     return gameid
 
-def end_game(gameid:str) -> None:
+def end_game(gameid:str, winner:int) -> None:
     """
     Function to end a game
 
     gameid: the id of the game to end
+    winner: the id of the winner of the game, congrats to them!
     """
-    set_temp("Games", "over", True, "gameid", gameid)
+    set_temp("Games", "winner", winner, "gameid", gameid)
 
-def delete_player(pid:int):
+def colour(gameid:str, pid:int) -> int:
+    """
+    Function to work out the colour of a player in a game
+
+    gameid: the id of the game
+    pid: the id of the player to figure out the colour of
+
+    Returns an integer corresponding to the number of the player (between 1 and 4) 
+    """
+    players = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)[0]
+    return list.index(pid)+1
+
+def score(gameid:str, pid:int) -> int:
+    """
+    Function to calculate the score of a player in a game
+
+    gameid: the id of the game
+    pid: the id of the player to calculate the score of
+
+    Returns the score of the player (amount of tiles placed)
+    """ 
+    colour = colour(gameid, pid)
+    
+    c = get_db().cursor()
+    c.execute("SELECT piece FROM Moves WHERE gameid = (?) AND colour = (?);", (gameid, colour))
+    pieces = c.fetchall()[0]    
+    res = 0
+    # for piece in pieces {
+    #     # TODO when pieces are implemented PROPERLY
+    #     pass
+    # }
+
+    return res
+
+
+def delete_player(pid:int) -> None:
     """
     Function to remove a player from the database
     Note: only the username and password of the player are removed
 
-    pid: the id of the player to delete 
+    pid: the id of the player to delete
     """
-    set_temp("Players", "username", "NULL", "pid", pid)
-    set_temp("Players", "password", "NULL", "pid", pid)
-    set_temp("Players", "token", "NULL", "pid", pid)
-    set_temp("Players", "tokenexpiration", "NULL", "pid", pid)
+    set_temp("Players", "username", "DELETED", "pid", pid)
+    set_temp("Players", "password", None, "pid", pid)
+    set_temp("Players", "token", None, "pid", pid)
+    set_temp("Players", "tokenexpiration", None, "pid", pid)
+
+def verify_identity(pid:int, token:str) -> bool:
+    """
+    Function to verify if the user is who they claim to be
+    
+    pid: the id of the player
+    token: the token of the player
+
+    Returns whether the identity can be certified or not
+    """
+    return (token == get_token(pid))
