@@ -4,7 +4,7 @@ const players = document.querySelectorAll("#otherPlayers>div")
 const playerNames = document.querySelectorAll(".playerName>span")
 
 function updatedata() {
-    fetch(`/data?${window.location.search.split("?")[1]}`, {credentials: "same-origin"})
+    fetch(`API//data?${window.location.search.split("?")[1]}`, {credentials: "same-origin"})
     .then(res => res.json())
     .then(data => {
         if (data["error"]) {
@@ -60,13 +60,16 @@ for(i = 0; i < players.length; i++) {
 // Functions to select and move pieces
 
 var currentShape = [[]]
+var currentid = -1
+var currx = -1
+var curry = -1
 var color;
 var spots = []
 var oriented = 0
 var correct = false
 var inverted = false
 
-function selectPiece(event, elt, shape, col) {
+function selectPiece(event, elt, shape, col, id) {
     if(document.querySelector(".selected")) {
         document.querySelector(".selected").remove()
         document.querySelector(".chosenOne").classList.remove("chosenOne")
@@ -79,6 +82,7 @@ function selectPiece(event, elt, shape, col) {
     selected.style.left = `${event.clientX - 1.5 * window.innerHeight / 100}px`
     selected.style.top = `${event.clientY - 1.5 * window.innerHeight / 100}px`
     currentShape = shape
+    currentid = id
     oriented = 0
     inverted = false
     color = col
@@ -133,25 +137,32 @@ function reversePiece() {
 
 
 function selectSpot(x, y) {
+    if(currentid == -1) return
     var possible = true
     var angleContact = false
     var selected = document.querySelector(".selected")
     if(selected) selected.style.visibility = "hidden"
-    for(i = 0; i < currentShape.length; i++) {
-        for (j = 0; j < currentShape[0].length; j++) {
+    var currentShapeClean = currentShape.filter(elt => elt.length > 0)
+    currx = x
+    curry = y
+    for(i = 0; i < currentShapeClean.length; i++) {
+        for (j = 0; j < currentShapeClean[0].length; j++) {
             if((x+i > 20) || (y+j > 20) || (x+i < 1) || (y+j < 1)) {
-                if(currentShape[i][j] == 1) possible = false
-            } else if(currentShape[i][j] == 1) {
+                if(currentShapeClean[i][j] == 1) possible = false
+            } else if(currentShapeClean[i][j] == 1) {
                 spots.push(document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`))
                 if(!document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains("c0")) possible = false
-            } else if(currentShape[i][j] == 2 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${color}`)) {
+            } else if(currentShapeClean[i][j] == 2 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${color}`)) {
                 angleContact = true;
-            } else if(currentShape[i][j] == 3 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${color}`)) {
+            } else if(currentShapeClean[i][j] == 3 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${color}`)) {
                 possible = false
             }
         }
     }
     if(possible && angleContact) {
+        spots.forEach(elt => elt.style.border = "solid 3px green")
+        correct = true
+    } else if(document.querySelectorAll(`#grid > tbody:nth-child(1) > td.c${color}`).length == 0 && ((x == 0 && y == 0 && currentShapeClean[1][1] == 1) || (x == 0 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[1][currentShapeClean[1].length - 2] == 1) || (x + currentShapeClean.length - 3 == 19 && y == 0 && currentShapeClean[currentShapeClean.length - 2][1] == 1) || (x + currentShapeClean.length - 3 == 19 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[currentShapeClean.length - 2][currentShapeClean[1].length - 2] == 1))) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
         correct = true
     } else {
@@ -165,6 +176,8 @@ function unselectSpot() {
     spots.forEach(elt => elt.style.border = "0px")
     spots = []
     correct = false
+    currx = -1
+    curry = -1
 }
 
 document.addEventListener("pointermove", (event) => {
@@ -187,19 +200,52 @@ document.addEventListener("click", (event) => {
         var selected = document.querySelector(".selected")
         if(selected) selected.remove()
         currentShape = [[]]
+        currentid = -1
+        currx = -1
+        curry = -1
         document.querySelector(".chosenOne").classList.remove("chosenOne")
     }
 })
 
 function play() {
-    fetch("/data", {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"piece": currentShape, "orientation": oriented, "inverted": inverted})
-    }).then(res => {
-        if(!res.ok) throw new Error(`Response status: ${res.status}`)
-            console.log(res.json())
-    })
+    if(correct) {
+        var selected = document.querySelector(".selected")
+        if(selected) selected.remove()
+        document.querySelector(".chosenOne").remove()
+        fetch(`API//data?${window.location.search.split("?")[1]}`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"piece": currentid, "orientation": oriented, "x": currx, "y": curry, "inverted": inverted})
+        }).then(res => res.json()
+        ).then(data => {
+            console.log(data)
+            if (data["error"]) {
+                if(data["error"] == "Not connected") {
+                    document.cookie = ""
+                    window.location.href = '/not_connected'
+                }
+                if(data["error"] == "Not allowed") {
+                    window.location.href = '/not_allowed'
+                }
+                return
+            }
+            if(data["grid"]) {
+                console.log("Checking grid")
+                for(i=1; i < 21; i++) {
+                    for(j=1; j < 21; j++) {
+                        document.querySelector(`#grid>tbody>tr:nth-child(${i})>td:nth-child(${j})`).className = `c${data["grid"][i-1][j-1]}`
+                    }
+                }
+                for(i = 0; i < data["players"].length; i++) {
+                    playerNames[i].textContent = data["players"][i]
+                }
+    
+            }
+        })
+        currentShape = [[]]
+        currentid = -1
+    }
+    
 }
 
 

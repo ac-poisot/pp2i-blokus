@@ -33,6 +33,7 @@ CREATE TABLE Moves
     x INT,
     y INT,
     angle INT,
+    flipped BOOL,
     PRIMARY KEY (gameid, movenumber),
     FOREIGN KEY (gameid) REFERENCES Games(gameid)
 );

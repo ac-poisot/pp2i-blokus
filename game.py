@@ -1,7 +1,7 @@
 from piece import Piece
 from pieces import *
 from random import randint
-from time import time
+import time
 
 # def rotate(piece:int, rotation:{0, 90, 180, 270}, flipped:bool) -> list[list[int]]:
 #     return pieces[piece - 1].rotate(rotation, flipped)
@@ -332,6 +332,6 @@ def retrieve_game(nb_players:int, moves:list[list[str, int, int, int, int, int, 
 
 if __name__ == "__main__":
     g1 = Game(4)
-    start = time()
+    start = time.time()
     g1.play_game()
-    print(f"Time taken: {time() - start}")
+    print(f"Time taken: {time.time() - start}")

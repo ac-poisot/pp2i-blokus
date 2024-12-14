@@ -1,4 +1,4 @@
-{% macro playerInterface(username, pieces, color, opened=false, clickable=false) -%}
+{% macro playerInterface(username, piecesids, pieces, color, opened=false, clickable=false) -%}
 {% if opened == true %}
 <div class="playerInterface">
 <div class="playerName">
@@ -6,8 +6,8 @@
 </div>
 <div class="pieces">
 {% from 'piece.txt' import piece %}
-{% for p in pieces %}
-{{ piece(p, color, clickable) }}
+{% for i in range(pieces|length) %}
+{{ piece(pieces[i], color, clickable, piecesids[i]) }}
 {% endfor %}
 </div>
 </div>
@@ -18,8 +18,8 @@
 </div>
 <div class="pieces">
 {% from 'piece.txt' import piece %}
-{% for p in pieces %}
-{{ piece(p, color, clickable) }}
+{% for i in range(pieces|length) %}
+{{ piece(pieces[i], color, clickable, piecesids[i]) }}
 {% endfor %}
 </div>
 </div>
