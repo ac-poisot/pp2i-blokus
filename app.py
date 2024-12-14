@@ -234,7 +234,7 @@ def players():
             return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)}) ## -1 pour un "poste" ouvert mais non pris et None pour un fermé
         else:
             players = request.json["players"]
-            pindex = players[room.index(pid)]
+            pindex = room.index(pid)
             if(players[pindex] == -1 and pindex != 0):
                 room[pindex] = -1
                 set_room(room, roomid)
