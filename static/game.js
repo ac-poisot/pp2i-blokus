@@ -9,6 +9,7 @@ function updatedata() {
     .then(data => {
         if (data["error"]) {
             if(data["error"] == "Not connected") {
+                document.cookie = ""
                 window.location.href = '/not_connected'
             }
             if(data["error"] == "Not allowed") {
@@ -16,14 +17,16 @@ function updatedata() {
             }
             return
         }
-        console.log(data.keys())
-        for(i=1; i < 21; i++) {
-            for(j=1; j < 21; j++) {
-                document.querySelector(`#grid>tbody>tr:nth-child(${i})>td:nth-child(${j})`).className = `c${data["grid"][i-1][j-1]}`
+        if(data["grid"]) {
+            for(i=1; i < 21; i++) {
+                for(j=1; j < 21; j++) {
+                    document.querySelector(`#grid>tbody>tr:nth-child(${i})>td:nth-child(${j})`).className = `c${data["grid"][i-1][j-1]}`
+                }
             }
-        }
-        for(i = 0; i < data["players"].length; i++) {
-            playerNames[i].textContent = data["players"][i]
+            for(i = 0; i < data["players"].length; i++) {
+                playerNames[i].textContent = data["players"][i]
+            }
+
         }
     })
 }

@@ -22,6 +22,30 @@ function updateNames() {
     }
 }
 
+function handleError(error) {
+    if(error == "Not connected") {
+        document.cookie = ""
+        window.location.href = '/not_connected'
+    }
+    if(error == "Not allowed") {
+        window.location.href = '/not_allowed'
+    }
+    if(error == "Non-existent room") {
+        window.location.href = '/non_existent_room'
+}}
+
+async function handleRes(res) {
+    if(!res.ok) throw new Error(`Response status: ${res.status}`)
+        var data = await res.json()
+        if (data["error"]) {
+            handleError(data["error"])
+            return
+        }
+        players = data["players"]
+        usernames = data["usernames"]
+        updateNames()
+}
+
 function updatedata() {
     fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
         method: "GET",
@@ -30,15 +54,7 @@ function updatedata() {
         if(!res.ok) throw new Error(`Response status: ${res.status}`)
         var data = await res.json()
         if (data["error"]) {
-            if(data["error"] == "Not connected") {
-                window.location.href = '/not_connected'
-            }
-            if(data["error"] == "Not allowed") {
-                window.location.href = '/not_allowed'
-            }
-            if(data["error"] == "Non-existent room") {
-                window.location.href = '/non_existent_room'
-            }
+            handleError(data["error"])
             return
         }
         players = data["players"]
@@ -76,25 +92,7 @@ function addHumanPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(async res => {
-        if(!res.ok) throw new Error(`Response status: ${res.status}`)
-        var data = await res.json()
-        if (data["error"]) {
-            if(data["error"] == "Not connected") {
-                window.location.href = '/not_connected'
-            }
-            if(data["error"] == "Not allowed") {
-                window.location.href = '/not_allowed'
-            }
-            if(data["error"] == "Non-existent room") {
-                window.location.href = '/non_existent_room'
-            }
-            return
-        }
-        players = data["players"]
-        usernames = data["usernames"]
-        updateNames()
-    })
+    }).then(handleRes(res))
 }
 
 function addAIPlayer(btn, i) {    
@@ -108,25 +106,7 @@ function addAIPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players, needAI})
-    }).then(async res => {
-        if(!res.ok) throw new Error(`Response status: ${res.status}`)
-        var data = await res.json()
-        if (data["error"]) {
-            if(data["error"] == "Not connected") {
-                window.location.href = '/not_connected'
-            }
-            if(data["error"] == "Not allowed") {
-                window.location.href = '/not_allowed'
-            }
-            if(data["error"] == "Non-existent room") {
-                window.location.href = '/non_existent_room'
-            }
-            return
-        }
-        players = data["players"]
-        usernames = data["usernames"]
-        updateNames()
-    })
+    }).then(handleRes(res))
 }
 
 function removePlayer(btn, i) {
@@ -139,25 +119,7 @@ function removePlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(async res => {
-        if(!res.ok) throw new Error(`Response status: ${res.status}`)
-        var data = await res.json()
-        if (data["error"]) {
-            if(data["error"] == "Not connected") {
-                window.location.href = '/not_connected'
-            }
-            if(data["error"] == "Not allowed") {
-                window.location.href = '/not_allowed'
-            }
-            if(data["error"] == "Non-existent room") {
-                window.location.href = '/non_existent_room'
-            }
-            return
-        }
-        players = data["players"]
-        usernames = data["usernames"]
-        updateNames()
-    })
+    }).then(handleRes(res))
 }
 
 function addLocalPlayer(btn, i) {
@@ -168,25 +130,7 @@ function addLocalPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(async res => {
-        if(!res.ok) throw new Error(`Response status: ${res.status}`)
-        var data = await res.json()
-        if (data["error"]) {
-            if(data["error"] == "Not connected") {
-                window.location.href = '/not_connected'
-            }
-            if(data["error"] == "Not allowed") {
-                window.location.href = '/not_allowed'
-            }
-            if(data["error"] == "Non-existent room") {
-                window.location.href = '/non_existent_room'
-            }
-            return
-        }
-        players = data["players"]
-        usernames = data["usernames"]
-        updateNames()
-    })
+    }).then(handleRes(res))
 }
 
 function removeLocalPlayer(btn, i) {
@@ -197,25 +141,7 @@ function removeLocalPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(async res => {
-        if(!res.ok) throw new Error(`Response status: ${res.status}`)
-        var data = await res.json()
-        if (data["error"]) {
-            if(data["error"] == "Not connected") {
-                window.location.href = '/not_connected'
-            }
-            if(data["error"] == "Not allowed") {
-                window.location.href = '/not_allowed'
-            }
-            if(data["error"] == "Non-existent room") {
-                window.location.href = '/non_existent_room'
-            }
-            return
-        }
-        players = data["players"]
-        usernames = data["usernames"]
-        updateNames()
-    })
+    }).then(handleRes(res))
 }
 
 
