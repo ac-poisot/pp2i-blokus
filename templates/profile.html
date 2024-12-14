@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blokus</title>
+</head>
+<body>
+    <main>
+        {% if username[0] in "aeiouyAEIOUYéèêëàâäôöûüùîïÿÉÈÊËÀÂÄÔÖÛÜÙÎÏ" %}
+            <h1 data="profile_vowel">{{username}}</h1>
+        {% else %}{% if username[-1] in "sS" %}
+            <h1 data="profile_s">{{username}}</h1>
+        {% else %}
+            <h1 data="profile">{{username}}</h1>
+        {% endif %}
+        {% endif %}
+        {% if username == vis_username %}
+        <a href="../../change_username" data="change_username"></a>
+        <form action="" method="post">
+        <button data="delete_account" onclick="deleteCookies()"></button>
+        </form>
+        {% endif %}
+        <table id="stats">
+            <tr>
+                <td>
+                    <span data="wins"> {{nbvictories}}</span>
+                </td>
+                <td>
+                    <span data="losses"> {{nbdefeats}}</span>
+                </td>
+                <td>
+                    <span data="draws"> {{nbdraws}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" data="ratio"> {{ratio}}</td>
+            </tr>
+
+        </table>
+        <table id="games">
+            <thead>
+                <td data="game_date"></td>
+                <td data="game_id"></td>
+                <td data="game_state"></td>
+            </thead>
+            <tbody>
+                {% for p in games %}
+                <tr>
+                    <td>{{p.date}}</td>
+                    <td>{{p.id}}</td>
+                    <td>{{p.state}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </main>
+</body>
+<link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}">
+</html>

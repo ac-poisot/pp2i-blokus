@@ -1,0 +1,23 @@
+footer {
+  display: flex;
+  justify-content: center;
+}
+footer ul {
+  height: 5vh;
+  display: inline-flex;
+  margin: 0 auto 0 auto;
+  padding: 0;
+}
+footer ul li {
+  display: inline-block;
+  height: 5vh;
+  padding: 1vh;
+}
+footer ul li span {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+footer ul li img, footer ul li span {
+  height: 3vh;
+  vertical-align: middle;
+}/*# sourceMappingURL=footer.css.map */

@@ -1,0 +1,16 @@
+#navbar > ul {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+}
+#navbar > ul li {
+  display: block;
+  padding: 0.2vh;
+}
+#navbar > ul li a {
+  text-decoration: none;
+  color: black;
+}
+#navbar > ul #profile, #navbar > ul #login {
+  margin-left: auto;
+}/*# sourceMappingURL=header.css.map */
