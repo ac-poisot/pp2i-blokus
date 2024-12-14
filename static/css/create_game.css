@@ -1,4 +1,5 @@
 #selectPlayers {
+  margin: auto 15%;
   display: grid;
   grid-template-rows: 30vh 30vh;
   grid-template-columns: 30vw 30vw;
@@ -8,20 +9,32 @@
   width: 30vw;
   height: 30vh;
   box-sizing: border-box;
-  border-radius: 2vh;
+  border-radius: 4vh;
   padding: 1vw;
 }
-#selectPlayers .selectPlayer.c1 {
+#selectPlayers .selectPlayer.c1 { /*
+left:30%;
+transform: translate(-50%,0);*/
   border: 1px red solid;
+  margin: auto;
 }
-#selectPlayers .selectPlayer.c2 {
+#selectPlayers .selectPlayer.c2 { /*
+right:30%;
+transform: translate(-50%,0);*/
   border: 1px green solid;
+  margin: auto;
 }
-#selectPlayers .selectPlayer.c3 {
+#selectPlayers .selectPlayer.c3 { /*
+left:30%;
+transform: translate(-50%,0);*/
   border: 1px yellow solid;
+  margin: auto;
 }
-#selectPlayers .selectPlayer.c4 {
+#selectPlayers .selectPlayer.c4 { /*
+right:30%;
+transform: translate(-50%,0);*/
   border: 1px blue solid;
+  margin: auto;
 }
 #selectPlayers .selectPlayer.grayed .addHuman, #selectPlayers .selectPlayer.grayed .addAI {
   display: block;
@@ -40,4 +53,29 @@
 }
 #selectPlayers .selectPlayer button.hidden {
   display: none;
+}
+
+body {
+  text-align: center;
+  margin: 0;
+  background-color: rgba(255, 178, 71, 0.768627451);
+}
+body main {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+body main button[type=create_games_button] {
+  border-color: black;
+  width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #ffb247;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: auto;
+}
+body p {
+  margin: 0;
 }/*# sourceMappingURL=create_game.css.map */

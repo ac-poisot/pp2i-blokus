@@ -1,30 +1,42 @@
 #selectPlayers {
+    margin:auto 15%;
     display: grid;
     grid-template-rows: 30vh 30vh;
     grid-template-columns: 30vw 30vw;
     gap: 2vh;
-
     .selectPlayer {
         width: 30vw;
         height: 30vh;
         box-sizing: border-box;
-        border-radius: 2vh;
-        padding: 1vw;
-    
-        &.c1 {
+        border-radius: 4vh;
+        padding: 1vw;    
+        &.c1 {/*
+            left:30%;
+            transform: translate(-50%,0);*/
             border: 1px red solid;
+            margin:auto;
         }
     
-        &.c2 {
+        &.c2 {/*
+            right:30%;
+            transform: translate(-50%,0);*/
             border: 1px green solid;
+            margin:auto;
+
         }
     
-        &.c3 {
+        &.c3 {/*
+            left:30%;
+            transform: translate(-50%,0);*/
             border: 1px yellow solid;
+            margin:auto;
         }
     
-        &.c4{
+        &.c4{/*
+            right:30%;
+            transform: translate(-50%,0);*/
             border: 1px blue solid;
+            margin:auto;
         }
 
         &.grayed {
@@ -54,5 +66,29 @@
         button.hidden {
             display: none;
         }
+    }
+}
+body {
+    text-align: center;
+    margin:0;
+    background-color: #ffb247c4;
+    main {
+        position: relative;
+        left: 50%;
+        transform: translate(-50%,0);
+        button[type="create_games_button"] {
+            border-color: black;
+            width: 200px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #ffb247;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin:auto;
+        }
+    }
+    p {
+        margin: 0;
     }
 }
