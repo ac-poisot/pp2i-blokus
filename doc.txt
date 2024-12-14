@@ -18,7 +18,11 @@ ex :2 0 2
 3 désigne les zones où il ne peut y avoir d'autre pièces du joueur
 
 - Orientation
-Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner.
+Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 pour les faire tourner. Pour le cas où on retounre la piece, d'abord on retourne la piece horizontalemnt puis on la tourne. Pas de probleme de compatibilite avec le plateau
+  O        O
+  OOO -> OOO  -> on tourne avec la même convention
+   O      O
+
 
 - Position
 Les pièces sont repérées par la case en haut à gauche (coordonées (0 ; 0))
@@ -68,4 +72,34 @@ Le board game est composé de liste de liste de liste 22*22*4, composé du table
 
 =======
 permet de verifier qu'une piece est bien ajoutee sur une case vide
->>>>>>> origin/implementing_game
+
+*********************Pour les notations*******************************************
+Le board game est composé de liste de liste de liste 22*22*4, composé du tableau 20*20 avec une bordure de 1, puis pour chaque case, on a une liste de 4, qui permet d'avoir la relation de la case avec chaque joueur indépendament
+"P" -> la case est prise par un joueur (à noté qu'un joueur qui a mis P doit mettre tout les autres joueur a "I")
+"A" -> la case est accessible par un joueur
+"I" -> la case est inaccessible par un joueur
+"N" -> la case est "nothing", le joueur n'a pas encore atteint cette case
+
+*******************Les classes*****************************
+On a crée 2 classe:
+-PIECES dans pieces.py
+-Game dans game.py
+
+PIECES est appellé dans les autres fichiers sous le nom "pies", elle détient 3 méthodes sans compter init:
+    -rotate permet de renvoyer la pièces tourner avec rotation=0/90/180/270 
+    -afficher permet d'afficher la piece, sert pour le débuggage normalement
+    -get permet de récupérer une piece a partir de l'id associée
+
+Game est appellé dans les autres fichiers sous le nom "Game", elle détient 13 méthodes sans compter init:
+    -print_board_all
+    -print_board_see
+    -add_piece
+    -empty_space
+    -no_near_other
+    -on_red
+    -is_legal
+    -possible_moves
+    -delete_player
+    -endgame
+    -play_game
+    -rotatePieces
