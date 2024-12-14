@@ -41,11 +41,15 @@
   width: 100%;
   max-width: 300px;
   padding: 20px;
-  background-color: #fff;
+  background-color: #ff5f00;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   text-align: center;
   flex-direction: column;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 form input {
@@ -73,6 +77,19 @@ button[type=submit]:hover {
   background-color: #0056b3;
 }
 
+.flash {
+  margin-top: 20px;
+  padding: 5px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 270px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .info {
   color: #555555;
   font-size: small;
@@ -96,4 +113,8 @@ button[type=submit]:hover {
   top: 306px;
   cursor: pointer;
   font-size: 20px;
+}
+
+body {
+  background-color: rgba(255, 178, 71, 0.768627451);
 }/*# sourceMappingURL=form.css.map */

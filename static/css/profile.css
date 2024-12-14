@@ -3,4 +3,30 @@ table#games {
 }
 table#games th, table#games td {
   border: 1px solid black;
+}
+
+body {
+  text-align: center;
+  margin: 0;
+  background-color: rgba(255, 178, 71, 0.768627451);
+}
+body main {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+body main table {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+body main button[type=profile_button] {
+  border: none;
+  width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 178, 71, 0.768627451);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }/*# sourceMappingURL=profile.css.map */

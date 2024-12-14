@@ -1,11 +1,17 @@
 footer {
   display: flex;
   justify-content: center;
+  background-color: #ff5f00;
+  position: absolute;
+  width: 100vw;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 0); /*Normalement le footer devient centrer*/
 }
 footer ul {
   height: 5vh;
   display: inline-flex;
-  margin: 0 auto 0 auto;
+  margin: 100 auto 100 auto;
   padding: 0;
 }
 footer ul li {
@@ -20,4 +26,14 @@ footer ul li span {
 footer ul li img, footer ul li span {
   height: 3vh;
   vertical-align: middle;
+}
+footer ul li .circular_image {
+  border-radius: 100%;
+  overflow: hidden;
+  background-color: blue;
+  display: inline-block;
+  vertical-align: middle;
+}
+footer ul li .circular_image img {
+  width: 100%;
 }/*# sourceMappingURL=footer.css.map */

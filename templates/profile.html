@@ -16,9 +16,10 @@
         {% endif %}
         {% endif %}
         {% if username == vis_username %}
-        <a href="../../change_username" data="change_username"></a>
+        <a href="../../change_username"><button type="profile_button" data="change_username"></button></a>
         <form action="" method="post">
-        <button data="delete_account" onclick="deleteCookies()"></button>
+        <p></p>
+        <button data="delete_account" type="profile_button" onclick="deleteCookies()"></button>
         </form>
         {% endif %}
         <table id="stats">

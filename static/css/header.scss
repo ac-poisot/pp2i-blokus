@@ -1,7 +1,7 @@
 #navbar>ul {
     display: flex;
     flex-direction: row;
-    padding: 0;
+    padding: 10px;
 
     li {
         display: block;
@@ -10,10 +10,45 @@
         a {
             text-decoration: none;
             color:black;
+
+            .circular_image {
+                border-radius: 100%;
+                overflow: hidden;
+                position: relative;
+                bottom : -15%;
+                background-color: blue;
+                display:inline-block;
+                vertical-align:middle;
+              
+                img{
+                    width:100%;
+                }
+            }
         }
     }
 
     #profile, #login {
         margin-left: auto;
     }
+}
+header {
+    background-color: #ff5f00;
+    position: relative;
+    width:100vw;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%,-40%);
+}
+body {
+    margin:0;
+    button[type="head_button"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #ffb247c4;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
 }

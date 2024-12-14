@@ -26,6 +26,7 @@
   padding: 0 1.5vh 1.5vh 1.5vh;
   border: solid 1px black;
   border-radius: 2vh;
+  background-color: gold;
 }
 #gameInterface .playerInterface .playerName {
   height: 1.2vh;
@@ -44,12 +45,14 @@
   overflow: scroll;
   border: 1px solid black;
   border-radius: 2vh;
+  background-color: black;
 }
 #gameInterface .playerInterface .pieces .piece {
   height: 18vh;
   width: 12vh;
   border: solid black 1px;
   border-radius: 5%;
+  background-color: white;
 }
 #gameInterface .playerInterface .pieces .piece table {
   margin: auto;
@@ -69,4 +72,12 @@
 #gameInterface .selected {
   position: absolute;
   pointer-events: none;
+}
+
+body {
+  background-color: rgba(255, 178, 71, 0.768627451);
+}
+
+main {
+  margin: 2vh auto;
 }/*# sourceMappingURL=game.css.map */

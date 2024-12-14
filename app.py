@@ -253,3 +253,7 @@ def profile(pid):
 def page_not_found(e):
     flash("404")
     return wrap(render_template('404.html'))
+
+@app.route("/credits", methods=['GET', 'POST'])
+def credit():
+    return wrap(render_template('credits.html'))

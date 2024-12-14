@@ -10,30 +10,30 @@
             <nav id="navbar">
                 <ul>
                     <li id="name">
-                        <a href="/">BLOKUS</a>
+                        <a href="/"><button type="head_button">BLOKUS</button></a>
                     </li>
                     <li id="games">
-                        <a href="/games" data="play"></a>
+                        <a href="/games" ><button type="head_button" data="play"></button></a>
                     </li>
                     <li id="credits">
-                        <a href="/credits" data="credits"></a>
+                        <a href="/credits"><button type="head_button" data="credits"></button></a>
                     </li>
 
 
                     <!-- <p>{{pid}}</p> -->
                     {% if pid != -1 %}
                         <li id="profile">
-                            <a href="/profile/{{pid}}" data="my_profile"></a>
+                            <a href="/profile/{{pid}}"><img class="circular_image" title="" data-title="my_profile" src="../static/images/icone.jpg"width="20" height="20"></a>
                         </li>
                         <li>
-                            <button data="logout" onclick="deleteCookies()"></button>
+                            <button data="logout" type="head_button" onclick="deleteCookies()"></button>
                         </li>
                     {% else %}
                         <li id="login">
-                            <a href="/login" data="login"></a>
+                            <a href="/login" ><button type="head_button" data="login"></button></a>
                         </li>
                         <li id="signup">
-                            <a href="/signup" data="signup"></a>
+                            <a href="/signup" ><button type="head_button" data="signup"></button></a>
                         </li>
                     {% endif %}
                         <li id="english">

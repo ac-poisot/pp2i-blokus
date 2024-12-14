@@ -45,11 +45,15 @@
   width: 100%;
   max-width: 300px;
   padding: 20px;
-  background-color: #fff;
+  background-color: #ff5f00;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   text-align: center;
   flex-direction: column;
+  position: relative;
+  top : 50%;
+  left: 50%;
+  transform: translate(-50% , 0);
 }
 
 form input {
@@ -113,4 +117,7 @@ button[type="submit"]:hover {
   top: 306px;
   cursor: pointer;
   font-size: 20px;
+}
+body {
+  background-color: #ffb247c4;
 }
