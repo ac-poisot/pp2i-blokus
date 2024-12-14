@@ -2,6 +2,7 @@
 
 import sqlite3
 from app import get_db
+from pieces import *
 import time
 from datetime import datetime
 from random import choice
@@ -48,6 +49,18 @@ def set_temp(table:str, what:str, towhat:any, cond_a:str, cond_b:any) -> None:
     """
     c = get_db().cursor()
     c.execute(f"UPDATE {table} SET {what} = (?) WHERE {cond_a} = (?);", (towhat, cond_b))
+    get_db().commit()
+
+def delete_temp(table:str, cond_a:str, cond_b:any) -> list[tuple[any]]:
+    """
+    Template to delete specific data from the database
+
+    table: the table to search in
+    cond_a: the condition attribute
+    cond_b: the value the attribute should equal
+    """
+    c = get_db().cursor()
+    a = c.execute(f"DELETE FROM {table} WHERE {cond_a} = (?);", (cond_b,))
     get_db().commit()
 
 # Getters & setters
@@ -245,9 +258,60 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     while get_temp("*", "Games", "gameid", gameid):
         gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), None)) 
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), -2)) 
     get_db().commit()
     return gameid
+
+def set_room(players: list[int], gameid: str):
+    """"
+    Function to set the players in the room
+
+    players: the players we want
+    gameid: the id of the game/room
+    """
+    if(get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+        for i in range(4):
+            set_temp("Games", f"p{i+1}", players[i], "gameid", gameid)
+
+def get_room(gameid:str):
+    """"
+    Function to get the players in the room
+
+    gameid: the id of the game/room
+
+    Returns the list of ids of the players currently in the game/room: -1 for an open place and None for a closed one
+    """
+    if(get_temp("winner", "Games", "gameid", gameid) and get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+        res = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)
+        if not res: return None
+        return list(res[0])
+    else:
+        return None
+    
+def delete_room(gameid: str):
+    delete_temp("Games", "gameid", gameid)
+    
+def get_playername_list(gameid: str):
+    """"
+    Function to get the players's names in the room
+
+    gameid: the id of the game/room
+
+    Returns the list of the usernames of the players in the game/room
+    """
+    players = get_room(gameid)
+    if(not players): return None
+    for i in range(4):
+        if isinstance(players[i], int) and players[i] > 0:
+            players[i] = get_username(players[i])
+        elif isinstance(players[i], str) and " " in players[i]:
+            players[i] = f"Guest {i}"
+        elif players[i] == -1:
+            players[i] = "Empty slot"
+        elif players[i] == None:
+            pass
+        
+    return players 
 
 def end_game(gameid:str, winner:int) -> None:
     """
@@ -257,6 +321,41 @@ def end_game(gameid:str, winner:int) -> None:
     winner: the id of the winner of the game, congrats to them!
     """
     set_temp("Games", "winner", winner, "gameid", gameid)
+
+def colour(gameid:str, pid:int) -> int:
+    """
+    Function to work out the colour of a player in a game
+
+    gameid: the id of the game
+    pid: the id of the player to figure out the colour of
+
+    Returns an integer corresponding to the number of the player (between 1 and 4) 
+    """
+    players = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)[0]
+    return list.index(pid)+1
+
+def score(gameid:str, pid:int) -> int:
+    """
+    Function to calculate the score of a player in a game
+
+    gameid: the id of the game
+    pid: the id of the player to calculate the score of
+
+    Returns the score of the player (amount of tiles placed)
+    """ 
+    colour = colour(gameid, pid)
+    
+    c = get_db().cursor()
+    c.execute("SELECT piece FROM Moves WHERE gameid = (?) AND colour = (?);", (gameid, colour))
+    pieces = c.fetchall()[0]    
+    res = 0
+    # for piece in pieces {
+    #     # TODO when pieces are implemented PROPERLY
+    #     pass
+    # }
+
+    return res
+
 
 def delete_player(pid:int) -> None:
     """

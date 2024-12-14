@@ -1,0 +1,17 @@
+{% macro selectPlayer(color, username=None, state=0, master=false) -%}
+<div class="{{"selectPlayer grayed c"+(color|string) if state == 0 else "selectPlayer c"+(color|string)}}">
+    <div class="{{"content grayed" if state == 0 else "content"}}">
+    <span class="playerName">{{username}}</span>
+    {% from 'piece.txt' import piece %}
+    {{ piece([[2,3,2,0],[3,1,3,2],[3,1,1,3],[2,3,3,2]], color, false)}}
+    </div>
+    {% if master and color != 1 %}
+    <button class="addHuman" onClick="addHumanPlayer(this, {{color}})">Ajouter un joueur humain</button>
+    <button class="addAI" onClick="addAIPlayer(this,{{color}})">Ajouter un joueur IA</button>
+    <button class="remove" onClick="removePlayer(this, {{color}})">Enlever ce joueur</button>
+    <button class="{{"addLocal" if username == "Empty slot" or ((username != None) and (not " " in username) and (username|int == 0) and (not "AI" in username)) else "addLocal hidden"}}" onClick="addLocalPlayer(this, {{color}})">Ajouter un joueur local</button>
+    <button class="{{"removeLocal" if username != None and " " in username and username != "Empty slot" else "removeLocal hidden"}}" onClick="removeLocalPlayer(this, {{color}})">Enlever le joueur local</button>
+    {% endif %}
+</div>
+<link rel="stylesheet" href="{{url_for('static', filename='css/piece.css')}}">
+{%- endmacro %}

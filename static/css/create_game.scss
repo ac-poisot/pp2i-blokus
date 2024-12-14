@@ -1,0 +1,58 @@
+#selectPlayers {
+    display: grid;
+    grid-template-rows: 30vh 30vh;
+    grid-template-columns: 30vw 30vw;
+    gap: 2vh;
+
+    .selectPlayer {
+        width: 30vw;
+        height: 30vh;
+        box-sizing: border-box;
+        border-radius: 2vh;
+        padding: 1vw;
+    
+        &.c1 {
+            border: 1px red solid;
+        }
+    
+        &.c2 {
+            border: 1px green solid;
+        }
+    
+        &.c3 {
+            border: 1px yellow solid;
+        }
+    
+        &.c4{
+            border: 1px blue solid;
+        }
+
+        &.grayed {
+            .addHuman, .addAI {
+                display: block;
+            }
+
+            .remove {
+                display: none;
+            }
+        }
+
+        &:not(.grayed) {
+            .addHuman, .addAI {
+                display: none;
+            }
+
+            .remove {
+                display: block;
+            }
+        }
+
+        .content.grayed {
+            opacity: 0.5;
+        }
+
+        button.hidden {
+            display: none;
+        }
+    }
+}
