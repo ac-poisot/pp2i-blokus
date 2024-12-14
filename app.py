@@ -228,15 +228,24 @@ def players():
     pid = int(request.cookies.get("pid"))
     if(get_token(pid) != request.cookies.get("token")): return redirect("/not_connected")
     if(not get_room(roomid)): return jsonify({"error": "Non-existent room"})
+    room = get_room(roomid)
     if pid in get_room(roomid) :
         if request.method == 'GET':
             return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)}) ## -1 pour un "poste" ouvert mais non pris et None pour un fermé
         else:
-            if(get_room(roomid)[0] != pid): return jsonify({"error": "Not allowed"})
             players = request.json["players"]
+            pindex = players[room.index(pid)]
+            if(players[pindex] == -1 and pindex != 0):
+                room[pindex] = -1
+                set_room(room, roomid)
+                return jsonify({"redirection": "/"})
+            elif(players[pindex] == -1 and pindex == 0):
+                delete_room(roomid)
+                return jsonify({"redirection": "/"})
             if "needAI" in request.json.keys():
                 needAI = request.json["needAI"]
                 players[int(needAI['index'])] = f"AI{int(needAI['level'])}" ## TODO : add the AI
+            if(get_room(roomid)[0] != pid): return jsonify({"error": "Not allowed"})
             set_room(players, roomid)
             return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
     else:

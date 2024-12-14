@@ -41,6 +41,7 @@ async function handleRes(res) {
             handleError(data["error"])
             return
         }
+        if(data["redirection"]) window.location.href = data["redirection"]
         players = data["players"]
         usernames = data["usernames"]
         updateNames()
@@ -92,7 +93,7 @@ function addHumanPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(handleRes(res))
+    }).then(res => handleRes(res))
 }
 
 function addAIPlayer(btn, i) {    
@@ -106,7 +107,7 @@ function addAIPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players, needAI})
-    }).then(handleRes(res))
+    }).then(res => handleRes(res))
 }
 
 function removePlayer(btn, i) {
@@ -119,7 +120,7 @@ function removePlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(handleRes(res))
+    }).then(res => handleRes(res))
 }
 
 function addLocalPlayer(btn, i) {
@@ -130,7 +131,7 @@ function addLocalPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(handleRes(res))
+    }).then(res => handleRes(res))
 }
 
 function removeLocalPlayer(btn, i) {
@@ -141,7 +142,20 @@ function removeLocalPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
-    }).then(handleRes(res))
+    }).then(res => handleRes(res))
+}
+
+
+
+
+function leaveRoom() {
+    i = players.indexOf(parseInt(getCookie("pid")))
+    players[i] = -1
+    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({players})
+    }).then(res => handleRes(res))
 }
 
 

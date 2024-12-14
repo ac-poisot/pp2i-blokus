@@ -51,6 +51,18 @@ def set_temp(table:str, what:str, towhat:any, cond_a:str, cond_b:any) -> None:
     c.execute(f"UPDATE {table} SET {what} = (?) WHERE {cond_a} = (?);", (towhat, cond_b))
     get_db().commit()
 
+def delete_temp(table:str, cond_a:str, cond_b:any) -> list[tuple[any]]:
+    """
+    Template to delete specific data from the database
+
+    table: the table to search in
+    cond_a: the condition attribute
+    cond_b: the value the attribute should equal
+    """
+    c = get_db().cursor()
+    a = c.execute(f"DELETE FROM {table} WHERE {cond_a} = (?);", (cond_b,))
+    get_db().commit()
+
 # Getters & setters
 
 def get_password(pid:int) -> str:
@@ -269,12 +281,15 @@ def get_room(gameid:str):
 
     Returns the list of ids of the players currently in the game/room: -1 for an open place and None for a closed one
     """
-    if(get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+    if(get_temp("winner", "Games", "gameid", gameid) and get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
         res = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)
         if not res: return None
         return list(res[0])
     else:
         return None
+    
+def delete_room(gameid: str):
+    delete_temp("Games", "gameid", gameid)
     
 def get_playername_list(gameid: str):
     """"
