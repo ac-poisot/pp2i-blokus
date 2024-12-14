@@ -6,6 +6,11 @@ function getCookie(name) {
     }
 }
 
+function copyLink(roomid) {
+    var link = document.querySelector("#roomid")
+    navigator.clipboard.writeText(`${window.location.href.split("/create")[0]}/join?roomid=${roomid}`)
+}
+
 var players = [getCookie("pid"), undefined, undefined, undefined]
 var usernames = players
 var playerNameSpans = document.querySelectorAll(".content > .playerName")

@@ -15,7 +15,10 @@
             {{ selectPlayer(4, usernames[3], -1 if players[3] == -1 else (0 if players[3] == None else players[3]), master) }}
         </div>
         <button id="leaveRoom" onClick=leaveRoom()>Quitter le salon</button>
-        <span id="roomid">{{roomid}}</span>
+        <div id="link">
+            <span id="roomid">{{roomid}}</span>
+            <button onClick="copyLink('{{roomid}}')">Copy</button>
+        </div>
     </main>
 </body>
 <script src="{{url_for('static', filename='createGame.js')}}"></script>
