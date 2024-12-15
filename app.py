@@ -62,7 +62,7 @@ def wrap(template):
         pid = request.cookies.get('pid')
     else:
         pid =-1
-    return render_template("header.html", pid=pid) + template + render_template("footer.html")
+    return render_template("widgets/header.html", pid=pid) + template + render_template("widgets/footer.html")
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -89,16 +89,16 @@ def home():
     # print(get_history(g))
     # print(get_game_history(p3))
     
-    return wrap(render_template("index.html", time=time.localtime()[5]))
+    return wrap(render_template("pages/index.html", time=time.localtime()[5]))
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
-            return wrap(render_template("signup.html"))
+            return wrap(render_template("pages/signup.html"))
         else:
             flash("already_logged_in")
-            return wrap(render_template("404.html"))
+            return wrap(render_template("pages/404.html"))
     else:
         username = request.form["username"]
         password = request.form["password"]
@@ -133,17 +133,17 @@ def signup():
             return resp
                     
         else:
-            return wrap(render_template("signup.html"))
+            return wrap(render_template("pages/signup.html"))
         
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
-            return wrap(render_template("login.html"))
+            return wrap(render_template("pages/login.html"))
         else:
             flash("alread_logged_in")
-            return wrap(render_template("404.html"))
+            return wrap(render_template("pages/404.html"))
     else:
         pid = get_pid(request.form["username"])
         if request.form["username"] and pid:
@@ -162,10 +162,10 @@ def login():
         
             else:
                 flash("error_password")
-                return wrap(render_template("login.html"))
+                return wrap(render_template("pages/login.html"))
         else:
             flash("error_username")
-            return wrap(render_template("login.html"))
+            return wrap(render_template("pages/login.html"))
         
 @app.route("/games")
 def games():
@@ -181,17 +181,17 @@ def games():
             gameList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
         elif(data[i][3] == -2):
             roomList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
-    return wrap(render_template("games.html", games=gameList, rooms=roomList))
+    return wrap(render_template("pages/games.html", games=gameList, rooms=roomList))
 
 @app.route("/create")
 def create_game():
     if(not request.cookies.get("pid")): 
         flash("error_not_connected")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     pid = int(request.cookies.get("pid"))
     if(get_token(pid) != request.cookies.get("token")): 
         flash("error_not_connected")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     roomid = request.args.get("roomid")
     if(roomid == None):
         roomid = createRoom(request.cookies.get("pid"))
@@ -199,30 +199,30 @@ def create_game():
         return redirect(redirection)
     elif (not get_room(roomid)):
         flash("non_existent_room")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     players = get_room(roomid)
     if(pid in players):
-        return wrap(render_template("create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)))
+        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)))
     else:
         flash("not_allowed")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     
 @app.route("/join")
 def join():
     if(not request.cookies.get("pid")):
         flash("error_not_connected")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     pid = int(request.cookies.get("pid"))
     if(get_token(pid) != request.cookies.get("token")):
         flash("error_not_connected")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     roomid = request.args.get("roomid")
     if(roomid == None):
         return redirect("/games")
     players = get_room(roomid)
     if(not players):
         flash("non_existent_room")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     elif(pid in players):
         return redirect(f"/create?roomid={roomid}")
     elif(-1 in players):
@@ -231,7 +231,7 @@ def join():
         return redirect(f"/create?roomid={roomid}")
     else:
         flash("room_full")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
 
 @app.route("/game")
 def game():
@@ -243,10 +243,10 @@ def game():
     pid = request.cookies.get("pid")
     if((not pid) or get_token(pid) != request.cookies.get("token")):
         flash("error_not_connected")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     if(not pid in room):
         flash("not_allowed")
-        return wrap(render_template("404.html"))    ## check si la game existe ou pas encore
+        return wrap(render_template("pages/404.html"))    ## check si la game existe ou pas encore
     if(not gameid in gameList.keys()):
         gameList[gameid] = recreateGame(gameid)
     game = gameList[gameid]
@@ -256,7 +256,7 @@ def game():
     piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]    
     scores=[0, 0, 0, 0]
 
-    return wrap(render_template("game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you = list(gameData)[1:5].index(pid)))
+    return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you = list(gameData)[1:5].index(pid)))
 
 
 @app.route("/API/create", methods=['GET', 'POST'])
@@ -266,7 +266,7 @@ def players():
     pid = int(request.cookies.get("pid"))
     if(get_token(pid) != request.cookies.get("token")):
         flash("error_not_connected")
-        return wrap(render_template("404.html"))
+        return wrap(render_template("pages/404.html"))
     if(not get_room(roomid)): return jsonify({"error": "Non-existent room"})
     room = get_room(roomid)
     if pid in get_room(roomid) :
@@ -385,10 +385,10 @@ def handle_data():
 def change_username():
     if request.method == 'GET':
         if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
-            return wrap(render_template("change_username.html"))
+            return wrap(render_template("pages/change_username.html"))
         else:
             flash("error_not_connected")
-            return wrap(render_template("404.html"))
+            return wrap(render_template("pages/404.html"))
     else:
         pid = request.cookies.get('pid')
         if request.form["username"]:
@@ -396,7 +396,7 @@ def change_username():
             if(sha512(password).digest()==get_password(pid)):
                 if not update_username(pid , request.form["username"]):
                     flash("error_username_taken")
-                    return wrap(render_template("change_username.html"))
+                    return wrap(render_template("pages/change_username.html"))
                     
                 resp = make_response(redirect(f"/profile/{pid}"))
                 return resp
@@ -404,10 +404,10 @@ def change_username():
         
             else:
                 flash("error_password")
-                return wrap(render_template("change_username.html"))
+                return wrap(render_template("pages/change_username.html"))
         else:
             flash("error_empty_username")
-            return wrap(render_template("change_username.html"))
+            return wrap(render_template("pages/change_username.html"))
 
 
 @app.route("/profile/<pid>", methods=['GET', 'POST'])
@@ -421,7 +421,7 @@ def profile(pid):
         if username:
             if username == "DELETED":
                 flash("user_deleted")
-                return wrap(render_template("404.html"))
+                return wrap(render_template("pages/404.html"))
             else:
                 nbvictories = 0
                 nbdefeats = 0
@@ -442,10 +442,10 @@ def profile(pid):
                         states.append("-1")
                 games=[{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0], "state":states[i]} for i in range(len(data))]
                 ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
-                return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
+                return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
         else:
             flash("non_existent_user")
-            return wrap(render_template("404.html"))
+            return wrap(render_template("pages/404.html"))
     else:
         
         delete_player(pid)
@@ -455,8 +455,8 @@ def profile(pid):
 @app.errorhandler(404)
 def page_not_found(e):
     flash("404")
-    return wrap(render_template('404.html'))
+    return wrap(render_template('pages/404.html'))
 
 @app.route("/credits", methods=['GET', 'POST'])
 def credit():
-    return wrap(render_template('credits.html'))
+    return wrap(render_template('pages/credits.html'))

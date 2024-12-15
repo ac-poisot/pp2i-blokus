@@ -9,7 +9,7 @@
     <main>
         <div id="gameInterface">
             <div id="player">
-                {% from 'playerInterface.txt' import playerInterface %}
+                {% from 'widgets/playerInterface.txt' import playerInterface %}
                 {{ playerInterface(players[you], piecesids[you], pieces[you], you+1, true) }}
             </div>
             <table id="grid">
@@ -40,8 +40,8 @@
     </main>
 
     <script src="{{url_for('static', filename='game.js')}}"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/grid.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/piece.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/game.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/grid.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/piece.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/pages/game.css')}}">
 </body>
 </html>

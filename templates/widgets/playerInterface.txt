@@ -5,7 +5,7 @@
     <span>{{username}}</span>
 </div>
 <div class="pieces">
-{% from 'piece.txt' import piece %}
+{% from 'widgets/piece.txt' import piece %}
 {% for i in range(pieces|length) %}
 {{ piece(pieces[i], color, piecesids[i]) }}
 {% endfor %}
@@ -17,7 +17,7 @@
     <span>{{username}}</span>
 </div>
 <div class="pieces">
-{% from 'piece.txt' import piece %}
+{% from 'widgets/piece.txt' import piece %}
 {% for i in range(pieces|length) %}
 {{ piece(pieces[i], color, piecesids[i]) }}
 {% endfor %}
