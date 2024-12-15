@@ -3,6 +3,16 @@
 const players = document.querySelectorAll("#otherPlayers>div")
 var isplaying = -1
 
+var currentShape = [[]]
+var currentid = -1
+var currx = -1
+var curry = -1
+var color = parseInt(document.querySelector(".playerInterface").classList[1][1]);
+var spots = []
+var oriented = 0
+var correct = false
+var inverted = false
+
 function updatedata() {
     fetch(`API//data?${window.location.search.split("?")[1]}`, {credentials: "same-origin"})
     .then(res => res.json())
@@ -38,6 +48,14 @@ function updatedata() {
             }
         }
         isplaying = data["isplaying"]
+        var elt1 = document.querySelector("#player > .playerInterface")
+        var elt2 = document.querySelector(`.playerInterface.c${data["you"]}`)
+        if (elt1 != elt2) {
+            document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
+            document.querySelector("#player").appendChild(elt2)
+            color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+            console.log(color, isplaying)
+        }
     })
 }
 
@@ -69,22 +87,14 @@ for(i = 0; i < players.length; i++) {
 
 // Functions to select and move pieces
 
-var currentShape = [[]]
-var currentid = -1
-var currx = -1
-var curry = -1
-var color = parseInt(document.querySelector(".playerInterface").classList[1][1]);
-var spots = []
-var oriented = 0
-var correct = false
-var inverted = false
 
 function selectPiece(event, elt, shape, col, id) {
     if(document.querySelector(".selected")) {
         document.querySelector(".selected").remove()
         document.querySelector(".chosenOne").classList.remove("chosenOne")
     }
-    if(color != -1 && color != isplaying) return
+    console.log(col, isplaying)
+    if(col != -1 && col != isplaying) return
     var clone = elt.parentNode.cloneNode(true)
     elt.parentNode.classList.add("chosenOne")
     clone.classList.add("selected")
@@ -251,6 +261,14 @@ function play() {
     
             }
             isplaying = data["isplaying"]
+            var elt1 = document.querySelector("#player > .playerInterface")
+            var elt2 = document.querySelector(`.playerInterface.c${data["you"]}`)
+            if (elt1 != elt2) {
+                document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
+                document.querySelector("#player").appendChild(elt2)
+                color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+                console.log(color, isplaying)
+            }
         })
         currentShape = [[]]
         currentid = -1

@@ -315,13 +315,15 @@ def handle_data():
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
             isplaying = game.players[game.is_playing_index]
+            you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
             return {
                 "grid": grid,
                 "players": players,
                 "pieces": pieceList,
                 "piecesids": piecesids,
                 "scores": scores,
-                "isplaying": isplaying
+                "isplaying": isplaying,
+                "you": you
             }
         else:
             return jsonify({"error": "Not allowed"})
@@ -343,21 +345,38 @@ def handle_data():
             if str(pid) == gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
                 game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1)
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-                if game.players:
-                    game.is_playing = game.players[game.is_playing_index]
+                if game.players: game.is_playing = game.players[game.is_playing_index]
+                while (not game.can_play(game.is_playing)) and len(game.players) != 0:
+                    game.delete_player(game.is_playing)
+                    if game.is_playing_index >= len(game.players):
+                        game.is_playing_index = 0
+                    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                    if game.players: game.is_playing = game.players[game.is_playing_index]
+            elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
+                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index])
+                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                if game.players: game.is_playing = game.players[game.is_playing_index]
+                while (not game.can_play(game.is_playing)) and len(game.players) != 0:
+                    game.delete_player(game.is_playing)
+                    if game.is_playing_index >= len(game.players):
+                        game.is_playing_index = 0
+                    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                    if game.players: game.is_playing = game.players[game.is_playing_index]
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
             pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
             isplaying = game.players[game.is_playing_index]
+            you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
             return {
                 "grid": grid,
                 "players": players,
                 "pieces": pieceList,
                 "piecesids": piecesids,
                 "scores": scores,
-                "isplaying": isplaying
+                "isplaying": isplaying,
+                "you": you
             }
         else:
             return jsonify({"error": "Not allowed"})

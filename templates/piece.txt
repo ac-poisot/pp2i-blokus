@@ -15,7 +15,7 @@
 </div>
 {% else %}
 <div class="piece n{{id}}">
-    <table>
+    <table onClick="selectPiece(event, this, {{shape}}, {{color}}, {{id}})">
         {% for i in range(1, shape|length - 1) %}
             <tr>
                 {% for j in range(1, shape[i]|length - 1) %}
@@ -24,6 +24,8 @@
             </tr>
         {% endfor %}
     </table>
+    <img class='rotate' src="{{url_for('static', filename='images/rotate.svg')}}" alt='rotate' onClick="rotatePiece()">
+    <img class='reverse' src="{{url_for('static', filename='images/reverse.svg')}}" alt='rotate' onClick="reversePiece()">
 </div>
 {% endif %}
 {%- endmacro %}
