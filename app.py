@@ -2,6 +2,7 @@ from flask import Flask, request, abort, redirect, url_for, render_template, g, 
 import sqlite3
 import random
 import time
+from datetime import datetime
 import os
 from hashlib import sha512
 
@@ -187,7 +188,17 @@ def game_full():
         
 @app.route("/games")
 def games():
-    return wrap(render_template("games.html"))
+    pid = request.cookies.get("pid")
+    if(not pid): return redirect("/not_connected")
+    pid = int(pid)
+    if(not get_token(pid) == request.cookies.get("token")): return redirect("/not_connected")
+    data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
+    gameList = []
+    for i in range(len(data)):
+        if(data[i][3] == -1):
+            gameList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
+    print(gameList)
+    return wrap(render_template("games.html", games=gameList))
 
 @app.route("/create")
 def create_game():
@@ -251,7 +262,7 @@ def game():
     return wrap(render_template("game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you = list(gameData)[1:5].index(pid)))
 
 
-@app.route("/API/players", methods=['GET', 'POST'])
+@app.route("/API/create", methods=['GET', 'POST'])
 def players():
     roomid = request.args.get("roomid")
     if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"})
@@ -263,21 +274,25 @@ def players():
         if request.method == 'GET':
             return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)}) ## -1 pour un "poste" ouvert mais non pris et None pour un fermé
         else:
-            players = request.json["players"]
-            pindex = room.index(pid)
-            if(players[pindex] == -1 and pindex != 0):
-                room[pindex] = -1
-                set_room(room, roomid)
-                return jsonify({"redirection": "/"})
-            elif(players[pindex] == -1 and pindex == 0):
-                delete_room(roomid)
-                return jsonify({"redirection": "/"})
-            if "needAI" in request.json.keys():
-                needAI = request.json["needAI"]
-                players[int(needAI['index'])] = f"AI{int(needAI['level'])}" ## TODO : add the AI
-            if(get_room(roomid)[0] != pid): return jsonify({"error": "Not allowed"})
-            set_room(players, roomid)
-            return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
+            if("players" in request.json.keys()):
+                players = request.json["players"]
+                pindex = room.index(pid)
+                if(players[pindex] == -1 and pindex != 0):
+                    room[pindex] = -1
+                    set_room(room, roomid)
+                    return jsonify({"redirection": "/"})
+                elif(players[pindex] == -1 and pindex == 0):
+                    delete_room(roomid)
+                    return jsonify({"redirection": "/"})
+                if(pindex != 0): return jsonify({"error": "Not allowed"})
+                if "needAI" in request.json.keys():
+                    needAI = request.json["needAI"]
+                    players[int(needAI['index'])] = f"AI{int(needAI['level'])}" ## TODO : add the AI
+                set_room(players, roomid)
+                return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
+            if("launch" in request.json.keys()):
+                change_game_state(roomid, -1)
+                return
     else:
         return jsonify({"error": "Not allowed"})
 
@@ -407,7 +422,7 @@ def profile(pid):
                     else:
                         nbdefeats += 1
                         states.append("-1")
-                games=[{"date":data[i][2], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+                games=[{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0], "state":states[i]} for i in range(len(data))]
                 ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
                 return wrap(render_template("profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
         else:

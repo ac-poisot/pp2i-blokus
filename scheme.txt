@@ -6,7 +6,7 @@ CREATE TABLE Games
     p3 TEXT,
     p4 TEXT,
     start_time FLOAT,
-    winner INT,
+    state INT,
     PRIMARY KEY (gameid),
     FOREIGN KEY (p1) REFERENCES Players(pid),
     FOREIGN KEY (p2) REFERENCES Players(pid),

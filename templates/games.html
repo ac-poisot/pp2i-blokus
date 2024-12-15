@@ -8,6 +8,22 @@
 <body>
     <main>
         <a href="/create"><button type="games_button">a new game</button></a>
+        <div id="currentGames">
+            <table id="games">
+                <thead>
+                    <td data="game_date"></td>
+                    <td data="game_id"></td>
+                </thead>
+                <tbody>
+                    {% for p in games %}
+                    <tr>
+                        <td>{{p.date}}</td>
+                        <td>{{p.id}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </main>
 </body>
 <link rel="stylesheet" href="{{url_for('static', filename='css/games.css')}}">

@@ -53,7 +53,7 @@ async function handleRes(res) {
 }
 
 function updatedata() {
-    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "GET",
         headers: {'Content-Type': 'application/json'}
     }).then(async res => {
@@ -94,7 +94,7 @@ function addHumanPlayer(btn, i) {
     btn.parentElement.children[0].classList.remove("grayed")
     btn.parentElement.children[4].classList.remove("hidden")
     players[i-1] = -1
-    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
@@ -108,7 +108,7 @@ function addAIPlayer(btn, i) {
         index: i-1,
         level: 2
     }
-    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players, needAI})
@@ -121,7 +121,7 @@ function removePlayer(btn, i) {
     btn.parentElement.children[4].classList.add("hidden")
     btn.parentElement.children[5].classList.add("hidden")
     players[i-1] = undefined
-    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
@@ -132,7 +132,7 @@ function addLocalPlayer(btn, i) {
     players[i-1] = `Guest ${i}`
     btn.classList.add("hidden")
     btn.parentElement.children[5].classList.remove("hidden")
-    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
@@ -143,7 +143,7 @@ function removeLocalPlayer(btn, i) {
     players[i-1] = -1
     btn.parentElement.children[4].classList.remove("hidden")
     btn.classList.add("hidden")
-    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
@@ -156,11 +156,22 @@ function removeLocalPlayer(btn, i) {
 function leaveRoom() {
     i = players.indexOf(parseInt(getCookie("pid")))
     players[i] = -1
-    fetch(`/API/players?roomid=${urlParams.get("roomid")}`, {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
     }).then(res => handleRes(res))
+}
+
+
+function createGame() {
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"launch": true})
+    }).then(res => {
+        window.location.href= `${window.location.href.split("/create")[0]}/game?gameid=${urlParams.get("roomid")}`
+    })
 }
 
 
