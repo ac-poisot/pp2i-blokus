@@ -1,25 +1,25 @@
-{% macro playerInterface(username, piecesids, pieces, color, opened=false, clickable=false) -%}
+{% macro playerInterface(username, piecesids, pieces, color, opened=false) -%}
 {% if opened == true %}
-<div class="playerInterface c{{color}}">
+<div class="playerInterface c{{color}}" onClick="playerSelected(this)">
 <div class="playerName">
     <span>{{username}}</span>
 </div>
 <div class="pieces">
 {% from 'piece.txt' import piece %}
 {% for i in range(pieces|length) %}
-{{ piece(pieces[i], color, clickable, piecesids[i]) }}
+{{ piece(pieces[i], color, piecesids[i]) }}
 {% endfor %}
 </div>
 </div>
 {% else %}
-<div class="playerInterface c{{color}} closed">
+<div class="playerInterface c{{color}} closed" onClick="playerSelected(this)">
 <div class="playerName">
     <span>{{username}}</span>
 </div>
 <div class="pieces">
 {% from 'piece.txt' import piece %}
 {% for i in range(pieces|length) %}
-{{ piece(pieces[i], color, clickable, piecesids[i]) }}
+{{ piece(pieces[i], color, piecesids[i]) }}
 {% endfor %}
 </div>
 </div>

@@ -3,7 +3,7 @@
     <div class="{{"content grayed" if state == 0 else "content"}}">
     <span class="playerName">{{username}}</span>
     {% from 'piece.txt' import piece %}
-    {{ piece([[2,3,2,0],[3,1,3,2],[3,1,1,3],[2,3,3,2]], color, false)}}
+    {{ piece([[2,3,2,0],[3,1,3,2],[3,1,1,3],[2,3,3,2]], color)}}
     </div>
     {% if master and color != 1 %}
     <button type="create_games_button" class="addHuman" onClick="addHumanPlayer(this, {{color}})" data="add_human"></button>

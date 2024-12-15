@@ -10,7 +10,7 @@
         <div id="gameInterface">
             <div id="player">
                 {% from 'playerInterface.txt' import playerInterface %}
-                {{ playerInterface(players[you], piecesids[you], pieces[you], you+1, true, true) }}
+                {{ playerInterface(players[you], piecesids[you], pieces[you], you+1, true) }}
             </div>
             <table id="grid">
                 {% for i in range(grid|length) %}

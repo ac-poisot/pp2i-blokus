@@ -1,6 +1,6 @@
 // Functions to update the game grid and players
 
-const players = document.querySelectorAll("#otherPlayers>div")
+var players = document.querySelectorAll("#otherPlayers>div")
 var isplaying = -1
 
 var currentShape = [[]]
@@ -51,10 +51,14 @@ function updatedata() {
         var elt1 = document.querySelector("#player > .playerInterface")
         var elt2 = document.querySelector(`.playerInterface.c${data["you"]}`)
         if (elt1 != elt2) {
+            if(elt2.classList.length == 3) {
+                elt2.classList.remove("closed")
+                elt1.classList.add("closed")
+            }
             document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
             document.querySelector("#player").appendChild(elt2)
             color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
-            console.log(color, isplaying)
+            players = document.querySelectorAll("#otherPlayers>div")
         }
     })
 }
@@ -70,19 +74,19 @@ function closeAll() {
 }
 
 
-function playerSelected(i) {
-    if(players[i].classList.contains("closed")) {
+function playerSelected(elt) {
+    if(elt.classList.contains("closed") && Array.from(players).indexOf(elt) != -1) {
         closeAll();
-        players[i].classList.remove("closed");
-    } else {
-        players[i].classList.add("closed")
+        elt.classList.remove("closed");
+    } else if (Array.from(players).indexOf(elt) != -1) {
+        elt.classList.add("closed")
     }
 }
 
 
-for(i = 0; i < players.length; i++) {
-    players[i].children[0].addEventListener("click", playerSelected.bind(null, i))
-}
+// for(i = 0; i < players.length; i++) {
+//     players[i].children[0].addEventListener("click", playerSelected.bind(null, i))
+// }
 
 
 // Functions to select and move pieces
@@ -93,7 +97,6 @@ function selectPiece(event, elt, shape, col, id) {
         document.querySelector(".selected").remove()
         document.querySelector(".chosenOne").classList.remove("chosenOne")
     }
-    console.log(col, isplaying)
     if(col != -1 && col != isplaying) return
     var clone = elt.parentNode.cloneNode(true)
     elt.parentNode.classList.add("chosenOne")
@@ -183,7 +186,7 @@ function selectSpot(x, y) {
     if(possible && angleContact) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
         correct = true
-    } else if(document.querySelectorAll(`#grid > tbody > tr > td.c${color}`).length == 0 && ((x == 0 && y == 0 && currentShapeClean[1][1] == 1) || (x == 0 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[1][currentShapeClean[1].length - 2] == 1) || (x + currentShapeClean.length - 3 == 19 && y == 0 && currentShapeClean[currentShapeClean.length - 2][1] == 1) || (x + currentShapeClean.length - 3 == 19 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[currentShapeClean.length - 2][currentShapeClean[1].length - 2] == 1))) {
+    } else if(possible && document.querySelectorAll(`#grid > tbody > tr > td.c${color}`).length == 0 && ((x == 0 && y == 0 && currentShapeClean[1][1] == 1) || (x == 0 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[1][currentShapeClean[1].length - 2] == 1) || (x + currentShapeClean.length - 3 == 19 && y == 0 && currentShapeClean[currentShapeClean.length - 2][1] == 1) || (x + currentShapeClean.length - 3 == 19 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[currentShapeClean.length - 2][currentShapeClean[1].length - 2] == 1))) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
         correct = true
     } else {
@@ -264,11 +267,17 @@ function play() {
             var elt1 = document.querySelector("#player > .playerInterface")
             var elt2 = document.querySelector(`.playerInterface.c${data["you"]}`)
             if (elt1 != elt2) {
+                if(elt2.classList.length == 3) {
+                    elt2.classList.remove("closed")
+                    elt1.classList.add("closed")
+                }
                 document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
                 document.querySelector("#player").appendChild(elt2)
                 color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
-                console.log(color, isplaying)
+                players = document.querySelectorAll("#otherPlayers>div")
             }
+            color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+            players = document.querySelectorAll("#otherPlayers>div")
         })
         currentShape = [[]]
         currentid = -1
