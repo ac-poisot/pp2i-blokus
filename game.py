@@ -116,47 +116,17 @@ class Game:
                 elif to_add[i][j] == 2 and self.board[i+x][j+y][player - 1] in ['A', 'N']:
                     self.red_pieces[player - 1].append((i+x, j+y))
                     self.board[i+x][j+y][player - 1] = 'A'
-        
-        self.availible[player - 1].remove(piece)
-
-    # def empty_space(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool: 
-    #     """
-    #     returns whether a piece would be placed on availible cells only if placed
-    #     """
-    #     x, y = position
-    #     cur_p = rotate(piece, rotation, flipped)
-    #     for i in range(len(cur_p)):
-    #         for j in range(len(cur_p[0])):
-    #             # Illegal if the cell is either in an invalid or taken state
-    #             if cur_p[i][j] == 1 and (self.board[x+i][y+j][player - 1] == 'I' or self.board[x+i][y+j][player - 1] == 'P'):
-    #                 return False
-                
-    #     return True
     
-    # def no_near_other(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
-    #     """
-    #     returns whether a piece would be next to another of the same colour if placed
-    #     """
+        # Make it so that a player cannot play in another corner
+        if len(self.availible[player - 1]) == 21:
+            corners = (1, 1, 0, 0), (1, 20, 0, 21), (20, 1, 21, 0), (20, 20, 21, 21)
+            for corner in corners:
+                if self.board[corner[0]][corner[1]][player - 1] == 'A':
+                    self.red_pieces[player - 1].remove((corner[0], corner[1]))
+                    self.board[corner[0]][corner[1]][player - 1] = 'N'
+                    self.board[corner[2]][corner[3]][player - 1] = 'I'
 
-    #     x, y = position
-    #     cur_p = rotate(piece, rotation, flipped)
-    #     for i in range(len(cur_p)):
-    #         for j in range(len(cur_p[0])):
-    #             if cur_p[i][j] == 3 and self.board[x+i][y+j][player - 1] == 'P':
-    #                 return False
-    #     return True
-
-    # def on_red(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
-    #     """
-    #     returns whether a piece would be tangent to another piece of the same color if placed
-    #     """
-    #     x, y = position
-    #     cur_p = rotate(piece, rotation, flipped)
-    #     for i in range(len(cur_p)):
-    #         for j in range(len(cur_p[0])):
-    #             if cur_p[i][j] == 2 and self.board[x+i][y+j][player - 1] == 'P':
-    #                 return True
-    #     return False
+        self.availible[player - 1].remove(piece)
 
     def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
         """
@@ -329,7 +299,7 @@ def retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, in
     return g
 
 if __name__ == "__main__":
-    g1 = Game([1, 3])
+    g1 = Game([1, 3, 2])
     start = time.time()
     g1.play_game()
     print(f"Time taken: {time.time() - start}")

@@ -77,7 +77,7 @@ def rotate(piece:int, rotation:{0, 90, 180, 270}, flipped:bool) -> list[list[int
         G = [[None for i in range(len(p))] for j in range(len(p[0]))]
         for i in range(len(p)):
             for j in range(len(p[0])):
-                G[len(p[0])-j-1][len(p)-i-1] = p[i][j]
+                G[j][i] = p[i][j]
     elif rotation == 180 and flipped:
         G = [[None for i in range(len(p[0]))] for j in range(len(p))]
         for i in range(len(p)):
@@ -87,5 +87,5 @@ def rotate(piece:int, rotation:{0, 90, 180, 270}, flipped:bool) -> list[list[int
         G = [[None for i in range(len(p))] for j in range(len(p[0]))]
         for i in range(len(p)):
             for j in range(len(p[0])):
-                G[j][i] = p[i][j]
+                G[len(p[0])-j-1][len(p)-i-1] = p[i][j]
     return G
