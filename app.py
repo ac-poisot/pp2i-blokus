@@ -52,11 +52,8 @@ def createRoom(pid):
     return roomid
 
 def recreateGame(gameid):
-    game = retrieve_game(4, get_history(gameid))
     playerlist = get_playername_list(gameid)
-    for i in range(4):
-        if playerlist[i] == None or playerlist[i] == "Empty slot":
-            game.delete_player(i+1)
+    game = retrieve_game([i+1 for i in range(4) if playerlist[i] != None and playerlist[i] != "Empty slot"], get_history(gameid))
     return game
 
 
@@ -170,22 +167,6 @@ def login():
             flash("error_username")
             return wrap(render_template("login.html"))
         
-@app.route("/not_connected")
-def not_connected():
-    return wrap(render_template("not_connected.html"))
-
-@app.route("/not_allowed")
-def not_allowed():
-    return wrap(render_template("not_allowed.html"))
-
-@app.route("/non_existent_room")
-def non_existent_room():
-    return wrap(render_template("non_existent_room.html"))
-
-@app.route("/room_full")
-def game_full():
-    return wrap(render_template("room_full.html"))
-        
 @app.route("/games")
 def games():
     pid = request.cookies.get("pid")
@@ -202,33 +183,44 @@ def games():
 
 @app.route("/create")
 def create_game():
-    if(not request.cookies.get("pid")): return redirect("/not_connected")
+    if(not request.cookies.get("pid")): 
+        flash("error_not_connected")
+        return wrap(render_template("404.html"))
     pid = int(request.cookies.get("pid"))
-    if(get_token(pid) != request.cookies.get("token")): return redirect("/not_connected")
+    if(get_token(pid) != request.cookies.get("token")): 
+        flash("error_not_connected")
+        return wrap(render_template("404.html"))
     roomid = request.args.get("roomid")
     if(roomid == None):
         roomid = createRoom(request.cookies.get("pid"))
         redirection = f"/create?roomid={roomid}"
         return redirect(redirection)
     elif (not get_room(roomid)):
-        return redirect("/non_existent_room")
+        flash("non_existent_room")
+        return wrap(render_template("404.html"))
     players = get_room(roomid)
     if(pid in players):
         return wrap(render_template("create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)))
     else:
-        return redirect("/not_allowed")
+        flash("not_allowed")
+        return wrap(render_template("404.html"))
     
 @app.route("/join")
 def join():
-    if(not request.cookies.get("pid")): return redirect("/not_connected")
+    if(not request.cookies.get("pid")):
+        flash("error_not_connected")
+        return wrap(render_template("404.html"))
     pid = int(request.cookies.get("pid"))
-    if(get_token(pid) != request.cookies.get("token")): return redirect("/not_connected")
+    if(get_token(pid) != request.cookies.get("token")):
+        flash("error_not_connected")
+        return wrap(render_template("404.html"))
     roomid = request.args.get("roomid")
     if(roomid == None):
         return redirect("/games")
     players = get_room(roomid)
     if(not players):
-        return redirect("/non_existent_room")
+        flash("non_existent_room")
+        return wrap(render_template("404.html"))
     elif(pid in players):
         return redirect(f"/create?roomid={roomid}")
     elif(-1 in players):
@@ -236,8 +228,8 @@ def join():
         set_room(players, roomid)
         return redirect(f"/create?roomid={roomid}")
     else:
-        return redirect("/room_full")
-
+        flash("room_full")
+        return wrap(render_template("404.html"))
 
 @app.route("/game")
 def game():
@@ -247,16 +239,19 @@ def game():
     if(not gameData): return redirect("/games")
     room = list(gameData)[1:5]
     pid = request.cookies.get("pid")
-    if((not pid) or get_token(pid) != request.cookies.get("token")): return redirect("/not_connected")
-    if(not pid in room): return redirect("/not_allowed")
-    ## check si la game existe ou pas encore
+    if((not pid) or get_token(pid) != request.cookies.get("token")):
+        flash("error_not_connected")
+        return wrap(render_template("404.html"))
+    if(not pid in room):
+        flash("not_allowed")
+        return wrap(render_template("404.html"))    ## check si la game existe ou pas encore
     if(not gameid in gameList.keys()):
         gameList[gameid] = recreateGame(gameid)
     game = gameList[gameid]
     grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
     players = get_playername_list(gameid)
-    pieceList = [list(map(lambda elt: pieces[elt], filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
-    piecesids = [list(map(lambda elt: elt+1, filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
+    pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
+    piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]    
     scores=[0, 0, 0, 0]
 
     return wrap(render_template("game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you = list(gameData)[1:5].index(pid)))
@@ -267,7 +262,9 @@ def players():
     roomid = request.args.get("roomid")
     if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"})
     pid = int(request.cookies.get("pid"))
-    if(get_token(pid) != request.cookies.get("token")): return redirect("/not_connected")
+    if(get_token(pid) != request.cookies.get("token")):
+        flash("error_not_connected")
+        return wrap(render_template("404.html"))
     if(not get_room(roomid)): return jsonify({"error": "Non-existent room"})
     room = get_room(roomid)
     if pid in get_room(roomid) :
@@ -312,8 +309,8 @@ def handle_data():
             game = gameList[gameid]
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
-            pieceList = [list(map(lambda elt: pieces[elt], filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
-            piecesids = [list(map(lambda elt: elt+1, filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
+            pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
+            piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
             isplaying = game.players[game.is_playing_index]
             return {
@@ -341,15 +338,15 @@ def handle_data():
             game = gameList[gameid]
             ## IL FAUT CHECK SI C'EST SON TOUR
             pindex = list(gameData)[1:5].index(str(pid))
-            if str(pid) == gameData[game.players[game.is_playing_index]] and not data['piece'] in game.used[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
-                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'])
+            if str(pid) == gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
+                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1)
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.players:
                     game.is_playing = game.players[game.is_playing_index]
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
-            pieceList = [list(map(lambda elt: pieces[elt], filter(lambda elt: not elt in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
-            piecesids = [list(map(lambda elt: elt+1, filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
+            pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
+            piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
             isplaying = game.players[game.is_playing_index]
             return {
