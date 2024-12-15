@@ -175,11 +175,13 @@ def games():
     if(not get_token(pid) == request.cookies.get("token")): return redirect("/not_connected")
     data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
     gameList = []
+    roomList = []
     for i in range(len(data)):
         if(data[i][3] == -1):
             gameList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
-    print(gameList)
-    return wrap(render_template("games.html", games=gameList))
+        elif(data[i][3] == -2):
+            roomList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
+    return wrap(render_template("games.html", games=gameList, rooms=roomList))
 
 @app.route("/create")
 def create_game():
