@@ -1,7 +1,7 @@
 // Functions to update the game grid and players
 
 const players = document.querySelectorAll("#otherPlayers>div")
-const playerNames = document.querySelectorAll(".playerName>span")
+var isplaying = -1
 
 function updatedata() {
     fetch(`API//data?${window.location.search.split("?")[1]}`, {credentials: "same-origin"})
@@ -24,10 +24,20 @@ function updatedata() {
                 }
             }
             for(i = 0; i < data["players"].length; i++) {
-                playerNames[i].textContent = data["players"][i]
+                if(document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`)) document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`).textContent = data["players"][i]
             }
 
         }
+        var piecesids = data["piecesids"]
+        for(i = 0; i < 4; i++) {
+            for(j = 0; j < 21; j++) {
+                var pieceNode = document.querySelector(`div.c${i+1} > div:nth-child(2) > div.piece.n${j+1}`)
+                if(pieceNode && piecesids[i].indexOf(j+1) == -1) {
+                    pieceNode.remove()
+                }
+            }
+        }
+        isplaying = data["isplaying"]
     })
 }
 
@@ -63,7 +73,7 @@ var currentShape = [[]]
 var currentid = -1
 var currx = -1
 var curry = -1
-var color;
+var color = parseInt(document.querySelector(".playerInterface").classList[1][1]);
 var spots = []
 var oriented = 0
 var correct = false
@@ -74,6 +84,7 @@ function selectPiece(event, elt, shape, col, id) {
         document.querySelector(".selected").remove()
         document.querySelector(".chosenOne").classList.remove("chosenOne")
     }
+    if(color != -1 && color != isplaying) return
     var clone = elt.parentNode.cloneNode(true)
     elt.parentNode.classList.add("chosenOne")
     clone.classList.add("selected")
@@ -162,7 +173,7 @@ function selectSpot(x, y) {
     if(possible && angleContact) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
         correct = true
-    } else if(document.querySelectorAll(`#grid > tbody:nth-child(1) > td.c${color}`).length == 0 && ((x == 0 && y == 0 && currentShapeClean[1][1] == 1) || (x == 0 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[1][currentShapeClean[1].length - 2] == 1) || (x + currentShapeClean.length - 3 == 19 && y == 0 && currentShapeClean[currentShapeClean.length - 2][1] == 1) || (x + currentShapeClean.length - 3 == 19 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[currentShapeClean.length - 2][currentShapeClean[1].length - 2] == 1))) {
+    } else if(document.querySelectorAll(`#grid > tbody > tr > td.c${color}`).length == 0 && ((x == 0 && y == 0 && currentShapeClean[1][1] == 1) || (x == 0 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[1][currentShapeClean[1].length - 2] == 1) || (x + currentShapeClean.length - 3 == 19 && y == 0 && currentShapeClean[currentShapeClean.length - 2][1] == 1) || (x + currentShapeClean.length - 3 == 19 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[currentShapeClean.length - 2][currentShapeClean[1].length - 2] == 1))) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
         correct = true
     } else {
@@ -208,7 +219,7 @@ document.addEventListener("click", (event) => {
 })
 
 function play() {
-    if(correct) {
+    if(correct && isplaying == color) {
         var selected = document.querySelector(".selected")
         if(selected) selected.remove()
         document.querySelector(".chosenOne").remove()
@@ -218,7 +229,6 @@ function play() {
             body: JSON.stringify({"piece": currentid, "orientation": oriented, "x": currx, "y": curry, "inverted": inverted})
         }).then(res => res.json()
         ).then(data => {
-            console.log(data)
             if (data["error"]) {
                 if(data["error"] == "Not connected") {
                     document.cookie = ""
@@ -230,17 +240,17 @@ function play() {
                 return
             }
             if(data["grid"]) {
-                console.log("Checking grid")
                 for(i=1; i < 21; i++) {
                     for(j=1; j < 21; j++) {
                         document.querySelector(`#grid>tbody>tr:nth-child(${i})>td:nth-child(${j})`).className = `c${data["grid"][i-1][j-1]}`
                     }
                 }
                 for(i = 0; i < data["players"].length; i++) {
-                    playerNames[i].textContent = data["players"][i]
+                    if(document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`)) document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`).textContent = data["players"][i]
                 }
     
             }
+            isplaying = data["isplaying"]
         })
         currentShape = [[]]
         currentid = -1

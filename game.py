@@ -274,7 +274,7 @@ class Game:
     def play_game(self):
         while self.players:
             pos = self.possible_moves(self.is_playing)
-            self.print_board()
+            # self.print_board()
 
             if self.can_play(self.is_playing):
                 # valid = False

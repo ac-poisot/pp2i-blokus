@@ -51,7 +51,12 @@ def createRoom(pid):
     return roomid
 
 def recreateGame(gameid):
-    return retrieve_game(4, get_history(gameid))
+    game = retrieve_game(4, get_history(gameid))
+    playerlist = get_playername_list(gameid)
+    for i in range(4):
+        if playerlist[i] == None or playerlist[i] == "Empty slot":
+            game.delete_player(i+1)
+    return game
 
 
 def wrap(template):
@@ -198,7 +203,6 @@ def create_game():
         return redirect("/non_existent_room")
     players = get_room(roomid)
     if(pid in players):
-        print(get_playername_list(roomid))
         return wrap(render_template("create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)))
     else:
         return redirect("/not_allowed")
@@ -233,7 +237,6 @@ def game():
     room = list(gameData)[1:5]
     pid = request.cookies.get("pid")
     if((not pid) or get_token(pid) != request.cookies.get("token")): return redirect("/not_connected")
-    pid = int(pid)
     if(not pid in room): return redirect("/not_allowed")
     ## check si la game existe ou pas encore
     if(not gameid in gameList.keys()):
@@ -288,7 +291,7 @@ def handle_data():
         gameid = request.args.get("gameid")
         if(not gameid): return jsonify({"error": "Not allowed"})
         gameData = get_game(gameid)
-        if(gameData and (pid == gameData[1] or pid == gameData[2] or pid == gameData[3] or pid == gameData[4])):
+        if(gameData and (str(pid) == gameData[1] or str(pid) == gameData[2] or str(pid) == gameData[3] or str(pid) == gameData[4])):
             if(not gameid in gameList.keys()):
                 gameList[gameid] = recreateGame(gameid)
             game = gameList[gameid]
@@ -297,12 +300,14 @@ def handle_data():
             pieceList = [list(map(lambda elt: pieces[elt], filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
             piecesids = [list(map(lambda elt: elt+1, filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
             scores=[0, 0, 0, 0]
+            isplaying = game.players[game.is_playing_index]
             return {
                 "grid": grid,
                 "players": players,
                 "pieces": pieceList,
                 "piecesids": piecesids,
-                "scores": scores
+                "scores": scores,
+                "isplaying": isplaying
             }
         else:
             return jsonify({"error": "Not allowed"})
@@ -315,25 +320,30 @@ def handle_data():
         gameid = request.args.get("gameid")
         if(not gameid): return jsonify({"error": "Not allowed"})
         gameData = get_game(gameid)
-        if(gameData and (pid in list(gameData)[1:5])):
+        if(gameData and (str(pid) in list(gameData)[1:5])):
             if(not gameid in gameList.keys()):
                 gameList[gameid] = recreateGame(gameid)
             game = gameList[gameid]
             ## IL FAUT CHECK SI C'EST SON TOUR
-            pindex = list(gameData)[1:5].index(pid)
-            if not data['piece'] in game.used[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
+            pindex = list(gameData)[1:5].index(str(pid))
+            if str(pid) == gameData[game.players[game.is_playing_index]] and not data['piece'] in game.used[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
                 game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'])
+                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                if game.players:
+                    game.is_playing = game.players[game.is_playing_index]
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
             pieceList = [list(map(lambda elt: pieces[elt], filter(lambda elt: not elt in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
             piecesids = [list(map(lambda elt: elt+1, filter(lambda elt: not elt+1 in game.used[i], range(len(pieces))))) for i in range(len(game.used))]
             scores=[0, 0, 0, 0]
+            isplaying = game.players[game.is_playing_index]
             return {
                 "grid": grid,
                 "players": players,
                 "pieces": pieceList,
                 "piecesids": piecesids,
-                "scores": scores
+                "scores": scores,
+                "isplaying": isplaying
             }
         else:
             return jsonify({"error": "Not allowed"})

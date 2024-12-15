@@ -1,6 +1,6 @@
 {% macro piece(shape, color, clickable=false, id=-1) -%}
 {% if clickable %}
-<div class="piece">
+<div class="piece n{{id}}">
     <table onClick="selectPiece(event, this, {{shape}}, {{color}}, {{id}})">
         {% for i in range(1, shape|length - 1) %}
             <tr>
@@ -14,7 +14,7 @@
     <img class='reverse' src="{{url_for('static', filename='images/reverse.svg')}}" alt='rotate' onClick="reversePiece()">
 </div>
 {% else %}
-<div class="piece">
+<div class="piece n{{id}}">
     <table>
         {% for i in range(1, shape|length - 1) %}
             <tr>

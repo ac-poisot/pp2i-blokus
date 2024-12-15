@@ -112,6 +112,7 @@ def get_token(pid:int) -> str:
 
     Returns the token if it has not expired, None if it has
     """
+    if(not get_temp("tokenexpiration", "Players", "pid", pid)): return None
     exp_date = get_temp("tokenexpiration", "Players", "pid", pid)[0][0]
     if time.time() > exp_date:
         return None
@@ -271,7 +272,7 @@ def set_room(players: list[int], gameid: str):
     """
     if(get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
         for i in range(4):
-            set_temp("Games", f"p{i+1}", players[i], "gameid", gameid)
+            set_temp("Games", f"p{i+1}", str(players[i]) if players[i] else None, "gameid", gameid)
 
 def get_room(gameid:str):
     """"
@@ -284,7 +285,11 @@ def get_room(gameid:str):
     if(get_temp("winner", "Games", "gameid", gameid) and get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
         res = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)
         if not res: return None
-        return list(res[0])
+        room = list(res[0])
+        for i in range(len(room)):
+            if (room[i] != None and room[i].isdigit()) or room[i] == "-1":
+                room[i] = int(room[i])
+        return room
     else:
         return None
     
@@ -299,19 +304,22 @@ def get_playername_list(gameid: str):
 
     Returns the list of the usernames of the players in the game/room
     """
-    players = get_room(gameid)
-    if(not players): return None
-    for i in range(4):
-        if isinstance(players[i], int) and players[i] > 0:
-            players[i] = get_username(players[i])
-        elif isinstance(players[i], str) and " " in players[i]:
-            players[i] = f"Guest {i}"
-        elif players[i] == -1:
-            players[i] = "Empty slot"
-        elif players[i] == None:
-            pass
-        
-    return players 
+    if(get_temp("winner", "Games", "gameid", gameid) and get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+        res = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)
+        if not res: return None
+        players = list(res[0])
+        for i in range(4):
+            if players[i] == None:
+                pass
+            elif players[i].isdigit():
+                players[i] = get_username(int(players[i]))
+            elif isinstance(players[i], str) and " " in players[i]:
+                players[i] = f"Guest {i}"
+            elif players[i] == "-1":
+                players[i] = "Empty slot"
+        return players
+    else:
+        return None
 
 def end_game(gameid:str, winner:int) -> None:
     """

@@ -27,10 +27,10 @@
             <div id="otherPlayers">
                 {% set ns = namespace(alreadyopened = false) %}
                 {% for i in range(players|length) %}
-                {% if i != you and not ns.alreadyopened %}
+                {% if i != you and not ns.alreadyopened and players[i] %}
                 {{ playerInterface(players[i], piecesids[i], pieces[i], i+1, true) }}
                 {% set ns.alreadyopened = true %}
-                {% elif i != you %}
+                {% elif i != you and players[i] %}
                 {{ playerInterface(players[i], piecesids[i], pieces[i], i+1) }}
                 {% endif %}
                 {% endfor %}
