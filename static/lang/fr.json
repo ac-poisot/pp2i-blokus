@@ -20,29 +20,41 @@
     "game_id":"ID de la partie",
     "game_state":"État",
 
-
     "username": "Pseudo&nbsp;:",
     "new_username": "Nouveau pseudo&nbsp;:",
     "password": "Mot de passe&nbsp;:",
     "show_password": "Afficher le mot de passe",
     "password_confirmation": "Confirmation du mot de passe&nbsp;:",
     "password_requirements": "Le mot de passe doit contenir au moins six caractères, une lettre, un chiffre et un <span class='tooltip'>caractère spécial",
+    "error_password": "Mot de passe incorrect&thinsp;!",
+    "login_button": "Se connecter&thinsp;!",
+    "signup_button": "Créer un compte&thinsp;!",
+    "new_username_button": "Changer de nom&thinsp;!",
+
+    "leave_room": "Quitter le salon",
+    "copy": "Copier",
+    "add_human": "Ajouter un humain",
+    "add_AI": "Ajouter un ordi",
+    "add_local": "Jouer en local",
+    "remove_player":"Enlever",
+    "remove_local":"Jouer en ligne",
+
+    
     "error_requirements": "Le mot de passe ne satisfait pas les critères demandés…",
     "error_username_taken": "Ce pseudo est déjà pris&thinsp;!",
     "error_empty_username": "Le nom d’utilisateur ne peut pas être vide&thinsp;!",
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
     "error_username_length": "Pseudo trop long&thinsp;! Vingt caractères maximum.",
     "error_username": "Ce compte n’existe pas&thinsp;!",
-    "error_not_connected": "Il faut d’abord se connecter…",
+    "error_not_connected": "Il faut d’abord se connecter pour effectuer cette action…",
     "already_logged_in": "Tu ne peux pas te connecter une deuxième fois&thinsp;!",
-    "error_password": "Mot de passe incorrect&thinsp;!",
-    "login_button": "Se connecter&thinsp;!",
-    "signup_button": "Créer un compte&thinsp;!",
-    "new_username_button": "Changer de nom&thinsp;!",
-
 
     "non_existent_user": "Ce compte n’existe pas&thinsp;!",
     "user_deleted": "Ce compte a été supprimé&thinsp;!",
+
+    "non_existent_room": "Ce salon n’existe pas&thinsp;!",
+    "not_allowed": "Tu n’as pas l’autorisation d’accéder à cette partie&thinsp;!",
+    "room_full": "Ce salon est complet pour le moment&thinsp;!",
+
     "404": "404&nbsp;: cette page n’existe pas&thinsp;!"
 }
-
