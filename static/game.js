@@ -38,6 +38,7 @@ function updatedata() {
             }
 
         }
+        if(data["finished"]) window.location.reload()
         var piecesids = data["piecesids"]
         for(i = 0; i < 4; i++) {
             for(j = 0; j < 21; j++) {
@@ -263,6 +264,7 @@ function play() {
                 }
     
             }
+            if(data["finished"]) window.location.reload()
             isplaying = data["isplaying"]
             var elt1 = document.querySelector("#player > .playerInterface")
             var elt2 = document.querySelector(`.playerInterface.c${data["you"]}`)

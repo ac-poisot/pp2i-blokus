@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blokus</title>
+</head>
+<body>
+    {% if scoreboard[0][1] == scoreboard[1][1] %}
+    <span id="status">Egalité</span>
+    {% else %}
+    <span id="status">Victoire de {{scoreboard[0][0]}}</span>
+    {% endif }%
+    <table id="scores">
+        <thead>
+            <td>Pseudo</td>
+            <td>Score</td>
+        </thead>
+        <tbody>
+            {% for s in scoreboard %}
+            <tr>
+                <td>{{s[0]}}</td>
+                <td>{{s[1]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

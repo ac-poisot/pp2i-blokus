@@ -250,6 +250,13 @@ def game():
     if(not gameid in gameList.keys()):
         gameList[gameid] = recreateGame(gameid)
     game = gameList[gameid]
+    if(len(game.players) == 0):
+        scoreboard = []
+        players = list(filter(lambda elt: elt != None, get_playername_list(gameid)))
+        for i in range(len(players)):
+            scoreboard.append((players[i], game.score(i+1)))
+        scoreboard.sort(reverse = True, key = lambda elt: elt[1])
+        return wrap(render_template("pages/scoreboard.html", scoreboard=scoreboard))
     grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
     players = get_playername_list(gameid)
     pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
@@ -314,6 +321,7 @@ def handle_data():
             pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
+            if(len(game.players) == 0): return jsonify({"finished": True})
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
             return {
@@ -350,8 +358,9 @@ def handle_data():
                     game.delete_player(game.is_playing)
                     if game.is_playing_index >= len(game.players):
                         game.is_playing_index = 0
-                    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-                    if game.players: game.is_playing = game.players[game.is_playing_index]
+                    if len(game.players) != 0:
+                        game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                        game.is_playing = game.players[game.is_playing_index]
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
                 game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index])
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
@@ -360,13 +369,15 @@ def handle_data():
                     game.delete_player(game.is_playing)
                     if game.is_playing_index >= len(game.players):
                         game.is_playing_index = 0
-                    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-                    if game.players: game.is_playing = game.players[game.is_playing_index]
+                    if len(game.players) != 0:
+                        game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                        game.is_playing = game.players[game.is_playing_index]
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
             pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
+            if(len(game.players) == 0): return jsonify({"finished": True})
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
             return {
