@@ -41,7 +41,6 @@ class Game:
         self.is_playing = players[0]
         self.is_playing_index = 0
         self.maxn = n
-        self.players = players
 
     def print_board_all(self, player:int) -> None: 
         """
