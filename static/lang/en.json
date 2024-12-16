@@ -37,6 +37,9 @@
     "add_local": "Play locally",
     "remove_player":"Remove player",
     "remove_local":"Play online",
+    "guest":"Guest ",
+    "AI": "AI ",
+    "empty_slot": "Empty slot",
 
     "username_table": "Username",
     "score_table": "Score",

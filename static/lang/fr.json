@@ -38,6 +38,9 @@
     "add_local": "Jouer en local",
     "remove_player":"Enlever",
     "remove_local":"Jouer en ligne",
+    "guest":"Local ",
+    "AI": "Ordi ",
+    "empty_slot": "Emplacement vide",
 
     "username_table": "Pseudo",
     "score_table": "Score",

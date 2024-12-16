@@ -1,7 +1,17 @@
 {% macro selectPlayer(color, username=None, state=0, master=false) -%}
 <div class="{{"selectPlayer grayed c"+(color|string) if state == 0 else "selectPlayer c"+(color|string)}}">
     <div class="{{"content grayed" if state == 0 else "content"}}">
-    <span class="playerName">{{username}}</span>
+    {% if username == None %}
+        <span class="playerName">None</span>   
+    {% elif username == "Empty slot" %}
+        <span class="playerName" data="empty_slot"></span>   
+    {% elif username[:6] == "Guest " %}
+        <span class="playerName" data="guest">{{username[6]}}</span>
+    {% elif username[:2] == "AI " %}
+        <span class="playerName" data="AI">{{username[3]}}</span>
+    {% else %}
+        <span class="playerName">{{username}}</span>
+    {% endif %}
     {% from 'widgets/piece.txt' import piece %}
     {{ piece([[2,3,2,0],[3,1,3,2],[3,1,1,3],[2,3,3,2]], color)}}
     </div>
