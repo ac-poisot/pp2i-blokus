@@ -32,10 +32,11 @@ class Game:
 
         red_pieces = [[(1, 1), (20, 20), (1, 20), (20, 1)] for _ in range(n)]
         availible = [[i for i in range(1, 22)] for _ in range(n)]
-
+        bonus = [False for i in range(n)]
 
         self.players = players
         self.availible = availible
+        self.bonus = bonus
         self.board = game_board
         self.red_pieces = red_pieces
         self.is_playing = players[0]
@@ -124,7 +125,11 @@ class Game:
                     self.board[corner[0]][corner[1]][player - 1] = 'N'
                     self.board[corner[2]][corner[3]][player - 1] = 'I'
 
+        # Bonus if the last piece placed is the monomino
+        if len(self.availible[player - 1]) == 1 and piece == 1:
+            self.bonus[player - 1] = True
         self.availible[player - 1].remove(piece)
+
 
     def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
         """
@@ -168,7 +173,13 @@ class Game:
             for line in shape:
                 for cell in line:
                     if cell == 1:
-                        total += 1
+                        total -= 1
+
+        if not self.availible[player - 1]:
+            total += 20
+        if self.bonus[player - 1]:
+            total += 5
+        
         return total
 
     def possible_moves(self, player:int):
@@ -297,7 +308,7 @@ def retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, in
     return g
 
 if __name__ == "__main__":
-    g1 = Game([1, 3, 2])
+    g1 = Game([1, 3])
     start = time.time()
     g1.play_game()
     print(f"Time taken: {time.time() - start}")

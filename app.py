@@ -255,9 +255,10 @@ def game():
     game = gameList[gameid]
     if(len(game.players) == 0):
         scoreboard = []
-        players = list(filter(lambda elt: elt != None, get_playername_list(gameid)))
+        players = get_playername_list(gameid)
         for i in range(len(players)):
-            scoreboard.append((players[i], game.score(i+1)))
+            if players[i] != None:
+                scoreboard.append((players[i], game.score(i+1)))
         scoreboard.sort(reverse = True, key = lambda elt: elt[1])
         return wrap(render_template("pages/scoreboard.html", scoreboard=scoreboard))
     grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
