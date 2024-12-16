@@ -58,7 +58,7 @@ transform: translate(-50%,0);*/
 body {
   text-align: center;
   margin: 0;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #6874a7;
 }
 body main {
   position: relative;
@@ -77,5 +77,5 @@ body main button[type=create_games_button] {
   margin: auto;
 }
 body p {
-  margin: 0;
+  margin: 0.25vw;
 }/*# sourceMappingURL=create_game.css.map */
