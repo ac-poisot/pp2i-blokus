@@ -38,12 +38,18 @@
     "remove_player":"Remove player",
     "remove_local":"Play online",
 
+    "username_table": "Username",
+    "score_table": "Score",
+    "victory": " wins the game!",
+    "draw_table": "Draw",
+
 
     "error_requirements": "Password does not meet the requirements…",
     "error_username_taken": "Username is already taken!",
     "error_empty_username": "Username can’t be empty!",
     "error_confirmation": "Passwords don’t match…",
     "error_username_length": "Username is too long! Twenty characters maximum.",
+    "error_space": "Spaces are not allowed in usernames!",
     "error_username": "This user doesn’t exist!",
     "error_password": "Wrong password!",
     "error_not_connected": "You need to be logged in to perform this action…",

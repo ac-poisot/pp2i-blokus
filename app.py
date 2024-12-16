@@ -111,6 +111,9 @@ def signup():
         if(not username):
             valid = False
             flash("error_empty_username")
+        if ' ' in username:
+            valid = False
+            flash("error_space")
         if len(password) < 8 or not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password) or not any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
             valid = False
             flash("error_requirements")
