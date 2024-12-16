@@ -1,42 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blokus</title>
-</head>
-<body>
-    <main>
-        <div class="form_container">
-            <form action="" method="post">
-                <label for="username" data="username"></label>
-                <input type="text" name="username">
-                <label for="password" data="password"></label>
-                <input type="password" name="password" id="password">
-                <input type="checkbox" id="togglePassword" class="eye-checkbox" onclick="togglePasswordVisibility()">
-                <label for="togglePassword" class="eye-icon">👁️</label>
-                <p data="password_requirements" class="info">
-                        <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
-                    </span>
-        
-                </p>
-                <label for="confirmation" data="password_confirmation"></label>
-                <input type="password" name="confirmation" id="confirmation">
-                <input type="checkbox" id="togglePasswordConf" class="eye-checkbox" onclick="togglePasswordConfVisibility()">
-                <label for="togglePasswordConf" class="eye-icon-conf">👁️</label>
-                <button type="submit" data="signup_button"></button>
-            </form>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                <div class="flash">
-                    <p data="{{message}}"></p>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% endwith %}
-            </div>
-    </main>
-</body>
+<main>
+    <div class="form_container">
+        <form action="" method="post">
+            <label for="username" data="username"></label>
+            <input type="text" name="username">
+            <label for="password" data="password"></label>
+            <input type="password" name="password" id="password">
+            <input type="checkbox" id="togglePassword" class="eye-checkbox" onclick="togglePasswordVisibility()">
+            <label for="togglePassword" class="eye-icon">👁️</label>
+            <p data="password_requirements" class="info">
+                    <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
+                </span>
+    
+            </p>
+            <label for="confirmation" data="password_confirmation"></label>
+            <input type="password" name="confirmation" id="confirmation">
+            <input type="checkbox" id="togglePasswordConf" class="eye-checkbox" onclick="togglePasswordConfVisibility()">
+            <label for="togglePasswordConf" class="eye-icon-conf">👁️</label>
+            <button type="submit" data="signup_button"></button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="flash">
+                <p data="{{message}}"></p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        </div>
+</main>
 <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/form.css')}}">
-</html>

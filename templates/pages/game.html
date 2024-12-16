@@ -1,47 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blokus</title>
-</head>
-<body>
-    <main>
-        <div id="gameInterface">
-            <div id="player">
-                {% from 'widgets/playerInterface.txt' import playerInterface %}
-                {{ playerInterface(players[you], piecesids[you], pieces[you], you+1, true) }}
-            </div>
-            <table id="grid">
-                {% for i in range(grid|length) %}
-                <tr>
-                    {% for j in range(grid[i]|length) %}
-                    {% set x = i %}
-                    {% set y = j %}
-                    <td class="c{{ grid[i][j] }}" onMouseOver="selectSpot({{x}}, {{y}})" onMouseOut="unselectSpot()" onClick="play()"></td>
-        
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-            <div id="otherPlayers">
-                {% set ns = namespace(alreadyopened = false) %}
-                {% for i in range(players|length) %}
-                {% if i != you and not ns.alreadyopened and players[i] %}
-                {{ playerInterface(players[i], piecesids[i], pieces[i], i+1, true) }}
-                {% set ns.alreadyopened = true %}
-                {% elif i != you and players[i] %}
-                {{ playerInterface(players[i], piecesids[i], pieces[i], i+1) }}
-                {% endif %}
-                {% endfor %}
-    
-            </div>
+<main>
+    <div id="gameInterface">
+        <div id="player">
+            {% from 'widgets/playerInterface.txt' import playerInterface %}
+            {{ playerInterface(players[you], piecesids[you], pieces[you], you+1, true) }}
         </div>
-    </main>
+        <table id="grid">
+            {% for i in range(grid|length) %}
+            <tr>
+                {% for j in range(grid[i]|length) %}
+                {% set x = i %}
+                {% set y = j %}
+                <td class="c{{ grid[i][j] }}" onMouseOver="selectSpot({{x}}, {{y}})" onMouseOut="unselectSpot()" onClick="play()"></td>
+    
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        <div id="otherPlayers">
+            {% set ns = namespace(alreadyopened = false) %}
+            {% for i in range(players|length) %}
+            {% if i != you and not ns.alreadyopened and players[i] %}
+            {{ playerInterface(players[i], piecesids[i], pieces[i], i+1, true) }}
+            {% set ns.alreadyopened = true %}
+            {% elif i != you and players[i] %}
+            {{ playerInterface(players[i], piecesids[i], pieces[i], i+1) }}
+            {% endif %}
+            {% endfor %}
 
-    <script src="{{url_for('static', filename='game.js')}}"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/grid.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/piece.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/pages/game.css')}}">
-</body>
-</html>
+        </div>
+    </div>
+</main>
+<script src="{{url_for('static', filename='game.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/widgets/grid.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/widgets/piece.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/pages/game.css')}}">
