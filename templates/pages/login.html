@@ -1,0 +1,21 @@
+<main>
+    <div class="form_container">
+        <form action="" method="post">
+            <label for="username" data="username"></label>
+            <input type="text" name="username" placeholder="john_doe">
+            <label for="password" data="password"></label>
+            <input type="password" name="password">
+            <button type="submit" data="login_button"></button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="flash">
+            <p data="{{message}}"></p>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+</main>
+<link rel="stylesheet" href="{{url_for('static', filename='css/widgets/form.css')}}">

@@ -26,21 +26,44 @@
     "show_password": "Show Password",
     "password_confirmation": "Confirm password:",
     "password_requirements": "Password must contain at least six characters, a digit, a letter as well as a <span class='tooltip'>special character",
+    "login_button": "Login!",
+    "signup_button": "Create an account!",
+    "new_username_button": "Change my name!",
+
+    "leave_room": "Leave room",
+    "copy": "Copy",
+    "add_human": "Add a human player",
+    "add_AI": "Add an A.I. player",
+    "add_local": "Play locally",
+    "remove_player":"Remove player",
+    "remove_local":"Play online",
+    "guest":"Guest ",
+    "AI": "AI ",
+    "empty_slot": "Empty slot",
+
+    "username_table": "Username",
+    "score_table": "Score",
+    "victory": " wins the game!",
+    "draw_table": "Draw",
+
+
     "error_requirements": "Password does not meet the requirements…",
     "error_username_taken": "Username is already taken!",
     "error_empty_username": "Username can’t be empty!",
     "error_confirmation": "Passwords don’t match…",
     "error_username_length": "Username is too long! Twenty characters maximum.",
+    "error_space": "Spaces are not allowed in usernames!",
     "error_username": "This user doesn’t exist!",
     "error_password": "Wrong password!",
-    "error_not_connected": "You are not logged in…",
+    "error_not_connected": "You need to be logged in to perform this action…",
     "already_logged_in": "You are already logged in!",
-    "login_button": "Login!",
-    "signup_button": "Create an account!",
-    "new_username_button": "Change my name!",
 
     "non_existent_user": "User doesn’t exist!",
     "user_deleted": "This user has been deleted!",
+
+    "non_existent_room": "This room does not exist!",
+    "not_allowed": "You do not have access to this game!",
+    "room_full": "This room is currently full!",
+
     "404": "404: Page doesn’t exist!"
 }
-

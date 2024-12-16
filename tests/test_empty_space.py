@@ -1,3 +1,5 @@
+# OBSOLETE: all 3 check functions have been merged into is_legal
+
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -17,7 +19,7 @@ print(g1.empty_space(6,90,(1,2),False, 1))
 print(g1.empty_space(6,270,(0,1),False, 1))
 g1.add_piece(6,270,(0,1),False)
 
-g1.print_board_see(1)
+g1.print_board_see([1, 2])
 
 
 """

@@ -112,6 +112,7 @@ def get_token(pid:int) -> str:
 
     Returns the token if it has not expired, None if it has
     """
+    if(not get_temp("tokenexpiration", "Players", "pid", pid)): return None
     exp_date = get_temp("tokenexpiration", "Players", "pid", pid)[0][0]
     if time.time() > exp_date:
         return None
@@ -124,7 +125,7 @@ def get_game_history(pid:int) -> list[tuple[any]]:
 
     pid: the player's id
 
-    Returns a list of all the ids, the 4 players, the starting time and the winner (if applicable) of games the player has participated in
+    Returns a list of all the ids, the 4 players, the starting time and the state of games the player has participated in
     """
     c = get_db().cursor()
     c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4) ## remove  winner <>-1 AND
@@ -137,7 +138,7 @@ def get_game(gameid:str) -> tuple:
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, winner:int)
+        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, state:int)
     """
     if get_temp("*", "Games", "gameid", gameid): return get_temp("*", "Games", "gameid", gameid)[0]
     return None
@@ -269,9 +270,9 @@ def set_room(players: list[int], gameid: str):
     players: the players we want
     gameid: the id of the game/room
     """
-    if(get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+    if(get_temp("state", "Games", "gameid", gameid)[0][0] == -2):
         for i in range(4):
-            set_temp("Games", f"p{i+1}", players[i], "gameid", gameid)
+            set_temp("Games", f"p{i+1}", str(players[i]) if players[i] else None, "gameid", gameid)
 
 def get_room(gameid:str):
     """"
@@ -281,10 +282,14 @@ def get_room(gameid:str):
 
     Returns the list of ids of the players currently in the game/room: -1 for an open place and None for a closed one
     """
-    if(get_temp("winner", "Games", "gameid", gameid) and get_temp("winner", "Games", "gameid", gameid)[0][0] == -2):
+    if(get_temp("state", "Games", "gameid", gameid) and get_temp("state", "Games", "gameid", gameid)[0][0] == -2):
         res = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)
         if not res: return None
-        return list(res[0])
+        room = list(res[0])
+        for i in range(len(room)):
+            if (room[i] != None and room[i].isdigit()) or room[i] == "-1":
+                room[i] = int(room[i])
+        return room
     else:
         return None
     
@@ -299,19 +304,31 @@ def get_playername_list(gameid: str):
 
     Returns the list of the usernames of the players in the game/room
     """
-    players = get_room(gameid)
-    if(not players): return None
-    for i in range(4):
-        if isinstance(players[i], int) and players[i] > 0:
-            players[i] = get_username(players[i])
-        elif isinstance(players[i], str) and " " in players[i]:
-            players[i] = f"Guest {i}"
-        elif players[i] == -1:
-            players[i] = "Empty slot"
-        elif players[i] == None:
-            pass
-        
-    return players 
+    if(get_temp("state", "Games", "gameid", gameid)):
+        res = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)
+        if not res: return None
+        players = list(res[0])
+        for i in range(4):
+            if players[i] == None:
+                pass
+            elif players[i].isdigit():
+                players[i] = get_username(int(players[i]))
+            elif isinstance(players[i], str) and " " in players[i]:
+                players[i] = f"Guest {i}"
+            elif players[i] == "-1":
+                players[i] = "Empty slot"
+        return players
+    else:
+        return None
+    
+def change_game_state(gameid:str, state:int) -> None:
+    """
+    Function to change the state of a game
+
+    gameid: the id of the game to end
+    state: new state of the game
+    """
+    set_temp("Games", "state", state, "gameid", gameid)
 
 def end_game(gameid:str, winner:int) -> None:
     """

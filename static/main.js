@@ -4,7 +4,7 @@ function updateContent(lang, langData) {
     document.querySelectorAll('[data]').forEach(element => {
         const key = element.getAttribute('data');
         // edge cases
-        if (["profile", "profile_s", "profile_vowel"].includes(key) && lang == 'en') {
+        if ((["profile", "profile_s", "profile_vowel"].includes(key) && lang == 'en') || key == "victorys") {
             element.innerHTML = element.innerHTML + langData[key];
         }
         else {
