@@ -56,19 +56,3 @@ function togglePasswordConfVisibility() {
     const toggleCheckbox = document.getElementById("togglePasswordConf");
     passwordInput.type = toggleCheckbox.checked ? "text" : "password";
 }
-
-
-const menuButton = document.getElementById('menuButton');
-const slideMenu = document.getElementById('slideMenu');
-
-
-document.querySelector("#menu_btn").onclick = function() {
-//  if (slideMenu.style.width === "0px" || slideMenu.style.width === "") {
-    slideMenu.style.width = "250px"; 
-//} else {
-//    slideMenu.style.width = "0";
-//  }
-}
-document.querySelector("#menu_btn_frm").onclick = function() {
-    slideMenu.style.width = "0px";
-}

@@ -34,7 +34,7 @@
 header {
     background-color: #ff5f00;
     position: relative;
-    width:100%;
+    width:100vw;
     top: 0;
     left: 50%;
     transform: translate(-50%,-40%);
@@ -50,52 +50,5 @@ body {
         border: none;
         cursor: pointer;
         transition: background-color 0.3s;
-        &#menu_btn {
-          width: 5vw;
-          color:black;
-        }
       }
 }
-
-
-.menu {
-    height: 100%;
-    width: 0; 
-    background-color: #a768a0;
-    position: fixed;
-    top: 0;
-    right: 0; 
-    overflow-x: hidden; 
-    transition: 0.5s;
-    z-index: 9999; 
-  }
-  
-  .menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .menu ul li {
-    padding: 16px;
-    text-align: left;
-  }
-  
-  .menu ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: 18px;
-    display: block;
-    transition: 0.3s;
-  }
-  
-  .menu ul li a:hover {
-    background-color: #ca7dc0 ;
-  }
-  
-  
-  
-  #menuButton:hover {
-    background-color: #6874a7;
-  }
-  

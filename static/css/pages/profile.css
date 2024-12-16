@@ -8,7 +8,7 @@ table#games th, table#games td {
 body {
   text-align: center;
   margin: 0;
-  background-color: #6874a7;
+  background-color: rgba(255, 178, 71, 0.768627451);
 }
 body main {
   position: relative;

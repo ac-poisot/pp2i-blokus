@@ -14,8 +14,6 @@
             {{ selectPlayer(3, usernames[2], -1 if players[2] == -1 else (0 if players[2] == None else players[2]), master) }}
             {{ selectPlayer(4, usernames[3], -1 if players[3] == -1 else (0 if players[3] == None else players[3]), master) }}
         </div>
-        <p></p>
-        <p></p>
         <button type="create_games_button" id="leaveRoom" onClick=leaveRoom()>Quitter le salon</button>
         <div id="link">
             <span id="roomid">{{roomid}}</span>
