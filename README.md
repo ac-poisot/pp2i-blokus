@@ -59,3 +59,5 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
     ```bash
     flask run
     ```
+
+2. Aller sur la page "/" pour initialiser la base de données
