@@ -1,4 +1,3 @@
-from piece import Piece
 from pieces import *
 from random import randint
 import time
