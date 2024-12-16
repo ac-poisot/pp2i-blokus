@@ -17,12 +17,35 @@ var playerNameSpans = document.querySelectorAll(".content > .playerName")
 var blocks = document.querySelectorAll(".selectPlayer")
 var urlParams = new URLSearchParams(window.location.search)
 
+var langData = null
+async function fetchLanguageData() {
+    const response = await fetch(`/static/lang/${localStorage.getItem('language') || 'fr'}.json`);
+    const data = await response.json()
+
+    return data;
+}
+
+fetchLanguageData().then(data => langData = data)
+
 function updateNames() {
+    fetchLanguageData().then(data => langData = data)
+    console.log(usernames)
     for(i = 0; i < players.length; i++) {
-        if(usernames[i] != undefined && usernames[i] != -1) {
-            playerNameSpans[i].textContent = usernames[i]
-        } else if (usernames[i] == undefined) {
+        if(!usernames[i]) {
+            playerNameSpans[i].setAttribute("data", "")
             playerNameSpans[i].textContent = "None"
+        } else if(usernames[i] == "Empty slot") {
+            playerNameSpans[i].setAttribute("data", "empty_slot")
+            playerNameSpans[i].textContent = langData["empty_slot"]
+        } else if(usernames[i].slice(0, 6) == "Guest ") {
+            playerNameSpans[i].setAttribute("data", "guest")
+            playerNameSpans[i].textContent = langData["guest"] + usernames[i].slice(6)
+        } else if(usernames[i].slice(0, 2) == "AI") {
+            playerNameSpans[i].setAttribute("data", "AI")
+            playerNameSpans[i].textContent = langData["AI"] + usernames[i].slice(2)
+        } else {
+            playerNameSpans[i].setAttribute("data", "")
+            playerNameSpans[i].textContent = usernames[i]
         }
     }
 }
@@ -69,8 +92,8 @@ function updatedata() {
             if(players[i] == undefined ){
                 blocks[i].classList.add("grayed")
                 blocks[i].children[0].classList.add("grayed")
-                blocks[i].children[4].classList.add("hidden")
-                blocks[i].children[5].classList.add("hidden")
+                if(blocks[i].children[4]) blocks[i].children[4].classList.add("hidden")
+                if(blocks[i].children[5]) blocks[i].children[5].classList.add("hidden")
             } else {
                 blocks[i].classList.remove("grayed")
                 blocks[i].children[0].classList.remove("grayed")
