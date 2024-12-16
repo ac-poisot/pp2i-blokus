@@ -304,7 +304,7 @@ def players():
                 return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
             if("launch" in request.json.keys()):
                 change_game_state(roomid, -1)
-                return
+                return {}
     else:
         return jsonify({"error": "Not allowed"})
 
