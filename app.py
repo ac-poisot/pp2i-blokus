@@ -249,7 +249,8 @@ def game():
         return wrap(render_template("pages/404.html"))
     if(not pid in room):
         flash("not_allowed")
-        return wrap(render_template("pages/404.html"))    ## check si la game existe ou pas encore
+        return wrap(render_template("pages/404.html"))
+    if(gameData[6] == -2): return redirect(f"/create?roomid={gameid}")
     if(not gameid in gameList.keys()):
         gameList[gameid] = recreateGame(gameid)
     game = gameList[gameid]
@@ -287,6 +288,7 @@ def players():
             if("players" in request.json.keys()):
                 players = request.json["players"]
                 pindex = room.index(pid)
+                if(get_game(roomid)[6] != -2): return jsonify({"error": "Non-existent room"})
                 if(players[pindex] == -1 and pindex != 0):
                     room[pindex] = -1
                     set_room(room, roomid)
@@ -317,6 +319,7 @@ def handle_data():
         if(not gameid): return jsonify({"error": "Not allowed"})
         gameData = get_game(gameid)
         if(gameData and (str(pid) == gameData[1] or str(pid) == gameData[2] or str(pid) == gameData[3] or str(pid) == gameData[4])):
+            if(gameData[6] != -1): return jsonify({"error": "Not allowed"})
             if(not gameid in gameList.keys()):
                 gameList[gameid] = recreateGame(gameid)
             game = gameList[gameid]
