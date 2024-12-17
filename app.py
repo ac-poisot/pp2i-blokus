@@ -410,7 +410,6 @@ def handle_data():
                     if game.is_playing_index >= len(game.players):
                         game.is_playing_index = 0
                     if len(game.players) != 0:
-                        game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                         game.is_playing = game.players[game.is_playing_index]
 
             # If it is a local player's turn  and he can play the move he chose
@@ -419,12 +418,10 @@ def handle_data():
                 new_move(gameid, game.players[game.is_playing_index], int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
 
                 # We change the player how can play to the next player
-                if game.availible[game.is_playing-1]:
-                    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.players: game.is_playing = game.players[game.is_playing_index]
                 while (not game.can_play(game.is_playing)) and len(game.players) != 0:
                     game.delete_player(game.is_playing)
-                    print(f"{game.is_playing} CAN’T PLAY")
                     if game.is_playing_index >= len(game.players):
                         game.is_playing_index = 0
                     if len(game.players) != 0:
@@ -439,7 +436,6 @@ def handle_data():
 
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
-            print(game.is_playing, game.is_playing_index, game.players)
             return {
                 "grid": grid,
                 "players": players,
