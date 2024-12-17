@@ -51,25 +51,18 @@ function updateNames() {
 }
 
 function handleError(error) {
-    if(error == "Not connected") {
-        document.cookie = ""
-        window.location.href = '/not_connected'
-    }
-    if(error == "Not allowed") {
-        window.location.href = '/not_allowed'
-    }
-    if(error == "Non-existent room") {
-        window.location.href = '/non_existent_room'
-}}
+    window.location.reload()    
+}
 
 async function handleRes(res) {
     if(!res.ok) throw new Error(`Response status: ${res.status}`)
         var data = await res.json()
+        if(data["redirection"] && data["redirection"] == "/game") return window.location.href = `/game?gameid=${roomid}`
+        if(data["redirection"]) return window.location.href = data["redirection"]
         if (data["error"]) {
             handleError(data["error"])
             return
         }
-        if(data["redirection"]) window.location.href = data["redirection"]
         players = data["players"]
         usernames = data["usernames"]
         updateNames()
@@ -82,6 +75,8 @@ function updatedata() {
     }).then(async res => {
         if(!res.ok) throw new Error(`Response status: ${res.status}`)
         var data = await res.json()
+        if(data["redirection"] && data["redirection"] == "/game") return window.location.href = `/game?gameid=${urlParams.get("roomid")}`
+        if(data["redirection"]) return window.location.href = data["redirection"]
         if (data["error"]) {
             handleError(data["error"])
             return
@@ -193,6 +188,7 @@ function createGame() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"launch": true})
     }).then(res => {
+        console.log(res)
         window.location.href= `${window.location.href.split("/create")[0]}/game?gameid=${urlParams.get("roomid")}`
     })
 }

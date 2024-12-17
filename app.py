@@ -76,18 +76,6 @@ gameList = {}
 @app.route("/")
 def home():
     init_db()
-    # p1 = new_player("Bouthier", "a")
-    # p2 = new_player("Heurtel", "b")
-    # p3 = new_player("Festor", "c")
-    # p4 = new_player("Heudiard", "d")
-    # g = new_game(p1, p2, p3, p4)
-    # new_move(g, 2, 2, 5, 1, 1, 3)
-    # new_move(g, 1, 1, 5, 4, 5, 3)
-    # end_game(g)
-    # update_username(p1, "Korkoro")
-    # print(get_game(g))
-    # print(get_history(g))
-    # print(get_game_history(p3))
     
     return wrap(render_template("pages/index.html", time=time.localtime()[5]))
 
@@ -151,6 +139,8 @@ def login():
         pid = get_pid(request.form["username"])
         if request.form["username"] and pid:
             password = request.form["password"].encode("utf-8")
+
+            # If the password is right
             if(sha512(password).digest()==get_password(pid)):
                 res = new_player(request.form["username"], request.form["password"])
                 token, exptoken = update_token(pid)
@@ -173,65 +163,83 @@ def login():
 @app.route("/games")
 def games():
     pid = request.cookies.get("pid")
-    if(not pid): return redirect("/not_connected")
+    if(not pid): return redirect("/not_connected") # If not connected
+
     pid = int(pid)
-    if(not get_token(pid) == request.cookies.get("token")): return redirect("/not_connected")
+    if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): return redirect("/not_connected") # If the token doesn't exist or doesn't correspond or is outdated
+
     data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
     gameList = []
     roomList = []
     for i in range(len(data)):
         if(data[i][3] == -1):
             gameList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
+
         elif(data[i][3] == -2):
             roomList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
     return wrap(render_template("pages/games.html", games=gameList, rooms=roomList))
 
 @app.route("/create")
 def create_game():
-    if(not request.cookies.get("pid")): 
+    if(not request.cookies.get("pid")): # If the player is not connected
         flash("error_not_connected")
         return wrap(render_template("pages/404.html"))
+    
     pid = int(request.cookies.get("pid"))
-    if(get_token(pid) != request.cookies.get("token")): 
+    if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If there is no token or the token doesn't correspond or is outdated
         flash("error_not_connected")
         return wrap(render_template("pages/404.html"))
+    
     roomid = request.args.get("roomid")
-    if(roomid == None):
+    if(roomid == None):   # If no roomid is given, we create a room
         roomid = createRoom(request.cookies.get("pid"))
         redirection = f"/create?roomid={roomid}"
         return redirect(redirection)
-    elif (not get_room(roomid)):
+    
+    elif (not get_room(roomid)): # If the roomid isn't valid
         flash("non_existent_room")
         return wrap(render_template("pages/404.html"))
+    
     players = get_room(roomid)
-    if(pid in players):
+    if(pid in players): # If the player is in the room
         return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)))
-    else:
+    
+    else: # Else, we reject his access
         flash("not_allowed")
         return wrap(render_template("pages/404.html"))
     
 @app.route("/join")
 def join():
-    if(not request.cookies.get("pid")):
+    if(not request.cookies.get("pid")): # If the player is not connected
         flash("error_not_connected")
         return wrap(render_template("pages/404.html"))
     pid = int(request.cookies.get("pid"))
-    if(get_token(pid) != request.cookies.get("token")):
+
+    # If there is no token or if it doesn't correspond or is outdated
+    if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")):
         flash("error_not_connected")
         return wrap(render_template("pages/404.html"))
     roomid = request.args.get("roomid")
-    if(roomid == None):
-        return redirect("/games")
+
+    if(roomid == None): return redirect("/games") # If no roomid is indicated
+
     players = get_room(roomid)
+
+    # If there are no players in the room (hence no room)
     if(not players):
         flash("non_existent_room")
         return wrap(render_template("pages/404.html"))
+    
+    # If the player is in the room
     elif(pid in players):
         return redirect(f"/create?roomid={roomid}")
+    
+    # If he isn't but there is a place for him
     elif(-1 in players):
         players[players.index(-1)] = pid
         set_room(players, roomid)
         return redirect(f"/create?roomid={roomid}")
+    # If he isn't in the room and there is no place opened to him
     else:
         flash("room_full")
         return wrap(render_template("pages/404.html"))
@@ -239,21 +247,28 @@ def join():
 @app.route("/game")
 def game():
     gameid = request.args.get("gameid")
-    if(not gameid): return redirect("/games")
+    if(not gameid): return redirect("/games") # If no gameid is indicated
     gameData = get_game(gameid)
-    if(not gameData): return redirect("/games")
+
+    if(not gameData): return redirect("/games") # If no such game exists
     room = list(gameData)[1:5]
     pid = request.cookies.get("pid")
-    if((not pid) or get_token(pid) != request.cookies.get("token")):
+
+    if((not pid) or not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If the player isn't connected properly
         flash("error_not_connected")
         return wrap(render_template("pages/404.html"))
-    if(not pid in room):
+    
+    if(not pid in room): # If the player isn't in the list of players
         flash("not_allowed")
         return wrap(render_template("pages/404.html"))
-    if(gameData[6] == -2): return redirect(f"/create?roomid={gameid}")
-    if(not gameid in gameList.keys()):
+    
+    if(gameData[6] == -2): return redirect(f"/create?roomid={gameid}") # If the game hasn't been launched yet
+
+    if(not gameid in gameList.keys()): # If the game isn't loaded by the server yet, we do it with the db
         gameList[gameid] = recreateGame(gameid)
     game = gameList[gameid]
+
+    # If no player can play (i.e. the game is finished), we calculate the scoreboard
     if(len(game.players) == 0):
         scoreboard = []
         players = get_playername_list(gameid)
@@ -262,6 +277,7 @@ def game():
                 scoreboard.append((players[i], game.score(i+1)))
         scoreboard.sort(reverse = True, key = lambda elt: elt[1])
         return wrap(render_template("pages/scoreboard.html", scoreboard=scoreboard))
+    
     grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
     players = get_playername_list(gameid)
     pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
@@ -274,53 +290,66 @@ def game():
 @app.route("/API/create", methods=['GET', 'POST'])
 def players():
     roomid = request.args.get("roomid")
-    if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"})
+    if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"}) # If the player isn't connected
     pid = int(request.cookies.get("pid"))
-    if(get_token(pid) != request.cookies.get("token")):
-        flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
-    if(not get_room(roomid)): return jsonify({"error": "Non-existent room"})
+    if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If the token isn't valid or doesn't exists
+        return jsonify({"error": "Not allowed"})
+    if(not get_room(roomid)): return jsonify({"redirection": "/game"}) # If the room isn't opened, we will check if the game is opened
     room = get_room(roomid)
-    if pid in get_room(roomid) :
-        if request.method == 'GET':
-            return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)}) ## -1 pour un "poste" ouvert mais non pris et None pour un fermé
-        else:
-            if("players" in request.json.keys()):
-                players = request.json["players"]
-                pindex = room.index(pid)
-                if(get_game(roomid)[6] != -2): return jsonify({"error": "Non-existent room"})
-                if(players[pindex] == -1 and pindex != 0):
+    if pid in get_room(roomid) : # If the player is in the room
+        if request.method == 'GET': # If it is just a GET request, we allow it
+            return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
+        else: # If it is a POST request
+            if("players" in request.json.keys()): # If the request tells to change the player list
+                players = request.json["players"] # We set the "players" list to the new list
+                pindex = room.index(pid) # index of the player in the list of players
+
+                if(get_game(roomid)[6] != -2): return jsonify({"error": "Non-existent room"}) # If the room isn't opened
+
+                if(players[pindex] == -1 and pindex != 0): # If a player except the game master leaves
                     room[pindex] = -1
                     set_room(room, roomid)
                     return jsonify({"redirection": "/"})
+                
+                # If the game master leaves
                 elif(players[pindex] == -1 and pindex == 0):
                     delete_room(roomid)
                     return jsonify({"redirection": "/"})
+                
+                # If the player isn't the gamemaster, he isn't allowed to use the next lines
                 if(pindex != 0): return jsonify({"error": "Not allowed"})
-                if "needAI" in request.json.keys():
+                if "needAI" in request.json.keys(): # We create an AI if one is requested at a certain index
                     needAI = request.json["needAI"]
                     players[int(needAI['index'])] = f"AI{int(needAI['level'])}" ## TODO : add the AI
                 set_room(players, roomid)
                 return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
-            if("launch" in request.json.keys()):
-                change_game_state(roomid, -1)
-                return {}
+            
+            # If the game master asks to make a game from this room
+            elif("launch" in request.json.keys() and room and room.index(pid) == 0):
+                    change_game_state(roomid, -1)
+                    return {"redirection": "/game"}
+            else: return jsonify({"error": "Not allowed"})
     else:
         return jsonify({"error": "Not allowed"})
 
 @app.route("/API/data", methods=['GET', 'POST'])
 def handle_data():
     if request.method == 'GET':
-        if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"})
+        if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"}) # If the player isn't connected
+        
         pid = int(request.cookies.get("pid"))
         token = request.cookies.get("token")
-        if(token and get_token(pid) != token): return jsonify({"error": "Not connected"})
+        if(not token or get_token(pid) != token): return jsonify({"error": "Not connected"}) # If the token doesn't exists or isn't valid
+
         gameid = request.args.get("gameid")
-        if(not gameid): return jsonify({"error": "Not allowed"})
+        if(not gameid): return jsonify({"error": "Not allowed"}) # If no gameid is indicated
+
         gameData = get_game(gameid)
+
+        # If such a game exists and the player is in it
         if(gameData and (str(pid) == gameData[1] or str(pid) == gameData[2] or str(pid) == gameData[3] or str(pid) == gameData[4])):
-            if(gameData[6] != -1): return jsonify({"error": "Not allowed"})
-            if(not gameid in gameList.keys()):
+            if(gameData[6] != -1): return jsonify({"error": "Not allowed"}) # If the game isn't currently running
+            if(not gameid in gameList.keys()): # If the game isn't currently loaded by the server, we load it from the db
                 gameList[gameid] = recreateGame(gameid)
             game = gameList[gameid]
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
@@ -342,23 +371,31 @@ def handle_data():
             }
         else:
             return jsonify({"error": "Not allowed"})
-    else: ## VERIFICATION DE L'IDENTITE ET QUE C'EST SON TOUR NECESSAIRES
-        data = request.json
-        if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"})
+    else: # If it is a POST request
+        data = request.json # We retrieve the data from the request
+        if(not request.cookies.get("pid")): return jsonify({"error": "Not connected"}) # If the player isn't connected
+
         pid = int(request.cookies.get("pid"))
         token = request.cookies.get("token")
-        if(token and get_token(pid) != token): return jsonify({"error": "Not connected"})
+        if(not token or get_token(pid) != token): return jsonify({"error": "Not connected"}) # If the token doesn't exist or isn't valid
+
         gameid = request.args.get("gameid")
-        if(not gameid): return jsonify({"error": "Not allowed"})
+        if(not gameid): return jsonify({"error": "Not allowed"}) # If no gameid is indicated
+
         gameData = get_game(gameid)
+
+        # If the game exists and the player is in the game
         if(gameData and (str(pid) in list(gameData)[1:5])):
-            if(not gameid in gameList.keys()):
-                gameList[gameid] = recreateGame(gameid)
+            if(not gameid in gameList.keys()): # If the game is not loaded yet, we load it from the db
+                gameList[gameid] = recreateGame(gameid) 
             game = gameList[gameid]
-            ## IL FAUT CHECK SI C'EST SON TOUR
-            pindex = list(gameData)[1:5].index(str(pid))
+            pindex = list(gameData)[1:5].index(str(pid)) # Index of the player in the list of players
+
+            # If the move given can be made and it's the player's turn
             if str(pid) == gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
-                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1)
+                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1) # We play the move
+
+                # We change the player how can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.players: game.is_playing = game.players[game.is_playing_index]
                 while (not game.can_play(game.is_playing)) and len(game.players) != 0:
@@ -368,8 +405,12 @@ def handle_data():
                     if len(game.players) != 0:
                         game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                         game.is_playing = game.players[game.is_playing_index]
+
+            # If it is a local player's turn  and he can play the move he chose
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
-                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index])
+                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]) # We play the move
+
+                # We change the player how can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.players: game.is_playing = game.players[game.is_playing_index]
                 while (not game.can_play(game.is_playing)) and len(game.players) != 0:
@@ -379,12 +420,14 @@ def handle_data():
                     if len(game.players) != 0:
                         game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                         game.is_playing = game.players[game.is_playing_index]
+
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
             pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
             if(len(game.players) == 0): return jsonify({"finished": True})
+
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
             return {
@@ -402,13 +445,16 @@ def handle_data():
 @app.route("/change_username", methods=['GET', 'POST'])
 def change_username():
     if request.method == 'GET':
-        if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
-            return wrap(render_template("pages/change_username.html"))
-        else:
+        pid = request.cookies.get('pid')
+        if((not pid) or not request.cookies.get("token") or get_token(int(pid)) != request.cookies.get("token")): # If the player isn't connected properly
             flash("error_not_connected")
             return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/change_username.html"))
     else:
         pid = request.cookies.get('pid')
+        if((not pid) or not request.cookies.get("token") or get_token(int(pid)) != request.cookies.get("token")): # If the player isn't connected properly
+            flash("error_not_connected")
+            return wrap(render_template("pages/404.html"))
         if request.form["username"]:
             password = request.form["password"].encode("utf-8")
             if(sha512(password).digest()==get_password(pid)):
@@ -431,10 +477,12 @@ def change_username():
 @app.route("/profile/<pid>", methods=['GET', 'POST'])
 def profile(pid):
     if request.method == 'GET':
-        if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
-            vis_username = get_username(request.cookies.get('pid'))
-        else:
+        pid = request.cookies.get('pid')
+        if((not pid) or not request.cookies.get("token") or get_token(int(pid)) != request.cookies.get("token")): # If the visitor isn't connected properly
             vis_username = None
+        else:
+            vis_username = get_username(request.cookies.get('pid'))
+
         username = get_username(pid)
         if username:
             if username == "DELETED":
