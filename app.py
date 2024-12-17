@@ -283,8 +283,10 @@ def game():
     pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
     piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]    
     scores=[0, 0, 0, 0]
+    isplaying = game.players[game.is_playing_index]
+    you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
 
-    return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you = list(gameData)[1:5].index(pid)))
+    return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you=you))
 
 
 @app.route("/API/create", methods=['GET', 'POST'])
@@ -359,6 +361,7 @@ def handle_data():
             scores=[0, 0, 0, 0]
             if(len(game.players) == 0): return jsonify({"finished": True})
             isplaying = game.players[game.is_playing_index]
+            print(isplaying)
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
             return {
                 "grid": grid,
@@ -410,6 +413,7 @@ def handle_data():
             # If it is a local player's turn  and he can play the move he chose
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
                 game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]) # We play the move
+                new_move(gameid, game.players[game.is_playing_index], int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
 
                 # We change the player how can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
