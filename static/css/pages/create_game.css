@@ -65,7 +65,7 @@ body main {
   left: 50%;
   transform: translate(-50%, 0);
 }
-body main button[type=create_games_button] {
+body main button[type=leave_room_button] {
   border-color: black;
   width: 200px;
   padding: 10px;
