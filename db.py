@@ -282,7 +282,7 @@ def colour(gameid:str, pid:int) -> int:
     players = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)[0]
     return list.index(pid)+1
 
-def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:int) -> None:
+def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:{0, 90, 180, 270}, flipped:bool) -> None:
     """
     Function to push a specific move to the database, assumes the move is valid
 
@@ -293,9 +293,10 @@ def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, an
     x: the piece's first coordinate
     y: the piece's second coordinate
     angle: the orientation of the piece [TODO what kind of int do we want]
+    flipped: whether the piece should be flipped or not
     """
     c = get_db().cursor()
-    c.execute("INSERT INTO Moves VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, movenumber, colour, piece, x, y, angle))
+    c.execute("INSERT INTO Moves VALUES ((?), (?), (?), (?), (?), (?), (?), (?));", (gameid, movenumber, colour, piece, x, y, angle, flipped))
     get_db().commit()
 
 # Room functions
@@ -313,7 +314,7 @@ def set_room(players: list[int], gameid: str):
 
 def get_room(gameid:str):
     """"
-    Function to get the players in the room
+    Function to get the IDs of players in the room
 
     gameid: the id of the game/room
 
