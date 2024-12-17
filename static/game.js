@@ -49,7 +49,6 @@ function updatedata() {
             }
         }
         isplaying = data["isplaying"]
-        console.log(isplaying)
         var elt1 = document.querySelector("#player > .playerInterface")
         var elt2 = document.querySelector(`.playerInterface.c${data["you"]}`)
         if (elt1 != elt2) {

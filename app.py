@@ -361,7 +361,6 @@ def handle_data():
             scores=[0, 0, 0, 0]
             if(len(game.players) == 0): return jsonify({"finished": True})
             isplaying = game.players[game.is_playing_index]
-            print(isplaying)
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
             return {
                 "grid": grid,

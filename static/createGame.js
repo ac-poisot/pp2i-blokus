@@ -29,7 +29,6 @@ fetchLanguageData().then(data => langData = data)
 
 function updateNames() {
     fetchLanguageData().then(data => langData = data)
-    console.log(usernames)
     for(i = 0; i < players.length; i++) {
         if(!usernames[i]) {
             playerNameSpans[i].setAttribute("data", "")
@@ -188,7 +187,6 @@ function createGame() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"launch": true})
     }).then(res => {
-        console.log(res)
         window.location.href= `${window.location.href.split("/create")[0]}/game?gameid=${urlParams.get("roomid")}`
     })
 }
