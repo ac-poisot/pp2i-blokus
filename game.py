@@ -296,15 +296,15 @@ def retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, in
         _, _, player, piece, x, y, rotation, flipped = move
         g.add_piece(piece, rotation, (x, y), flipped, player)
 
-        for player in players:
-            if not g.can_play(player):
-                g.players.remove(player)
+    for p in players:
+        if not g.can_play(p):
+            g.players.remove(p)
 
-        g.is_playing_index = g.players.index(player)+1
-        if g.is_playing_index == len(g.players):
-            g.is_playing_index = 0
+    g.is_playing_index = g.players.index(player)+1
+    if g.is_playing_index == len(g.players):
+        g.is_playing_index = 0
 
-        g.is_playing = g.players[g.is_playing_index] 
+    g.is_playing = g.players[g.is_playing_index] 
     return g
 
 if __name__ == "__main__":
