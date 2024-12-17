@@ -250,7 +250,7 @@ def get_history(gameid:str) -> list[tuple]:
     c = get_db().cursor()
 
     c.execute("SELECT * FROM Moves WHERE gameid = (?) ORDER BY movenumber ASC;", (gameid,))
-    return [move[1:] for move in c.fetchall()]
+    return c.fetchall()
 
 def change_game_state(gameid:str, state:int) -> None:
     """

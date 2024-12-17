@@ -29,7 +29,7 @@ CREATE TABLE Moves
     gameid TEXT,
     movenumber INT,
     colour INT,
-    piece TEXT,
+    piece INT,
     x INT,
     y INT,
     angle INT,

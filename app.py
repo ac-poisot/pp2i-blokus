@@ -394,6 +394,7 @@ def handle_data():
             # If the move given can be made and it's the player's turn
             if str(pid) == gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
                 game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1) # We play the move
+                new_move(gameid, pindex+1, int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
 
                 # We change the player how can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
