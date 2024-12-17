@@ -13,7 +13,7 @@
         <button type="create_games_button" onClick="copyLink('{{roomid}}')" data="copy"></button>
     </div>
     {% if master %}
-    <button type="create_games_button" id="createGame" onClick=createGame()>Créer la partie</button>
+    <button type="create_games_button" id="createGame" onClick=createGame() data="create_game"></button>
     {% endif %}
 </main>
 <script src="{{url_for('static', filename='createGame.js')}}"></script>

@@ -30,8 +30,12 @@
     "signup_button": "Create an account!",
     "new_username_button": "Change my name!",
 
+    "new_room": "Create new room!",
+    "room_id": "Room ID",
+    "room_date": "Date of room",
     "leave_room": "Leave room",
     "copy": "Copy",
+    "create_game": "Create game!",
     "add_human": "Add a human player",
     "add_AI": "Add an A.I. player",
     "add_local": "Play locally",
@@ -65,5 +69,12 @@
     "not_allowed": "You do not have access to this game!",
     "room_full": "This room is currently full!",
 
-    "404": "404: Page doesn’t exist!"
+    "404": "404: Page doesn’t exist!",
+
+
+    "credits_localisation": "English–French Localisation",
+    "credits_localisation2": "French–English Localisation",
+    "credits_director": "Director Manager",
+    "credits_chocolate": "Chocolate Bar Logistics Director",
+    "credits_illogic": "Manager of Illogic Inefficiency"
 }
