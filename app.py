@@ -284,7 +284,7 @@ def game():
     piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]    
     scores=[0, 0, 0, 0]
     isplaying = game.players[game.is_playing_index]
-    you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
+    you = isplaying-1 if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))
 
     return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you=you))
 
