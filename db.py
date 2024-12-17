@@ -270,6 +270,28 @@ def end_game(gameid:str, winner:int) -> None:
     """
     set_temp("Games", "winner", winner, "gameid", gameid)
 
+
+def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
+    """
+    Function to create a new game with the players's ids
+
+    p1: the first player's id (can be None)
+    p2: the second player's id (can be None)
+    p3: the third player's id (can be None)
+    p4: the fourth player's id (can be None)
+
+    Returns the id of the newly created game
+    """
+    c = get_db().cursor()
+
+    gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
+    while get_temp("*", "Games", "gameid", gameid):
+        gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
+
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), -2)) 
+    get_db().commit()
+    return gameid
+
 def colour(gameid:str, pid:int) -> int:
     """
     Function to work out the colour of a player in a game
@@ -303,7 +325,7 @@ def new_move(gameid:str, colour:int, piece:int, x:int, y:int, angle:{0, 90, 180,
 # Room functions
 
 def set_room(players: list[int], gameid: str):
-    """"
+    """
     Function to set the players in the room
 
     players: the players we want
@@ -314,7 +336,7 @@ def set_room(players: list[int], gameid: str):
             set_temp("Games", f"p{i+1}", str(players[i]) if players[i] else None, "gameid", gameid)
 
 def get_room(gameid:str):
-    """"
+    """
     Function to get the IDs of players in the room
 
     gameid: the id of the game/room
@@ -336,10 +358,10 @@ def delete_room(gameid: str):
     delete_temp("Games", "gameid", gameid)
     
 def get_playername_list(gameid: str):
-    """"
-    Function to get the players's names in the room
+    """
+    Function to get the usernames of the players in the room
 
-    gameid: the id of the game/room
+    gameid: the ID of the game/room
 
     Returns the list of the usernames of the players in the game/room
     """
