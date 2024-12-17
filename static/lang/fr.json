@@ -31,8 +31,12 @@
     "signup_button": "Créer un compte&thinsp;!",
     "new_username_button": "Changer de nom&thinsp;!",
 
+    "new_room": "Créer une salle&thinsp;!",
+    "room_id": "ID de la salle",
+    "room_date": "Date de la salle",
     "leave_room": "Quitter le salon",
     "copy": "Copier",
+    "create_game": "Créer la partie&thinsp;!",
     "add_human": "Ajouter un humain",
     "add_AI": "Ajouter un ordi",
     "add_local": "Jouer en local",
@@ -65,5 +69,12 @@
     "not_allowed": "Tu n’as pas l’autorisation d’accéder à cette partie&thinsp;!",
     "room_full": "Ce salon est complet pour le moment&thinsp;!",
 
-    "404": "404&nbsp;: cette page n’existe pas&thinsp;!"
+    "404": "404&nbsp;: cette page n’existe pas&thinsp;!",
+
+
+    "credits_localisation": "Localisation Anglais–Français",
+    "credits_localisation2": "Localisation Français–Anglais",
+    "credits_director": "Directeur Manager",
+    "credits_chocolate": "Directrice de la logistique des barres chocolatées",
+    "credits_illogic": "Manager de l’inefficacité illogique"
 }
