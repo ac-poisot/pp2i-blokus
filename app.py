@@ -79,6 +79,10 @@ def home():
     
     return wrap(render_template("pages/index.html", time=time.localtime()[5]))
 
+@app.route("/rules")
+def rules():
+    return wrap(render_template("pages/rules.html", pieces=pieces))
+
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
