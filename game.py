@@ -1,5 +1,5 @@
 from pieces import *
-from random import randint
+from random import randint, choice
 import time
 
 # def rotate(piece:int, rotation:{0, 90, 180, 270}, flipped:bool) -> list[list[int]]:
@@ -252,7 +252,7 @@ class Game:
     def play_game(self):
         while self.players:
             pos = self.possible_moves(self.is_playing)
-            # self.print_board()
+            self.print_board()
 
             if self.can_play(self.is_playing):
                 # valid = False
@@ -309,7 +309,23 @@ def retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, in
     return g
 
 if __name__ == "__main__":
-    g1 = Game([1, 3])
-    start = time.time()
-    g1.play_game()
-    print(f"Time taken: {time.time() - start}")
+    # g1 = Game([1, 4])
+    # start = time.time()
+    # g1.play_game()
+    # print(f"Time taken: {time.time() - start}")
+    game = Game([1, 2, 3, 4])
+    
+    while game.players:
+        print(game.is_playing, game.is_playing_index, game.players)
+        if randint(0, game.is_playing):
+            game.add_piece(choice(game.availible[game.is_playing-1]), 0, (0, 0), 0, game.is_playing)
+
+        game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+        if game.players: game.is_playing = game.players[game.is_playing_index]
+        while (not game.availible[game.is_playing-1]) and len(game.players) != 0:
+            print(f"{game.is_playing} can’t play!")
+            game.delete_player(game.is_playing)
+            if game.is_playing_index >= len(game.players):
+                game.is_playing_index = 0
+            if len(game.players) != 0:
+                game.is_playing = game.players[game.is_playing_index]
