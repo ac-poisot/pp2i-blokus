@@ -282,19 +282,20 @@ def colour(gameid:str, pid:int) -> int:
     players = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)[0]
     return list.index(pid)+1
 
-def new_move(gameid:str, movenumber:int, colour:int, piece:int, x:int, y:int, angle:{0, 90, 180, 270}, flipped:bool) -> None:
+def new_move(gameid:str, colour:int, piece:int, x:int, y:int, angle:{0, 90, 180, 270}, flipped:bool) -> None:
     """
     Function to push a specific move to the database, assumes the move is valid
 
     gameid: the game's id
-    movenumber: which move it is (number since the beginning of the game)
     colour: the player that placed the piece
     piece: the number of the piece
     x: the piece's first coordinate
     y: the piece's second coordinate
-    angle: the orientation of the piece [TODO what kind of int do we want]
+    angle: the orientation of the piece, either 0, 90, 180 or 270
     flipped: whether the piece should be flipped or not
     """
+
+    movenumber = len(get_history(gameid)) + 1
     c = get_db().cursor()
     c.execute("INSERT INTO Moves VALUES ((?), (?), (?), (?), (?), (?), (?), (?));", (gameid, movenumber, colour, piece, x, y, angle, flipped))
     get_db().commit()
