@@ -1,5 +1,12 @@
-#pieces_table {
-    table {
-        margin: 0 auto 0 auto;
+
+@import "../widgets/variable";
+body {
+    background-color: $background;
+    text-align: center;
+    #pieces_table {
+        table {
+            margin: 0 auto 0 auto;
+        }
     }
+
 }

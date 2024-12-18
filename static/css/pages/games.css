@@ -1,3 +1,14 @@
+body {
+  height: -moz-min-content;
+  height: min-content;
+}
+
+main {
+  margin: 0;
+  position: relative;
+  min-height: 82vh;
+}
+
 button[type=simple_button] {
   width: 10vw;
   padding: 10px;

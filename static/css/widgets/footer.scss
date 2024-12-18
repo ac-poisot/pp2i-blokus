@@ -1,21 +1,22 @@
 @import "../widgets/variable";
 
 footer {
+    min-height: 5vh;
     display: flex;
     justify-content: center;
     background-color: $FOOT;
-    position: fixed;
+
     width:100vw;
     bottom: 0px;
     left: 50%;
-    transform: translate(-50%,0);/*Normalement le footer devient centrer*/
+/*Normalement le footer devient centrer*/
 
     ul {
         height: 5vh;
         display: inline-flex;
-        margin: 100 auto 100 auto;
+        margin: 2vh auto 2vh auto;
         padding: 0;
-        
+        margin-bottom: 3vh;        
     
         li {
             display: inline-block;

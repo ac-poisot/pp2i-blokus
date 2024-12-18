@@ -1,3 +1,29 @@
-#pieces_table table {
+body {
+  height: -moz-min-content;
+  height: min-content;
+}
+
+main {
+  margin: 0;
+  position: relative;
+  min-height: 82vh;
+}
+
+button[type=simple_button] {
+  width: 10vw;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(255, 178, 71, 0.768627451);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+body {
+  background-color: #6c65d6;
+  text-align: center;
+}
+body #pieces_table table {
   margin: 0 auto 0 auto;
 }/*# sourceMappingURL=rules.css.map */
