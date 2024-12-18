@@ -1,8 +1,8 @@
 <main>
     <h1>LES RÈGLES </h1>
 
-    <h2> De quoi se compose le jeu ?</h2>
-    <p> Le jeu contient un plateau de 20x20 cases et 21 pièces.</p>
+    <h2>De quoi se compose le jeu&thinsp;?</h2>
+    <p>Le jeu contient un plateau de 20&thinsp;&times;&thinsp;20 cases et 21 pièces.</p>
     <div id="pieces_table"> 
         <table>
             {% from "widgets/piece.txt" import piece %}
@@ -23,19 +23,19 @@
             </tr>
         </table>
      </div>
-    <h2> Comment jouer ?</h2>
-    <p> L'objectif du jeu est de placer l'ensemble des 21 pièces que vous possédez</p>
-    <p> Au début du jeu, vous poser le coin d'une de vos pièces dans un des coins du plateau. Pour le reste de la partie, lorsque vous poserez une pièce, elle ne doit toucher vos autres
+    <h2>Comment jouer&thinsp;?</h2>
+    <p>L’objectif du jeu est de placer l’ensemble des 21 pièces que vous possédez</p>
+    <p>Au début du jeu, vous posez le coin d’une de vos pièces dans un des coins du plateau. Pour le reste de la partie, lorsque vous poserez une pièce, elle ne doit toucher vos autres
         pièces que par les coins. Vous pouvez toucher les pièces de vos adversaires. Si vous ne pouvez plus placer de pièces, vous passez votre tour !
     </p>
-    <p> Pour poser vos pièces, vous pouvez les tournez, les retournez... L'objectif est de les faire rentrer !</p>
-    <p> La partie s'arrète quand tous les joueurs ont passé leur tour </p>
+    <p>Pour poser vos pièces, vous pouvez les tourner, les retourner… L’objectif est de les faire rentrer&thinsp;!</p>
+    <p>La partie s’arrête quand tous le monde a passé son tour.</p>
 
-    <h2> Comment compter les points ?</h2>
-    <p> Chaque carré non posé vous donne -1 points.</p>
-    <p> Si vous avez posé toutes vos pièces, vous gagnez 15 points bonus.</p>
-    <p> Si en plus vous avez fini par la pièce d'un carré, vous gagnez 20 points bonus pour votre gestion des pièces !</p>
-    <p> Celui qui a le plus de points a gagné !</p>
+    <h2>Comment compter les points&thinsp;?</h2>
+    <p>Chaque carré non posé vous donne &minus;1 point.</p>
+    <p>Si vous avez posé toutes vos pièces, vous gagnez 15 points bonus.</p>
+    <p>Si en plus vous avez fini par la pièce d’un carré, vous gagnez 20 points bonus pour votre gestion des pièces&thinsp;!</p>
+    <p>Celui ou celle qui a le plus de points a gagné&thinsp;!</p>
 </main>
 <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/piece.css')}}">
 <link rel="stylesheet" href="{{url_for('static', filename='css/pages/rules.css')}}">

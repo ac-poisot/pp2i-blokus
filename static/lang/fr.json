@@ -5,20 +5,26 @@
     "signup": "S’inscrire",
     "my_profile": "Mon profil",
     "logout": "Se déconnecter",
+    "menu": "Menu",
     "footer": "Blokus® est une marque déposée par Sᴇᴋᴋᴏɪᴀ.",
 
-    "profile":"Profil de ",
-    "profile_s":"Profil de ",
-    "profile_vowel":"Profil d’",
-    "change_username":"Changer de pseudo",
-    "delete_account":"Supprimer mon compte",
-    "wins":"Victoires&nbsp;:",
-    "losses":"Défaites&nbsp;:",
-    "draws":"Matchs nuls&nbsp;:",
-    "ratio":"Ratio Victoires/Défaites&nbsp;:",
-    "game_date":"Date de la partie",
-    "game_id":"ID de la partie",
-    "game_state":"État",
+    "title_temp": "PRÉSENTATION DU JEU",
+    "what_is_blokus": "Blokus est un jeu de société sorti le premier janvier 2000. C’est un jeu simple qui se joue rapidement, avec un nombre de joueurs compris entre 2 et 4. On peut jouer avec des personnes de plus de 7 ans.",
+    "discover": "Tu veux savoir comment jouer&thinsp;? Suis le ",
+    "want_to_play": "Tu veux jouer&thinsp;?",
+
+    "profile": "Profil de ",
+    "profile_s": "Profil de ",
+    "profile_vowel": "Profil d’",
+    "change_username": "Changer de pseudo",
+    "delete_account": "Supprimer mon compte",
+    "wins": "Victoires&nbsp;:",
+    "losses": "Défaites&nbsp;:",
+    "draws": "Matchs nuls&nbsp;:",
+    "ratio": "Ratio Victoires/Défaites&nbsp;:",
+    "game_date": "Date de la partie",
+    "game_id": "ID de la partie",
+    "game_state": "État",
 
     "username": "Pseudo&nbsp;:",
     "new_username": "Nouveau pseudo&nbsp;:",
@@ -42,7 +48,7 @@
     "add_local": "Jouer en local",
     "remove_player":"Enlever",
     "remove_local":"Jouer en ligne",
-    "guest":"Local ",
+    "guest": "Local ",
     "AI": "Ordi ",
     "empty_slot": "Emplacement vide",
 
@@ -68,9 +74,6 @@
     "room_full": "Ce salon est complet pour le moment&thinsp;!",
 
     "404": "404&nbsp;: cette page n’existe pas&thinsp;!",
-    "what is blokus": " Blokus est un jeu de société sorti le 1 janvier 2000. C'est un jeu simple qui se joue rapidement, avec un nombre de joueurs compris entre 2 et 4. On peut jouer avec des personnes de plus de 7 ans. ",
-    "Discover":"Vous souhaiter découvrir les règles ? Suivez le ",
-    "You want to play":"Vous voulez jouez ?",
 
 
     "credits_localisation": "Localisation Anglais–Français",
@@ -78,5 +81,5 @@
     "credits_director": "Directeur Manager",
     "credits_chocolate": "Directrice de la logistique des barres chocolatées",
     "credits_illogic": "Manager de l’inefficacité illogique",
-    "credits_support": "Support émotionnel infini"
+    "credits_support": "Support émotionnel sans limite"
 }
