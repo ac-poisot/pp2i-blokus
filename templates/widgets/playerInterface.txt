@@ -13,8 +13,14 @@
 </div>
 {% else %}
 <div class="playerInterface c{{color}} closed" onClick="playerSelected(this)">
-<div class="playerName">
-    <span>{{username}}</span>
+<div class="playerName">    
+    {% if username[:6] == "Guest " %}
+        <span data="guest">{{username[6]}}</span>
+    {% elif username[:2] == "AI " %}
+        <span data="AI">{{username[3]}}</span>
+    {% else %}
+        <span>{{username}}</span>
+    {% endif %}
 </div>
 <div class="pieces">
 {% from 'widgets/piece.txt' import piece %}
