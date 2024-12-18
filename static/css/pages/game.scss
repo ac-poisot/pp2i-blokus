@@ -1,3 +1,4 @@
+@import "../widgets/variable";
 #gameInterface {
     display: grid;
     grid-template-columns: calc((90vw - 70vh) / 2) 70vh calc((90vw - 70vh) / 2);
@@ -93,7 +94,7 @@
     }
 }
 body {
-    background-color: #ffb247c4;
+    background-color: $background;
 }
 main {
     margin:2vh auto;

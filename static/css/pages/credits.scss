@@ -1,7 +1,7 @@
-
+@import "../widgets/variable";
 body {
     text-align: center;
-    background-color: #ffb247c4;
+    background-color: $background;
     h3 {
         color:black;
         margin-bottom: -1em;

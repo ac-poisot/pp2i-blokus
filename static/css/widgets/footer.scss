@@ -1,7 +1,9 @@
+@import "../widgets/variable";
+
 footer {
     display: flex;
     justify-content: center;
-    background-color: #ff5f00;
+    background-color: $FOOT;
     position: fixed;
     width:100vw;
     bottom: 0px;

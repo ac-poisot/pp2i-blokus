@@ -1,4 +1,5 @@
 /* hoverable information */
+@import "../widgets/variable";
 
 .tooltip {
     position: relative;
@@ -119,5 +120,5 @@ button[type="submit"]:hover {
   font-size: 20px;
 }
 body {
-  background-color: #ffb247c4;
+  background-color: $background;
 }

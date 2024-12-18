@@ -1,4 +1,6 @@
+
+@import "../widgets/variable";
 body {
-  background-color: #ffb247c4;
+  background-color: $background;
   text-align: center;
 }

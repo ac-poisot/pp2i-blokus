@@ -1,3 +1,4 @@
+@import "../widgets/variable";
 table#games {
     border-collapse: collapse;
     th, td {
@@ -8,7 +9,7 @@ table#games {
 body {
     text-align: center;
     margin:0;
-    background-color: #ffb247c4;
+    background-color:$background;
     main {
         position: relative;
         left: 50%;
