@@ -1,3 +1,14 @@
+body {
+  height: -moz-min-content;
+  height: min-content;
+}
+
+main {
+  margin: 0;
+  position: relative;
+  min-height: 82vh;
+}
+
 button[type=simple_button] {
   width: 10vw;
   padding: 10px;
@@ -13,6 +24,7 @@ button[type=simple_button] {
   display: flex;
   flex-direction: row;
   padding: 10px;
+  margin: 0;
 }
 #navbar > ul li {
   display: block;
@@ -40,11 +52,12 @@ button[type=simple_button] {
 
 header {
   background-color: #ff5f00;
+  height: 8vh;
   position: relative;
   width: 100vw;
   top: 0;
   left: 50%;
-  transform: translate(-50%, -40%);
+  transform: translate(-50%);
 }
 
 body {

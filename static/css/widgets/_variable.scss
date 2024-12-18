@@ -1,7 +1,15 @@
 $background : #6c65d6;
 $FOOT: #ff5f00;
 
+body {
+  height: min-content;
+}
+main {
+  margin:0;
+  position: relative;
+  min-height: 82vh;
 
+}
 button[type="simple_button"] {
     width: 10vw;
     padding: 10px;
