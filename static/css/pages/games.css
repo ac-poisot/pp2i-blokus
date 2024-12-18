@@ -11,16 +11,4 @@ button[type=simple_button] {
 
 body {
   background-color: #6c65d6;
-  text-align: center;
-}
-
-td ul {
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-}
-td ul li {
-  padding: auto;
-  margin: 3vw;
-  display: flex;
-}/*# sourceMappingURL=homepage.css.map */
+}/*# sourceMappingURL=games.css.map */

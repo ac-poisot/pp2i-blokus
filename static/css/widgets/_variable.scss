@@ -1,2 +1,14 @@
 $background : #6c65d6;
 $FOOT: #ff5f00;
+
+
+button[type="simple_button"] {
+    width: 10vw;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #ffb247c4;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }

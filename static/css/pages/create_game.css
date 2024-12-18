@@ -1,3 +1,14 @@
+button[type=simple_button] {
+  width: 10vw;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(255, 178, 71, 0.768627451);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
 #selectPlayers {
   margin: auto 15%;
   display: grid;
@@ -66,6 +77,17 @@ body main {
   transform: translate(-50%, 0);
 }
 body main button[type=leave_room_button] {
+  border-color: black;
+  width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #ffb247;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: auto;
+}
+body main button[type=create_games_button] {
   border-color: black;
   width: 200px;
   padding: 10px;

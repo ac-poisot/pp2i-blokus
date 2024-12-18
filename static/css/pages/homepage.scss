@@ -4,3 +4,16 @@ body {
   background-color: $background;
   text-align: center;
 }
+td{
+  ul {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    li {
+        padding: auto;
+        margin:3vw;
+        display: flex;
+    }
+  }
+}
+  

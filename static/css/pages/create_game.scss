@@ -88,6 +88,17 @@ body {
             transition: background-color 0.3s;
             margin:auto;
         }
+        button[type="create_games_button"] {
+            border-color: black;
+            width: 200px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #ffb247;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin:auto;
+        }    
     }
     p {
         margin: 0;
