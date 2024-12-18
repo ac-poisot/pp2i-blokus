@@ -4,14 +4,21 @@ body {
   background-color: $background;
   text-align: center;
 }
-td{
+
+table{
+  padding:auto;
+  padding-left: 10vw;
+  p {
+    width: 50vw;
+  }
   ul {
+    transform: translate(-3vw,);
+    width: 50vw;
     display: flex;
     flex-direction: row;
-    text-align: center;
     li {
         padding: auto;
-        margin:3vw;
+        margin-inline:auto;
         display: flex;
     }
   }

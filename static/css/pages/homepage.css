@@ -14,13 +14,21 @@ body {
   text-align: center;
 }
 
-td ul {
+table {
+  padding: auto;
+  padding-left: 10vw;
+}
+table p {
+  width: 50vw;
+}
+table ul {
+  transform: translate(-3vw);
+  width: 50vw;
   display: flex;
   flex-direction: row;
-  text-align: center;
 }
-td ul li {
+table ul li {
   padding: auto;
-  margin: 3vw;
+  margin-inline: auto;
   display: flex;
 }/*# sourceMappingURL=homepage.css.map */
