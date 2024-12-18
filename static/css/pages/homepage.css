@@ -1,6 +1,7 @@
 body {
   height: -moz-min-content;
   height: min-content;
+  text-align: center;
 }
 
 main {
@@ -10,8 +11,10 @@ main {
 }
 
 button[type=simple_button] {
-  width: 10vw;
-  padding: 10px;
+  width: auto;
+  min-width: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
   border-radius: 4px;
   background-color: rgba(255, 178, 71, 0.768627451);
   color: white;

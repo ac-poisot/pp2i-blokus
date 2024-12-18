@@ -56,3 +56,51 @@ body {
         transition: background-color 0.3s;
       }
 }
+
+//La suite c'est pour le menu coulissant
+
+
+
+
+$menu-width: 250px;
+
+
+
+.open-btn {
+    cursor: pointer;
+}
+
+.menu {
+    text-align: center;
+    height: 0;
+    width: 10vw;
+    position: fixed;
+    top: 8vh;
+    right: 0; 
+    background-color: $FOOT;
+    overflow-x: hidden;
+    transition: 0.5s;
+    z-index: 1;
+    a {
+        text-decoration: none;
+        font-size: 25px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+        margin-top: 1vh;
+        &:hover {
+            color: black;
+        }
+    }
+
+    .close-btn {
+        color: white;
+        position: relative;
+        top: 0vh;
+        left: 1vw; 
+        font-weight: bold;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+}
