@@ -326,12 +326,13 @@ def players():
                 if(pindex != 0): return jsonify({"error": "Not allowed"})
                 if "needAI" in request.json.keys(): # We create an AI if one is requested at a certain index
                     needAI = request.json["needAI"]
-                    players[int(needAI['index'])] = f"AI{int(needAI['level'])}" ## TODO : add the AI
+                    players[int(needAI['index'])] = f"AI {needAI['index']}-{int(needAI['level'])}" ## TODO : add the AI
                 set_room(players, roomid)
                 return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
             
             # If the game master asks to make a game from this room
             elif("launch" in request.json.keys() and room and room.index(pid) == 0):
+                    set_room(list(map(lambda elt: elt if elt != -1 else None, get_room(roomid))), roomid)
                     change_game_state(roomid, -1)
                     return {"redirection": "/game"}
             else: return jsonify({"error": "Not allowed"})

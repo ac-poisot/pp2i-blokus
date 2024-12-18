@@ -39,7 +39,7 @@ function updateNames() {
         } else if(usernames[i].slice(0, 6) == "Guest ") {
             playerNameSpans[i].setAttribute("data", "guest")
             playerNameSpans[i].textContent = langData["guest"] + usernames[i].slice(6)
-        } else if(usernames[i].slice(0, 2) == "AI") {
+        } else if(usernames[i].slice(0, 3) == "AI ") {
             playerNameSpans[i].setAttribute("data", "AI")
             playerNameSpans[i].textContent = langData["AI"] + usernames[i].slice(2)
         } else {

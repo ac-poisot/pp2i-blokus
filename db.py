@@ -374,7 +374,7 @@ def get_playername_list(gameid: str):
                 pass
             elif players[i].isdigit():
                 players[i] = get_username(int(players[i]))
-            elif isinstance(players[i], str) and " " in players[i]:
+            elif isinstance(players[i], str) and "Guest " in players[i]:
                 players[i] = f"Guest {i}"
             elif players[i] == "-1":
                 players[i] = "Empty slot"

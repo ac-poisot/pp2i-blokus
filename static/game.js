@@ -13,6 +13,16 @@ var oriented = 0
 var correct = false
 var inverted = false
 
+var langData = null
+async function fetchLanguageData() {
+    const response = await fetch(`/static/lang/${localStorage.getItem('language') || 'fr'}.json`);
+    const data = await response.json()
+
+    return data;
+}
+
+fetchLanguageData().then(data => langData = data)
+
 function updatedata() {
     fetch(`API//data?${window.location.search.split("?")[1]}`, {credentials: "same-origin"})
     .then(res => res.json())
@@ -34,7 +44,15 @@ function updatedata() {
                 }
             }
             for(i = 0; i < data["players"].length; i++) {
-                if(document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`)) document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`).textContent = data["players"][i]
+                if(document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`)) {
+                    if(data["players"][i].slice(0, 6) == "Guest ") {
+                        document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`).textContent = langData["guest"] + data["players"][i].slice(6)
+                    } else if(data["players"][i].slice(0, 2) == "AI") {
+                        document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`).textContent = langData["AI"] + data["players"][i].slice(2)
+                    } else {
+                        document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`).textContent = data["players"][i]
+                    }
+                }
             }
 
         }
