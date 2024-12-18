@@ -61,10 +61,8 @@
     "error_password": "Wrong password!",
     "error_not_connected": "You need to be logged in to perform this action…",
     "already_logged_in": "You are already logged in!",
-
     "non_existent_user": "User doesn’t exist!",
-    "user_deleted": "This user has been deleted!",
-
+    
     "non_existent_room": "This room does not exist!",
     "not_allowed": "You do not have access to this game!",
     "room_full": "This room is currently full!",

@@ -483,38 +483,34 @@ def change_username():
 @app.route("/profile/<pid>", methods=['GET', 'POST'])
 def profile(pid):
     if request.method == 'GET':
-        pid = request.cookies.get('pid')
-        if((not pid) or not request.cookies.get("token") or get_token(int(pid)) != request.cookies.get("token")): # If the visitor isn't connected properly
+        vpid = request.cookies.get('pid')
+        if((not vpid) or not request.cookies.get("token") or get_token(int(vpid)) != request.cookies.get("token")): # If the visitor isn't connected properly
             vis_username = None
         else:
             vis_username = get_username(request.cookies.get('pid'))
 
         username = get_username(pid)
         if username:
-            if username == "DELETED":
-                flash("user_deleted")
-                return wrap(render_template("pages/404.html"))
-            else:
-                nbvictories = 0
-                nbdefeats = 0
-                nbdraws = 0
-                data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
-                states = []
-                for i in range(len(data)):
-                    if(data[i][3] == 0):
-                        nbdraws += 1
-                        states.append("0")
-                    elif(data[i][3] == -1):
-                        states.append("?")
-                    elif(data[i][1][data[i][3]-1] == int(pid)):
-                        nbvictories += 1
-                        states.append("1")
-                    else:
-                        nbdefeats += 1
-                        states.append("-1")
-                games=[{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0], "state":states[i]} for i in range(len(data))]
-                ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
-                return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
+            nbvictories = 0
+            nbdefeats = 0
+            nbdraws = 0
+            data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
+            states = []
+            for i in range(len(data)):
+                if(data[i][3] == 0):
+                    nbdraws += 1
+                    states.append("0")
+                elif(data[i][3] == -1):
+                    states.append("?")
+                elif(data[i][1][data[i][3]-1] == int(pid)):
+                    nbvictories += 1
+                    states.append("1")
+                else:
+                    nbdefeats += 1
+                    states.append("-1")
+            games=[{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+            ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
+            return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
         else:
             flash("non_existent_user")
             return wrap(render_template("pages/404.html"))
