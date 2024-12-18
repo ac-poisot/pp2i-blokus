@@ -137,7 +137,7 @@ def login():
         if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
             return wrap(render_template("pages/login.html"))
         else:
-            flash("alread_logged_in")
+            flash("already_logged_in")
             return wrap(render_template("pages/404.html"))
     else:
         pid = get_pid(request.form["username"])
