@@ -446,7 +446,10 @@ def handle_data():
                     state = 0
                 else:
                     scoreboard.sort(reverse = True, key = lambda elt: elt[1])
-                    state = scoreboard[0][0]
+                    if(scoreboard[0][1] != scoreboard[1][1]):
+                        state = scoreboard[0][0]
+                    else:
+                        state = 0
                 change_game_state(gameid, state)
                 return jsonify({"finished": True})
 
