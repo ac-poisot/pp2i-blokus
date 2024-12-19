@@ -20,6 +20,7 @@ logging.getLogger("werkzeug").disabled = True
 
 
 from pieces import pieces
+from ai import ais
 
 # DB connection
 
@@ -403,30 +404,36 @@ def handle_data():
                 game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1) # We play the move
                 new_move(gameid, pindex+1, int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
 
-                # We change the player how can play to the next player
+                # We change the player who can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.players: game.is_playing = game.players[game.is_playing_index]
-                while (not game.can_play(game.is_playing)) and len(game.players) != 0:
-                    game.delete_player(game.is_playing)
-                    if game.is_playing_index >= len(game.players):
-                        game.is_playing_index = 0
-                    if len(game.players) != 0:
-                        game.is_playing = game.players[game.is_playing_index]
+                while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing_index][:3] == "AI ") and len(game.players) != 0:
+                    if(not game.can_play(game.is_playing)):
+                        game.delete_player(game.is_playing)
+                        if game.is_playing_index >= len(game.players):
+                            game.is_playing_index = 0
+                        if len(game.players) != 0:
+                            game.is_playing = game.players[game.is_playing_index]
+                    else:
+                        ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](game)
 
             # If it is a local player's turn  and he can play the move he chose
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
                 game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]) # We play the move
                 new_move(gameid, game.players[game.is_playing_index], int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
 
-                # We change the player how can play to the next player
+                # We change the player who can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.players: game.is_playing = game.players[game.is_playing_index]
-                while (not game.can_play(game.is_playing)) and len(game.players) != 0:
-                    game.delete_player(game.is_playing)
-                    if game.is_playing_index >= len(game.players):
-                        game.is_playing_index = 0
-                    if len(game.players) != 0:
-                        game.is_playing = game.players[game.is_playing_index]
+                while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing_index][:3] == "AI ") and len(game.players) != 0:
+                    if(not game.can_play(game.is_playing)):
+                        game.delete_player(game.is_playing)
+                        if game.is_playing_index >= len(game.players):
+                            game.is_playing_index = 0
+                        if len(game.players) != 0:
+                            game.is_playing = game.players[game.is_playing_index]
+                    else:
+                        ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](game)
 
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
