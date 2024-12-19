@@ -230,8 +230,8 @@ document.addEventListener("pointermove", (event) => {
         
         var selected = document.querySelector(".selected")
         if(selected) selected.style.visibility = "visible"
-        selected.style.left = `${event.clientX - 1.5 * window.innerHeight / 100}px`
-        selected.style.top = `${event.clientY - 1.5 * window.innerHeight / 100}px`
+        selected.style.left = `${event.clientX - 0.5 * window.innerHeight / 100}px`
+        selected.style.top = `${event.clientY + 1.5 * window.innerHeight / 100}px`
     }
 })
 
