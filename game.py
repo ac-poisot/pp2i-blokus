@@ -270,6 +270,21 @@ class Game:
             print(f"Player {player} pieces left: {self.availible[player-1]}")
             print(f"Score: {self.score(player)}")
 
+    def copy_game(self):
+        """
+        copy a game data
+        """
+        g = Game(self.players)
+        g.players = self.players.copy()
+        g.availible = [self.availible[i].copy() for i in range(len(self.availible))]
+        g.bonus = self.bonus.copy()
+        g.board = [[self.board[i][j].copy() for j in range(len(self.board[i]))] for i in range(len(self.board))]
+        g.red_pieces = [self.red_pieces[i].copy() for i in range(len(self.red_pieces))]
+        g.is_playing = self.is_playing
+        g.is_playing_index = self.is_playing_index
+        g.maxn = self.maxn
+        return g
+
 
 def retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, int, int, bool]]) -> Game:
     """
