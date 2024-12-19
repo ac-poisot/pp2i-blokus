@@ -28,13 +28,7 @@ function updatedata() {
     .then(res => res.json())
     .then(data => {
         if (data["error"]) {
-            if(data["error"] == "Not connected") {
-                document.cookie = ""
-                window.location.href = '/not_connected'
-            }
-            if(data["error"] == "Not allowed") {
-                window.location.href = '/not_allowed'
-            }
+            document.location.reload()
             return
         }
         if(data["grid"]) {
@@ -262,13 +256,7 @@ function play() {
         }).then(res => res.json()
         ).then(data => {
             if (data["error"]) {
-                if(data["error"] == "Not connected") {
-                    document.cookie = ""
-                    window.location.href = '/not_connected'
-                }
-                if(data["error"] == "Not allowed") {
-                    window.location.href = '/not_allowed'
-                }
+                document.location.reload()
                 return
             }
             if(data["grid"]) {

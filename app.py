@@ -167,10 +167,14 @@ def login():
 @app.route("/games")
 def games():
     pid = request.cookies.get("pid")
-    if(not pid): return redirect("/not_connected") # If not connected
+    if(not pid): # If not connected
+        flash("not_connected")
+        return wrap(render_template("404.html"))
 
     pid = int(pid)
-    if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): return redirect("/not_connected") # If the token doesn't exist or doesn't correspond or is outdated
+    if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If the token doesn't exist or doesn't correspond or is outdated
+        flash("not_connected")
+        return wrap(render_template("404.html"))
 
     data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
     gameList = []
@@ -433,7 +437,18 @@ def handle_data():
             pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
-            if(len(game.players) == 0): return jsonify({"finished": True})
+            if(len(game.players) == 0):
+                scoreboard = []
+                for i in range(len(players)):
+                    if players[i] != None:
+                        scoreboard.append((i+1, game.score(i+1)))
+                if(len(scoreboard) == 1):
+                    state = 0
+                else:
+                    scoreboard.sort(reverse = True, key = lambda elt: elt[1])
+                    state = scoreboard[0][0]
+                change_game_state(gameid, state)
+                return jsonify({"finished": True})
 
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
