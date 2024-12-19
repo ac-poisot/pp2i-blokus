@@ -186,30 +186,23 @@ class Game:
         """
         returns the list of all possible moves for a player
         """
-        rotation = [0, 90, 180, 270]
-        flipped = [True, False]
 
         res = list()
 
         # we go through every availible cell, and check if every rotation of every piece can be placed there
         for p in self.availible[player - 1]:
             for c in self.red_pieces[player - 1]:
-                for r in rotation:
-                    for b in flipped:                        
-                        cur_p = rotate(p, r, b)
-                        
-                        # Avoid checking duplicate configurations
-                        if cur_p == pieces[p - 1] and (b or r != 0):
-                            continue 
-                    
-                        xmin = c[0] - len(cur_p)
-                        xmax = c[0]
-                        ymin = c[1] - len(cur_p[0])
-                        ymax = c[1]
-                        for x in range(xmin, xmax + 1):
-                            for y in range(ymin, ymax + 1):
-                                if self.is_legal(p, r, (x, y), b, player):
-                                    res.append((p, r, (x, y), b))
+                for [r, f] in pieces_rotations[p-1]:
+                    cur_p = rotate(p, r, f)
+
+                    xmin = c[0] - len(cur_p)
+                    xmax = c[0]
+                    ymin = c[1] - len(cur_p[0])
+                    ymax = c[1]
+                    for x in range(xmin, xmax + 1):
+                        for y in range(ymin, ymax + 1):
+                            if self.is_legal(p, r, (x, y), f, player):
+                                res.append((p, r, (x, y), f))
         
         return res
 
@@ -217,19 +210,11 @@ class Game:
         """
         returns whether a player as an availible move or not
         """
-        rotation = [0, 90, 180, 270]
-        flipped = [True, False]
-
         # we go through every availible cell, and check if every rotation of every piece can be placed there
         for p in self.availible[player - 1]:
             for c in self.red_pieces[player - 1]:
-                for r in rotation:
-                    for b in flipped:
-                        cur_p = rotate(p, r, b)
-
-                        # Avoid checking duplicate configurations
-                        if cur_p == pieces[p - 1] and (b or r != 0):
-                            continue
+                for [r, f] in pieces_rotations[p-1]:
+                        cur_p = rotate(p, r, f)
                     
                         xmin = c[0] - len(cur_p)
                         xmax = c[0]
@@ -237,7 +222,7 @@ class Game:
                         ymax = c[1]
                         for x in range(xmin, xmax + 1):
                             for y in range(ymin, ymax + 1):
-                                if self.is_legal(p, r, (x, y), b, player):
+                                if self.is_legal(p, r, (x, y), f, player):
                                     return True
         
         return False
@@ -309,7 +294,7 @@ def retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, in
     return g
 
 if __name__ == "__main__":
-    g1 = Game([1, 4])
+    g1 = Game([1, 2, 4])
     start = time.time()
     g1.play_game()
     print(f"Time taken: {time.time() - start}")

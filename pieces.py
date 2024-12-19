@@ -66,7 +66,7 @@ def rotate(piece:int, rotation:{0, 90, 180, 270}, flipped:bool) -> list[list[int
                 G[len(p[0])-j-1][len(p)-i-1] = p[i][j]
     return G
 
-def afficher(piece:int, rotation:{0, 90, 180, 270} = 0, flipped:bool = False):
+def display(piece:int, rotation:{0, 90, 180, 270} = 0, flipped:bool = False):
         T = rotate(piece, rotation, flipped)
         if not T:
             return ""
@@ -83,3 +83,18 @@ def afficher(piece:int, rotation:{0, 90, 180, 270} = 0, flipped:bool = False):
                     print("⬜", end = "")
             print()
         print("\n")
+
+def possible_rotations(piece:int) -> list[list[list[int]]]:
+    T = pieces[piece - 1]
+    res = [[0, False]]
+    tested = [T]
+    for rot in [0, 90, 180, 270]:
+        for flipped in [True, False]:
+            p = rotate(piece, rot, flipped)
+            if p not in tested:
+                tested.append(p)
+                res.append([rot, flipped])
+
+    return res
+
+pieces_rotations = [possible_rotations(i) for i in range(len(pieces))]

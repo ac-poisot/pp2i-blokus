@@ -40,7 +40,7 @@ Les pièces sont définies dans le fichier pieces.py, de la façon expliquée pl
 - fonction rotate : 
     prend en parametre le numéro de la pièce, la rotation dans un ensemble de valeurs et un booléen. On renvoie ensuite une nouvelle pièce qui suit les règles d'orientation et de retournement énoncées plus haut.
 
-- fonction afficher :
+- fonction display :
     affiche la pièce avec le code couleur défini dans Stockage.
 
 
