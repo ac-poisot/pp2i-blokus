@@ -1,7 +1,9 @@
 <div id="background">
     {% from 'widgets/piece.txt' import piece %}
-    {% for p in pieces %}
-        {{ piece(p,2)}}
+    {% for i in range(4) %}
+        {% for p in pieces %}
+            {{ piece(p,i+1)}}
+        {% endfor %}
     {% endfor %}
 </div>
 
