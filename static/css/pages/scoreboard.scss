@@ -1,0 +1,19 @@
+@import "../widgets/variable";
+body {
+    background-color: $background;
+    text-align: center;
+    main {
+        text-align: center;
+        p {
+            color:red;
+        }
+        table {
+            border-collapse: collapse;
+            margin-inline:auto;
+            td,tr {
+                
+                border: 1px solid black;
+            }
+        }
+    }
+}
