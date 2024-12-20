@@ -21,15 +21,22 @@ def heuristic1(game, player):
 def rec_minmax(game, depth, player, heuristic):
     if depth == 0:
         return heuristic(game, player)
-    else:
+    elif game.can_play(game.is_playing):
         best = -1
         for p in game.possible_moves(game.is_playing):
             g = game.copy_game()
             piece, rotation, (x, y), flipped = p
             g.add_piece(piece, rotation, (x, y), flipped, g.is_playing)
             g.is_playing_index = (g.is_playing_index + 1) % (len(g.players))
+            while (not game.can_play(g.is_playing)):
+                    g.delete_player(g.is_playing)
+                    if g.is_playing_index >= len(g.players):
+                        g.is_playing_index = 0
+
             best = max(best, rec_minmax(g, depth-1, player, heuristic))
         return best
+    else:
+        return heuristic(game, player)
 
 
 def min_max(gameid, game, depth, heuristic):
@@ -57,4 +64,4 @@ def ai2(gameid, game):
 def ai3(gameid, game):
     min_max(gameid, game, 2, heuristic1)
 
-ais = [ai_easy, ai2, ai3]
+ais = [ai_easy, ai3, ai3]
