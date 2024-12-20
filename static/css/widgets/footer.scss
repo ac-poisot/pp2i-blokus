@@ -1,14 +1,12 @@
 @import "../widgets/variable";
 
 footer {
-    min-height: 5vh;
+    min-height: 5vh;    
     display: flex;
     justify-content: center;
     background-color: $FOOT;
-
+    position: relative;
     width:100vw;
-    bottom: 0px;
-    left: 50%;
 /*Normalement le footer devient centrer*/
 
     ul {

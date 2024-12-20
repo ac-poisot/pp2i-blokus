@@ -27,9 +27,8 @@ footer {
   display: flex;
   justify-content: center;
   background-color: #ff5f00;
+  position: relative;
   width: 100vw;
-  bottom: 0px;
-  left: 50%;
   /*Normalement le footer devient centrer*/
 }
 footer ul {
