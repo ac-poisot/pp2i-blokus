@@ -116,8 +116,8 @@ function selectPiece(event, elt, shape, col, id) {
     clone.classList.add("selected")
     document.querySelector("#gameInterface").appendChild(clone)
     var selected = document.querySelector(".selected")
-    selected.style.left = `${event.clientX - 1.5 * window.innerHeight / 100}px`
-    selected.style.top = `${event.clientY - 1.5 * window.innerHeight / 100}px`
+    selected.style.left = `${event.clientX - 1.5 * window.innerWidth}px`
+    selected.style.top = `${event.clientY - 1.5 * window.innerHeight / 100 - 9/100 * window.innerHeight}px`
     currentShape = shape
     currentid = id
     oriented = 0
@@ -224,8 +224,8 @@ document.addEventListener("pointermove", (event) => {
         
         var selected = document.querySelector(".selected")
         if(selected) selected.style.visibility = "visible"
-        selected.style.left = `${event.clientX - 0.5 * window.innerHeight / 100}px`
-        selected.style.top = `${event.clientY + 1.5 * window.innerHeight / 100}px`
+        selected.style.left = `${event.clientX - 0.8 * window.innerWidth / 100}px`
+        selected.style.top = `${event.clientY + 1.5 * window.innerHeight / 100 - 12/100 * window.innerHeight}px`
     }
 })
 
