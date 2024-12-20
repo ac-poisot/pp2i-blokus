@@ -1,0 +1,19 @@
+#background {
+    z-index: 1;
+    position: absolute;
+    width: 100vw;
+    top: 0;
+    left: 0;
+
+    .piece {
+        position:absolute;
+        visibility: hidden;
+    }
+}
+
+@keyframes go_down {
+    100%{
+        transform: translateY(100vh);
+    }
+    
+}

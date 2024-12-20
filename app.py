@@ -62,7 +62,7 @@ def wrap(template):
         pid = request.cookies.get('pid')
     else:
         pid =-1
-    return render_template("widgets/header.html", pid=pid) + template + render_template("widgets/footer.html")
+    return render_template("widgets/header.html", pid=pid) + template + render_template('widgets/background.html', pieces=pieces) + render_template("widgets/footer.html")
 
 @app.teardown_appcontext
 def close_connection(exception):

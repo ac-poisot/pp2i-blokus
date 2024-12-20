@@ -1,0 +1,10 @@
+<div id="background">
+    {% from 'widgets/piece.txt' import piece %}
+    {% for p in pieces %}
+        {{ piece(p,2)}}
+    {% endfor %}
+</div>
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/widgets/piece.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/widgets/background.css')}}">
+<script src="{{url_for('static', filename="background.js")}}"></script>
