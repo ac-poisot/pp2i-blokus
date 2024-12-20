@@ -67,7 +67,3 @@ function openMenuL() {
     }
 }
 
-
-function closeMenuL() {
-    document.getElementById("menu").style.height = "0vh";
-}
