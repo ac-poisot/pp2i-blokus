@@ -93,6 +93,37 @@ class Game:
         print("")
 
 
+    def is_red_cell(self, x, y, player_index):
+        """"
+        Returns whether a piece of the chosen player can start at this cell or not
+        """
+        angleContact = False
+        if self.board[x][y][player_index] != 'N': return False
+        if x-1 >= 0:
+            if self.board[x-1][y][player_index] == 'P': return False
+            if y-1 >= 0 and self.board[x-1][y-1][player_index] == 'P': angleContact = True
+            if y+1 < len(self.board[x]) and self.board[x-1][y+1][player_index] == 'P': angleContact = True
+        if x+1 < len(self.board):
+            if self.board[x+1][y][player_index] == 'P': return False
+            if y-1 >= 0 and self.board[x+1][y-1][player_index] == 'P': angleContact = True
+            if y+1 < len(self.board[x]) and self.board[x+1][y+1][player_index] == 'P': angleContact = True
+        if y-1 >= 0 and self.board[x][y-1][player_index] == 'P': return False
+        if y+1 < len(self.board[x]) and self.board[x][y+1][player_index] == 'P': return False
+        return angleContact
+    
+
+    def is_inaccessible_cell(self, x, y, player_index):
+        """"
+        Returns whether a cell is inaccessible to a player or not
+        """
+        if self.board[x][y][player_index] != 'N': return False
+        if x-1 >= 0 and self.board[x-1][y][player_index] == 'P': return False
+        if x+1 < len(self.board) and self.board[x+1][y][player_index] == 'P': return False
+        if y-1 >= 0 and self.board[x][y-1][player_index] == 'P': return False
+        if y+1 < len(self.board[x]) and self.board[x][y+1][player_index] == 'P': return False
+        return True
+    
+
     def add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> None:
         """
         adds a piece onto the board without any verification of legality whatsoever
@@ -114,7 +145,7 @@ class Game:
                     
                 elif to_add[i][j] == 2 and self.board[i+x][j+y][player - 1] in ['A', 'N']:
                     self.red_pieces[player - 1].append((i+x, j+y))
-                    self.board[i+x][j+y][player - 1] = 'A'
+                    if self.is_red_cell(i+x, j+y, player-1): self.board[i+x][j+y][player - 1] = 'A'
     
         # Make it so that a player cannot play in another corner
         if len(self.availible[player - 1]) == 21:
@@ -129,6 +160,48 @@ class Game:
         if len(self.availible[player - 1]) == 1 and piece == 1:
             self.bonus[player - 1] = True
         self.availible[player - 1].remove(piece)
+
+
+
+
+    def remove_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> None:
+        """
+        removes a piece onto the board without any verification of legality whatsoever
+        CAREFUL: piece is an integer!
+        position is a tuple (x, y)
+        """
+        x, y = position
+        to_remove = rotate(piece, rotation, flipped)
+        n = len(to_remove)
+        l = len(to_remove[0])
+        for i in range(n):
+            for j in range(l):
+                if to_remove[i][j] == 1: # Adding the piece
+                    self.board[i+x][j+y] = ['N' for _ in range(self.maxn)]
+                    for k in self.players:
+                        if(self.is_red_cell(x+i, y+j, k - 1)):
+                            self.red_pieces[player - 1].append((i+x, j+y))
+                            self.board[i+x][j+y][player - 1] = 'A'
+                        elif self.is_inaccessible_cell(x+i, y+j, player - 1):
+                            self.board[i+x][j+y][player - 1] = 'I'
+
+        for i in range(n):
+            for j in range(l):
+                if to_remove[i][j] == 2 and self.board[i+x][j+y][player - 1] == 'A' and not self.is_red_cell(x+i, y+j, player - 1):
+                    self.red_pieces[player - 1].remove((x+i, y+j))
+    
+        # Make it so that a player cannot play in another corner
+        if len(self.availible[player - 1]) == 20:
+            corners = (1, 1, 0, 0), (1, 20, 0, 21), (20, 1, 21, 0), (20, 20, 21, 21)
+            for corner in corners:
+                if self.board[corner[0]][corner[1]][player - 1] == 'A':
+                    self.red_pieces[player - 1].remove((corner[0], corner[1]))
+                    self.board[corner[0]][corner[1]][player - 1] = 'N'
+                    self.board[corner[2]][corner[3]][player - 1] = 'I'
+
+        if len(self.availible[player - 1]) == 0 and piece == 1:
+            self.bonus[player - 1] = False
+        self.availible[player - 1].append(piece)
 
 
     def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
