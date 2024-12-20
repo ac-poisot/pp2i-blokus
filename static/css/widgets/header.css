@@ -6,7 +6,6 @@ body {
 
 main {
   margin: 0;
-  position: relative;
   min-height: 82vh;
 }
 
@@ -56,6 +55,7 @@ button[type=simple_button] {
 header {
   background-color: #ff5f00;
   height: 8vh;
+  min-height: 3em;
   position: relative;
   width: 100vw;
   top: 0;
@@ -67,8 +67,10 @@ body {
   margin: 0;
 }
 body button[type=head_button] {
+  box-sizing: border-box;
   width: 100%;
-  padding: 10px;
+  height: auto;
+  padding: 1vh;
   border-radius: 4px;
   background-color: rgba(255, 178, 71, 0.768627451);
   color: white;
@@ -85,7 +87,7 @@ body button[type=head_button] {
   text-align: center;
   height: 0;
   width: 10vw;
-  position: fixed;
+  position: absolute;
   top: 8vh;
   right: 0;
   background-color: #ff5f00;

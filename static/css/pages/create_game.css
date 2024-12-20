@@ -6,7 +6,6 @@ body {
 
 main {
   margin: 0;
-  position: relative;
   min-height: 82vh;
 }
 
@@ -92,7 +91,8 @@ body main {
 }
 body main button[type=leave_room_button] {
   border-color: black;
-  width: 200px;
+  width: 8vw;
+  min-width: 5em;
   padding: 10px;
   border-radius: 10px;
   background-color: #ffb247;
@@ -103,7 +103,8 @@ body main button[type=leave_room_button] {
 }
 body main button[type=create_games_button] {
   border-color: black;
-  width: 200px;
+  width: 8vw;
+  min-width: 5em;
   padding: 10px;
   border-radius: 10px;
   background-color: #ffb247;
