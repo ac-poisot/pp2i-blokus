@@ -87,7 +87,7 @@ body button[type=head_button] {
   text-align: center;
   height: 0;
   width: 10vw;
-  position: fixed;
+  position: absolute;
   top: 8vh;
   right: 0;
   background-color: #ff5f00;

@@ -59,7 +59,12 @@ function togglePasswordConfVisibility() {
 
 
 function openMenuL() {
-    document.getElementById("menu").style.height = "25vh";
+    if (document.getElementById("menu").style.height == "0vh") {
+        document.getElementById("menu").style.height = "25vh";
+    }
+    else {
+        document.getElementById("menu").style.height = "0vh";
+    }
 }
 
 
