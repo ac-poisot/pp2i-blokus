@@ -176,21 +176,21 @@ class Game:
         l = len(to_remove[0])
         for i in range(n):
             for j in range(l):
-                if to_remove[i][j] == 1: # Adding the piece
+                if to_remove[i][j] == 1: # Removing the piece
                     self.board[i+x][j+y] = ['N' for _ in range(self.maxn)]
                     for k in self.players:
                         if(self.is_red_cell(x+i, y+j, k - 1)):
-                            self.red_pieces[player - 1].append((i+x, j+y))
-                            self.board[i+x][j+y][player - 1] = 'A'
-                        elif self.is_inaccessible_cell(x+i, y+j, player - 1):
-                            self.board[i+x][j+y][player - 1] = 'I'
+                            self.red_pieces[k - 1].append((i+x, j+y))
+                            self.board[i+x][j+y][k - 1] = 'A'
+                        elif self.is_inaccessible_cell(x+i, y+j, k - 1):
+                            self.board[i+x][j+y][k - 1] = 'I'
 
         for i in range(n):
             for j in range(l):
                 if to_remove[i][j] == 2 and self.board[i+x][j+y][player - 1] == 'A' and not self.is_red_cell(x+i, y+j, player - 1):
                     self.red_pieces[player - 1].remove((x+i, y+j))
     
-        # Make it so that a player cannot play in another corner
+        # Make it so that the player can play in another corner
         if len(self.availible[player - 1]) == 20:
             corners = (1, 1, 0, 0), (1, 20, 0, 21), (20, 1, 21, 0), (20, 20, 21, 21)
             for corner in corners:
