@@ -1,4 +1,4 @@
-<main id="createGame">
+<main id="createGame" class="not_responsive">
     <div id="selectPlayers">
         {% from 'widgets/selectPlayer.txt' import selectPlayer %}
         {{ selectPlayer(1, usernames[0], -1 if players[0] == -1 else (0 if players[0] == None else players[0]), master) }}

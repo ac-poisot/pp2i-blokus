@@ -57,12 +57,15 @@ def recreateGame(gameid):
     return game
 
 
-def wrap(template):
+def wrap(template, responsive=True):
     if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
         pid = request.cookies.get('pid')
     else:
         pid =-1
-    return render_template("widgets/header.html", pid=pid) + template + render_template('widgets/background.html', pieces=pieces) + render_template("widgets/footer.html")
+    if responsive:
+        return render_template("widgets/header.html", pid=pid) + template + render_template('widgets/background.html', pieces=pieces) + render_template("widgets/footer.html")
+    else:
+        return render_template("widgets/header.html", pid=pid) + template + render_template('widgets/background.html', pieces=pieces) + render_template("widgets/not_available.html") + render_template("widgets/footer.html")
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -210,7 +213,7 @@ def create_game():
     
     players = get_room(roomid)
     if(pid in players): # If the player is in the room
-        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)))
+        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)), responsive=False)
     
     else: # Else, we reject his access
         flash("not_allowed")
@@ -294,7 +297,7 @@ def game():
     isplaying = game.players[game.is_playing_index]
     you = isplaying-1 if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))
 
-    return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you=you))
+    return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you=you), responsive=False)
 
 
 @app.route("/API/create", methods=['GET', 'POST'])

@@ -85,7 +85,7 @@ $menu-width: 250px;
     background-color: $FOOT;
     overflow-x: hidden;
     transition: 0.5s;
-    z-index: 1;
+    z-index: 4;
     a {
         text-decoration: none;
         font-size: 25px;
@@ -107,5 +107,16 @@ $menu-width: 250px;
         background: none;
         border: none;
         cursor: pointer;
+    }
+}
+
+
+@media (max-width: 1281px) {
+    button[type="head_button"] {
+        min-height: 6vh;
+    }
+
+    .menu {
+        width: 50vw;
     }
 }

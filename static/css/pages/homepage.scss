@@ -5,22 +5,42 @@ body {
   text-align: center;
 }
 
-table{
+article{
   padding:auto;
-  padding-left: 10vw;
-  p {
-    width: 50vw;
-  }
-  ul {
-    transform: translate(-3vw,);
-    width: 50vw;
-    display: flex;
-    flex-direction: row;
-    li {
-        padding: auto;
-        margin-inline:auto;
-        display: flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  #presentation {
+    p {
+      width: 50vw;
+    }
+    ul {
+      transform: translate(-3vw,);
+      width: 50vw;
+      display: flex;
+      flex-direction: row;
+      li {
+          padding: auto;
+          margin-inline:auto;
+          display: flex;
+      }
     }
   }
 }
-  
+
+
+
+@media (max-width: 1281px) {
+  article {
+    flex-direction: column;
+    width: 100vw;
+    height: min-content;
+
+    img {
+      width: 90vw;
+      margin: auto;
+    }
+  }
+}

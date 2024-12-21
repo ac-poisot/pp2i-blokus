@@ -4,9 +4,33 @@ body {
     background-color: $background;
     text-align: center;
     #pieces_table {
-        table {
-            margin: 0 auto 0 auto;
+        margin: 0 auto 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 12vh);
+        background-color: #2e2e2e;
+
+        .piece {
+            margin: auto;
         }
     }
 
+    #presentation {
+        width: 90vw;
+        background-color: #2e2e2e;
+        margin: 0 auto 0 auto;
+    }
+
+}
+
+@media (min-width: 1281px) {
+    #pieces_table {
+        width: 84vh;
+    }
+}
+
+@media (max-width: 1281px) {
+    #pieces_table {
+        width: calc((90vw / 14vh) * 14vh - 2vh);
+        gap: 1vh;
+    }
 }

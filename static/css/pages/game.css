@@ -7,13 +7,18 @@ body {
   flex-direction: column;
 }
 
-main {
+main, #not_available {
   margin: 0;
   position: relative;
   z-index: 2;
   flex-grow: 1;
 }
 
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
 button[type=simple_button] {
   width: auto;
   min-width: 1vw;
@@ -27,6 +32,14 @@ button[type=simple_button] {
   transition: background-color 0.3s;
 }
 
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+}
 #gameInterface {
   display: grid;
   grid-template-columns: calc((90vw - 70vh) / 2) 70vh calc((90vw - 70vh) / 2);
