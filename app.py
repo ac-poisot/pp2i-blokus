@@ -168,13 +168,13 @@ def login():
 def games():
     pid = request.cookies.get("pid")
     if(not pid): # If not connected
-        flash("not_connected")
-        return wrap(render_template("404.html"))
+        flash("error_not_connected")
+        return wrap(render_template("pages/404.html"))
 
     pid = int(pid)
     if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If the token doesn't exist or doesn't correspond or is outdated
-        flash("not_connected")
-        return wrap(render_template("404.html"))
+        flash("error_not_connected")
+        return wrap(render_template("pages/404.html"))
 
     data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
     gameList = []
