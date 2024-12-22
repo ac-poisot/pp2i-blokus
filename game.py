@@ -34,7 +34,7 @@ class Game:
         availible = [[i for i in range(1, 22)] for _ in range(n)]
         bonus = [False for i in range(n)]
 
-        self.players = players
+        self.players = list.copy(players)
         self.availible = availible
         self.bonus = bonus
         self.board = game_board
@@ -295,17 +295,23 @@ def retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, in
     player = g.players[-1]
     for move in moves:
         _, _, player, piece, x, y, rotation, flipped = move
-        g.add_piece(piece, rotation, (x, y), flipped, player)
+        if piece != -1:
+            g.add_piece(piece, rotation, (x, y), flipped, player)
 
-    for p in players:
+        else:
+            g.delete_player(player)  
+    for p in g.players:
         if not g.can_play(p):
-            g.players.remove(p)
 
-    g.is_playing_index = g.players.index(player) + 1
-    if g.is_playing_index == len(g.players):
-        g.is_playing_index = 0
+            g.delete_player(p)
 
-    g.is_playing = g.players[g.is_playing_index] 
+    if g.players:
+        g.is_playing_index = g.players.index(player) + 1
+
+        if g.is_playing_index == len(g.players):
+            g.is_playing_index = 0
+
+        g.is_playing = g.players[g.is_playing_index] 
     return g
 
 if __name__ == "__main__":

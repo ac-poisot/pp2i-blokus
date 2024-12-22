@@ -233,7 +233,7 @@ const playerInterfaces = document.querySelectorAll(".playerInterface")
 const grid = document.querySelector("#grid")
 
 document.addEventListener("click", (event) => {
-    if(!event.composedPath().includes(grid) && !Array.from(playerInterfaces).map(elt => event.composedPath().includes(elt)).includes(true)) {
+    if(!event.composedPath().includes(grid) && !Array.from(playerInterfaces).map(elt => event.composedPath().includes(elt)).includes(true) && document.querySelector(".chosenOne")) {
         var selected = document.querySelector(".selected")
         if(selected) selected.remove()
         currentShape = [[]]
@@ -292,6 +292,50 @@ function play() {
     }
     
 }
+
+function forfeit() {
+        fetch(`API//data?${window.location.search.split("?")[1]}`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({})
+        }).then(res => res.json()
+        ).then(data => {
+            if (data["error"]) {
+                document.location.reload()
+                return
+            }
+            if(data["grid"]) {
+                for(i=1; i < 21; i++) {
+                    for(j=1; j < 21; j++) {
+                        document.querySelector(`#grid>tbody>tr:nth-child(${i})>td:nth-child(${j})`).className = `c${data["grid"][i-1][j-1]}`
+                    }
+                }
+                for(i = 0; i < data["players"].length; i++) {
+                    if(document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`)) document.querySelector(`div.c${i+1} > div:nth-child(1) > span:nth-child(1)`).textContent = data["players"][i]
+                }
+    
+            }
+            if(data["finished"]) window.location.reload()
+            isplaying = data["isplaying"]
+            var elt1 = document.querySelector("#player > .playerInterface")
+            var elt2 = document.querySelector(`.playerInterface.c${data["you"]}`)
+            if (elt1 != elt2) {
+                if(elt2.classList.length == 3) {
+                    elt2.classList.remove("closed")
+                    elt1.classList.add("closed")
+                }
+                document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
+                document.querySelector("#player").appendChild(elt2)
+                color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+                players = document.querySelectorAll("#otherPlayers>div")
+            }
+            color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+            players = document.querySelectorAll("#otherPlayers>div")
+        })
+        currentShape = [[]]
+        currentid = -1
+    }
+    
 
 
 

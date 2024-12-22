@@ -40,6 +40,42 @@
     border-color: transparent transparent black transparent;
   }
 
+  .tooltip .tooltiptext_up {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    position: absolute;
+    z-index: 1;
+   
+    width: 120px;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+  }
+
+  .tooltip:hover .tooltiptext_up {
+    visibility: visible;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+    
+
+
 /* forms */
 
 .form_container {

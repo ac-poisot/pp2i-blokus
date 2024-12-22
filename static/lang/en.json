@@ -42,6 +42,7 @@
     "leave_room": "Leave room",
     "copy": "Copy",
     "create_game": "Create game!",
+    "auto_forfeit": "<span class='tooltip'>Auto Forfeit<span class='tooltiptext_up'>automatically skip turn if no move is possible</span></span>",
     "add_human": "Add a human player",
     "add_AI": "Add an A.I. player",
     "add_local": "Play locally",
@@ -50,6 +51,8 @@
     "guest": "Guest ",
     "AI": "AI ",
     "empty_slot": "Empty slot",
+
+    "forfeit": "Forfeit",
 
     "username_table": "Username",
     "score_table": "Score",

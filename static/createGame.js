@@ -12,6 +12,7 @@ function copyLink(roomid) {
 }
 
 var players = [getCookie("pid"), undefined, undefined, undefined]
+var autoforfeit = false
 var usernames = players
 var playerNameSpans = document.querySelectorAll(".content > .playerName")
 var blocks = document.querySelectorAll(".selectPlayer")
@@ -167,9 +168,6 @@ function removeLocalPlayer(btn, i) {
     }).then(res => handleRes(res))
 }
 
-
-
-
 function leaveRoom() {
     i = players.indexOf(parseInt(getCookie("pid")))
     players[i] = -1
@@ -180,6 +178,13 @@ function leaveRoom() {
     }).then(res => handleRes(res))
 }
 
+function toggleAutoForfeit() {
+    autoforfeit = !autoforfeit
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({autoforfeit})
+    }).then(res => handleRes(res))}
 
 function createGame() {
     fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
@@ -190,6 +195,7 @@ function createGame() {
         window.location.href= `${window.location.href.split("/create")[0]}/game?gameid=${urlParams.get("roomid")}`
     })
 }
+
 
 
 // Automatically update the game informations
