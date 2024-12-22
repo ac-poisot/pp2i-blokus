@@ -95,6 +95,8 @@ button[type=simple_button] {
   border: solid black 1px;
   border-radius: 5%;
   background-color: white;
+  display: flex;
+  align-items: center;
 }
 #gameInterface .playerInterface .pieces .piece table {
   margin: auto;

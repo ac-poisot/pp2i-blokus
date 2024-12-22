@@ -116,7 +116,7 @@ function selectPiece(event, elt, shape, col, id) {
     clone.classList.add("selected")
     document.querySelector("#gameInterface").appendChild(clone)
     var selected = document.querySelector(".selected")
-    selected.style.left = `${event.clientX - 1.5 * window.innerWidth}px`
+    selected.style.left = `${event.clientX - 0.8 / 100 * window.innerHeight}px`
     selected.style.top = `${event.clientY - 1.5 * window.innerHeight / 100 - 9/100 * window.innerHeight}px`
     currentShape = shape
     currentid = id

@@ -42,6 +42,10 @@
     }
 
     &.chosenOne {
+
+        table {
+            visibility: hidden;
+        }
         
         .rotate, .reverse {
             visibility: visible;

@@ -32,6 +32,9 @@
   left: 50%;
   transform: translate(-50%, -75%);
 }
+.piece.chosenOne table {
+  visibility: hidden;
+}
 .piece.chosenOne .rotate, .piece.chosenOne .reverse {
   visibility: visible;
   filter: none;
