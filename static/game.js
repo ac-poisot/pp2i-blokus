@@ -76,7 +76,7 @@ function updatedata() {
     })
 }
 
-// Functions to open at most one other player's interface in addition to the player's one
+// Functions to open at most one other player's interface in addition to the player's
 
 function closeAll() {
     players.forEach(p => {
@@ -339,7 +339,7 @@ function forfeit() {
 
 
 
-// Automatically update the game informations
+// Automatically update the game information
 
 setInterval(() => {
     updatedata()

@@ -310,7 +310,7 @@ def new_move(gameid:str, colour:int, piece:int, x:int, y:int, angle:{0, 90, 180,
     Function to push a specific move to the database, assumes the move is valid
 
     gameid: the game's id
-    colour: the player that placed the piece
+    colour: the player that placed the piece (or -1 if the move consists in forfeiting)
     piece: the number of the piece
     x: the piece's first coordinate
     y: the piece's second coordinate

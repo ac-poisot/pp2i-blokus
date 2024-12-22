@@ -198,7 +198,7 @@ function createGame() {
 
 
 
-// Automatically update the game informations
+// Automatically update the game information
 
 setInterval(() => {
     updatedata()
