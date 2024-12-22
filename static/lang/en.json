@@ -74,12 +74,29 @@
     "room_full": "This room is currently full!",
 
     "404": "404: Page doesn’t exist!",
+    "not_available": "Sorry, our site is only available on desktop!",
 
+
+    "rules": "RULES",
+    "contents_q": "What does the game consist of?",
+    "contents_a": "Blokus is played on a 20&times;20 board with a total of 21 pieces per player.",
+    
+    "how_to_play_q": "How to play?",
+    "how_to_play1": "The main goal of the game is to fit all 21 of your pieces in the board.",
+    "how_to_play2": "Your first piece must be placed in one of the corners of the board. Then, a move is legal if it is only touching your other pieces diagonally via the corners. You are allowed to touch the pieces of the other players, but not yours! If you cannot play any more piece, your turn is skipped.",
+    "how_to_play3": "To put down a piece, you can rotate it, flip it… You just need to get it in somehow!",
+    "how_to_play4": "The game ends once everyone has skipped their turn.",
+
+    "scoring_q": "How does scoring work?",
+    "scoring1": "Each unused cell (not piece) is worth &minus;1 point.",
+    "scoring2": "If you managed to place all of your pieces, you get an additional 20 points.",
+    "scoring3": "If you managed to place all of your pieces AND ended with the one-cell piece, your incredible piece handling grants you 5 more points.",
+    "scoring4": "Whoever has got the most points at the end is the winner!",
 
     "credits_localisation": "English–French Localisation",
     "credits_localisation2": "French–English Localisation",
     "credits_director": "Director Manager",
     "credits_chocolate": "Chocolate Bar Logistics Director",
-    "credits_illogic": "Manager of Illogic Inefficiency",
+    "credits_illogic": "Manager of Logic Efficiency",
     "credits_support": "Unbound emotional support"
 }

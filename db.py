@@ -257,7 +257,8 @@ def change_game_state(gameid:str, state:int) -> None:
     Function to change the state of a game
 
     gameid: the id of the game to end
-    state: new state of the game
+    state: new state of the game 
+        (-2 if the game is being created, -1 if the game is ongoing, 0 if it has ended in a draw, number of the winner in the game otherwise)
     """
     set_temp("Games", "state", state, "gameid", gameid)
 
