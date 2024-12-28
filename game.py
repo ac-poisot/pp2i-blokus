@@ -25,19 +25,49 @@ class Game :
                         if new_piece[y_max][x_max] == 2 : 
                            poss[j].append((p,r,b,(21-y_max,21-x_max)))
                         
-        
+        self.availible = [ [i for i in range(1,22)] for j in range(players)]
         self.board = game_board
         self.bonus = [False for _ in range(players)]
         self.is_playing = 1
         self.is_playing_index = 0
         self.maxn = players
         self.possible_moves = poss
-        self.red_piece = [4 for _ in range(players)]
+        self.red_pieces = [4 for _ in range(players)]
     
     def print_board(self):
-        """affiche le plateau, fonction de debugg"""
+        """ display the board, debug function"""
         for i in range(22):
             print(self.board[i])
+    
+    def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int,int], flipped:bool) -> bool :
+        """ 
+        returns the legality of a move :
+            - the piece is availible
+            - a corner of a piece is in a corner of an other one of the same color
+            - the piece is located only on free cells
+            - the piece isn't directly next to another of the same color"""
+        
+        if piece not in self.availible[self.is_playing_index] :
+            return False
+        
+        x, y = position
+        p_to_add = rotate(piece, rotation, flipped)
+        length = len(p_to_add[0])
+        height = len(p_to_add)
+        if x < 0 or y < 0 or x + length > 22 or y + height > 22 :
+            return False
+        
+        valid = False
+        for i in range(length):
+            for j in range(height):
+                if p_to_add[j][i] == 1 and self.board[y+j][x+i] != 0 :
+                    return False
+                if p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing :
+                    valid = True
+                if p_to_add[j][i] == 3 and self.board[y+j][x+i] == self.is_playing :
+                    return False
+        
+        return valid
 
 
 if __name__ == "__main__" : 

@@ -4,14 +4,89 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from game import Game
 
-g1 = Game([1, 2])
+# joueur 1 -> p6,p18,p7,p12
+# joueur 2 -> p19,p17,p12
 
-assert g1.is_legal(1, 90, (19, 19), False, 1)
-g1.add_piece(6, 90, (0, 0), False, 1)
-g1.print_board_see(1)
-print('')
-assert(g1.can_play(1))
-assert (g1.is_legal(18, 180, (1, 3), True, 1))
-assert not(g1.is_legal(5, 0, (2, 0), False, 1))
-assert not(g1.is_legal(6, 0, (2, 0), False, 1))
-assert not(g1.is_legal(2, 0, (0, 22), False, 1))
+grid = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],]
+
+def test_avaibility():
+    g = Game(2)
+    g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
+    g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
+    g.board = grid
+    g.is_playing = 2
+    g.is_playing_index = g.is_playing-1
+
+    assert not (g.is_legal(19,0,(11,7),True))
+    assert g.is_legal(1,0,(11,9),False)
+
+def test_on_board():
+    g = Game(2)
+    g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
+    g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
+    g.board = grid
+    g.is_playing = 2
+    g.is_playing_index = g.is_playing-1
+
+    assert not g.is_legal(1,0,(20,20),False)
+    assert not g.is_legal(2,0,(16,19),False)
+    assert not g.is_legal(3,90,(18,16),False)
+    assert g.is_legal(2,90,(18,16),False)
+    assert g.is_legal(1,0,(16,19),False)
+
+    g.is_playing = 1
+    g.is_playing_index = g.is_playing-1
+
+    assert g.is_legal(2,90,(0,2),False)
+    assert not g.is_legal(3,90,(-1,1),False)
+
+def test_no_on():
+    g = Game(2)
+    g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
+    g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
+    g.board = grid
+
+    assert not g.is_legal(4,270,(7,6),False)
+    assert g.is_legal(4,270,(8,4),False)
+
+def test_no_far():
+    g = Game(2)
+    g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
+    g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
+    g.board = grid
+    g.is_playing = 2
+    g.is_playing_index = g.is_playing-1
+
+    assert not g.is_legal(2,90,(16,18),False)
+    assert g.is_legal(7,0,(15,11),False)
+
+def test_no_near():
+    g = Game(2)
+    g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
+    g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
+    g.board = grid
+    g.is_playing = 2
+    g.is_playing_index = g.is_playing-1
+
+    assert not g.is_legal(4,270,(8,6),False)
