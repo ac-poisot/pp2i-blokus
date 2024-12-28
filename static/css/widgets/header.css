@@ -119,7 +119,7 @@ body button[type=head_button] {
 
 .menu {
   text-align: center;
-  height: 0;
+  height: 0vh;
   width: 10vw;
   position: absolute;
   top: 8vh;
