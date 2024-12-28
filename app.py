@@ -427,7 +427,7 @@ def handle_data():
                     new_move(gameid, pindex+1, int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
                     game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                     # We figure out who is the next player
-                    if gameData[7]: # If auto forfeit is on
+                    if gameData[7]: # If auto-forfeit is on
                         if game.players: game.is_playing = game.players[game.is_playing_index]
                         while (not game.can_play(game.is_playing)) and len(game.players) != 0:
                             game.delete_player(game.is_playing)
@@ -457,7 +457,7 @@ def handle_data():
                     game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
 
                     # We change the current player to the next player
-                    if gameData[7]: # If auto forfeit is on
+                    if gameData[7]: # If auto-forfeit is on
                         if game.players: game.is_playing = game.players[game.is_playing_index]
                         while (not game.can_play(game.is_playing)) and len(game.players) != 0:
                             game.delete_player(game.is_playing)

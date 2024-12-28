@@ -98,7 +98,7 @@ button[type=simple_button] {
   visibility: visible;
 }
 
-.tooltip .tooltiptext::after {
+.tooltip .tooltiptext_up::after {
   content: " ";
   position: absolute;
   top: 100%;
@@ -164,7 +164,7 @@ button[type=submit]:hover {
 }
 
 .info {
-  color: #555555;
+  color: #222222;
   font-size: small;
 }
 
@@ -174,16 +174,16 @@ button[type=submit]:hover {
 
 .eye-icon {
   position: absolute;
-  left: 295px;
-  top: 181px;
+  left: 46vh;
+  top: 21vh;
   cursor: pointer;
   font-size: 20px;
 }
 
 .eye-icon-conf {
   position: absolute;
-  left: 295px;
-  top: 306px;
+  left: 46vh;
+  top: 41vh;
   cursor: pointer;
   font-size: 20px;
 }
