@@ -4,6 +4,7 @@ import time
 
 class Game :
     def __init__(self, players:int):
+        """initialise le jeu"""
         game_board = [[0 for _ in range(22)] for _ in  range(22)]
         poss = [[] for _ in  range(players)]
         for j in range(players):
@@ -32,3 +33,13 @@ class Game :
         self.maxn = players
         self.possible_moves = poss
         self.red_piece = [4 for _ in range(players)]
+    
+    def print_board(self):
+        """affiche le plateau, fonction de debugg"""
+        for i in range(22):
+            print(self.board[i])
+
+
+if __name__ == "__main__" : 
+    g1 = Game(4)
+    g1.print_board()

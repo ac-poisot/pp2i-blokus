@@ -57,6 +57,8 @@ Cette classe contiendra ensuite les attributs suivants:
   - red_pieces -> list[int] : en case i, le nombre de cases rouges que possède un joueur
 
 On définit ensuite les méthodes suivantes :
-  - init
+  - init : int -> void
+  - print_board : void -> void
 
   * méthode init : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles.
+  * méthode print_board : affiche le plateau de jeu
