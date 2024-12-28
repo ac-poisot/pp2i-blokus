@@ -57,7 +57,7 @@ def recreateGame(gameid):
 
 
 def wrap(template, responsive=True):
-    if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+    if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time() and request.cookies.get('pid') and request.cookies.get('token') and request.cookies.get('token') == get_token(request.cookies.get('pid'))):
         pid = request.cookies.get('pid')
     else:
         pid =-1
@@ -78,7 +78,7 @@ gameList = {}
 @app.route("/")
 def home():
     init_db()
-    if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+    if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time() and request.cookies.get('pid') and request.cookies.get('token') and request.cookies.get('token') == get_token(request.cookies.get('pid'))):
         pid = request.cookies.get('pid')
     else:
         pid =-1
@@ -91,7 +91,7 @@ def rules():
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
-        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time() and (request.cookies.get('pid') and request.cookies.get('token') and request.cookies.get('token') == get_token(request.cookies.get('pid')))):
             return wrap(render_template("pages/signup.html"))
         else:
             flash("already_logged_in")
@@ -139,7 +139,7 @@ def signup():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+        if not(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time() and (request.cookies.get('pid') and request.cookies.get('token') and request.cookies.get('token') == get_token(request.cookies.get('pid')))):
             return wrap(render_template("pages/login.html"))
         else:
             flash("already_logged_in")
