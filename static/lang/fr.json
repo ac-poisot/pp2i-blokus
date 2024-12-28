@@ -42,7 +42,7 @@
     "room_date": "Date de la salle",
     "leave_room": "Quitter le salon",
     "copy": "Copier",
-    "auto_forfeit": "<span class='tooltip'>Forfait automatique<span class='tooltiptext_up'>passe automatiquement le tour si aucun coup n’est possible</span></span>",
+    "auto-forfeit": "<span class='tooltip'>Forfait automatique<span class='tooltiptext_up'>passe automatiquement le tour si aucun coup n’est possible</span></span>",
     "create_game": "Créer la partie&thinsp;!",
     "add_human": "Ajouter un humain",
     "add_AI": "Ajouter un ordi",

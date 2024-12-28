@@ -233,7 +233,7 @@ def get_game(gameid:str) -> tuple:
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, state:int, auto_forfeit:bool)
+        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, state:int, auto-forfeit:bool)
     """
     if get_temp("*", "Games", "gameid", gameid): return get_temp("*", "Games", "gameid", gameid)[0]
     return None
@@ -338,7 +338,7 @@ def set_room(players: list[int], gameid: str):
 
 def set_auto_forfeit(autoforfeit: bool, gameid: str):
     """
-    Function to toggle auto forfeit on or off
+    Function to toggle auto-forfeit mode on or off
 
     autoforfeit: whether to turn it on or off
     gameid: the id of the game/room

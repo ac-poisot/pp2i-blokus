@@ -4,9 +4,7 @@
             {% from 'widgets/playerInterface.txt' import playerInterface %}
             {{ playerInterface(players[you], piecesids[you], pieces[you], you+1, true) }}
 
-            {% if not(autoforfeit) %}
             <button type="simple_button" id="forfeit" data="forfeit" onClick="forfeit()"></button>
-            {% endif %}
 
         </div>
         <table id="grid">
