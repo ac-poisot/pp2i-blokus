@@ -25,13 +25,14 @@ class Game :
                         if new_piece[y_max][x_max] == 2 : 
                            poss[j].append((p,r,b,(21-y_max,21-x_max)))
                         
-        self.availible = [ [i for i in range(1,22)] for j in range(players)]
+        self.availible = [[i for i in range(1,22)] for j in range(players)]
         self.board = game_board
         self.bonus = [False for _ in range(players)]
         self.is_playing = 1
         self.is_playing_index = 0
         self.maxn = players
         self.possible_moves = poss
+        self.players = [i+1 for i in range(players)]
         self.red_pieces = [4 for _ in range(players)]
     
     def print_board(self):
@@ -47,6 +48,7 @@ class Game :
             - the piece is located only on free cells
             - the piece isn't directly next to another of the same color"""
         
+        # check avaibility
         if piece not in self.availible[self.is_playing_index] :
             return False
         
@@ -54,20 +56,76 @@ class Game :
         p_to_add = rotate(piece, rotation, flipped)
         length = len(p_to_add[0])
         height = len(p_to_add)
+
+        # check on board
         if x < 0 or y < 0 or x + length > 22 or y + height > 22 :
             return False
         
         valid = False
         for i in range(length):
             for j in range(height):
-                if p_to_add[j][i] == 1 and self.board[y+j][x+i] != 0 :
+                if p_to_add[j][i] == 1 and self.board[y+j][x+i] != 0 : # check no on another piece
                     return False
-                if p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing :
+                if p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # check corner
                     valid = True
-                if p_to_add[j][i] == 3 and self.board[y+j][x+i] == self.is_playing :
+                if p_to_add[j][i] == 3 and self.board[y+j][x+i] == self.is_playing : # chech no near another piece of same color
                     return False
         
         return valid
+    
+    def add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool) -> None :
+        """ add the piece without any verification of legality"""
+        x, y = position
+        p_to_add = rotate(piece, rotation, flipped)
+        length = len(p_to_add[0])
+        height = len(p_to_add)
+
+        new_red = []
+
+        for i in range(length):
+            for j in range(height):
+                if p_to_add[j][i] == 1 : # add the piece
+                    self.board[y+j][x+i] = self.is_playing
+                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
+                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing] + 1
+                    new_red.append((i,j))
+                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # update red_pieces
+                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing] - 1
+        
+        # remove current piece from availible
+        self.availible[self.is_playing_index].remove(piece)
+
+        x_min = x-5
+        y_min = y-5
+        x_max = x+length
+        y_max = y+height
+
+        # remove moves that are now not possible
+        print(self.possible_moves[0])
+        print(self.possible_moves[1])
+        for player in self.players :
+            for p in self.possible_moves[player-1]:
+                xp, yp = p[3]
+                #print(p[0]==piece, self.is_playing==player)
+                #print(p[0], player)
+                print(p)
+                if (p[0]==piece and self.is_playing==player) or (xp<=x_min and yp <= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2])):
+                    self.possible_moves[player-1].remove(p)
+            print("")
+        
+        print(self.possible_moves[0])
+        print(self.possible_moves[1])
+        # add new possibles moves
+
+        for pos in new_red :
+            for p in self.availible[self.is_playing_index] :
+                for r in [0,90,180,270]:
+                    for b in [True,False] :
+                        if self.is_legal(p,r,pos,b):
+                            self.possible_moves[self.is_playing_index].append((p,r,b,pos))
+
+
+
 
 
 if __name__ == "__main__" : 

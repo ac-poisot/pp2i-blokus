@@ -3,40 +3,54 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from game import Game
+from pieces import rotate
 
-g1 = Game([1, 2])
-g2 = Game([1, 2])
-g3 = Game([1, 2, 3])
+pieces2 = [
+[[2,3,2],[3,1,3],[3,1,3],[2,3,2]],
+[[0,2,3,2],[0,3,1,3],[2,3,1,3],[3,1,1,3],[2,3,3,2]]]
 
-g1.print_board_see(1)
-print('')
-g1.add_piece(1, 0, (0, 0), False, 1)
-g1.add_piece(2, 0, (1, 1), False, 2)
-g1.add_piece(3, 0, (3, 2), False, 1)
-g1.add_piece(4, 0, (6, 6), False, 2)
-g1.add_piece(6, 0, (8, 10), False, 1)
-g1.print_board_see(1)
-print('')
 
-g2.add_piece(1, 270, (0, 0), True, 1)
-g2.add_piece(2, 270, (1, 1), True, 2)
-g2.add_piece(3, 270, (3, 2), True, 1)
-g2.add_piece(4, 270, (6, 6), True, 2)
-g2.add_piece(13, 270, (8, 10), True, 1)
+g = Game(2)
+poss = [[] for _ in  range(2)]
+for j in range(2):
+    for p in [2,6]:
+        for r in [0,90,180,270] :
+            for b in [True,False]:
+                new_piece = rotate(p,r,b)
+                x_min = 0
+                x_max = len(new_piece[0])-1
+                y_min = 0
+                y_max = len(new_piece)-1
+                if new_piece[y_min][x_min] == 2 : 
+                    poss[j].append((p,r,b,(0,0)))
+                if new_piece[y_max][x_min] == 2 : 
+                   poss[j].append((p,r,b,(21-y_max,0)))
+                if new_piece[y_min][x_max] == 2 : 
+                   poss[j].append((p,r,b,(0,21-x_max)))
+                if new_piece[y_max][x_max] == 2 : 
+                   poss[j].append((p,r,b,(21-y_max,21-x_max)))
+g.availible = [[2,6] for j in range(2)]
+g.bonus = [False for _ in range(2)]
+g.possible_moves = poss
+g.red_pieces = [4 for _ in range(2)]
 
-g2.print_board_see(1)
-print('')
-g2.print_board_see(2)
-print('')
+#print(g.possible_moves[0])
 
-g3.add_piece(20, 0, (0, 0), False, 1)
-g3.add_piece(20, 90, (0, 5), False, 2)
-g3.add_piece(20, 180, (0, 10), False, 3)
-g3.add_piece(19, 270, (0, 15), False, 1)
-g3.add_piece(19, 0, (7, 0), True, 2)
-g3.add_piece(15, 90, (7, 5), True, 3)
-g3.add_piece(13, 180, (7, 10), True, 1)
-g3.add_piece(11, 270, (7, 15), True, 2)
-g3.print_board_see(2)
-print('')
-g3.print_board_see(1)
+#def test_add_on_board():
+#    g.add_piece(6,90,(0,0),False) # faire attention a rester dans {1,2,4,6}
+#    g.print_board() # attention si on veut voir le tableau à le mettre hors de la fonction (rappel donc plante car availible a change)
+#
+#def test_remove_availible():
+#    g.availible = [[2,6] for j in range(2)]
+#    g.add_piece(6,90,(0,0),False)
+#    assert g.availible[0] == [2]
+#
+#def test_possible_moves():
+#    g.availible = [[2,6] for j in range(2)]
+#    g.add_piece(6,90,(0,0),False)
+
+g.add_piece(6,90,(0,0),False)
+print(g.availible)
+#print(g.possible_moves[0])
+
+#[(2, 0, True, (18, 0)), (2, 0, True, (0, 19)), (2, 0, True, (18, 19)), (2, 0, False, (18, 0)), (2, 0, False, (0, 19)), (2, 0, False, (18, 19)), (2, 90, True, (19, 0)), (2, 90, True, (0, 18)), (2, 90, True, (19, 18)), (2, 90, False, (19, 0)), (2, 90, False, (0, 18)), (2, 90, False, (19, 18)), (2, 180, True, (18, 0)), (2, 180, True, (0, 19)), (2, 180, True, (18, 19)), (2, 180, False, (18, 0)), (2, 180, False, (0, 19)), (2, 180, False, (18, 19)), (2, 270, True, (19, 0)), (2, 270, True, (0, 18)), (2, 270, True, (19, 18)), (2, 270, False, (19, 0)), (2, 270, False, (0, 18)), (2, 270, False, (19, 18))]
