@@ -54,6 +54,7 @@ Cette classe contiendra ensuite les attributs suivants:
   - is_playing_index -> int : l'index du joueur qui est en train de jouer, pour faciliter l'accès aux tableaux, (éviter -1 à chaque fois)
   - maxn -> int : le nombre de joueurs toujours en train de jouer
   - possible_moves -> list[list[tuple[int, int, int, tuple[int,int]]]] : la liste des coups possibles pour chaque joueur, en case i de la première liste : la liste des coups, (pièce, rotation, flipped, position)
+  - players -> list[int] : les numeros des joueurs qui jouent toujours
   - red_pieces -> list[int] : en case i, le nombre de cases rouges que possède un joueur
 
 On définit ensuite les méthodes suivantes :
@@ -62,3 +63,4 @@ On définit ensuite les méthodes suivantes :
 
   * méthode init : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles.
   * méthode print_board : affiche le plateau de jeu
+  * méthode is_legal : vérifie qu'un coup est légal. Pour cela, la pièce doit être disponible et ne doit pas sortir du plateau. les autres conditions permettent de vérifier que 1) la pièce est bien posée sur une case vide, 2) vérifier que la pièce est bien posée sur un coin (valid est un booléen de controle -> vrai si un coin a été vu), 3) vérifier que la pièce n'est pas tangente à celle d'une même couleur
