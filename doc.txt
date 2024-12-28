@@ -1,6 +1,3 @@
-La documentation, mise au fur et à mesure.
-
-
 
 ************************** Pièces ***************************
 
@@ -50,64 +47,16 @@ Les pièces sont définies dans le fichier pieces.py, de la façon expliquée pl
 
 On définit une classe Game. Elle prend en paramètre une liste de joueurs sous forme de nombre, tous différents, entre 1 et 4, qui correspond à tous les joueurs présents.
 
-Cette classe contiendra ensuite les attributs suivants: 
-  - players
-  - availible
-  - board
-  - red_pieces
-  - is_playing
-  - is_playing_index
-  - maxn
-
-* attribut players : list[int]. La liste des joueurs qui peuvent jouer à cet instant.
-* attibut availible : list[list[int]]. La partie list[int] à la case i est la liste des pièces disponibles pour le joueur i+1.
-* attribut board : list[list[int]]. Le plateau du jeu, mis à jour au fur et à mesure des coups joués.
-* attribut red_pieces : list[list[tuple(int,int)]]. Ce sont les cases "rouges" des pièces (leurs coins). Quand un joueur pose une pièce, un coin de la pièce doit être sur une des ces cases rouges.
-* attribut is_playing : int. Le joueur qui joue actuellement.
-* attribut is_playing : int. L'index dans la liste players du joueur qui joue actuellement.
-* attribut maxn : int. Le numero du joueur maximal.
-
-
-Remarque concernant le plateau : le code 'PAIN'
- - 'P' signifie que la case est prise pour le joueur.
- - 'A' signifie que la case est accessible pour le joueur, c'est même une case rouge.
- - 'I' signifie que la case est inaccessible pour le joueur. On distingue P et I.
- - 'N' signifie que la case est neutre pour le joueur. Il peut poser une pièce et n'a pas d'obligation de placer la pièce à un endroit précis.
+Cette classe contiendra ensuite les attributs suivants:
+  - board -> list[list[int]] : le plateau du jeu, avec 22 cases -> on tient compte des bords pour éviter des problèmes lors des tests. Il est initialment rempli avec des 0 et contiendra i si le joueur i a posé une pièce sur cette case.
+  - bonus -> list[bool] : vaut True ssi le joueur i a le droit à un bonus (fin de partie, la dernière pièce posée est le monomino)
+  - is_playing -> int : le joueur qui est en train de jouer
+  - is_playing_index -> int : l'index du joueur qui est en train de jouer, pour faciliter l'accès aux tableaux, (éviter -1 à chaque fois)
+  - maxn -> int : le nombre de joueurs toujours en train de jouer
+  - possible_moves -> list[list[tuple[int, int, int, tuple[int,int]]]] : la liste des coups possibles pour chaque joueur, en case i de la première liste : la liste des coups, (pièce, rotation, flipped, position)
+  - red_pieces -> list[int] : en case i, le nombre de cases rouges que possède un joueur
 
 On définit ensuite les méthodes suivantes :
   - init
-  - print_board_all : 
-  - print_board_see
-  - print_board
-  - add_piece
-  - is_legal
-  - score
-  - possible_moves
-  - can_play
-  - delete_player
-  - play_game
-  - retrieve_game
 
-  * méthode init : initialise le jeu avec les attributs cités plus haut. Utilisation du code PAIN.
-
-  * méthode print_board_all(self, player:int) -> None : affiche le plateau, avec les bords, du point de vue du joueur passé en paramètre.
-
-  * méthode print_board_see(self, player:int) -> None : affiche le plateau, sans les bords, du point de vue du joueur passé en paramètre
-
-  * méthode print_board(self) -> None : affiche le plateau pour la page de jeu.
-
-  * méthode add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> None : ajoute la pièce, sans aucune vérification, en modifiant le plateau.
-
-  * méthode is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool : vérifie que poser une pièce donnée est légale, en trois étapes : la pièce est disponible, que la pièce est dans la plateau et n'est pas posée sur des cases non accessibles.
-
-  * méthode score(self, player:int) -> int : calcule le score associé à un joueur
-
-  * méthode possible_moves(self, player:int) -> list(tuple(int, int, tuple(int, int), bool)) : renvoie la liste de tous les coups possibles pour le joueur passé en paramètre. On vérifie pour chaque pièce disponible, pour chaque pièce rouge, si on peut placer la pièce avec toutes les rotations et retournement possibles.
-
-  * méthode can_play(self, player:int) -> bool : renvoie true si et seulement si le joueur peut jouer. Principe similaire à possible_moves(), mais s'arrête à dès qu'un mouvement est possible (plus court car possiblilité d'éviter de tout recalculer)
-
-  * méthode delete_player(self, player:int) -> None : retire un joueur des joueurs qui peuvent joueur.
-
-  * méthode play_game(self) : fonction de debug, permet de jouer dans la terminal.
-
-  * méthode retrieve_game(players:list[int], moves:list[list[str, int, int, int, int, int, int, bool]]) -> Game : permet de jouer au jeu, mais avec le lien avec la base de données.
+  * méthode init : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles.
