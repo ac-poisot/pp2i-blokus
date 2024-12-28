@@ -9,6 +9,7 @@ body {
 
 main, #not_available {
   margin: 0;
+  margin-top: 2vh;
   position: relative;
   z-index: 2;
   flex-grow: 1;
@@ -25,7 +26,7 @@ button[type=simple_button] {
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
@@ -39,18 +40,37 @@ button[type=simple_button] {
   #not_available {
     display: block;
   }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
 }
 body {
   background-color: #6c65d6;
   text-align: center;
 }
 
+h1 {
+  display: inline-block;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0 auto 0 auto;
+  padding: 1vh;
+  background-color: #E9DCC9;
+  border-radius: 2vh;
+}
+
 article {
-  padding: auto;
+  padding: 2vh;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 1vw;
+}
+article #presentation {
+  background-color: #E9DCC9;
+  border-radius: 2vh;
 }
 article #presentation p {
   width: 50vw;
@@ -70,7 +90,7 @@ article #presentation ul li {
 @media (max-width: 1281px) {
   article {
     flex-direction: column;
-    width: 100vw;
+    width: 90vw;
     height: -moz-min-content;
     height: min-content;
   }

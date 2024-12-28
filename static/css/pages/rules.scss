@@ -3,21 +3,43 @@
 body {
     background-color: $background;
     text-align: center;
-    #pieces_table {
-        margin: 0 auto 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 12vh);
-        background-color: #2e2e2e;
+    
 
-        .piece {
-            margin: auto;
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2vh;
+        padding: 2vh;
+
+        article {
+            display: inline-block;
+            width: fit-content;
+            padding: 2vh;
+            padding-top: 0;
+            background-color: $content-background;
+            border-radius: 2vh;
         }
-    }
 
-    #presentation {
-        width: 90vw;
-        background-color: #2e2e2e;
-        margin: 0 auto 0 auto;
+        #pieces_table {
+            margin: 0 auto 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 12vh);
+            background-color: $content-background;
+            border-radius: 2vh;
+    
+            .piece {
+                margin: auto;
+            }
+        }
+    
+        #presentation {
+            max-width: 90vw;
+            padding: 2vh;
+            background-color: $content-background;
+            border-radius: 2vh;
+            margin: 0 auto 0 auto;
+        }
     }
 
 }

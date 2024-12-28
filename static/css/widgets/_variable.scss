@@ -1,5 +1,10 @@
 $background : #6c65d6;
 $FOOT: #ff5f00;
+$content-background: #E9DCC9;
+$red-color: red;
+$green-color: green;
+$yellow-color: yellow;
+$blue-color: blue;
 
 body {
   height: min-content;
@@ -11,6 +16,7 @@ body {
 
 main, #not_available {
   margin:0;
+  margin-top: 2vh;
   position: relative;
   z-index: 2;
   flex-grow: 1;
@@ -28,7 +34,7 @@ button[type="simple_button"] {
     padding-top: 1vh;
     padding-bottom: 1vh;
     border-radius: 4px;
-    background-color: #ffb247c4;
+    background-color: #f3a942;
     color: white;
     border: none;
     cursor: pointer;
@@ -43,5 +49,10 @@ button[type="simple_button"] {
 
   #not_available {
     display: block;
+    
+    #content {
+      background-color: $content-background;
+      border-radius: 2vh;
+    }
   }
 }

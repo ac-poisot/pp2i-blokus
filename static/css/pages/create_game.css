@@ -9,6 +9,7 @@ body {
 
 main, #not_available {
   margin: 0;
+  margin-top: 2vh;
   position: relative;
   z-index: 2;
   flex-grow: 1;
@@ -25,7 +26,7 @@ button[type=simple_button] {
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
@@ -39,75 +40,78 @@ button[type=simple_button] {
   #not_available {
     display: block;
   }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
 }
-#selectPlayers {
-  margin: auto 15%;
-  display: grid;
-  grid-template-rows: 30vh 30vh;
-  grid-template-columns: 30vw 30vw;
-  gap: 2vh;
-}
-#selectPlayers .selectPlayer {
-  width: 30vw;
-  height: 30vh;
-  box-sizing: border-box;
-  border-radius: 4vh;
-  padding: 1vw;
-}
-#selectPlayers .selectPlayer.c1 { /*
-left:30%;
-transform: translate(-50%,0);*/
-  border: 1px red solid;
-  margin: auto;
-}
-#selectPlayers .selectPlayer.c2 { /*
-right:30%;
-transform: translate(-50%,0);*/
-  border: 1px green solid;
-  margin: auto;
-}
-#selectPlayers .selectPlayer.c3 { /*
-left:30%;
-transform: translate(-50%,0);*/
-  border: 1px yellow solid;
-  margin: auto;
-}
-#selectPlayers .selectPlayer.c4 { /*
-right:30%;
-transform: translate(-50%,0);*/
-  border: 1px blue solid;
-  margin: auto;
-}
-#selectPlayers .selectPlayer.grayed .addHuman, #selectPlayers .selectPlayer.grayed .addAI {
-  display: block;
-}
-#selectPlayers .selectPlayer.grayed .remove {
-  display: none;
-}
-#selectPlayers .selectPlayer:not(.grayed) .addHuman, #selectPlayers .selectPlayer:not(.grayed) .addAI {
-  display: none;
-}
-#selectPlayers .selectPlayer:not(.grayed) .remove {
-  display: block;
-}
-#selectPlayers .selectPlayer .content.grayed {
-  opacity: 0.5;
-}
-#selectPlayers .selectPlayer button.hidden {
-  display: none;
-}
-
 body {
   text-align: center;
   margin: 0;
   background-color: #6c65d6;
 }
-body main {
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
+body main #selectPlayers {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  display: grid;
+  grid-template-rows: 30vh 30vh;
+  grid-template-columns: 30vw 30vw;
+  gap: 2vh;
 }
-body main button[type=leave_room_button] {
+body main #selectPlayers .selectPlayer {
+  width: 30vw;
+  height: 30vh;
+  box-sizing: border-box;
+  border-radius: 4vh;
+  background-color: #E9DCC9;
+  padding: 1vw;
+  border-width: 5px !important;
+}
+body main #selectPlayers .selectPlayer.c1 {
+  border: red solid;
+  margin: auto;
+}
+body main #selectPlayers .selectPlayer.c2 {
+  border: green solid;
+  margin: auto;
+}
+body main #selectPlayers .selectPlayer.c3 {
+  border: yellow solid;
+  margin: auto;
+}
+body main #selectPlayers .selectPlayer.c4 {
+  border: blue solid;
+  margin: auto;
+}
+body main #selectPlayers .selectPlayer.grayed .addHuman, body main #selectPlayers .selectPlayer.grayed .addAI {
+  display: block;
+}
+body main #selectPlayers .selectPlayer.grayed .remove {
+  display: none;
+}
+body main #selectPlayers .selectPlayer:not(.grayed) .addHuman, body main #selectPlayers .selectPlayer:not(.grayed) .addAI {
+  display: none;
+}
+body main #selectPlayers .selectPlayer:not(.grayed) .remove {
+  display: block;
+}
+body main #selectPlayers .selectPlayer .content.grayed {
+  opacity: 0.5;
+}
+body main #selectPlayers .selectPlayer button.hidden {
+  display: none;
+}
+body main #buttons {
+  display: flex;
+  flex-direction: row;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 2vh auto 0 auto;
+  align-items: center;
+  gap: 2vh;
+}
+body main #buttons button[type=leave_room_button] {
   border-color: black;
   width: 8vw;
   min-width: 5em;
@@ -119,7 +123,7 @@ body main button[type=leave_room_button] {
   transition: background-color 0.3s;
   margin: auto;
 }
-body main button[type=create_games_button] {
+body main #buttons button[type=create_games_button] {
   border-color: black;
   width: 8vw;
   min-width: 5em;
@@ -130,6 +134,25 @@ body main button[type=create_games_button] {
   cursor: pointer;
   transition: background-color 0.3s;
   margin: auto;
+}
+body main #buttons #link {
+  display: flex;
+  flex-direction: row;
+}
+body main #buttons #link #roomid {
+  width: 8vw;
+  padding: 10px;
+  border-radius: 10px 0 0 10px;
+  background-color: #E9DCC9;
+  text-align: center;
+}
+body main #buttons #link button {
+  border-radius: 0 10px 10px 0;
+}
+body main #buttons #autoForfeit {
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #E9DCC9;
 }
 body p {
   margin: 0;

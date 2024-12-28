@@ -9,6 +9,7 @@ body {
 
 main, #not_available {
   margin: 0;
+  margin-top: 2vh;
   position: relative;
   z-index: 2;
   flex-grow: 1;
@@ -25,7 +26,7 @@ button[type=simple_button] {
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
@@ -38,6 +39,10 @@ button[type=simple_button] {
   }
   #not_available {
     display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
   }
 }
 table#games {
@@ -52,17 +57,23 @@ body {
   margin: 0;
   background-color: #6c65d6;
 }
-body main {
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
+body main #profile {
+  display: flex;
+  flex-direction: column;
+  width: 20vw;
+  align-items: center;
+  margin: 0 auto 0 auto;
+  padding-bottom: 2vh;
+  background-color: #E9DCC9;
+  border-radius: 2vh;
 }
-body main table {
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
+body main #profile h1 {
+  margin: 2vh;
 }
-body main button[type=profile_button] {
+body main #profile table {
+  position: relative;
+}
+body main #profile button[type=profile_button] {
   border: none;
   width: 200px;
   padding: 10px;
@@ -71,4 +82,10 @@ body main button[type=profile_button] {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+@media (max-width: 1281px) {
+  #profile {
+    width: 80vw !important;
+  }
 }/*# sourceMappingURL=profile.css.map */

@@ -9,6 +9,7 @@ body {
 
 main, #not_available {
   margin: 0;
+  margin-top: 2vh;
   position: relative;
   z-index: 2;
   flex-grow: 1;
@@ -25,7 +26,7 @@ button[type=simple_button] {
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
@@ -39,16 +40,34 @@ button[type=simple_button] {
   #not_available {
     display: block;
   }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
 }
 body {
   text-align: center;
   background-color: #6c65d6;
 }
-body h3 {
+body article {
+  padding: 2vh;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: #E9DCC9;
+  border-radius: 2vh;
+  margin: 0 auto 0 auto;
+}
+body article h3 {
   color: black;
   margin-bottom: -1em;
 }
-body p {
+body article p {
   color: black;
   margin-bottom: 2em;
+}
+
+@media (max-width: 1281px) {
+  article {
+    padding: 0 !important;
+  }
 }/*# sourceMappingURL=credits.css.map */

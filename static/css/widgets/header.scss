@@ -19,7 +19,7 @@
                 overflow: hidden;
                 position: relative;
                 bottom : -15%;
-                background-color: blue;
+                background-color: $blue-color;
                 display:inline-block;
                 vertical-align:middle;
               
@@ -54,12 +54,23 @@ body {
         height: auto;
         padding: 1vh;
         border-radius: 4px;
-        background-color: #ffb247c4;
+        background-color: #f3a942;
         color: white;
         border: none;
         cursor: pointer;
         transition: background-color 0.3s;
       }
+}
+
+@media (max-width: 1281px) {
+    #games {
+        display: none !important;
+    }
+
+    .circular_image {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 //La suite c'est pour le menu coulissant

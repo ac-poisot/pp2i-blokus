@@ -6,18 +6,22 @@
         {{ selectPlayer(3, usernames[2], -1 if players[2] == -1 else (0 if players[2] == None else players[2]), master) }}
         {{ selectPlayer(4, usernames[3], -1 if players[3] == -1 else (0 if players[3] == None else players[3]), master) }}
     </div>
-    <button type="leave_room_button" id="leaveRoom" onClick=leaveRoom() data="leave_room"></button>
-    <div id="link">
-        <span id="roomid">{{roomid}}</span>
-        <p></p>
-        <button type="create_games_button" onClick="copyLink('{{roomid}}')" data="copy"></button>
-    </div>
-    {% if master %}
-    <input type="checkbox" id="autoForfeit" onClick=toggleAutoForfeit() data="auto_forfeit"></button>
-    <label for="autoForfeit" data="auto_forfeit"></label>
+    <div id="buttons">
+        <button type="leave_room_button" id="leaveRoom" onClick=leaveRoom() data="leave_room"></button>
+        <div id="link">
+            <span id="roomid">{{roomid}}</span>
+            <p></p>
+            <button type="create_games_button" onClick="copyLink('{{roomid}}')" data="copy"></button>
+        </div>
+        {% if master %}
+        <div id="autoForfeit">
+            <input type="checkbox" id="autoForfeit" onClick=toggleAutoForfeit() data="auto_forfeit"></button>
+        <label for="autoForfeit" data="auto_forfeit"></label>
+        </div>
 
-    <button type="create_games_button" id="createGame" onClick=createGame() data="create_game"></button>
-    {% endif %}
+        <button type="create_games_button" id="createGame" onClick=createGame() data="create_game"></button>
+        {% endif %}
+    </div>
 </main>
 <script src="{{url_for('static', filename='createGame.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('static', filename='css/pages/create_game.css')}}">

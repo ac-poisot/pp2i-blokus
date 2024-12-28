@@ -10,6 +10,7 @@ body {
 
 main, #not_available {
   margin: 0;
+  margin-top: 2vh;
   position: relative;
   z-index: 2;
   flex-grow: 1;
@@ -26,7 +27,7 @@ button[type=simple_button] {
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
@@ -39,6 +40,10 @@ button[type=simple_button] {
   }
   #not_available {
     display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
   }
 }
 .tooltip {
