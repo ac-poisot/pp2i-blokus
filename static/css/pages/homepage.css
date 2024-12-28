@@ -80,10 +80,12 @@ article #presentation ul {
   width: 50vw;
   display: flex;
   flex-direction: row;
+  gap: 5vw;
+  justify-content: center;
+  margin-bottom: 2vh;
 }
 article #presentation ul li {
   padding: auto;
-  margin-inline: auto;
   display: flex;
 }
 

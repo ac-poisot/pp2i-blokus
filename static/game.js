@@ -69,7 +69,7 @@ function updatedata() {
                 elt1.classList.add("closed")
             }
             document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
-            document.querySelector("#player").appendChild(elt2)
+            document.querySelector("#player").prepend(elt2)
             color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
             players = document.querySelectorAll("#otherPlayers>div")
         }
@@ -280,7 +280,7 @@ function play() {
                     elt1.classList.add("closed")
                 }
                 document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
-                document.querySelector("#player").appendChild(elt2)
+                document.querySelector("#player").prepend(elt2)
                 color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
                 players = document.querySelectorAll("#otherPlayers>div")
             }

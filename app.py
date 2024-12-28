@@ -1,6 +1,5 @@
 from flask import Flask, request, abort, redirect, url_for, render_template, g, flash, make_response, jsonify, session
 import sqlite3
-import random
 import time
 from datetime import datetime
 import os
@@ -79,8 +78,11 @@ gameList = {}
 @app.route("/")
 def home():
     init_db()
-    
-    return wrap(render_template("pages/index.html", time=time.localtime()[5]))
+    if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time()):
+        pid = request.cookies.get('pid')
+    else:
+        pid =-1
+    return wrap(render_template("pages/index.html", pid=pid))
 
 @app.route("/rules")
 def rules():

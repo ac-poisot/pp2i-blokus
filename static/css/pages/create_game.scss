@@ -81,8 +81,9 @@ body {
             align-items: center;
             gap: 2vh;
 
-            button[type="leave_room_button"] {
-                border-color: black;
+            #leaveRoom {
+                border-color: red;
+                border-width: 5px;
                 width: 8vw;
                 min-width: 5em;
                 padding: 10px;
@@ -94,8 +95,9 @@ body {
                 margin:auto;
             }
             
-            button[type="create_games_button"] {
-                border-color: black;
+            #createGame {
+                border-color: green;
+                border-width: 5px;
                 width: 8vw;
                 min-width: 5em;
                 padding: 10px;
@@ -121,6 +123,14 @@ body {
         
                 button {
                     border-radius: 0 10px 10px 0;
+                    width: 8vw;
+                    min-width: 5em;
+                    padding: 10px;
+                    background-color: #ffb247;
+                    color: white;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                    margin:auto;
                 }
             }
         
