@@ -3,7 +3,7 @@ import os
 import pytest
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from game_refact import Game
+from game import Game
 
 
 def test_maxn():
