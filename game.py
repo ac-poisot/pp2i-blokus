@@ -80,15 +80,12 @@ class Game :
         length = len(p_to_add[0])
         height = len(p_to_add)
 
-        new_red = []
-
         for i in range(length):
             for j in range(height):
                 if p_to_add[j][i] == 1 : # add the piece
                     self.board[y+j][x+i] = self.is_playing
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
                     self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing] + 1
-                    new_red.append((i,j))
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # update red_pieces
                     self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing] - 1
         
@@ -101,28 +98,23 @@ class Game :
         y_max = y+height
 
         # remove moves that are now not possible
-        print(self.possible_moves[0])
-        print(self.possible_moves[1])
         for player in self.players :
+            to_be_removed = []
             for p in self.possible_moves[player-1]:
                 xp, yp = p[3]
-                #print(p[0]==piece, self.is_playing==player)
-                #print(p[0], player)
-                print(p)
-                if (p[0]==piece and self.is_playing==player) or (xp<=x_min and yp <= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2])):
-                    self.possible_moves[player-1].remove(p)
-            print("")
-        
-        print(self.possible_moves[0])
-        print(self.possible_moves[1])
-        # add new possibles moves
+                if (p[0]==piece and self.is_playing==player) or (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],player)):
+                    to_be_removed.append(p)
+            self.possible_moves[player-1] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[player-1]))
 
-        for pos in new_red :
-            for p in self.availible[self.is_playing_index] :
-                for r in [0,90,180,270]:
-                    for b in [True,False] :
-                        if self.is_legal(p,r,pos,b):
-                            self.possible_moves[self.is_playing_index].append((p,r,b,pos))
+        # add new possibles moves
+        for i in range(x_min,x_max):
+            for j in range(y_min,y_max):
+                pos = (i,j)
+                for p in self.availible[self.is_playing_index] :
+                    for r in [0,90,180,270]:
+                        for b in [True,False] :
+                            if self.is_legal(p,r,pos,b,self.is_playing):
+                                self.possible_moves[self.is_playing_index].append((p,r,b,pos))
 
 
 
