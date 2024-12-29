@@ -35,31 +35,25 @@ def test_avaibility():
     g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
     g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
     g.board = grid
-    g.is_playing = 2
-    g.is_playing_index = g.is_playing-1
 
-    assert not (g.is_legal(19,0,(11,7),True))
-    assert g.is_legal(1,0,(11,9),False)
+    assert not (g.is_legal(19,0,(11,7),True,2))
+    assert g.is_legal(1,0,(11,9),False,2)
 
 def test_on_board():
     g = Game(2)
     g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
     g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
     g.board = grid
-    g.is_playing = 2
-    g.is_playing_index = g.is_playing-1
 
-    assert not g.is_legal(1,0,(20,20),False)
-    assert not g.is_legal(2,0,(16,19),False)
-    assert not g.is_legal(3,90,(18,16),False)
-    assert g.is_legal(2,90,(18,16),False)
-    assert g.is_legal(1,0,(16,19),False)
+    assert not g.is_legal(1,0,(20,20),False,2)
+    assert not g.is_legal(2,0,(16,19),False,2)
+    assert not g.is_legal(3,90,(18,16),False,2)
+    assert g.is_legal(2,90,(18,16),False,2)
+    assert g.is_legal(1,0,(16,19),False,2)
 
-    g.is_playing = 1
-    g.is_playing_index = g.is_playing-1
 
-    assert g.is_legal(2,90,(0,2),False)
-    assert not g.is_legal(3,90,(-1,1),False)
+    assert g.is_legal(2,90,(0,2),False,1)
+    assert not g.is_legal(3,90,(-1,1),False,1)
 
 def test_no_on():
     g = Game(2)
@@ -67,26 +61,22 @@ def test_no_on():
     g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
     g.board = grid
 
-    assert not g.is_legal(4,270,(7,6),False)
-    assert g.is_legal(4,270,(8,4),False)
+    assert not g.is_legal(4,270,(7,6),False,1)
+    assert g.is_legal(4,270,(8,4),False,1)
 
 def test_no_far():
     g = Game(2)
     g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
     g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
     g.board = grid
-    g.is_playing = 2
-    g.is_playing_index = g.is_playing-1
 
-    assert not g.is_legal(2,90,(16,18),False)
-    assert g.is_legal(7,0,(15,11),False)
+    assert not g.is_legal(2,90,(16,18),False,2)
+    assert g.is_legal(7,0,(15,11),False,2)
 
 def test_no_near():
     g = Game(2)
     g.availible[0] = [1,2,3,4,5,8,9,10,11,13,14,15,16,17,19,20,21]
     g.availible[1] = [1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,18,20,21]
     g.board = grid
-    g.is_playing = 2
-    g.is_playing_index = g.is_playing-1
 
-    assert not g.is_legal(4,270,(8,6),False)
+    assert not g.is_legal(4,270,(8,6),False,2)

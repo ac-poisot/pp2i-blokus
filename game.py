@@ -40,7 +40,7 @@ class Game :
         for i in range(22):
             print(self.board[i])
     
-    def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int,int], flipped:bool) -> bool :
+    def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int,int], flipped:bool, player:int) -> bool :
         """ 
         returns the legality of a move :
             - the piece is availible
@@ -49,7 +49,7 @@ class Game :
             - the piece isn't directly next to another of the same color"""
         
         # check avaibility
-        if piece not in self.availible[self.is_playing_index] :
+        if piece not in self.availible[player-1] :
             return False
         
         x, y = position
@@ -66,9 +66,9 @@ class Game :
             for j in range(height):
                 if p_to_add[j][i] == 1 and self.board[y+j][x+i] != 0 : # check no on another piece
                     return False
-                if p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # check corner
+                if p_to_add[j][i] == 2 and self.board[y+j][x+i] == player : # check corner
                     valid = True
-                if p_to_add[j][i] == 3 and self.board[y+j][x+i] == self.is_playing : # chech no near another piece of same color
+                if p_to_add[j][i] == 3 and self.board[y+j][x+i] == player : # chech no near another piece of same color
                     return False
         
         return valid
