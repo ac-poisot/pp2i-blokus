@@ -120,6 +120,27 @@ class Game :
         if len(self.availible[player-1]) == 0 and piece == 1:
             self.bonus[player-1] = True
 
+    def score(self,player:int) -> int :
+        """ return the score of a player"""
+
+        total = 0
+        for piece in self.availible[player-1]:
+            shape = pieces[piece-1]
+            height = len(shape)
+            length = len(shape[0])
+            for i in range(length):
+                for j in range(height):
+                    if shape[j][i] == 1:
+                        total = total - 1
+        
+        if len(self.availible[player-1]) == 0 :
+            total = total + 20
+        
+        if self.bonus[player-1]:
+            total = total + 5
+        
+        return total
+
 
 
 
