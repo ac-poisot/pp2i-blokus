@@ -68,21 +68,45 @@ body main #selectPlayers .selectPlayer {
   padding: 1vw;
   border-width: 5px !important;
 }
+body main #selectPlayers .selectPlayer button {
+  border-width: 5px;
+  width: 8vw;
+  min-width: 5em;
+  min-height: 3em;
+  border-radius: 10px;
+  background-color: #ffb247;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: auto;
+}
 body main #selectPlayers .selectPlayer.c1 {
   border: red solid;
   margin: auto;
+}
+body main #selectPlayers .selectPlayer.c1 button {
+  border-color: red;
 }
 body main #selectPlayers .selectPlayer.c2 {
   border: green solid;
   margin: auto;
 }
+body main #selectPlayers .selectPlayer.c2 button {
+  border-color: green;
+}
 body main #selectPlayers .selectPlayer.c3 {
   border: yellow solid;
   margin: auto;
 }
+body main #selectPlayers .selectPlayer.c3 button {
+  border-color: yellow;
+}
 body main #selectPlayers .selectPlayer.c4 {
   border: blue solid;
   margin: auto;
+}
+body main #selectPlayers .selectPlayer.c4 button {
+  border-color: blue;
 }
 body main #selectPlayers .selectPlayer.grayed .addHuman, body main #selectPlayers .selectPlayer.grayed .addAI {
   display: block;
