@@ -115,6 +115,10 @@ class Game :
                         for b in [True,False] :
                             if self.is_legal(p,r,pos,b,self.is_playing):
                                 self.possible_moves[self.is_playing_index].append((p,r,b,pos))
+        
+        # bonus if the last piece placed is the monomino
+        if len(self.availible[player-1]) == 0 and piece == 1:
+            self.bonus[player-1] = True
 
 
 
