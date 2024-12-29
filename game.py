@@ -13,17 +13,17 @@ class Game :
                     for b in [True,False]:
                         new_piece = rotate(p,r,b)
                         x_min = 0
-                        x_max = len(new_piece[0])-1
+                        x_max = len(new_piece[0])
                         y_min = 0
-                        y_max = len(new_piece)-1
+                        y_max = len(new_piece)
                         if new_piece[y_min][x_min] == 2 : 
                             poss[j].append((p,r,b,(0,0)))
-                        if new_piece[y_max][x_min] == 2 : 
-                           poss[j].append((p,r,b,(21-y_max,0)))
-                        if new_piece[y_min][x_max] == 2 : 
-                           poss[j].append((p,r,b,(0,21-x_max)))
-                        if new_piece[y_max][x_max] == 2 : 
-                           poss[j].append((p,r,b,(21-y_max,21-x_max)))
+                        if new_piece[y_max-1][x_min] == 2 : 
+                           poss[j].append((p,r,b,(21-x_max+1,0)))
+                        if new_piece[y_min][x_max-1] == 2 : 
+                           poss[j].append((p,r,b,(0,21-y_max+1)))
+                        if new_piece[y_max-1][x_max-1] == 2 : 
+                           poss[j].append((p,r,b,(21-x_max+1,21-y_max+1)))
                         
         self.availible = [[i for i in range(1,22)] for j in range(players)]
         self.board = game_board
@@ -37,8 +37,25 @@ class Game :
     
     def print_board(self):
         """ display the board, debug function"""
-        for i in range(22):
-            print(self.board[i])
+        """
+        displays the board as it would be seen on a game page
+        """
+        for i in range(1, 21):
+            line = str()
+            for j in range(1, 21):
+                if self.board[i][j] == 1:
+                    line = line + "🟩 " 
+                elif self.board[i][j] == 2:
+                    line = line + "🟥 " 
+                elif self.maxn > 2 and self.board[i][j]== 3:
+                    line = line + "🟦 " 
+                elif self.maxn > 3 and self.board[i][j] == 4:
+                    line = line + "🟨 "
+                else:
+                    line = line + "⬛ "
+
+            print(line)
+        print("")
     
     def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int,int], flipped:bool, player:int) -> bool :
         """ 
@@ -85,9 +102,9 @@ class Game :
                 if p_to_add[j][i] == 1 : # add the piece
                     self.board[y+j][x+i] = self.is_playing
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
-                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing] + 1
+                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing_index] + 1
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # update red_pieces
-                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing] - 1
+                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing_index] - 1
         
         # remove current piece from availible
         self.availible[self.is_playing_index].remove(piece)
@@ -140,11 +157,34 @@ class Game :
             total = total + 5
         
         return total
+    
+    def play_game(self):
+        while self.players:
+            pos = self.possible_moves[self.is_playing_index]
 
+            if len(self.possible_moves[self.is_playing_index]) != 0 :
+                piece, rotation, flipped, (x,y), = pos[randint(0, len(pos) - 1)]
+                self.add_piece(piece,rotation, (x,y), flipped)
 
-
-
+                self.is_playing_index = (self.is_playing_index + 1) % len(self.players)
+            
+            else :
+                print(f"Player {self.is_playing} does not have any availible move!")
+                self.players.remove(self.is_playing)
+                if self.is_playing_index >= len(self.players):
+                    self.is_playing_index = 0
+            
+            if self.players : 
+                self.is_playing = self.players[self.is_playing_index]
+            
+        self.print_board()
+        print("Game is over!")
+        for player in range(1, self.maxn + 1):
+            print(f"Player {player} pieces left: {self.availible[player-1]}")
+            print(f"Score: {self.score(player)}")
 
 if __name__ == "__main__" : 
     g1 = Game(4)
-    g1.print_board()
+    start = time.time()
+    g1.play_game()
+    print(f"Time taken: {time.time() - start}")

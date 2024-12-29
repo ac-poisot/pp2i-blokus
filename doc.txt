@@ -63,9 +63,11 @@ On définit ensuite les méthodes suivantes :
   - is_legal : int,int,tuple[int,int],bool,int -> bool
   - add_piece : int,int,tuple[int,int],bool -> None
   - score : int -> int
+  - play_game : None -> None
 
   * méthode init : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles.
   * méthode print_board : affiche le plateau de jeu
   * méthode is_legal : vérifie qu'un coup est légal pour le joueur passé en paramètre. Pour cela, la pièce doit être disponible et ne doit pas sortir du plateau. les autres conditions permettent de vérifier que 1) la pièce est bien posée sur une case vide, 2) vérifier que la pièce est bien posée sur un coin (valid est un booléen de controle -> vrai si un coin a été vu), 3) vérifier que la pièce n'est pas tangente à celle d'une même couleur
   * add_piece : ajoute la pièce sans vérification de la légalité du mouvement. Pour cela, on met la pièce sur le plateau, puis on retire la pièce des pièces disponibles. Afin d'éviter le calcul des coups possibles à chaque tour (200 en moyenne), on calcul les coups possibles à chaque fois qu'on pose une pièce. Cela nécessite de retirer les coups qui ne sont plus disponibles de tous les joueurs puis de rajouter les mouvements du joueur qui joue. Il y a également le bonus si la dernère pièce posée est le monomino.
   * score : renvoie le score du joueur définit par les règles du jeu
+  * play_game : joue une partie en mode aléatoire
