@@ -46,7 +46,7 @@ def init_db():
 
 from db import *
 from game import *
-from ai import ais
+import ai
 
 def createRoom(pid):
     roomid = new_game(pid, None, None, None)
@@ -419,7 +419,7 @@ def handle_data():
                         if len(game.players) != 0:
                             game.is_playing = game.players[game.is_playing_index]
                     else:
-                        ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
+                        ai.ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
 
             # If it is a local player's turn  and he can play the move he chose
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
@@ -437,7 +437,7 @@ def handle_data():
                         if len(game.players) != 0:
                             game.is_playing = game.players[game.is_playing_index]
                     else:
-                        ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
+                        ai.ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
 
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
