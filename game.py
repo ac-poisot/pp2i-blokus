@@ -98,6 +98,28 @@ class Game :
 
         return valid
     
+    def is_red_cell(self, x, y, player):
+        """"
+        Returns whether a piece of the chosen player can start at this cell or not
+        """
+        angleContact = False
+        if self.board[y][x] != 0: return False
+
+        if y-1 >= 0:
+            if self.board[y-1][x] == player: return False
+            if x-1 >= 0 and self.board[y-1][x-1] == player: angleContact = True
+            if x+1 < len(self.board[y]) and self.board[y-1][x+1] == player: angleContact = True
+        # print("here")
+        if y+1 < len(self.board):
+            if self.board[y+1][x] == player: return False
+            if x-1 >= 0 and self.board[y+1][x-1] == player: angleContact = True
+            if x+1 < len(self.board[y]) and self.board[y+1][x+1] == player: angleContact = True
+        if x-1 >= 0 and self.board[y][x-1] == player: return False
+        if x+1 < len(self.board[y]) and self.board[y][x+1] == player: return False
+        # print(angleContact)
+        return angleContact
+
+    
     def add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, playing:int = None) -> None :
         """ add the piece without any verification of legality"""
         if playing is None:
@@ -126,8 +148,8 @@ class Game :
 
         x_min = x-5
         y_min = y-5
-        x_max = x+length
-        y_max = y+height
+        x_max = min(x+length+5, 22)
+        y_max = min(y+height+5, 22)
 
         # remove moves that are now not possible
         for player in self.players :
@@ -139,18 +161,19 @@ class Game :
             self.possible_moves[player-1] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[player-1]))
 
         # add new possibles moves
-        for i in range(x_min,x_max):
-            for j in range(y_min,y_max):
+        for i in range(x_min-1,x_max):
+            for j in range(y_min-1,y_max):
                 pos = (i,j)
-                for p in self.availible[playing-1] :
+                # if self.is_red_cell(i, j, playing):
+                for p in self.availible[playing-1][:1]:
                     for r in [0,90,180,270]:
                         for b in [True,False] :
-                            if self.is_legal(p,r,pos,b,playing):
+                            if self.is_legal(p,r,(pos[0]-1, pos[1]-1),b,playing):
                                 self.possible_moves[playing-1].append((p,r,b,pos))
         
         # bonus if the last piece placed is the monomino
-        if len(self.availible[player-1]) == 0 and piece == 1:
-            self.bonus[player-1] = True
+        if len(self.availible[playing-1]) == 0 and piece == 1:
+            self.bonus[playing-1] = True
 
     def remove_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool) -> None :
         """
@@ -206,12 +229,12 @@ class Game :
             for i in range(x_min,x_max):
                 for j in range(y_min,y_max):
                     pos = (i,j)
+                    # if self.is_red_cell(i, j, player):
                     for p in self.availible[player-1] :
                         for r in [0,90,180,270]:
                             for b in [True,False] :
-                                if self.is_legal(p,r,pos,b,player):
+                                if self.is_legal(p,r,(pos[0]-1, pos[1]-1),b,player):
                                     self.possible_moves[player-1].append((p,r,b,pos))
-                                self.possible_moves[player-1].append((p,r,b,pos))
         
         # bonus if the last piece placed is the monomino
         if len(self.availible[player-1]) == 0 and piece == 1:
