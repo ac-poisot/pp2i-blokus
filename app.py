@@ -54,7 +54,7 @@ def createRoom(pid):
 
 def recreateGame(gameid):
     playerlist = get_playername_list(gameid)
-    game = retrieve_game([i+1 for i in range(4) if playerlist[i] != None and playerlist[i] != "Empty slot"], get_history(gameid))
+    game = retrieve_game(len([i+1 for i in range(4) if playerlist[i] != None and playerlist[i] != "Empty slot"]), get_history(gameid))
     return game
 
 
@@ -287,7 +287,7 @@ def game():
         scoreboard.sort(reverse = True, key = lambda elt: elt[1])
         return wrap(render_template("pages/scoreboard.html", scoreboard=scoreboard))
     
-    grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
+    grid=[game.board[i][1:-1] for i in range(1, 21)]
     players = get_playername_list(gameid)
     pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
     piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]    
@@ -364,7 +364,7 @@ def handle_data():
             if(not gameid in gameList.keys()): # If the game isn't currently loaded by the server, we load it from the db
                 gameList[gameid] = recreateGame(gameid)
             game = gameList[gameid]
-            grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
+            grid=[game.board[i][1:-1] for i in range(1, 21)]
             players = get_playername_list(gameid)
             pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
@@ -404,9 +404,9 @@ def handle_data():
             pindex = list(gameData)[1:5].index(str(pid)) # Index of the player in the list of players
 
             # If the move given can be made and it's the player's turn
-            if str(pid) == gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
-                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1) # We play the move
-                new_move(gameid, pindex+1, int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
+            if str(pid) == gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]): # (data['piece'], data['orientation']*90, data['inverted'], (data['x'], data['y'])) in game.possible_moves[game.is_playing_index]
+                game.add_piece(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted']) # We play the move
+                new_move(gameid, pindex+1, int(data['piece']), data['y'], data['x'], data['orientation']*90, data['inverted'])
 
                 # We change the player who can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
@@ -422,9 +422,9 @@ def handle_data():
                         ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
 
             # If it is a local player's turn  and he can play the move he chose
-            elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
-                game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]) # We play the move
-                new_move(gameid, game.players[game.is_playing_index], int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
+            elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]):
+                game.add_piece(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted']) # We play the move
+                new_move(gameid, game.players[game.is_playing_index], int(data['piece']), data['y'], data['x'], data['orientation']*90, data['inverted'])
 
                 # We change the player who can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
@@ -439,7 +439,7 @@ def handle_data():
                     else:
                         ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
 
-            grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
+            grid=[game.board[i][1:-1] for i in range(1, 21)]
             players = get_playername_list(gameid)
             pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]

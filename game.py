@@ -2,28 +2,31 @@ from pieces import *
 from random import randint, choice
 import time
 
+initial_possibilities = []
+for p in range(len(pieces)):
+    for r in [0,90,180,270] :
+        for b in [True,False]:
+            new_piece = rotate(p,r,b)
+            x_min = 0
+            x_max = len(new_piece[0])
+            y_min = 0
+            y_max = len(new_piece)
+            if new_piece[y_min][x_min] == 2 : 
+                initial_possibilities.append((p,r,b,(0,0)))
+            if new_piece[y_max-1][x_min] == 2 : 
+                initial_possibilities.append((p,r,b,(21-x_max+1,0)))
+            if new_piece[y_min][x_max-1] == 2 : 
+                initial_possibilities.append((p,r,b,(0,21-y_max+1)))
+            if new_piece[y_max-1][x_max-1] == 2 : 
+                initial_possibilities.append((p,r,b,(21-x_max+1,21-y_max+1)))
+
 class Game :
     def __init__(self, players:int):
         """initialise le jeu"""
         game_board = [[0 for _ in range(22)] for _ in  range(22)]
         poss = [[] for _ in  range(players)]
         for j in range(players):
-            for p in range(len(pieces)):
-                for r in [0,90,180,270] :
-                    for b in [True,False]:
-                        new_piece = rotate(p,r,b)
-                        x_min = 0
-                        x_max = len(new_piece[0])
-                        y_min = 0
-                        y_max = len(new_piece)
-                        if new_piece[y_min][x_min] == 2 : 
-                            poss[j].append((p,r,b,(0,0)))
-                        if new_piece[y_max-1][x_min] == 2 : 
-                           poss[j].append((p,r,b,(21-x_max+1,0)))
-                        if new_piece[y_min][x_max-1] == 2 : 
-                           poss[j].append((p,r,b,(0,21-y_max+1)))
-                        if new_piece[y_max-1][x_max-1] == 2 : 
-                           poss[j].append((p,r,b,(21-x_max+1,21-y_max+1)))
+            poss[j] = initial_possibilities.copy()
                         
         self.availible = [[i for i in range(1,22)] for j in range(players)]
         self.board = game_board
@@ -87,27 +90,39 @@ class Game :
                     valid = True
                 if p_to_add[j][i] == 3 and self.board[y+j][x+i] == player : # chech no near another piece of same color
                     return False
-        
+                
+        # Check if the piece is at a corner
+        if len(self.availible[player-1]) == 21:
+            if (x == 0 and y == 0) or (x == 21 - length + 1 and y == 0) or (x == 0 and y == 21 - height + 1) or (x == 21 - length + 1 and y == 21 - height + 1):
+                return True
+
         return valid
     
-    def add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool) -> None :
+    def add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, playing:int = None) -> None :
         """ add the piece without any verification of legality"""
+        if playing is None:
+            playing = self.is_playing
         x, y = position
         p_to_add = rotate(piece, rotation, flipped)
         length = len(p_to_add[0])
         height = len(p_to_add)
 
+        # Remove the other corners from the possibilities list
+        if(len(self.availible[playing-1]) == 21):
+            self.possible_moves[playing-1] = []
+            self.red_pieces[playing-1] = 0
+
         for i in range(length):
             for j in range(height):
                 if p_to_add[j][i] == 1 : # add the piece
-                    self.board[y+j][x+i] = self.is_playing
+                    self.board[y+j][x+i] = playing
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
-                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing_index] + 1
-                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # update red_pieces
-                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing_index] - 1
+                    self.red_pieces[playing-1] = self.red_pieces[playing-1] + 1
+                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == playing : # update red_pieces
+                    self.red_pieces[playing-1] = self.red_pieces[playing-1] - 1
         
         # remove current piece from availible
-        self.availible[self.is_playing_index].remove(piece)
+        self.availible[playing-1].remove(piece)
 
         x_min = x-5
         y_min = y-5
@@ -119,7 +134,7 @@ class Game :
             to_be_removed = []
             for p in self.possible_moves[player-1]:
                 xp, yp = p[3]
-                if (p[0]==piece and self.is_playing==player) or (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],player)):
+                if (p[0]==piece and playing==player) or (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],player)):
                     to_be_removed.append(p)
             self.possible_moves[player-1] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[player-1]))
 
@@ -127,11 +142,76 @@ class Game :
         for i in range(x_min,x_max):
             for j in range(y_min,y_max):
                 pos = (i,j)
-                for p in self.availible[self.is_playing_index] :
+                for p in self.availible[playing-1] :
                     for r in [0,90,180,270]:
                         for b in [True,False] :
-                            if self.is_legal(p,r,pos,b,self.is_playing):
-                                self.possible_moves[self.is_playing_index].append((p,r,b,pos))
+                            if self.is_legal(p,r,pos,b,playing):
+                                self.possible_moves[playing-1].append((p,r,b,pos))
+        
+        # bonus if the last piece placed is the monomino
+        if len(self.availible[player-1]) == 0 and piece == 1:
+            self.bonus[player-1] = True
+
+    def remove_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool) -> None :
+        """
+        Removes a piece from the board and updates the game state accordingly.
+        Args:
+            piece (int): The identifier of the piece to be removed.
+            rotation ({0, 90, 180, 270}): The rotation angle of the piece.
+            position (tuple[int, int]): The (x, y) position on the board where the piece is located.
+            flipped (bool): Whether the piece is flipped horizontally.
+        Returns:
+            None
+        """
+        
+        x, y = position
+        p_to_add = rotate(piece, rotation, flipped)
+        length = len(p_to_add[0])
+        height = len(p_to_add)
+
+        
+
+        for i in range(length):
+            for j in range(height):
+                if p_to_add[j][i] == 1 : # remove the piece
+                    self.board[y+j][x+i] = 0
+                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
+                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing_index] - 1
+                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # update red_pieces
+                    self.red_pieces[self.is_playing_index] = self.red_pieces[self.is_playing_index] + 1
+        
+        # remove current piece from availible
+        self.availible[self.is_playing_index].append(piece) # add the piece back (what about the new index?)
+
+        if(len(self.availible[self.is_playing_index]) == 21):
+            self.possible_moves[self.is_playing_index] = initial_possibilities.copy()
+            self.red_pieces[self.is_playing_index] = 0
+
+        x_min = x-5
+        y_min = y-5
+        x_max = x+length
+        y_max = y+height
+
+        # remove moves that are now not possible
+        
+        to_be_removed = []
+        for p in self.possible_moves[self.is_playing_index]:
+            xp, yp = p[3]
+            if (p[0]==piece and self.is_playing==self.is_playing) or (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],self.is_playing)):
+                to_be_removed.append(p)
+        self.possible_moves[self.is_playing_index] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[self.is_playing_index]))
+
+        # add new possibles moves
+        for player in self.players :
+            for i in range(x_min,x_max):
+                for j in range(y_min,y_max):
+                    pos = (i,j)
+                    for p in self.availible[player-1] :
+                        for r in [0,90,180,270]:
+                            for b in [True,False] :
+                                if self.is_legal(p,r,pos,b,player):
+                                    self.possible_moves[player-1].append((p,r,b,pos))
+                                self.possible_moves[player-1].append((p,r,b,pos))
         
         # bonus if the last piece placed is the monomino
         if len(self.availible[player-1]) == 0 and piece == 1:
@@ -158,6 +238,14 @@ class Game :
         
         return total
     
+    def can_play(self, player:int) -> bool :
+        """ return if a player can play"""
+        return len(self.possible_moves[player-1]) != 0
+    
+    def delete_player(self, player:int) -> None :
+        """ delete a player from the game"""
+        self.players.remove(player)
+    
     def play_game(self):
         while self.players:
             pos = self.possible_moves[self.is_playing_index]
@@ -182,6 +270,48 @@ class Game :
         for player in range(1, self.maxn + 1):
             print(f"Player {player} pieces left: {self.availible[player-1]}")
             print(f"Score: {self.score(player)}")
+
+    def copy_game(self):
+        """
+        Returns a deep copy of the game.
+        Returns:
+            Game: A deep copy of the game.
+        """
+        g = Game(len(self.players))
+        g.board = [row.copy() for row in self.board]
+        g.availible = [row.copy() for row in self.availible]
+        g.bonus = self.bonus.copy()
+        g.is_playing = self.is_playing
+        g.is_playing_index = self.is_playing_index
+        g.maxn = self.maxn
+        g.possible_moves = [row.copy() for row in self.possible_moves]
+        g.players = self.players.copy()
+        g.red_pieces = self.red_pieces.copy()
+        return g
+
+def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int, bool]]) -> Game:
+    """
+    recreates a game using database data. “moves” is a list of moves with all required information sorted by when the piece is placed, as given by db.py’s get_game_history function
+    """
+    g = Game(players)
+
+    player = g.players[-1]
+    for move in moves:
+        _, _, player, piece, x, y, rotation, flipped = move
+        g.add_piece(piece, rotation, (x, y), flipped, player)
+
+    for i in range(players):
+        if not g.can_play(g.players[i]):
+            g.players.remove(g.players[i])
+
+    g.is_playing_index = g.players.index(player) + 1
+    if g.is_playing_index == len(g.players):
+        g.is_playing_index = 0
+
+    g.is_playing = g.players[g.is_playing_index] 
+    return g
+
+
 
 if __name__ == "__main__" : 
     g1 = Game(4)
