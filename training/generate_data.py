@@ -118,6 +118,9 @@ def generate_data(n: int):
     os.chdir("../../../")
     print(f"Dataset {i} généré")
 
+    return games, scores
 
-for i in range(5): # The number of datasets to generate
-    generate_data(10) # The number of games of each number of players to simulate for each dataset
+
+if __name__ == "__main__":
+    for i in range(200): # The number of datasets to generate
+        generate_data(10) # The number of games of each number of players to simulate for each dataset
