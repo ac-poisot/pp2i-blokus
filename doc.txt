@@ -45,9 +45,12 @@ Les pièces sont définies dans le fichier pieces.py, de la façon expliquée pl
 
 ********************************* Game ****************************************
 
+On commence par créer la liste des coups possibles au début.
+
 On définit une classe Game. Elle prend en paramètre une liste de joueurs sous forme de nombre, tous différents, entre 1 et 4, qui correspond à tous les joueurs présents.
 
 Cette classe contiendra ensuite les attributs suivants:
+  - avaibilible -> list[list[int]] : pour chaque joueur (première liste), la liste des pièces qu'il peut poser.
   - board -> list[list[int]] : le plateau du jeu, avec 22 cases -> on tient compte des bords pour éviter des problèmes lors des tests. Il est initialment rempli avec des 0 et contiendra i si le joueur i a posé une pièce sur cette case.
   - bonus -> list[bool] : vaut True ssi le joueur i a le droit à un bonus (fin de partie, la dernière pièce posée est le monomino)
   - is_playing -> int : le joueur qui est en train de jouer
@@ -61,13 +64,25 @@ On définit ensuite les méthodes suivantes :
   - init : int -> void
   - print_board : void -> void
   - is_legal : int,int,tuple[int,int],bool,int -> bool
+  - is_red_cell : int,int,int -> bool
   - add_piece : int,int,tuple[int,int],bool -> None
+  - remove_piece : int,int,tuple[int,int],bool -> None
   - score : int -> int
+  - can_pay : int -> bool
+  - delete_player : int -> None
   - play_game : None -> None
+  - copy_game : None -> Game
+  - retrieve_game : int,list[list[str, int, int, int, int, int, int, bool]] -> Game
 
-  * méthode init : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles.
+  * méthode init : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles avant.
   * méthode print_board : affiche le plateau de jeu
-  * méthode is_legal : vérifie qu'un coup est légal pour le joueur passé en paramètre. Pour cela, la pièce doit être disponible et ne doit pas sortir du plateau. les autres conditions permettent de vérifier que 1) la pièce est bien posée sur une case vide, 2) vérifier que la pièce est bien posée sur un coin (valid est un booléen de controle -> vrai si un coin a été vu), 3) vérifier que la pièce n'est pas tangente à celle d'une même couleur
-  * add_piece : ajoute la pièce sans vérification de la légalité du mouvement. Pour cela, on met la pièce sur le plateau, puis on retire la pièce des pièces disponibles. Afin d'éviter le calcul des coups possibles à chaque tour (200 en moyenne), on calcul les coups possibles à chaque fois qu'on pose une pièce. Cela nécessite de retirer les coups qui ne sont plus disponibles de tous les joueurs puis de rajouter les mouvements du joueur qui joue. Il y a également le bonus si la dernère pièce posée est le monomino.
+  * méthode is_legal : vérifie qu'un coup est légal pour le joueur passé en paramètre. Pour cela, la pièce doit être disponible et ne doit pas sortir du plateau. les autres conditions permettent de vérifier que 1) la pièce est bien posée sur une case vide, 2) vérifier que la pièce est bien posée sur un coin (valid est un booléen de controle -> vrai si un coin a été vu), 3) vérifier que la pièce n'est pas tangente à celle d'une même couleur. Dans le cas où la pièce est posée dans un coin (au début), il n'y a pas encore de pièces, valid est forcément à False, donc on rajoute ce cas à la main.
+  * méthode is_red_cell : vérifie qu'une pièce est posée sur une case rouge, c'est à dire au coin d'une autre pièce de la même couleur. Si la case où la pièce est à côté ([y-1][x]), on renvoie False, sinon si une des cases en diagonale à gauche est de la même couleur que le joueur, on est à un coin donc on passe un flag à True. Même chose pour l'autre côté. **Manque cas en x ?**
+  * add_piece : ajoute la pièce sans vérification de la légalité du mouvement. Pour cela, on commence par vérifier si on est dans un coin (début de la partie donc toutes les pièces sont disponibles) pour retirer les autres coins au joueur. On met ensuite la pièce sur le plateau, puis on retire la pièce des pièces disponibles. Afin d'éviter le calcul des coups possibles à chaque tour (200 en moyenne), on calcul les coups possibles à chaque fois qu'on pose une pièce. Cela nécessite de retirer les coups qui ne sont plus disponibles de tous les joueurs puis de rajouter les mouvements du joueur qui joue. Il y a également le bonus si la dernère pièce posée est le monomino.
+  * remove_piece : retire une pièce du plateau. On commence par retirer la pièce du plateau (remettre des 0), puis on la rajoute aux pièces disponibles. On retire ensuite les mouvements qui ne sont plus possibles et on rajoute les nouveaux.
   * score : renvoie le score du joueur définit par les règles du jeu
+  * can_play : renvoie True si et seulement si le joueur passé en paramètre peut jouer, donc s'il lui reste des mouvements possibles.
+  * delete_player : retire un joueur de la partie
   * play_game : joue une partie en mode aléatoire
+  * copy_game : renvoie une copie de la partie en cours
+  * retrieve_game : recréer un jeu à l'aide de la base de données, en se basant sur les informations de db.py
