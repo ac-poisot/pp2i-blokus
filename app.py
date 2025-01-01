@@ -410,8 +410,8 @@ def handle_data():
 
                 # We change the player who can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-                if game.players: game.is_playing = game.players[game.is_playing_index]
-                while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing_index][:3] == "AI ") and len(game.players) != 0:
+                if game.players: game.  is_playing = game.players[game.is_playing_index]
+                while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing-1][:3] == "AI ") and len(game.players) != 0:
                     if(not game.can_play(game.is_playing)):
                         game.delete_player(game.is_playing)
                         if game.is_playing_index >= len(game.players):
@@ -419,9 +419,7 @@ def handle_data():
                         if len(game.players) != 0:
                             game.is_playing = game.players[game.is_playing_index]
                     else:
-                        print("flask", len(game.possible_moves[game.is_playing_index]), game.is_playing_index)
-                        ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
-                # print("flask", len(game.possible_moves[game.is_playing_index]))
+                        ais[int(list(gameData)[1:5][game.is_playing-1][-1])-1](gameid, game)
 
             # If it is a local player's turn  and he can play the move he chose
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]):
@@ -431,7 +429,7 @@ def handle_data():
                 # We change the player who can play to the next player
                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.players: game.is_playing = game.players[game.is_playing_index]
-                while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing_index][:3] == "AI ") and len(game.players) != 0:
+                while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing-1][:3] == "AI ") and len(game.players) != 0:
                     if(not game.can_play(game.is_playing)):
                         game.delete_player(game.is_playing)
                         if game.is_playing_index >= len(game.players):
@@ -439,7 +437,7 @@ def handle_data():
                         if len(game.players) != 0:
                             game.is_playing = game.players[game.is_playing_index]
                     else:
-                        ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
+                        ais[int(list(gameData)[1:5][game.is_playing-1][-1])-1](gameid, game)
 
             grid=[game.board[i][1:-1] for i in range(1, 21)]
             players = get_playername_list(gameid)
