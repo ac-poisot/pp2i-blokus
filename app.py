@@ -293,8 +293,8 @@ def game():
     
     grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
     players = get_playername_list(gameid)
-    pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
-    piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]    
+    pieceList = [[pieces[elt-1] for elt in game.available[i]] for i in range(game.maxn)]
+    piecesids = [[elt for elt in game.available[i]] for i in range(game.maxn)]    
     scores=[0, 0, 0, 0]
     isplaying = game.players[game.is_playing_index]
     you = isplaying-1 if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))
@@ -374,8 +374,8 @@ def handle_data():
             game = gameList[gameid]
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
-            pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
-            piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
+            pieceList = [[pieces[elt-1] for elt in game.available[i]] for i in range(game.maxn)]
+            piecesids = [[elt for elt in game.available[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
             if(len(game.players) == 0): return jsonify({"finished": True})
             isplaying = game.players[game.is_playing_index]
@@ -424,7 +424,7 @@ def handle_data():
 
             
                 # If the move given can be made and it’s the player’s turn
-                elif data['piece'] in game.availible[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
+                elif data['piece'] in game.available[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1):
                     game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], pindex+1) # We play the move
                     new_move(gameid, pindex+1, int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
                     game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
@@ -453,7 +453,7 @@ def handle_data():
                         game.is_playing = game.players[game.is_playing_index]    
 
             
-                elif data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
+                elif data['piece'] in game.available[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]):
                     game.add_piece(data['piece'], data['orientation']*90, (data['x'], data['y']), data['inverted'], game.players[game.is_playing_index]) # Play the move
                     new_move(gameid, game.players[game.is_playing_index], int(data['piece']), data['x'], data['y'], data['orientation']*90, data['inverted'])
                     game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
@@ -472,8 +472,8 @@ def handle_data():
 
             grid=[[game.board[i+1][j+1].index('P')+1 if 'P' in game.board[i+1][j+1] else 0 for j in range(20)] for i in range(20)]
             players = get_playername_list(gameid)
-            pieceList = [[pieces[elt-1] for elt in game.availible[i]] for i in range(game.maxn)]
-            piecesids = [[elt for elt in game.availible[i]] for i in range(game.maxn)]
+            pieceList = [[pieces[elt-1] for elt in game.available[i]] for i in range(game.maxn)]
+            piecesids = [[elt for elt in game.available[i]] for i in range(game.maxn)]
             scores=[0, 0, 0, 0]
             if(len(game.players) == 0):
                 scoreboard = []

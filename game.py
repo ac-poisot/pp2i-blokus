@@ -17,7 +17,7 @@ class Game:
             game_board[i][0] = ['I' for _ in range(n)]
             game_board[i][21] = ['I' for _ in range(n)]
 
-        # Mark every corner as an availible spot
+        # Mark every corner as an available spot
         game_board[0][0] = ['P' for _ in range(n)]
         game_board[1][1] = ['A' for _ in range(n)]
 
@@ -31,11 +31,11 @@ class Game:
         game_board[20][20] = ['A' for _ in range(n)]
 
         red_pieces = [[(1, 1), (20, 20), (1, 20), (20, 1)] for _ in range(n)]
-        availible = [[i for i in range(1, 22)] for _ in range(n)]
+        available = [[i+1 for i in range(len(pieces))] for _ in range(n)]
         bonus = [False for i in range(n)]
 
         self.players = list.copy(players)
-        self.availible = availible
+        self.available = available
         self.bonus = bonus
         self.board = game_board
         self.red_pieces = red_pieces
@@ -117,7 +117,7 @@ class Game:
                     self.board[i+x][j+y][player - 1] = 'A'
     
         # Make it so that a player cannot play in another corner
-        if len(self.availible[player - 1]) == 21:
+        if len(self.available[player - 1]) == 21:
             corners = (1, 1, 0, 0), (1, 20, 0, 21), (20, 1, 21, 0), (20, 20, 21, 21)
             for corner in corners:
                 if self.board[corner[0]][corner[1]][player - 1] == 'A':
@@ -126,21 +126,21 @@ class Game:
                     self.board[corner[2]][corner[3]][player - 1] = 'I'
 
         # Bonus if the last piece placed is the monomino
-        if len(self.availible[player - 1]) == 1 and piece == 1:
+        if len(self.available[player - 1]) == 1 and piece == 1:
             self.bonus[player - 1] = True
-        self.availible[player - 1].remove(piece)
+        self.available[player - 1].remove(piece)
 
 
     def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
         """
         returns the legality of a move in three steps:
             1. A corner of the piece is in a red spot
-            2. The piece is located only on availible cells
+            2. The piece is located only on available cells
             3. The piece isn’t directly next to another of the same colour
         """
         
-        # Check if the piece is availible to the player
-        if piece not in self.availible[player - 1]:
+        # Check if the piece is available to the player
+        if piece not in self.available[player - 1]:
             return False
         
         # Check if piece is within board bounds
@@ -168,14 +168,14 @@ class Game:
         returns the score of a player, i.e. the amount of squares of each unused piece
         """
         total = 0
-        for piece in self.availible[player - 1]:
+        for piece in self.available[player - 1]:
             shape = pieces[piece - 1]
             for line in shape:
                 for cell in line:
                     if cell == 1:
                         total -= 1
 
-        if not self.availible[player - 1]:
+        if not self.available[player - 1]:
             total += 20
         if self.bonus[player - 1]:
             total += 5
@@ -191,8 +191,8 @@ class Game:
 
         res = list()
 
-        # we go through every availible cell, and check if every rotation of every piece can be placed there
-        for p in self.availible[player - 1]:
+        # we go through every available cell, and check if every rotation of every piece can be placed there
+        for p in self.available[player - 1]:
             for c in self.red_pieces[player - 1]:
                 for r in rotation:
                     for b in flipped:                        
@@ -215,13 +215,13 @@ class Game:
 
     def can_play(self, player:int) -> bool:
         """
-        returns whether a player as an availible move or not
+        returns whether a player as an available move or not
         """
         rotation = [0, 90, 180, 270]
         flipped = [True, False]
 
-        # we go through every availible cell, and check if every rotation of every piece can be placed there
-        for p in self.availible[player - 1]:
+        # we go through every available cell, and check if every rotation of every piece can be placed there
+        for p in self.available[player - 1]:
             for c in self.red_pieces[player - 1]:
                 for r in rotation:
                     for b in flipped:
@@ -245,7 +245,7 @@ class Game:
 
     def delete_player(self, player:int):
         """
-        gets rid a player that do not have any availible move
+        gets rid a player that do not have any available move
         """
         self.players.remove(player)
         
@@ -271,7 +271,7 @@ class Game:
 
                 self.is_playing_index = (self.is_playing_index + 1) % (len(self.players))
             else:
-                print(f"Player {self.is_playing} does not have any availible move!")
+                print(f"Player {self.is_playing} does not have any available move!")
                 self.delete_player(self.is_playing)
                 if self.is_playing_index >= len(self.players):
                     self.is_playing_index = 0
@@ -282,7 +282,7 @@ class Game:
         self.print_board()
         print("Game is over!")
         for player in range(1, self.maxn + 1):
-            print(f"Player {player} pieces left: {self.availible[player-1]}")
+            print(f"Player {player} pieces left: {self.available[player-1]}")
             print(f"Score: {self.score(player)}")
 
 

@@ -52,7 +52,7 @@ On définit une classe Game. Elle prend en paramètre une liste de joueurs sous 
 
 Cette classe contiendra ensuite les attributs suivants: 
   - players
-  - availible
+  - available
   - board
   - red_pieces
   - is_playing
@@ -60,7 +60,7 @@ Cette classe contiendra ensuite les attributs suivants:
   - maxn
 
 * attribut players : list[int]. La liste des joueurs qui peuvent jouer à cet instant.
-* attibut availible : list[list[int]]. La partie list[int] à la case i est la liste des pièces disponibles pour le joueur i+1.
+* attibut available : list[list[int]]. La partie list[int] à la case i est la liste des pièces disponibles pour le joueur i+1.
 * attribut board : list[list[int]]. Le plateau du jeu, mis à jour au fur et à mesure des coups joués.
 * attribut red_pieces : list[list[tuple(int,int)]]. Ce sont les cases "rouges" des pièces (leurs coins). Quand un joueur pose une pièce, un coin de la pièce doit être sur une des ces cases rouges.
 * attribut is_playing : int. Le joueur qui joue actuellement.
