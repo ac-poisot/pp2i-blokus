@@ -161,11 +161,13 @@ class Game :
             self.possible_moves[player-1] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[player-1]))
 
         # add new possibles moves
+        t = len(self.availible[playing-1])
         for i in range(x_min,x_max):
             for j in range(y_min,y_max):
                 pos = (i,j)
                 # if self.is_red_cell(i, j, playing):
-                for p in self.availible[playing-1][:1]:
+                for k in range(t):
+                    p = self.availible[playing-1][k]
                     for r in [0,90,180,270]:
                         for b in [True,False] :
                             if self.is_legal(p,r,pos,b,playing):
