@@ -148,8 +148,8 @@ class Game :
 
         x_min = x-5
         y_min = y-5
-        x_max = min(x+length+5, 22)
-        y_max = min(y+height+5, 22)
+        x_max = x+length
+        y_max = y+height
 
         # remove moves that are now not possible
         for player in self.players :
@@ -161,14 +161,14 @@ class Game :
             self.possible_moves[player-1] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[player-1]))
 
         # add new possibles moves
-        for i in range(x_min-1,x_max):
-            for j in range(y_min-1,y_max):
+        for i in range(x_min,x_max):
+            for j in range(y_min,y_max):
                 pos = (i,j)
                 # if self.is_red_cell(i, j, playing):
                 for p in self.availible[playing-1][:1]:
                     for r in [0,90,180,270]:
                         for b in [True,False] :
-                            if self.is_legal(p,r,(pos[0]-1, pos[1]-1),b,playing):
+                            if self.is_legal(p,r,pos,b,playing):
                                 self.possible_moves[playing-1].append((p,r,b,pos))
         
         # bonus if the last piece placed is the monomino
