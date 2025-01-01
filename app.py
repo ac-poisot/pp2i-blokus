@@ -419,7 +419,9 @@ def handle_data():
                         if len(game.players) != 0:
                             game.is_playing = game.players[game.is_playing_index]
                     else:
+                        print("flask", len(game.possible_moves[game.is_playing_index]), game.is_playing_index)
                         ais[int(list(gameData)[1:5][game.is_playing_index][-1])-1](gameid, game)
+                # print("flask", len(game.possible_moves[game.is_playing_index]))
 
             # If it is a local player's turn  and he can play the move he chose
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.availible[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]):

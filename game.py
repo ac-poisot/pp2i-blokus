@@ -207,38 +207,38 @@ class Game :
         self.availible[self.is_playing_index].append(piece) # add the piece back (what about the new index?)
 
         if(len(self.availible[self.is_playing_index]) == 21):
-            self.possible_moves[self.is_playing_index] = initial_possibilities.copy()
-            self.red_pieces[self.is_playing_index] = 0
+        #     self.possible_moves[self.is_playing_index] = initial_possibilities.copy()
+            self.red_pieces[self.is_playing_index] = 4 ## SHOULD BE THE NUMBER OF CORNERS STILL AVAILABLE
 
-        x_min = x-5
-        y_min = y-5
-        x_max = x+length
-        y_max = y+height
+        # x_min = x-5
+        # y_min = y-5
+        # x_max = x+length
+        # y_max = y+height
 
-        # remove moves that are now not possible
+        # # remove moves that are now not possible
         
-        to_be_removed = []
-        for p in self.possible_moves[self.is_playing_index]:
-            xp, yp = p[3]
-            if (p[0]==piece and self.is_playing==self.is_playing) or (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],self.is_playing)):
-                to_be_removed.append(p)
-        self.possible_moves[self.is_playing_index] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[self.is_playing_index]))
+        # to_be_removed = []
+        # for p in self.possible_moves[self.is_playing_index]:
+        #     xp, yp = p[3]
+        #     if (p[0]==piece and self.is_playing==self.is_playing) or (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],self.is_playing)):
+        #         to_be_removed.append(p)
+        # self.possible_moves[self.is_playing_index] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[self.is_playing_index]))
 
-        # add new possibles moves
-        for player in self.players :
-            for i in range(x_min,x_max):
-                for j in range(y_min,y_max):
-                    pos = (i,j)
-                    # if self.is_red_cell(i, j, player):
-                    for p in self.availible[player-1] :
-                        for r in [0,90,180,270]:
-                            for b in [True,False] :
-                                if self.is_legal(p,r,(pos[0]-1, pos[1]-1),b,player):
-                                    self.possible_moves[player-1].append((p,r,b,pos))
+        # # add new possibles moves
+        # for player in self.players :
+        #     for i in range(x_min,x_max):
+        #         for j in range(y_min,y_max):
+        #             pos = (i,j)
+        #             # if self.is_red_cell(i, j, player):
+        #             for p in self.availible[player-1] :
+        #                 for r in [0,90,180,270]:
+        #                     for b in [True,False] :
+        #                         if self.is_legal(p,r,(pos[0]-1, pos[1]-1),b,player):
+        #                             self.possible_moves[player-1].append((p,r,b,pos))
         
         # bonus if the last piece placed is the monomino
-        if len(self.availible[player-1]) == 0 and piece == 1:
-            self.bonus[player-1] = True
+        if len(self.availible[self.is_playing_index]) == 0 and piece == 1:
+            self.bonus[self.is_playing_index] = True
 
     def score(self,player:int) -> int :
         """ return the score of a player"""
@@ -263,7 +263,7 @@ class Game :
     
     def can_play(self, player:int) -> bool :
         """ return if a player can play"""
-        return len(self.possible_moves[player-1]) != 0
+        return player in self.players and len(self.possible_moves[self.players.index(player)]) != 0
     
     def delete_player(self, player:int) -> None :
         """ delete a player from the game"""
@@ -324,7 +324,7 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
         g.add_piece(piece, rotation, (x, y), flipped, player)
 
     for i in range(players):
-        if not g.can_play(g.players[i]):
+        if i < len(g.players) and not g.can_play(g.players[i]):
             g.players.remove(g.players[i])
 
     g.is_playing_index = g.players.index(player) + 1
