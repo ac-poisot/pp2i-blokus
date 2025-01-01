@@ -102,6 +102,7 @@ def load_all_data():
         all_scores += scores
 
     all_games = np.concatenate(all_games, axis=0)
+    print(len(all_games))
 
     return all_games, all_scores
 
