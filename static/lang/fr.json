@@ -51,6 +51,10 @@
     "remove_local":"Jouer en ligne",
     "guest": "Local ",
     "AI": "Ordi ",
+    "choose_AI": "Choisis un ordi",
+    "easyAI": "Ordi facile",
+    "mediumAI": "Ordi moyen",
+    "hardAI": "Ordi difficile",
     "empty_slot": "Emplacement vide",
 
     "forfeit": "Déclarer forfait",

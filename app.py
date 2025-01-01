@@ -16,7 +16,7 @@ flask.cli.show_server_banner = lambda *args: None
 import logging
 logging.getLogger("werkzeug").disabled = True
 
-
+aiNames=["easyAI", "mediumAI", "hardAI"]
 
 from pieces import pieces
 
@@ -215,7 +215,7 @@ def create_game():
     
     players = get_room(roomid)
     if(pid in players): # If the player is part of the room
-        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid)), responsive=False)
+        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid), ais=aiNames), responsive=False)
     
     else: # Else, deny access
         flash("not_allowed")

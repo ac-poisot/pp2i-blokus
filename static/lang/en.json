@@ -50,6 +50,10 @@
     "remove_local": "Play online",
     "guest": "Guest ",
     "AI": "AI ",
+    "choose_AI": "Choose an AI",
+    "easyAI": "Easy AI",
+    "mediumAI": "Medium AI",
+    "hardAI": "Hard AI",
     "empty_slot": "Empty slot",
 
     "forfeit": "Forfeit",

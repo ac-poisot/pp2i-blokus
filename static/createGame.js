@@ -122,9 +122,11 @@ function addHumanPlayer(btn, i) {
 function addAIPlayer(btn, i) {    
     btn.parentElement.classList.remove("grayed")
     btn.parentElement.children[0].classList.remove("grayed")
+    btn.parentElement.children[6].children[1].value = 1 // Set the AI level to 1 (default value)
+    btn.parentElement.children[6].classList.remove("hidden")
     var needAI = {
         index: i-1,
-        level: 2
+        level: 1
     }
     fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
@@ -138,6 +140,7 @@ function removePlayer(btn, i) {
     btn.parentElement.children[0].classList.add("grayed")
     btn.parentElement.children[4].classList.add("hidden")
     btn.parentElement.children[5].classList.add("hidden")
+    btn.parentElement.children[6].classList.add("hidden")
     players[i-1] = undefined
     fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
@@ -165,6 +168,16 @@ function removeLocalPlayer(btn, i) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({players})
+    }).then(res => handleRes(res))
+}
+
+function chooseAI(event) {
+    var aiLevel = event.target.value
+    var i = parseInt(event.target.parentElement.parentElement.classList[1][1]) - 1
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({players, needAI: {index: i, level: aiLevel}})
     }).then(res => handleRes(res))
 }
 

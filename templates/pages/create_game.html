@@ -1,10 +1,10 @@
 <main id="createGame" class="not_responsive">
     <div id="selectPlayers">
         {% from 'widgets/selectPlayer.txt' import selectPlayer %}
-        {{ selectPlayer(1, usernames[0], -1 if players[0] == -1 else (0 if players[0] == None else players[0]), master) }}
-        {{ selectPlayer(2, usernames[1], -1 if players[1] == -1 else (0 if players[1] == None else players[1]), master) }}
-        {{ selectPlayer(3, usernames[2], -1 if players[2] == -1 else (0 if players[2] == None else players[2]), master) }}
-        {{ selectPlayer(4, usernames[3], -1 if players[3] == -1 else (0 if players[3] == None else players[3]), master) }}
+        {{ selectPlayer(1, ais, usernames[0], -1 if players[0] == -1 else (0 if players[0] == None else players[0]), master) }}
+        {{ selectPlayer(2, ais, usernames[1], -1 if players[1] == -1 else (0 if players[1] == None else players[1]), master) }}
+        {{ selectPlayer(3, ais, usernames[2], -1 if players[2] == -1 else (0 if players[2] == None else players[2]), master) }}
+        {{ selectPlayer(4, ais, usernames[3], -1 if players[3] == -1 else (0 if players[3] == None else players[3]), master) }}
     </div>
     <div id="buttons">
         <button type="leave_room_button" id="leaveRoom" onClick=leaveRoom() data="leave_room"></button>
