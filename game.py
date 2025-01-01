@@ -14,9 +14,9 @@ for p in range(len(pieces)):
             if new_piece[y_min][x_min] == 2 : 
                 initial_possibilities.append((p,r,b,(0,0)))
             if new_piece[y_max-1][x_min] == 2 : 
-                initial_possibilities.append((p,r,b,(21-x_max+1,0)))
-            if new_piece[y_min][x_max-1] == 2 : 
                 initial_possibilities.append((p,r,b,(0,21-y_max+1)))
+            if new_piece[y_min][x_max-1] == 2 : 
+                initial_possibilities.append((p,r,b,(21-x_max+1,0)))
             if new_piece[y_max-1][x_max-1] == 2 : 
                 initial_possibilities.append((p,r,b,(21-x_max+1,21-y_max+1)))
 
