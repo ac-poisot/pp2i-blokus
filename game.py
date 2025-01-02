@@ -20,6 +20,13 @@ for p in range(len(pieces)):
             if new_piece[y_max-1][x_max-1] == 2 : 
                 initial_possibilities.append((p,r,b,(21-x_max+1,21-y_max+1)))
 
+bcolors = {
+    "COLOR1": '\033[92m',
+    "COLOR2": '\033[91m',
+    "COLOR3": '\033[94m',
+    "COLOR4": '\033[93m',
+    "ENDC": '\033[0m'
+}
 class Game :
     def __init__(self, players:int):
         """initialise le jeu"""
@@ -207,6 +214,10 @@ class Game :
         # bonus if the last piece placed is the monomino
         if len(self.availible[playing-1]) == 0 and piece == 1:
             self.bonus[playing-1] = True
+
+        print(bcolors[f"COLOR{playing}"] + f"After player {playing} played {piece, rotation, position, flipped}, the possible moves are:" + bcolors['ENDC'])
+        for i in range(self.maxn):
+            print(bcolors[f"COLOR{i+1}"] + f"\tPlayer {i+1} : {self.possible_moves[i]}" + bcolors['ENDC'])
 
     def remove_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool) -> None :
         """
