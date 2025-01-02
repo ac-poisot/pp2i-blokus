@@ -167,7 +167,8 @@ class Game :
                 xp, yp = p[3]
                 if playing!=player and (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],player)):
                     to_be_removed.append(p)
-            self.possible_moves[player-1] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[player-1]))
+            res = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[player-1]))
+            self.possible_moves[player-1] = res.copy()
 
         # remove moves that are nox not possible for playing
         x_min = x-5
@@ -175,13 +176,13 @@ class Game :
         x_max = x+length
         y_max = y+height
 
-        # remove moves that are now not possible for other players
         to_be_removed = []
         for p in self.possible_moves[playing-1]:
             xp, yp = p[3]
             if (p[0]==piece) or (xp>=x_min and yp >= y_min and xp<=x_max and yp<=y_max and not self.is_legal(p[0],p[1],p[3],p[2],playing)):
                 to_be_removed.append(p)
-        self.possible_moves[playing-1] = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[playing-1]))
+        res = list(filter(lambda elem : not elem in to_be_removed,self.possible_moves[playing-1]))
+        self.possible_moves[playing-1] = res.copy()
 
         # add new possibles moves
         t = len(self.availible[playing-1])
