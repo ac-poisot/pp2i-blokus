@@ -134,15 +134,24 @@ class Game :
             self.possible_moves[playing-1] = []
             self.red_pieces[playing-1] = 0
 
+        possible_red = []
         for i in range(length):
             for j in range(height):
                 if p_to_add[j][i] == 1 : # add the piece
                     self.board[y+j][x+i] = playing
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
                     self.red_pieces[playing-1] = self.red_pieces[playing-1] + 1
+                    if not (x+i-1,y+j-1) in possible_red:
+                        possible_red.append((x+i-1,y+j-1))
+                    if not (x+i-1,y+j+1) in possible_red:
+                        possible_red.append((x+i-1,y+j+1))
+                    if not (x+i+1,y+j-1) in possible_red:
+                        possible_red.append((x+i+1,y+j-1))
+                    if not (x+i+1,y+j+1) in possible_red:
+                        possible_red.append((x+i+1,y+j+1))
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == playing : # update red_pieces
                     self.red_pieces[playing-1] = self.red_pieces[playing-1] - 1
-        
+        #print(possible_red)
         # remove current piece from availible
         self.availible[playing-1].remove(piece)
 
@@ -162,16 +171,23 @@ class Game :
 
         # add new possibles moves
         t = len(self.availible[playing-1])
-        for i in range(x_min,x_max):
-            for j in range(y_min,y_max):
-                pos = (i,j)
-                # if self.is_red_cell(i, j, playing):
-                for k in range(t):
-                    p = self.availible[playing-1][k]
-                    for r in [0,90,180,270]:
-                        for b in [True,False] :
-                            if self.is_legal(p,r,pos,b,playing):
-                                self.possible_moves[playing-1].append((p,r,b,pos))
+        for l in range(len(possible_red)):
+            pos = possible_red[l]
+            # if self.is_red_cell(i, j, playing):
+            for k in range(t):
+                p = self.availible[playing-1][k]
+                for r in [0,90,180,270]:
+                    for b in [True,False] :
+                        np = rotate(p,r,b)
+                        height = len(np)
+                        length = len(np[0])
+                        for i in range(length):
+                            for j in range(height):
+                                if np[j][i] == 2:
+                                    nx = pos[0]-length+i+1
+                                    ny = pos[1]-height+j+1
+                                    if self.is_legal(p,r,(nx,ny),b,playing) and not (p,r,b,(nx,ny)) in self.possible_moves[playing-1]:
+                                        self.possible_moves[playing-1].append((p,r,b,(nx,ny)))
         
         # bonus if the last piece placed is the monomino
         if len(self.availible[playing-1]) == 0 and piece == 1:
