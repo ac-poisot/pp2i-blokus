@@ -68,6 +68,21 @@ body main #selectPlayers .selectPlayer {
   padding: 1vw;
   border-width: 5px !important;
 }
+body main #selectPlayers .selectPlayer .chooseAi select {
+  position: absolute;
+  background-color: #f3a942;
+  color: white;
+  border-radius: 1vh;
+}
+body main #selectPlayers .selectPlayer .chooseAi select option:nth-child(1):hover {
+  background-color: #f3a942;
+}
+body main #selectPlayers .selectPlayer .chooseAi select option:nth-child(2):hover {
+  background-color: #c28735;
+}
+body main #selectPlayers .selectPlayer .chooseAi select option:nth-child(3):hover {
+  background-color: #7a5521;
+}
 body main #selectPlayers .selectPlayer button {
   border-width: 5px;
   width: 8vw;

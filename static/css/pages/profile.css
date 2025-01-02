@@ -78,7 +78,7 @@ body main #profile button[type=profile_button] {
   width: 200px;
   padding: 10px;
   border-radius: 10px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #ff5f00;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
