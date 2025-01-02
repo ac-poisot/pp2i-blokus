@@ -48,13 +48,25 @@ function deleteCookies() {
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     const toggleCheckbox = document.getElementById("togglePassword");
+    const toggleImage = document.getElementById("toggleImage");
     passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+    if (toggleCheckbox.checked) {
+        toggleImage.src = "/static/images/cacher.png"; 
+    } else {
+        toggleImage.src = "/static/images/oeil.png";
+    }
 }
 
 function togglePasswordConfVisibility() {
     const passwordInput = document.getElementById("confirmation");
     const toggleCheckbox = document.getElementById("togglePasswordConf");
+    const toggleImage = document.getElementById("toggleImageConf");
     passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+    if (toggleCheckbox.checked) {
+        toggleImage.src = "/static/images/cacher.png"; 
+    } else {
+        toggleImage.src = "/static/images/oeil.png";
+    }
 }
 
 

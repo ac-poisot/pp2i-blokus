@@ -6,7 +6,7 @@
             <label for="password" data="password"></label>
             <input type="password" name="password" id="password">
             <input type="checkbox" id="togglePassword" class="eye-checkbox" onclick="togglePasswordVisibility()">
-            <label for="togglePassword" class="eye-icon">👁️</label>
+            <label for="togglePassword" class="eye-icon"><img id="toggleImage" src="{{url_for('static', filename='images/oeil.png')}}" class="img-eye-icon-conf"></label>
             <p data="password_requirements" class="info">
                     <span class="tooltiptext">. , ! : ; ? / & * # @ { } [ ] $ £ € ~ ^ & | § &lt; &gt;</span>
                 </span>
@@ -15,7 +15,7 @@
             <label for="confirmation" data="password_confirmation"></label>
             <input type="password" name="confirmation" id="confirmation">
             <input type="checkbox" id="togglePasswordConf" class="eye-checkbox" onclick="togglePasswordConfVisibility()">
-            <label for="togglePasswordConf" class="eye-icon-conf">👁️</label>
+            <label for="togglePasswordConf" class="eye-icon-conf"><img id="toggleImageConf" src="{{url_for('static', filename='images/oeil.png')}}" class="img-eye-icon-conf"></label>
             <button type="submit" data="signup_button"></button>
         </form>
         {% with messages = get_flashed_messages() %}

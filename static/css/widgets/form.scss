@@ -141,19 +141,19 @@ button[type="submit"]:hover {
 }
 
 .eye-icon {
-  position: absolute;
-  left: 295px;
-  top: 181px;
   cursor: pointer;
-  font-size: 20px;
+  position: relative;
+  top: -5.5vh;
+  right: -8.8vw;
 }
-
+.img-eye-icon-conf {
+  width: 1em;  
+}
 .eye-icon-conf {
-  position: absolute;
-  left: 295px;
-  top: 306px;
   cursor: pointer;
-  font-size: 20px;
+  position: relative;
+  top: -5.5vh;
+  right: -8.8vw;
 }
 body {
   background-color: $background;
