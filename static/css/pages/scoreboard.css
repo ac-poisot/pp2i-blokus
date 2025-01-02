@@ -52,13 +52,42 @@ body {
 body main {
   text-align: center;
 }
-body main p {
-  color: red;
+body main span {
+  position: relative;
+  background-color: #E9DCC9;
+  border-radius: 0.6em;
+  padding: 0.5em;
+  margin: 1.4em;
 }
 body main table {
+  position: relative;
+  border-radius: 1em;
+  outline: none;
   border-collapse: collapse;
+  background-color: #E9DCC9;
   margin-inline: auto;
 }
-body main table td, body main table tr {
-  border: 1px solid black;
+body main table tbody {
+  outline: none;
+}
+body main table tbody td {
+  outline: 1px solid black;
+}
+body main table tbody #dr {
+  outline: 1px solid black;
+  border-radius: 0% 0% 1em 0%;
+}
+body main table tbody #ga {
+  border-radius: 0% 0% 0% 1em;
+  outline: 1px solid black;
+}
+body main table thead td {
+  outline: 1px solid black;
+}
+body main table thead #ga {
+  border-radius: 1em 0% 0% 0%;
+}
+body main table thead #dr {
+  outline: 1px solid black;
+  border-radius: 0% 1em 0% 0%;
 }/*# sourceMappingURL=scoreboard.css.map */

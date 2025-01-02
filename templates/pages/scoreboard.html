@@ -4,17 +4,26 @@
     {% else %}
     <span id="status" data="victory"><p>{{scoreboard[0][0]}}</p></span>
     {% endif %} 
+    <p></p>
+    <p></p>
     <table id="scores">
         <thead>
-            <td data="username_table"></td>
-            <td data="score_table"></td>
+            <td data="username_table" id="ga"></td>
+            <td data="score_table" id="dr"></td>
         </thead>
         <tbody>
             {% for s in scoreboard %}
+            {% if s == scoreboard[-1] %}
+            <tr>
+                <td id="ga">{{s[0]}}</td>
+                <td id="dr">{{s[1]}}</td>
+            </tr>
+            {% else %}
             <tr>
                 <td>{{s[0]}}</td>
                 <td>{{s[1]}}</td>
             </tr>
+            {% endif %}
             {% endfor %}
         </tbody>
     </table>
