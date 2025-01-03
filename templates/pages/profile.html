@@ -34,17 +34,25 @@
         </table>
         <table id="games">
             <thead>
-                <td data="game_date"></td>
+                <td data="game_date" id="hg"></td>
                 <td data="game_id"></td>
-                <td data="game_state"></td>
+                <td data="game_state" id="hd"></td>
             </thead>
             <tbody>
                 {% for p in games %}
+                {% if p == games[-1]%}
+                <tr>
+                    <td id="ga">{{p.date}}</td>
+                    <td>{{p.id}}</td>
+                    <td id="dr">{{p.state}}</td>
+                </tr>
+                {% else %}
                 <tr>
                     <td>{{p.date}}</td>
                     <td>{{p.id}}</td>
                     <td>{{p.state}}</td>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>

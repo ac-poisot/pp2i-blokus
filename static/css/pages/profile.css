@@ -45,13 +45,6 @@ button[type=simple_button] {
     border-radius: 2vh;
   }
 }
-table#games {
-  border-collapse: collapse;
-}
-table#games th, table#games td {
-  border: 1px solid black;
-}
-
 body {
   text-align: center;
   margin: 0;
@@ -70,8 +63,34 @@ body main #profile {
 body main #profile h1 {
   margin: 2vh;
 }
-body main #profile table {
+body main #profile table#games {
   position: relative;
+  border-radius: 1em;
+  outline: none;
+  padding: 0.3vw;
+  border-collapse: collapse;
+  background-color: #f2eadf;
+  margin-inline: auto;
+}
+body main #profile table#games td {
+  outline: 1px solid black;
+  padding: 0.3vw;
+}
+body main #profile table#games #hd {
+  outline: 1px solid black;
+  border-radius: 0% 1em 0% 0%;
+}
+body main #profile table#games #hg {
+  outline: 1px solid black;
+  border-radius: 1em 0% 0% 0%;
+}
+body main #profile table#games #dr {
+  outline: 1px solid black;
+  border-radius: 0% 0% 1em 0%;
+}
+body main #profile table#games #ga {
+  border-radius: 0% 0% 0% 1em;
+  outline: 1px solid black;
 }
 body main #profile button[type=profile_button] {
   border: none;

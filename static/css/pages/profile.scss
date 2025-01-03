@@ -1,10 +1,4 @@
 @import "../widgets/variable";
-table#games {
-    border-collapse: collapse;
-    th, td {
-        border: 1px solid black;
-    }
-}
 
 body {
     text-align: center;
@@ -25,8 +19,34 @@ body {
                 margin: 2vh;
             }
 
-            table {
+            table#games {
                 position: relative;
+                border-radius: 1em;
+                outline: none;
+                padding: 0.3vw;
+                border-collapse: collapse;
+                background-color: mix($content-background,white,60%);
+                margin-inline:auto;
+                td {
+                    outline: 1px solid black;
+                    padding: 0.3vw;
+                }
+                #hd {
+                    outline: 1px solid black;
+                    border-radius: 0% 1em 0% 0%;                    
+                }
+                #hg {
+                    outline: 1px solid black;
+                    border-radius: 1em 0% 0% 0%;
+                }
+                #dr {
+                    outline: 1px solid black;
+                    border-radius: 0% 0% 1em 0%;
+                }
+                #ga {
+                    border-radius: 0% 0% 0% 1em ;
+                    outline: 1px solid black;
+                }
             }
             button[type="profile_button"] {
                 border: none;
