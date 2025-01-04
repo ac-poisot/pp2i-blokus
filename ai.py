@@ -10,9 +10,6 @@ def ai_easy(gameid, game):
     game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
     if(gameid): new_move(gameid, game.players[game.is_playing_index], piece, x, y, rotation, flipped)
 
-    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-    if game.players: game.is_playing = game.players[game.is_playing_index]
-
 def heuristic1(game, player):
     ownscore = game.red_pieces[player]
     opposcore = -1
@@ -76,9 +73,6 @@ def min_max(gameid, game, depth, heuristic):
     game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
     if(gameid): new_move(gameid, game.players[game.is_playing_index], piece, x, y, rotation, flipped)
 
-    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-    if game.players: game.is_playing = game.players[game.is_playing_index]
-
 def ai2(gameid, game):
     min_max(gameid, game, 1, heuristic1)
 
@@ -135,8 +129,6 @@ def cnn_ai(modelname):
         game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
         if(gameid): new_move(gameid, game.players[game.is_playing_index], piece, x, y, rotation, flipped)
 
-        game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-        if game.players: game.is_playing = game.players[game.is_playing_index]
     return cnn_ai_inner
 
 cnn_ai0 = cnn_ai("model2_0.h5")
