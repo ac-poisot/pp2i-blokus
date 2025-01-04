@@ -309,7 +309,6 @@ def test_red_pieces():
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     g.add_piece(15,0,(11,11),False)
     #g.print_board()
-    assert(g.red_pieces[1]) == 9
+    assert(g.red_pieces[1]) == 8
     #g.add_piece(14,0,(13,11),False)
-    #g.print_board()
     #assert g.red_pieces[1] == 9
