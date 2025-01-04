@@ -104,27 +104,6 @@ class Game :
                 return True
 
         return valid
-    
-    def is_red_cell(self, x, y, player):
-        """"
-        Returns whether a piece of the chosen player can start at this cell or not
-        """
-        angleContact = False
-        if self.board[y][x] != 0: return False
-
-        if y-1 >= 0:
-            if self.board[y-1][x] == player: return False
-            if x-1 >= 0 and self.board[y-1][x-1] == player: angleContact = True
-            if x+1 < len(self.board[y]) and self.board[y-1][x+1] == player: angleContact = True
-        # print("here")
-        if y+1 < len(self.board):
-            if self.board[y+1][x] == player: return False
-            if x-1 >= 0 and self.board[y+1][x-1] == player: angleContact = True
-            if x+1 < len(self.board[y]) and self.board[y+1][x+1] == player: angleContact = True
-        if x-1 >= 0 and self.board[y][x-1] == player: return False
-        if x+1 < len(self.board[y]) and self.board[y][x+1] == player: return False
-        # print(angleContact)
-        return angleContact
 
     
     def add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, playing:int = None) -> None :

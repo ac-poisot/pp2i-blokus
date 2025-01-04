@@ -27,6 +27,7 @@ def rec_minmax(game, depth, player, heuristic):
     elif game.can_play(game.is_playing):
         best = -1
         posList = game.possible_moves[game.is_playing-1].copy()
+        initial_red_pieces = game.red_pieces.copy()
         for p in posList:
             piece, rotation, flipped, (x, y) = p
             game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
@@ -45,6 +46,7 @@ def rec_minmax(game, depth, player, heuristic):
             game.is_playing_index = currindex
             game.remove_piece(piece, rotation, (x, y), flipped)
             game.possible_moves[game.is_playing-1] = posList
+            game.red_pieces = initial_red_pieces.copy()
         return best
     else:
         return heuristic(game, player)
@@ -55,6 +57,7 @@ def min_max(gameid, game, depth, heuristic):
     bestp = None
     g = game.copy_game()
     posList = g.possible_moves[g.is_playing-1].copy()
+    initial_red_pieces = g.red_pieces.copy()
     # print(len(posList), g.is_playing, g.is_playing_index)
     for p in posList:
         piece, rotation, flipped, (x, y) = p
@@ -65,6 +68,7 @@ def min_max(gameid, game, depth, heuristic):
         g.is_playing_index = (g.is_playing_index + len(g.players) - 1) % (len(g.players))
         g.remove_piece(piece, rotation, (x, y), flipped)
         g.possible_moves[g.is_playing-1] = posList
+        g.red_pieces = initial_red_pieces.copy()
         if best < score:
             best = score
             bestp = p
