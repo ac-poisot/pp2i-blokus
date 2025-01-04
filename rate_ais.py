@@ -13,7 +13,7 @@ if __name__ == "__main__":
         print(f"Game {i}")
         nb_players = random.randint(2, 4)
         playing_ais = random.sample(ais, nb_players)
-        g = Game([i for i in range(1, nb_players + 1)])
+        g = Game(nb_players)
         while g.players:
             if(g.can_play(g.is_playing)):
                 playing_ais[g.is_playing_index](None, g)

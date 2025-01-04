@@ -18,24 +18,17 @@ from random import randint
 ais = [ai.ai_easy, ai.ai_easy, ai.ai2, ai.ai2, ai.cnn_ai0, ai.cnn_ai1, ai.cnn_ai2, ai.cnn_ai3]
 
 # Function to convert the current game board to a matrix of integers
+# Function to convert the current game board to a matrix of integers
 def realboard(board):
     """
-    Transforms the input board by extracting the index of "P" in each cell.
+    Extracts the inner part of a 2D board, excluding the outermost rows and columns.
     Args:
-        board (list of list of str): A 2D list representing the board, where each cell contains a string.
+        board (list of list of any): A 2D list representing the board.
     Returns:
-        list of list of int: A 2D list where each cell contains the index of "P" if present, otherwise 0.
+        list of list of any: A 2D list representing the inner part of the board.
     """
-
-    rboard = []
-    for i in range(1, len(board)-1):
-        rboard.append([])
-        for j in range(1, len(board[i])-1):
-            if("P" in board[i][j]):
-                rboard[i-1].append(board[i][j].index("P"))
-            else:
-                rboard[i-1].append(0)
-    return rboard
+    
+    return [board[i][1:-1] for i in range(1, len(board)-1)]
 
 def maxScore(l):
     """
@@ -78,7 +71,7 @@ def generate_data(n: int):
         for nbplayers in range(2, 5): # 2->4 (inclus)
 
             # Simulate a game with the specified number of players
-            g = Game(list(range(1, nbplayers+1)))
+            g = Game(nbplayers+1)
             while g.players:
                 if(g.can_play(g.is_playing)):
                     ais[randint(0, len(ais)-1)](None, g)
