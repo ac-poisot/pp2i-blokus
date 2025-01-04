@@ -73,6 +73,10 @@ function updatedata() {
             color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
             players = document.querySelectorAll("#otherPlayers>div")
         }
+        document.querySelectorAll(".playerInterface").forEach(elt => {
+            elt.classList.remove("playing")
+        })
+        document.querySelector(`.playerInterface.c${isplaying}`).classList.add("playing")
     })
 }
 
@@ -343,4 +347,4 @@ function forfeit() {
 
 setInterval(() => {
     updatedata()
-}, 1000)
+}, 100)

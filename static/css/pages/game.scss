@@ -36,6 +36,15 @@
         border-radius: 2vh;
         background-color: gold;
 
+        &.playing {
+            .playerName {
+                text-decoration: underline;
+                text-decoration-color: red;
+                text-decoration-thickness: 0.5vh;
+                color: red;
+            }
+        }
+
         .playerName {
             height: 1.2vh;
             //height: calc(90% - 6vh);

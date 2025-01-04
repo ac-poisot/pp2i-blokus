@@ -75,6 +75,12 @@ button[type=simple_button] {
   border-radius: 2vh;
   background-color: gold;
 }
+#gameInterface .playerInterface.playing .playerName {
+  text-decoration: underline;
+  text-decoration-color: red;
+  text-decoration-thickness: 0.5vh;
+  color: red;
+}
 #gameInterface .playerInterface .playerName {
   height: 1.2vh;
   padding: 1.5vh;
