@@ -38,10 +38,15 @@
 
         &.playing {
             .playerName {
-                text-decoration: underline;
-                text-decoration-color: red;
-                text-decoration-thickness: 0.5vh;
-                color: red;
+                margin:1vh;
+                span {
+                    position: relative;
+                    background-color: $content-background;
+                    margin: 1vh;
+                    padding: 1vh;
+                    border-radius: 2px;
+                    outline: 1px solid black;
+                }
             }
         }
 
@@ -51,6 +56,7 @@
             //padding: 1.5vh 1.5vh 1.5vh 2vh;
             padding: 1.5vh;
             width: 100%;
+
         }
 
         .pieces {
@@ -59,7 +65,7 @@
             //height: calc(80% - 7vh);
             height: calc(95.5% - 5vh);
             justify-content: center;
-            margin: 0 2vh 2vh 2vh;
+            margin: 1vh 2vh 2vh 2vh;
             //grid-template-columns: repeat(2, 9vh);
             grid-template-columns: repeat(auto-fit, 12vh);
             padding: 0.5vh;
