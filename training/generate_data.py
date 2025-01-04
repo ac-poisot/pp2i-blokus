@@ -15,7 +15,7 @@ from random import randint
 
 
 # The ais that will be randomly picked to play to generate the data
-ais = [ai.ai_easy, ai.ai_easy, ai.ai_easy, ai.ai_easy, ai.ai2]
+ais = [ai.ai_easy, ai.ai_easy, ai.ai2, ai.ai2, ai.cnn_ai0, ai.cnn_ai1, ai.cnn_ai2, ai.cnn_ai3]
 
 # Function to convert the current game board to a matrix of integers
 def realboard(board):
@@ -105,7 +105,7 @@ def generate_data(n: int):
 
 
     # Save the generated data and scores into JSON files
-    os.chdir("training/datasets")
+    os.chdir("training/datasets2")
     i = 0
     while os.path.exists(f"dataset{i}"):
         i += 1
@@ -123,4 +123,4 @@ def generate_data(n: int):
 
 if __name__ == "__main__":
     for i in range(200): # The number of datasets to generate
-        generate_data(10) # The number of games of each number of players to simulate for each dataset
+        generate_data(100) # The number of games of each number of players to simulate for each dataset

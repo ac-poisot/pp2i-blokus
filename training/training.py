@@ -71,8 +71,8 @@ def load_data(dirname: str):
             - games (np.ndarray): The game states loaded from games.json.
             - scores (list[int]): The scores loaded from scores.json.
     """
-    games_path = os.path.join("training", "datasets", dirname, "games.json")
-    scores_path = os.path.join("training", "datasets", dirname, "scores.json")
+    games_path = os.path.join("training", "datasets2", dirname, "games.json")
+    scores_path = os.path.join("training", "datasets2", dirname, "scores.json")
 
     with open(games_path, 'r') as gamefile:
         games = json.load(gamefile)
@@ -96,7 +96,7 @@ def load_all_data():
     all_games = []
     all_scores = []
 
-    for dirname in os.listdir("training/datasets"):
+    for dirname in os.listdir("training/datasets2"):
         games, scores = load_data(dirname)
         all_games.append(games)
         all_scores += scores
@@ -128,18 +128,19 @@ def train(model, data):
     history = []
     validations = []
 
-    for i in range(4):
-        history.append(model.fit(np.array(data[0]), np.array(data[1]), epochs=100, batch_size=200))
+    nb_iterations = 12
+    for i in range(nb_iterations):
+        history.append(model.fit(np.array(data[0]), np.array(data[1]), epochs=50, batch_size=200))
         predictions = model.predict(np.array(validation[0][:40]))
         validations.append(sum(([(validation[1][j]-predictions[j][0])**2  for j in range(len(predictions))])))
 
-        model.save(f"models/model2_{i}.h5")
+        model.save(f"models/model3_{i}.h5")
 
     print("Model trained")
 
-    for i in range(4):
+    for i in range(nb_iterations):
         plt.plot(np.concat([history[j].history['loss'] for j in range(i+1)]), label='train')
-        plt.savefig(f"training/training_data/loss{i}.png")
+        plt.savefig(f"training/training_data/loss3_{i}.png")
         
         print(f"Validation {i}: {validations[i]}")
 

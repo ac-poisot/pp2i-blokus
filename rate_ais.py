@@ -9,7 +9,7 @@ if __name__ == "__main__":
     ranks = [[] for _ in range(len(ais))]
 
 
-    for i in range(2):
+    for i in range(500):
         print(f"Game {i}")
         nb_players = random.randint(2, 4)
         playing_ais = random.sample(ais, nb_players)
@@ -31,4 +31,4 @@ if __name__ == "__main__":
             ranks[ais.index(playing_ais[i])].append(sorted([g.score(player) for player in range(1, g.maxn + 1)], reverse=True).index(g.score(i + 1)) + 1)
     for i in range(len(ais)):
         print(f"AI {i} has a winrate of {victories[i] / games[i] if games[i] else "Unknown"}")
-        print(f"AI {i} had ranks {ranks[i]}")
+        print(f"AI {i} had ranks {ranks[i]} and an average rank of {sum(ranks[i]) / len(ranks[i]) if ranks[i] else "Unknown"}")
