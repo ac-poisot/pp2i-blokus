@@ -95,7 +95,7 @@ button[type=simple_button] {
   grid-template-columns: repeat(auto-fit, 12vh);
   padding: 0.5vh;
   gap: 0.25vh;
-  overflow: scroll;
+  overflow-y: scroll;
   border: 1px solid black;
   border-radius: 2vh;
   background-color: black;
