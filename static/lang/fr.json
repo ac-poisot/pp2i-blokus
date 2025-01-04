@@ -55,6 +55,7 @@
     "easyAI": "Facile",
     "mediumAI": "Moyen",
     "hardAI": "Difficile",
+    "CNN": "Tentative de CNN",
     "empty_slot": "Emplacement vide",
 
     "forfeit": "Déclarer forfait",

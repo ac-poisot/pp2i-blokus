@@ -106,7 +106,7 @@ def cnn_ai(modelname):
     def cnn_ai_inner(gameid, game):
         # min_max(gameid, game, 1, heuristic)
         g = game.copy_game()
-        posList = g.possible_moves[g.is_playing].copy()
+        posList = g.possible_moves[g.is_playing-1].copy()
         possible_datas = []
         c = 0
         for p in posList:
@@ -147,4 +147,5 @@ cnn_ai3 = cnn_ai("model2_3.h5")
 # modelList = ["model3_0.h5", "model3_3.h5", "model3_6.h5", "model3_7.h5", "model3_8.h5"]
 
 # ais = [ai_easy] + [cnn_ai(model) for model in modelList]
-ais = [ai_easy, cnn_ai3, cnn_ai3, cnn_ai3]
+ais = [ai_easy, ai2, ai3, cnn_ai3]
+aiNames=["easyAI", "mediumAI", "hardAI", "CNN"]

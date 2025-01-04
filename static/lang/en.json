@@ -54,6 +54,7 @@
     "easyAI": "Easy",
     "mediumAI": "Medium",
     "hardAI": "Hard",
+    "CNN": "CNN Attempt",
     "empty_slot": "Empty slot",
 
     "forfeit": "Forfeit",

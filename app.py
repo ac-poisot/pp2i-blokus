@@ -16,7 +16,6 @@ flask.cli.show_server_banner = lambda *args: None
 import logging
 logging.getLogger("werkzeug").disabled = True
 
-aiNames=["easyAI", "mediumAI", "hardAI"]
 
 from pieces import pieces
 
@@ -219,7 +218,7 @@ def create_game():
     
     players = get_room(roomid)
     if(pid in players): # If the player is part of the room
-        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid), ais=aiNames), responsive=False)
+        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid), ais=ai.aiNames), responsive=False)
     
     else: # Else, deny access
         flash("not_allowed")
@@ -431,7 +430,7 @@ def handle_data():
                         if len(game.players) != 0:
                             game.is_playing = game.players[game.is_playing_index]
                     else:
-                        ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])-1](gameid, game)
+                        ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
 
             # If it is a local player's turn  and he can play the move he chose
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]] and data['piece'] in game.available[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]):
@@ -449,7 +448,7 @@ def handle_data():
                         if len(game.players) != 0:
                             game.is_playing = game.players[game.is_playing_index]
                     else:
-                        ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])-1](gameid, game)
+                        ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
 
             grid=[game.board[i][1:-1] for i in range(1, 21)]
             players = get_playername_list(gameid)

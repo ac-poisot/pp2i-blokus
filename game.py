@@ -204,10 +204,6 @@ class Game :
             for j in range(height):
                 if p_to_add[j][i] == 1 : # remove the piece
                     self.board[y+j][x+i] = 0
-                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
-                    self.red_pieces[self.is_playing-1] = self.red_pieces[self.is_playing-1] - 1
-                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # update red_pieces
-                    self.red_pieces[self.is_playing-1] = self.red_pieces[self.is_playing-1] + 1
         
         # remove current piece from available
         self.available[self.is_playing-1].append(piece) # add the piece back (what about the new index?)
@@ -217,7 +213,7 @@ class Game :
         
         # bonus if the last piece placed is the monomino
         if len(self.available[self.is_playing-1]) == 0 and piece == 1:
-            self.bonus[self.is_playing-1] = True
+            self.bonus[self.is_playing-1] = False
 
     def score(self,player:int) -> int :
         """ return the score of a player"""
