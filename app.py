@@ -54,7 +54,10 @@ def createRoom(pid):
 
 def recreateGame(gameid):
     playerlist = get_playername_list(gameid)
-    game = retrieve_game(len([i+1 for i in range(4) if playerlist[i] != None and playerlist[i] != "Empty slot"]), get_history(gameid))
+    game = retrieve_game(4, get_history(gameid))
+    for i in range(4):
+        if playerlist[i] == None or playerlist[i] == "Empty slot":
+            game.delete_player(i+1)
     return game
 
 
