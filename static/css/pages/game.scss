@@ -2,6 +2,7 @@
 #gameInterface {
     display: grid;
     grid-template-columns: calc((90vw - 70vh) / 2) 70vh calc((90vw - 70vh) / 2);
+    grid-template-rows: 80vh 80vh;
     gap: 2vh;
     width: min-content;
     margin: 2vh auto 2vh auto;

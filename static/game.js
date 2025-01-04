@@ -77,6 +77,48 @@ function updatedata() {
             elt.classList.remove("playing")
         })
         document.querySelector(`.playerInterface.c${isplaying}`).classList.add("playing")
+
+        historyList = Array.from(data["history"])
+        var historyelt = document.querySelector("#history")
+        interesting = historyList.slice(0, historyList.length - historyelt.children.length)
+        interesting.reverse().forEach(elt => {
+            var newMove = document.createElement("li")
+
+            var newPlayer = document.createElement("span")
+            newPlayer.textContent = elt[1]
+
+            var newAction = document.createElement("span")
+            newAction.textContent = langData["played"]
+            newAction.data = "played"
+
+            var newPiece = document.createElement("div")
+            newPiece.className = "piece"
+            var newTable = document.createElement("table")
+            elt[2].forEach(li => {
+                var newRow = document.createElement("tr")
+                li.forEach(cell => {
+                    var newCell = document.createElement("td")
+                    newCell.className = `c${cell == 1 ? elt[0] : 0}`
+                    newRow.appendChild(newCell)
+                })
+                newTable.appendChild(newRow)
+            })
+            newPiece.appendChild(newTable)
+
+            var locationIndication = document.createElement("span")
+            locationIndication.textContent = langData["at"]
+
+            var coords = document.createElement("span")
+            coords.textContent = `(${elt[3][0]}, ${elt[3][1]})`
+
+            newMove.appendChild(newPlayer)
+            newMove.appendChild(newAction)
+            newMove.appendChild(newPiece)
+            newMove.appendChild(locationIndication)
+            newMove.appendChild(coords)
+
+            historyelt.prepend(newMove)
+        })
     })
 }
 

@@ -33,6 +33,8 @@
             {% endfor %}
 
         </div>
+        {% from 'widgets/historyElt.txt' import historyElt %}
+        {{ historyElt(history) }}
     </div>
 </main>
 <script src="{{url_for('static', filename='game.js')}}"></script>

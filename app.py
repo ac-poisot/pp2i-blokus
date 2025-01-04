@@ -301,8 +301,16 @@ def game():
     scores=[0, 0, 0, 0]
     isplaying = game.players[game.is_playing_index]
     you = isplaying-1 if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))
+    raw_history = get_history(gameid)[::-1]
+    history = []
+    for i in range(len(raw_history)):
+        if(raw_history[i][3]==-1):
+            history.append((players[raw_history[i][2]-1]))
+        else:
+            ## Append the player, the piece as a matrix and its 2 coordinates
+            history.append((raw_history[i][2], players[raw_history[i][2]-1], rotate(raw_history[i][3], raw_history[i][6], raw_history[i][7]), (raw_history[i][4], raw_history[i][5])))
 
-    return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you=you, autoforfeit=gameData[7]), responsive=False)
+    return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you=you, autoforfeit=gameData[7], history=history), responsive=False)
 
 
 @app.route("/API/create", methods=['GET', 'POST'])
@@ -383,6 +391,17 @@ def handle_data():
             if(len(game.players) == 0): return jsonify({"finished": True})
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
+
+            raw_history = get_history(gameid)[::-1]
+            history = []
+            for i in range(len(raw_history)):
+                if(raw_history[i][3]==-1):
+                    history.append((players[raw_history[i][2]-1]))
+                else:
+                    ## Append the player, the piece as a matrix and its 2 coordinates
+                    history.append((raw_history[i][2], players[raw_history[i][2]-1], rotate(raw_history[i][3], raw_history[i][6], raw_history[i][7]), (raw_history[i][4], raw_history[i][5])))
+
+
             return {
                 "grid": grid,
                 "players": players,
@@ -390,7 +409,8 @@ def handle_data():
                 "piecesids": piecesids,
                 "scores": scores,
                 "isplaying": isplaying,
-                "you": you
+                "you": you,
+                "history": history
             }
         else:
             return jsonify({"error": "Not allowed"})
@@ -540,6 +560,16 @@ def handle_data():
 
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
+
+            raw_history = get_history(gameid)[::-1]
+            history = []
+            for i in range(len(raw_history)):
+                if(raw_history[i][3]==-1):
+                    history.append((players[raw_history[i][2]-1]))
+                else:
+                    ## Append the player, the piece as a matrix and its 2 coordinates
+                    history.append((raw_history[i][2], players[raw_history[i][2]-1], rotate(raw_history[i][3], raw_history[i][6], raw_history[i][7]), (raw_history[i][4], raw_history[i][5])))
+
             return {
                 "grid": grid,
                 "players": players,
@@ -547,7 +577,8 @@ def handle_data():
                 "piecesids": piecesids,
                 "scores": scores,
                 "isplaying": isplaying,
-                "you": you
+                "you": you,
+                "history": history
             }
         else:
             return jsonify({"error": "Not allowed"})
