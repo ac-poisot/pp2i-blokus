@@ -140,21 +140,23 @@ button[type="submit"]:hover {
   display: none;
 }
 
-.eye-icon {
-  cursor: pointer;
+.inputWithEye {
   position: relative;
-  top: -5.5vh;
-  right: -8.8vw;
+  width: 100%;
+
+  .eye-icon, .eye-icon-conf {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+
+  .img-eye-icon-conf {
+    width: 1em;  
+  }
 }
-.img-eye-icon-conf {
-  width: 1em;  
-}
-.eye-icon-conf {
-  cursor: pointer;
-  position: relative;
-  top: -5.5vh;
-  right: -8.8vw;
-}
+
 body {
   background-color: $background;
 }
