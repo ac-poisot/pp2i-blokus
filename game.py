@@ -297,6 +297,7 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
     for move in moves:
         _, _, player, piece, x, y, rotation, flipped = move
         g.is_playing_index = g.players.index(player)
+        g.add_piece(piece, rotation, (x, y), flipped, player)
 
     for i in range(players):
         if i < len(g.players) and not g.can_play(g.players[i]):

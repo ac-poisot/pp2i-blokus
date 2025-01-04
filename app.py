@@ -532,6 +532,7 @@ def profile(pid):
             nbdefeats = 0
             nbdraws = 0
             data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
+            data = list(filter(lambda elt: elt[3] != -2, data))
             states = []
             for i in range(len(data)):
                 if(data[i][3] == 0):
