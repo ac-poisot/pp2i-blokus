@@ -14,11 +14,11 @@ def ai_easy(gameid, game):
     if game.players: game.is_playing = game.players[game.is_playing_index]
 
 def heuristic1(game, player):
-    ownscore = len(game.red_pieces[player])
+    ownscore = game.red_pieces[player]
     opposcore = -1
     for i in range(len(game.players)):
         if i != player:
-            opposcore = max(opposcore, len(game.red_pieces[i]))
+            opposcore = max(opposcore, game.red_pieces[i])
     return ownscore - opposcore
 
 def rec_minmax(game, depth, player, heuristic):
@@ -26,25 +26,25 @@ def rec_minmax(game, depth, player, heuristic):
         return heuristic(game, player)
     elif game.can_play(game.is_playing):
         best = -1
-        posList = game.possible_moves(game.is_playing).copy()
+        posList = game.possible_moves[game.is_playing-1].copy()
         for p in posList:
-            piece, rotation, (x, y), flipped = p
-            if(game.is_legal(piece, rotation, (x, y), flipped, game.is_playing)): # TO BE REMOVED WHEN POSSIBLE_MOVES WILL WORK
-                game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
-                currindex = game.is_playing_index
-                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+            piece, rotation, flipped, (x, y) = p
+            game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
+            currindex = game.is_playing_index
+            game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+            if game.players: game.is_playing = game.players[game.is_playing_index]
+            while (not game.can_play(game.is_playing)):
+                print(game.is_playing)
+                # game.delete_player(game.is_playing)
+                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players)) # tmp ?
+                if game.is_playing_index >= len(game.players):
+                    game.is_playing_index = 0
                 if game.players: game.is_playing = game.players[game.is_playing_index]
-                while (not game.can_play(game.is_playing)):
-                    print(game.is_playing)
-                    # game.delete_player(game.is_playing)
-                    game.is_playing_index = (game.is_playing_index + 1) % (len(game.players)) # tmp ?
-                    if game.is_playing_index >= len(game.players):
-                        game.is_playing_index = 0
-                    if game.players: game.is_playing = game.players[game.is_playing_index]
 
-                best = max(best, rec_minmax(game, depth-1, player, heuristic))
-                game.is_playing_index = currindex
-                game.remove_piece(piece, rotation, (x, y), flipped, game.is_playing)
+            best = max(best, rec_minmax(game, depth-1, player, heuristic))
+            game.is_playing_index = currindex
+            game.remove_piece(piece, rotation, (x, y), flipped)
+            game.possible_moves[game.is_playing-1] = posList
         return best
     else:
         return heuristic(game, player)
@@ -54,19 +54,21 @@ def min_max(gameid, game, depth, heuristic):
     best = -999999999999
     bestp = None
     g = game.copy_game()
-    posList = g.possible_moves(g.is_playing).copy()
+    posList = g.possible_moves[g.is_playing-1].copy()
+    # print(len(posList), g.is_playing, g.is_playing_index)
     for p in posList:
-        piece, rotation, (x, y), flipped = p
-        if(g.is_legal(piece, rotation, (x, y), flipped, g.is_playing)): # TO BE REMOVED WHEN POSSIBLE_MOVES WILL WORK
-            g.add_piece(piece, rotation, (x, y), flipped, g.is_playing)
-            g.is_playing_index = (g.is_playing_index + 1) % (len(g.players))
-            score = rec_minmax(g, depth-1, g.is_playing_index, heuristic)
-            g.is_playing_index = (g.is_playing_index + len(g.players) - 1) % (len(g.players))
-            g.remove_piece(piece, rotation, (x, y), flipped, g.is_playing)
-            if best < score:
-                best = score
-                bestp = p
-    piece, rotation, (x, y), flipped = bestp
+        piece, rotation, flipped, (x, y) = p
+        g.add_piece(piece, rotation, (x, y), flipped, g.is_playing)
+        
+        g.is_playing_index = (g.is_playing_index + 1) % (len(g.players))
+        score = rec_minmax(g, depth-1, g.is_playing_index, heuristic)
+        g.is_playing_index = (g.is_playing_index + len(g.players) - 1) % (len(g.players))
+        g.remove_piece(piece, rotation, (x, y), flipped)
+        g.possible_moves[g.is_playing-1] = posList
+        if best < score:
+            best = score
+            bestp = p
+    piece, rotation, flipped, (x, y) = bestp
     game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
     if(gameid): new_move(gameid, game.players[game.is_playing_index], piece, x, y, rotation, flipped)
 
