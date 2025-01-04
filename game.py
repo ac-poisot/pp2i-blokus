@@ -141,14 +141,14 @@ class Game :
             self.possible_moves[playing-1] = []
             self.red_pieces[playing-1] = 0
 
+        red_to_remove = []
         for i in range(length):
             for j in range(height):
                 if p_to_add[j][i] == 1 : # add the piece
                     self.board[y+j][x+i] = playing
-        for i in range(length):
-            for j in range(height):
-                if p_to_add[j][i] == 2 : # update red_pieces
+                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0:
                     self.red_pieces[playing-1] = self.red_pieces[playing-1] + 1
+
         # remove current piece from availible
         self.availible[playing-1].remove(piece)
 
