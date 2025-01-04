@@ -157,7 +157,7 @@ def login():
                 res = new_player(request.form["username"], request.form["password"])
                 token, exptoken = update_token(pid)
                 
-                resp = make_response(redirect(f"/?token={token}"))
+                resp = make_response(redirect("/"))
                 resp.set_cookie('pid', str(pid))
                 resp.set_cookie('token', token)
                 resp.set_cookie('exptoken', str(exptoken))

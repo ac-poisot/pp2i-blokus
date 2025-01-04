@@ -215,4 +215,4 @@ function createGame() {
 
 setInterval(() => {
     updatedata()
-}, 1000)
+}, 100)

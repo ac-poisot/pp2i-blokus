@@ -41,7 +41,9 @@ function change_username() {
 }
 
 function deleteCookies() {
-    document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}; path=/`;
+    document.cookie = `pid=; expires=${new Date()/1000-1000*60*60*24}; path=/`;
+    document.cookie = `exptoken=; expires=${new Date()/1000-1000*60*60*24}; path=/`;
+    document.cookie = `token=; expires=${new Date()/1000-1000*60*60*24}; path=/`;
     location.reload()
 }
 
