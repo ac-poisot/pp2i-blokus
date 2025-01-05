@@ -45,29 +45,35 @@ button[type=simple_button] {
     border-radius: 2vh;
   }
 }
-#gameInterface {
+body {
+  background-color: #6c65d6;
+}
+body main {
+  margin: 2vh auto;
+}
+body main #gameInterface {
   display: grid;
-  grid-template-columns: calc((90vw - 70vh) / 2) 70vh calc((90vw - 70vh) / 2);
+  grid-template-columns: calc((90vw - 70vh) / 2) 80vh calc((90vw - 70vh) / 2);
   grid-template-rows: 80vh 80vh;
-  gap: 2vh;
+  gap: 1vh;
   width: -moz-min-content;
   width: min-content;
-  margin: 2vh auto 2vh auto;
+  margin: 1vh auto 1vh auto;
 }
-#gameInterface #player {
+body main #gameInterface #player {
   grid-column: 1;
   height: calc(60vh + 80px);
 }
-#gameInterface #otherPlayers {
+body main #gameInterface #otherPlayers {
   grid-column: 3;
   height: calc(60vh + 80px);
   display: flex;
   flex-direction: column;
 }
-#gameInterface #otherPlayers .playerInterface {
+body main #gameInterface #otherPlayers .playerInterface {
   max-height: calc(90% - 6vh);
 }
-#gameInterface .playerInterface {
+body main #gameInterface .playerInterface {
   display: flex;
   flex-direction: column;
   max-height: calc(100% - 3vh);
@@ -76,10 +82,10 @@ button[type=simple_button] {
   border-radius: 2vh;
   background-color: gold;
 }
-#gameInterface .playerInterface.playing .playerName {
+body main #gameInterface .playerInterface.playing .playerName {
   margin: 1vh;
 }
-#gameInterface .playerInterface.playing .playerName span {
+body main #gameInterface .playerInterface.playing .playerName span {
   position: relative;
   background-color: #E9DCC9;
   margin: 1vh;
@@ -87,12 +93,12 @@ button[type=simple_button] {
   border-radius: 2px;
   outline: 1px solid black;
 }
-#gameInterface .playerInterface .playerName {
+body main #gameInterface .playerInterface .playerName {
   height: 1.2vh;
   padding: 1.5vh;
   width: 100%;
 }
-#gameInterface .playerInterface .pieces {
+body main #gameInterface .playerInterface .pieces {
   flex-grow: 1;
   display: grid;
   height: calc(95.5% - 5vh);
@@ -106,7 +112,7 @@ button[type=simple_button] {
   border-radius: 2vh;
   background-color: black;
 }
-#gameInterface .playerInterface .pieces .piece {
+body main #gameInterface .playerInterface .pieces .piece {
   height: 18vh;
   width: 12vh;
   border: solid black 1px;
@@ -115,30 +121,22 @@ button[type=simple_button] {
   display: flex;
   align-items: center;
 }
-#gameInterface .playerInterface .pieces .piece table {
+body main #gameInterface .playerInterface .pieces .piece table {
   margin: auto;
 }
-#gameInterface .closed {
+body main #gameInterface .closed {
   flex-grow: 0;
   padding: 0;
 }
-#gameInterface .closed .playerName {
+body main #gameInterface .closed .playerName {
   height: 100%;
   width: 100%;
   padding: 1.5vh;
 }
-#gameInterface .closed .pieces {
+body main #gameInterface .closed .pieces {
   display: none;
 }
-#gameInterface .selected {
+body main #gameInterface .selected {
   position: fixed;
   pointer-events: none;
-}
-
-body {
-  background-color: #6c65d6;
-}
-
-main {
-  margin: 2vh auto;
 }/*# sourceMappingURL=game.css.map */

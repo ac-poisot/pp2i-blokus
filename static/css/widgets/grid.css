@@ -48,7 +48,8 @@ button[type=simple_button] {
 #grid {
   display: table;
   grid-column: 2;
-  padding: 1vh;
+  padding: 0.7vh;
+  width: 80vh;
   background-color: #E9DCC9;
   border-radius: 2vh;
 }

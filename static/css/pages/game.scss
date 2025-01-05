@@ -1,119 +1,122 @@
 @import "../widgets/variable";
-#gameInterface {
-    display: grid;
-    grid-template-columns: calc((90vw - 70vh) / 2) 70vh calc((90vw - 70vh) / 2);
-    grid-template-rows: 80vh 80vh;
-    gap: 2vh;
-    width: min-content;
-    margin: 2vh auto 2vh auto;
 
-    #player {
-        grid-column: 1;
-        height: calc(60vh + 80px);
-    }
-    
-    #otherPlayers {
-        grid-column: 3;
-        height: calc(60vh + 80px);
-        display: flex;
-        flex-direction: column;
-
-        .playerInterface {
-            //max-height: 93%;
-            max-height: calc(90% - 6vh);
-            
-            // .playerName {
-            //     height: calc(4.5% + 1.2vh);
-            // }
-        }
-    }
-
-    .playerInterface {
-        display: flex;
-        flex-direction: column;
-        max-height: calc(100% - 3vh);
-        padding: 0 1.5vh 1.5vh 1.5vh;
-        border: solid 1px black;
-        border-radius: 2vh;
-        background-color: gold;
-
-        &.playing {
-            .playerName {
-                margin:1vh;
-                span {
-                    position: relative;
-                    background-color: $content-background;
-                    margin: 1vh;
-                    padding: 1vh;
-                    border-radius: 2px;
-                    outline: 1px solid black;
-                }
-            }
-        }
-
-        .playerName {
-            height: 1.2vh;
-            //height: calc(90% - 6vh);
-            //padding: 1.5vh 1.5vh 1.5vh 2vh;
-            padding: 1.5vh;
-            width: 100%;
-
-        }
-
-        .pieces {
-            flex-grow: 1;
-            display: grid;
-            //height: calc(80% - 7vh);
-            height: calc(95.5% - 5vh);
-            justify-content: center;
-            margin: 1vh 2vh 2vh 2vh;
-            //grid-template-columns: repeat(2, 9vh);
-            grid-template-columns: repeat(auto-fit, 12vh);
-            padding: 0.5vh;
-            gap:0.25vh;
-            overflow-y: scroll;
-            border: 1px solid black;
-            border-radius: 2vh;
-            background-color: black;
-    
-            .piece {
-                height: 18vh;
-                width: 12vh;
-                border: solid black 1px;
-                border-radius: 5%;
-                background-color: white;
-                display: flex;
-                align-items: center;
-                table {
-                    margin: auto;
-                }
-            }
-        }
-    }
-
-    .closed {
-        flex-grow: 0;
-        padding: 0;
-
-        .playerName {
-            height: 100%;
-            width: 100%;
-            padding: 1.5vh;
-        }
-
-        .pieces {
-            display: none;
-        }
-    }
-
-    .selected {
-        position: fixed;
-        pointer-events: none;
-    }
-}
 body {
     background-color: $background;
-}
-main {
-    margin:2vh auto;
+
+    main {
+        margin:2vh auto;
+    
+        #gameInterface {
+            display: grid;
+            grid-template-columns: calc((90vw - 70vh) / 2) 80vh calc((90vw - 70vh) / 2);
+            grid-template-rows: 80vh 80vh;
+            gap: 1vh;
+            width: min-content;
+            margin: 1vh auto 1vh auto;
+        
+            #player {
+                grid-column: 1;
+                height: calc(60vh + 80px);
+            }
+            
+            #otherPlayers {
+                grid-column: 3;
+                height: calc(60vh + 80px);
+                display: flex;
+                flex-direction: column;
+        
+                .playerInterface {
+                    //max-height: 93%;
+                    max-height: calc(90% - 6vh);
+                    
+                    // .playerName {
+                    //     height: calc(4.5% + 1.2vh);
+                    // }
+                }
+            }
+        
+            .playerInterface {
+                display: flex;
+                flex-direction: column;
+                max-height: calc(100% - 3vh);
+                padding: 0 1.5vh 1.5vh 1.5vh;
+                border: solid 1px black;
+                border-radius: 2vh;
+                background-color: gold;
+        
+                &.playing {
+                    .playerName {
+                        margin:1vh;
+                        span {
+                            position: relative;
+                            background-color: $content-background;
+                            margin: 1vh;
+                            padding: 1vh;
+                            border-radius: 2px;
+                            outline: 1px solid black;
+                        }
+                    }
+                }
+        
+                .playerName {
+                    height: 1.2vh;
+                    //height: calc(90% - 6vh);
+                    //padding: 1.5vh 1.5vh 1.5vh 2vh;
+                    padding: 1.5vh;
+                    width: 100%;
+        
+                }
+        
+                .pieces {
+                    flex-grow: 1;
+                    display: grid;
+                    //height: calc(80% - 7vh);
+                    height: calc(95.5% - 5vh);
+                    justify-content: center;
+                    margin: 1vh 2vh 2vh 2vh;
+                    //grid-template-columns: repeat(2, 9vh);
+                    grid-template-columns: repeat(auto-fit, 12vh);
+                    padding: 0.5vh;
+                    gap:0.25vh;
+                    overflow-y: scroll;
+                    border: 1px solid black;
+                    border-radius: 2vh;
+                    background-color: black;
+            
+                    .piece {
+                        height: 18vh;
+                        width: 12vh;
+                        border: solid black 1px;
+                        border-radius: 5%;
+                        background-color: white;
+                        display: flex;
+                        align-items: center;
+                        table {
+                            margin: auto;
+                        }
+                    }
+                }
+            }
+        
+            .closed {
+                flex-grow: 0;
+                padding: 0;
+        
+                .playerName {
+                    height: 100%;
+                    width: 100%;
+                    padding: 1.5vh;
+                }
+        
+                .pieces {
+                    display: none;
+                }
+            }
+        
+            .selected {
+                position: fixed;
+                pointer-events: none;
+            }
+        }
+    }
 }

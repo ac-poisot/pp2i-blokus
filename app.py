@@ -296,7 +296,18 @@ def game():
             if players[i] != None:
                 scoreboard.append((players[i], game.score(i+1)))
         scoreboard.sort(reverse = True, key = lambda elt: elt[1])
-        return wrap(render_template("pages/scoreboard.html", scoreboard=scoreboard))
+
+        grid = [game.board[i][1:-1] for i in range(1, 21)]
+        raw_history = get_history(gameid)[::-1]
+        history = []
+        for i in range(len(raw_history)):
+            if(raw_history[i][3]==-1):
+                history.append((players[raw_history[i][2]-1],))
+            else:
+                # Append the player, the piece as a matrix and its coordinates
+                history.append((raw_history[i][2], players[raw_history[i][2]-1], rotate(raw_history[i][3], raw_history[i][6], raw_history[i][7]), (raw_history[i][4], raw_history[i][5])))
+
+        return wrap(render_template("pages/scoreboard.html", scoreboard=scoreboard, grid=grid, history=history))
     
     grid = [game.board[i][1:-1] for i in range(1, 21)]
     players = get_playername_list(gameid)
