@@ -340,7 +340,7 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
             new_players.append(p)
     g.players = new_players
     if g.players:
-        g.is_playing_index = (g.is_playing_index + 1) % (g.maxn - 1)
+        g.is_playing_index = (g.is_playing_index + 1) % (len(g.players))
         g.is_playing = g.players[g.is_playing_index] 
     return g
 
