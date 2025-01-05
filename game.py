@@ -165,7 +165,7 @@ class Game :
         for k in range(t):
             for r in [0,90,180,270] :
                 for b in [True,False] :
-                    p = self.availible[playing-1][k]
+                    p = self.available[playing-1][k]
                     p2 = rotate(p,r,b)
                     x_min = x-len(p2[0])+2
                     y_min = y-len(p2)+2

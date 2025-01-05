@@ -131,7 +131,7 @@ button[type=simple_button] {
   display: none;
 }
 #gameInterface .selected {
-  position: absolute;
+  position: fixed;
   pointer-events: none;
 }
 

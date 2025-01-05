@@ -107,7 +107,7 @@
     }
 
     .selected {
-        position: absolute;
+        position: fixed;
         pointer-events: none;
     }
 }

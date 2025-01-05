@@ -84,38 +84,54 @@ function updatedata() {
         interesting.reverse().forEach(elt => {
             var newMove = document.createElement("li")
 
-            var newPlayer = document.createElement("span")
-            newPlayer.textContent = elt[1]
+            console.log(elt)
+            if(elt.length != 4) {
+                console.log(elt, " forfeited")
+                var newPlayer = document.createElement("span")
+                newPlayer.textContent = elt
 
-            var newAction = document.createElement("span")
-            newAction.textContent = langData["played"]
-            newAction.data = "played"
+                var newAction = document.createElement("span")
+                newAction.textContent = langData["history_forfeit"]
+                newAction.data = "history_forfeit"
 
-            var newPiece = document.createElement("div")
-            newPiece.className = "piece"
-            var newTable = document.createElement("table")
-            elt[2].forEach(li => {
-                var newRow = document.createElement("tr")
-                li.forEach(cell => {
-                    var newCell = document.createElement("td")
-                    newCell.className = `c${cell == 1 ? elt[0] : 0}`
-                    newRow.appendChild(newCell)
+                newMove.appendChild(newPlayer)
+                newMove.appendChild(newAction)
+
+            } else {
+                var newPlayer = document.createElement("span")
+                newPlayer.textContent = elt[1]
+
+                var newAction = document.createElement("span")
+                newAction.textContent = langData["history_played"]
+                newAction.data = "history_played"
+
+                var newPiece = document.createElement("div")
+                newPiece.className = "piece"
+                var newTable = document.createElement("table")
+                elt[2].forEach(li => {
+                    var newRow = document.createElement("tr")
+                    li.forEach(cell => {
+                        var newCell = document.createElement("td")
+                        newCell.className = `c${cell == 1 ? elt[0] : 0}`
+                        newRow.appendChild(newCell)
+                    })
+                    newTable.appendChild(newRow)
                 })
-                newTable.appendChild(newRow)
-            })
-            newPiece.appendChild(newTable)
+                newPiece.appendChild(newTable)
 
-            var locationIndication = document.createElement("span")
-            locationIndication.textContent = langData["at"]
+                var locationIndication = document.createElement("span")
+                locationIndication.textContent = langData["history_at"]
+                locationIndication.data = "history_at"
 
-            var coords = document.createElement("span")
-            coords.textContent = `(${elt[3][0]}, ${elt[3][1]})`
+                var coords = document.createElement("span")
+                coords.textContent = `(${elt[3][0]}, ${elt[3][1]})`
 
-            newMove.appendChild(newPlayer)
-            newMove.appendChild(newAction)
-            newMove.appendChild(newPiece)
-            newMove.appendChild(locationIndication)
-            newMove.appendChild(coords)
+                newMove.appendChild(newPlayer)
+                newMove.appendChild(newAction)
+                newMove.appendChild(newPiece)
+                newMove.appendChild(locationIndication)
+                newMove.appendChild(coords)
+            }
 
             historyelt.prepend(newMove)
         })
@@ -163,7 +179,7 @@ function selectPiece(event, elt, shape, col, id) {
     document.querySelector("#gameInterface").appendChild(clone)
     var selected = document.querySelector(".selected")
     selected.style.left = `${event.clientX - 0.8 / 100 * window.innerHeight}px`
-    selected.style.top = `${event.clientY - 1.5 * window.innerHeight / 100 - 9/100 * window.innerHeight}px`
+    selected.style.top = `${event.clientY - 0.8 * window.innerWidth / 100}px`
     currentShape = shape
     currentid = id
     oriented = 0
@@ -263,20 +279,21 @@ function unselectSpot() {
     curry = -1
 }
 
+const playerInterfaces = document.querySelectorAll(".playerInterface")
+const grid = document.querySelector("#grid")
+const historyelt = document.querySelector("#history")
+
 document.addEventListener("pointermove", (event) => {
     var selected = document.querySelector(".selected")
     if(!selected) return
-    if(!event.composedPath().includes(grid)) {
+    if(!event.composedPath().includes(grid) && !event.composedPath().includes(historyelt)) {
         
         var selected = document.querySelector(".selected")
         if(selected) selected.style.visibility = "visible"
         selected.style.left = `${event.clientX - 0.8 * window.innerWidth / 100}px`
-        selected.style.top = `${event.clientY + 1.5 * window.innerHeight / 100 - 12/100 * window.innerHeight}px`
+        selected.style.top = `${event.clientY - 0.8 * window.innerWidth / 100}px`
     }
 })
-
-const playerInterfaces = document.querySelectorAll(".playerInterface")
-const grid = document.querySelector("#grid")
 
 document.addEventListener("click", (event) => {
     if(!event.composedPath().includes(grid) && !Array.from(playerInterfaces).map(elt => event.composedPath().includes(elt)).includes(true) && document.querySelector(".chosenOne")) {
@@ -371,7 +388,7 @@ function forfeit() {
                     elt1.classList.add("closed")
                 }
                 document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
-                document.querySelector("#player").appendChild(elt2)
+                document.querySelector("#player").prepend(elt2)
                 color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
                 players = document.querySelectorAll("#otherPlayers>div")
             }
