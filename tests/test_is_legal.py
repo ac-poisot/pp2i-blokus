@@ -50,8 +50,6 @@ def test_on_board():
     assert not g.is_legal(3, 90, (18, 16), False, 2)
     assert g.is_legal(2, 90, (18, 16), False, 2)
     assert g.is_legal(1, 0, (16, 19), False, 2)
-
-
     assert g.is_legal(2, 90, (0, 2), False, 1)
     assert not g.is_legal(3, 90, (-1, 1), False, 1)
 

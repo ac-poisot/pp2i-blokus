@@ -60,7 +60,6 @@ def test_possible_moves():
     g.possible_moves = poss.copy()
     g.red_pieces = [4 for _ in range(2)]
     g.add_piece(6, 90, (0, 0), False)
-    print(g.possible_moves[0])
     assert sorted(g.possible_moves[0]) == sorted([(2, 0, True, (18, 0)), (2, 0, True, (0, 19)), (2, 0, True, (18, 19)), (2, 0, False, (18, 0)), (2, 0, False, (0, 19)), (2, 0, False, (18, 19)), (2, 90, True, (19, 0)), (2, 90, True, (0, 18)), (2, 90, True, (19, 18)), (2, 90, False, (19, 0)), (2, 90, False, (0, 18)), (2, 90, False, (19, 18)), (2, 180, True, (18, 0)), (2, 180, True, (0, 19)), (2, 180, True, (18, 19)), (2, 180, False, (18, 0)), (2, 180, False, (0, 19)), (2, 180, False, (18, 19)), (2, 270, True, (19, 0)), (2, 270, True, (0, 18)), (2, 270, True, (19, 18)), (2, 270, False, (19, 0)), (2, 270, False, (0, 18)), (2, 270, False, (19, 18)), (2, 90, True, (3, 0)), (2, 90, False, (3, 0)), (2, 270, True, (3, 0)), (2, 270, False, (3, 0)), (2, 0, True, (3, 2)), (2, 0, False, (3, 2)), (2, 90, True, (3, 2)), (2, 90, False, (3, 2)), (2, 180, True, (3, 2)), (2, 180, False, (3, 2)), (2, 270, True, (3, 2)), (2, 270, False, (3, 2))])
     assert sorted(g.possible_moves[1]) == sorted([(2, 0, True, (18, 0)), (2, 0, True, (0, 19)), (2, 0, True, (18, 19)), (2, 0, False, (18, 0)), (2, 0, False, (0, 19)), (2, 0, False, (18, 19)), (2, 90, True, (19, 0)), (2, 90, True, (0, 18)), (2, 90, True, (19, 18)), (2, 90, False, (19, 0)), (2, 90, False, (0, 18)), (2, 90, False, (19, 18)), (2, 180, True, (18, 0)), (2, 180, True, (0, 19)), (2, 180, True, (18, 19)), (2, 180, False, (18, 0)), (2, 180, False, (0, 19)), (2, 180, False, (18, 19)), (2, 270, True, (19, 0)), (2, 270, True, (0, 18)), (2, 270, True, (19, 18)), (2, 270, False, (19, 0)), (2, 270, False, (0, 18)), (2, 270, False, (19, 18)), (6, 0, True, (17, 0)), (6, 0, True, (17, 18)), (6, 0, False, (17, 0)), (6, 0, False, (0, 18)), (6, 0, False, (17, 18)), (6, 90, True, (18, 0)), (6, 90, True, (0, 17)), (6, 90, True, (18, 17)), (6, 90, False, (18, 0)), (6, 90, False, (18, 17)), (6, 180, True, (0, 18)), (6, 180, True, (17, 18)), (6, 180, False, (17, 0)), (6, 180, False, (0, 18)), (6, 270, True, (18, 0)), (6, 270, True, (0, 17)), (6, 270, False, (0, 17)), (6, 270, False, (18, 17))])
 
@@ -73,7 +72,6 @@ def test_poss_mvt_0():
     g.possible_moves[0] = [(12, 0, False, (10, 10))]
     g.possible_moves[1] = []
     g.add_piece(12, 0, (10, 10), False)
-    g.print_board()
     assert sorted(g.possible_moves[0]) == sorted([(1,0,True,(10,9)),(1,0,False,(10,9)),(1,90,True,(10,9)),(1,90,False,(10,9)),(1,180,True,(10,9)),(1,180,False,(10,9)),(1,270,True,(10,9)),(1,270,False,(10,9)),
                                    (1,0,True,(12,9)),(1,0,False,(12,9)),(1,90,True,(12,9)),(1,90,False,(12,9)),(1,180,True,(12,9)),(1,180,False,(12,9)),(1,270,True,(12,9)),(1,270,False,(12,9)),
                                    (1,0,True,(12,13)),(1,0,False,(12,13)),(1,90,True,(12,13)),(1,90,False,(12,13)),(1,180,True,(12,13)),(1,180,False,(12,13)),(1,270,True,(12,13)),(1,270,False,(12,13)),
@@ -112,7 +110,6 @@ def test_poss_mvt_coin_haut_droite():
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     g.add_piece(1, 0, (9, 9), False)
-    g.print_board()
     assert sorted(g.possible_moves[0]) == sorted([(12,0,False,(10,5)),(12,90,False,(10,8)),(12,90,False,(9,7)),(12,180,False,(10,5)),(12,270,False,(10,8)),(12,270,False,(8,7)),
                                           (12,0,True,(9,5)),(12,0,True,(10,6)),(12,90,True,(10,7)),(12,180,True,(10,7)),(12,180,True,(9,5)),(12,270,True,(10,7))])
 
@@ -147,7 +144,6 @@ def test_poss_mvt_coin_bas_droite():
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     g.add_piece(1, 0, (9, 9), False)
-    g.print_board()
     assert sorted(g.possible_moves[0]) == sorted([(12,0,False,(10,8)),(12,0,False,(9,10)),(12,90,False,(10,10)),(12,180,False,(9,10)),(12,180,False,(10,9)),(12,270,False,(10,10)),
                                                   (12,0,True,(10,10)),(12,90,True,(10,9)),(12,90,True,(8,10)),(12,180,True,(10,10)),(12,270,True,(10,9)),(12,270,True,(9,10))])
 
@@ -182,7 +178,6 @@ def test_poss_mvt_coin_bas_gauche():
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     g.add_piece(1, 0, (9, 9), False)
-    g.print_board()
     assert sorted(g.possible_moves[0]) == sorted([(12,0,False,(7,10)),(12,90,False,(7,10)),(12,90,False,(5,9)),(12,180,False,(7,10)),(12,270,False,(6,10)),(12,270,False,(5,9)),
                                                   (12,0,True,(8,10)),(12,0,True,(7,8)),(12,90,True,(5,10)),(12,180,True,(7,9)),(12,180,True,(8,10)),(12,270,True,(5,10))])
 
@@ -217,7 +212,6 @@ def test_poss_mvt_coin_haut_gauche():
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     g.add_piece(1, 0, (9, 9), False)
-    g.print_board()
     assert sorted(g.possible_moves[0]) == sorted([(12,0,False,(7,6)),(12,0,False,(8,5)),(12,90,False,(5,7)),(12,180,False,(8,5)),(12,180,False,(7,7)),(12,270,False,(5,7)),
                                                   (12,0,True,(7,5)),(12,90,True,(5,8)),(12,90,True,(6,7)),(12,180,True,(7,5)),(12,270,True,(7,7)),(12,270,True,(5,8))])
 
@@ -229,7 +223,6 @@ def test_poss_mvt_all():
     g.possible_moves[0] = [(12, 0, False, (10, 10))]
     g.possible_moves[1] = []
     g.add_piece(1, 0, (9, 9), False)
-    g.print_board()
     assert sorted(g.possible_moves[0]) == sorted([(12,0,False,(10,5)),(12,90,False,(10,8)),(12,90,False,(9,7)),(12,180,False,(10,5)),(12,270,False,(10,8)),(12,270,False,(8,7)),
                                                   (12,0,True,(9,5)),(12,0,True,(10,6)),(12,90,True,(10,7)),(12,180,True,(10,7)),(12,180,True,(9,5)),(12,270,True,(10,7)),
                                                   (12,0,False,(10,8)),(12,0,False,(9,10)),(12,90,False,(10,10)),(12,180,False,(9,10)),(12,180,False,(10,9)),(12,270,False,(10,10)),
@@ -271,8 +264,6 @@ def test_poss_mvt_2():
                [0,0,0,0,0,0,0,1,1,0,0,0,0,2,2,2,2,2,0,0,2,0],
                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     g.add_piece(11, 90, (2, 15), False)
-    print(rotate(12, 90, False))
-    g.print_board()
     assert sorted(g.possible_moves[0]) == sorted([(7, 270, True, (3, 5)), (7, 270, False, (3, 5)), (7, 0, False, (0, 15)), (7, 180, True, (0, 15)), (7, 270, True, (14, 10)), (7, 270, False, (14, 10)), (7, 90, True, (3, 17)), (7, 90, False, (3, 17))])
     assert sorted(g.possible_moves[1]) == sorted([(12,0,True,(0,15)),(12,90,False,(0,17)),(12,180,True,(0,16))])
 
@@ -309,14 +300,9 @@ def test_red_pieces():
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     g.add_piece(15, 0, (11, 11), False)
-    #g.print_board()
     assert(g.red_pieces[1]) == 8
-    #g.add_piece(14,0,(13,11),False)
-    #assert g.red_pieces[1] == 9
 
-    
-    
-    
+
 def test_poss_mvt_debut():
     g = Game(3)
     g.add_piece(1, 0, (0, 19), False)
