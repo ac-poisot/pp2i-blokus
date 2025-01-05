@@ -103,7 +103,7 @@ button[type=simple_button] {
   visibility: visible;
 }
 
-.tooltip .tooltiptext::after {
+.tooltip .tooltiptext_up::after {
   content: " ";
   position: absolute;
   top: 100%;
