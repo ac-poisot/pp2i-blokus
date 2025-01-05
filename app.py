@@ -67,7 +67,7 @@ def wrap(template, responsive=True):
     if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time() and request.cookies.get('pid') and request.cookies.get('token') and request.cookies.get('token') == get_token(request.cookies.get('pid'))):
         pid = request.cookies.get('pid')
     else:
-        pid =-1
+        pid = -1
     if responsive:
         return render_template("widgets/header.html", pid=pid) + template + render_template('widgets/background.html', pieces=pieces) + render_template("widgets/footer.html")
     else:
@@ -88,7 +88,7 @@ def home():
     if(request.cookies.get('exptoken') and float(request.cookies.get('exptoken')) > time.time() and request.cookies.get('pid') and request.cookies.get('token') and request.cookies.get('token') == get_token(request.cookies.get('pid'))):
         pid = request.cookies.get('pid')
     else:
-        pid =-1
+        pid = -1
     return wrap(render_template("pages/index.html", pid=pid))
 
 @app.route("/rules")
@@ -109,7 +109,7 @@ def signup():
 
         # Check different requirements
         valid = True
-        if(password!=request.form["confirmation"]):
+        if(password != request.form["confirmation"]):
             valid = False
             flash("error_confirmation")
         if(not username):
@@ -157,7 +157,7 @@ def login():
             password = request.form["password"].encode("utf-8")
 
             # If the password matches
-            if(sha512(password).digest()==get_password(pid)):
+            if(sha512(password).digest() == get_password(pid)):
                 res = new_player(request.form["username"], request.form["password"])
                 token, exptoken = update_token(pid)
                 
@@ -301,7 +301,7 @@ def game():
         raw_history = get_history(gameid)[::-1]
         history = []
         for i in range(len(raw_history)):
-            if(raw_history[i][3]==-1):
+            if(raw_history[i][3] == -1):
                 history.append((players[raw_history[i][2]-1],))
             else:
                 # Append the player, the piece as a matrix and its coordinates
@@ -319,7 +319,7 @@ def game():
     raw_history = get_history(gameid)[::-1]
     history = []
     for i in range(len(raw_history)):
-        if(raw_history[i][3]==-1):
+        if(raw_history[i][3] == -1):
             history.append((players[raw_history[i][2]-1],))
         else:
             # Append the player, the piece as a matrix and its coordinates
@@ -397,11 +397,11 @@ def handle_data():
             if(not gameid in gameList.keys()): # If the game isn’t currently loaded by the server, load it from the database
                 gameList[gameid] = recreateGame(gameid)
             game = gameList[gameid]
-            grid=[game.board[i][1:-1] for i in range(1, 21)]
+            grid = [game.board[i][1:-1] for i in range(1, 21)]
             players = get_playername_list(gameid)
             pieceList = [[pieces[elt-1] for elt in game.available[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.available[i]] for i in range(game.maxn)]
-            scores=[0, 0, 0, 0]
+            scores = [0, 0, 0, 0]
             if(len(game.players) == 0): return jsonify({"finished": True})
             isplaying = game.players[game.is_playing_index]
             you = isplaying if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))+1
@@ -409,7 +409,7 @@ def handle_data():
             raw_history = get_history(gameid)[::-1]
             history = []
             for i in range(len(raw_history)):
-                if(raw_history[i][3]==-1):
+                if(raw_history[i][3] == -1):
                     history.append((players[raw_history[i][2]-1]))
                 else:
                     # Append the player, the piece as a matrix and its coordinates
@@ -548,11 +548,11 @@ def handle_data():
                             game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                             if game.players: game.is_playing = game.players[game.is_playing_index]
 
-            grid=[game.board[i][1:-1] for i in range(1, 21)]
+            grid = [game.board[i][1:-1] for i in range(1, 21)]
             players = get_playername_list(gameid)
             pieceList = [[pieces[elt-1] for elt in game.available[i]] for i in range(game.maxn)]
             piecesids = [[elt for elt in game.available[i]] for i in range(game.maxn)]
-            scores=[0, 0, 0, 0]
+            scores = [0, 0, 0, 0]
             if(len(game.players) == 0):
                 scoreboard = []
                 for i in range(len(players)):
@@ -575,7 +575,7 @@ def handle_data():
             raw_history = get_history(gameid)[::-1]
             history = []
             for i in range(len(raw_history)):
-                if(raw_history[i][3]==-1):
+                if(raw_history[i][3] == -1):
                     history.append((players[raw_history[i][2]-1]))
                 else:
                     # Append the player, the piece as a matrix and its coordinates
@@ -609,7 +609,7 @@ def change_username():
             return wrap(render_template("pages/404.html"))
         if request.form["username"]:
             password = request.form["password"].encode("utf-8")
-            if(sha512(password).digest()==get_password(pid)):
+            if(sha512(password).digest() == get_password(pid)):
                 if not update_username(pid , request.form["username"]):
                     flash("error_username_taken")
                     return wrap(render_template("pages/change_username.html"))
@@ -655,7 +655,7 @@ def profile(pid):
                 else:
                     nbdefeats += 1
                     states.append("-1")
-            games=[{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+            games = [{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0], "state":states[i]} for i in range(len(data))]
             ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
             return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
         else:

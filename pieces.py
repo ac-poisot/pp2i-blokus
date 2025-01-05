@@ -23,7 +23,7 @@ pieces = [[[2,3,2],[3,1,3],[2,3,2]],
 def rotate(piece:int, rotation:{0, 90, 180, 270}, flipped:bool) -> list[list[int]]:
     """
     returns the shape of the rotated piece
-    rotation must be in {0, 90, 180,270} and represents clockwise inclination 
+    rotation must be in {0, 90, 180, 270} and represents clockwise inclination 
     flipped is a boolean which corresponds to whether the piece should be flipped horizontally or not
     """
     p = pieces[piece - 1]

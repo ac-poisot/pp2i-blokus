@@ -18,5 +18,5 @@ def test_end():
 
 def test_mid():
     g = Game(2)
-    g.available[0] = [1,2,3,5,9]
+    g.available[0] = [1, 2, 3, 5, 9]
     assert g.score(1) == -14
