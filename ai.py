@@ -131,9 +131,9 @@ def cnn_ai(modelname):
 
     return cnn_ai_inner
 
-cnn_ai0 = cnn_ai("model2_0.h5")
-cnn_ai1 = cnn_ai("model2_1.h5")
-cnn_ai2 = cnn_ai("model2_2.h5")
+# cnn_ai0 = cnn_ai("model2_0.h5")
+# cnn_ai1 = cnn_ai("model2_1.h5")
+# cnn_ai2 = cnn_ai("model2_2.h5")
 cnn_ai3 = cnn_ai("model2_3.h5")
 
 # modelList = ["model3_0.h5", "model3_3.h5", "model3_6.h5", "model3_7.h5", "model3_8.h5"]

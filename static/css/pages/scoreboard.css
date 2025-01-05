@@ -50,16 +50,21 @@ body {
   text-align: center;
 }
 body main {
-  text-align: center;
+  padding: 1vh;
+  display: grid;
+  grid-template-columns: 15vw 80vh auto;
+  gap: 2vh;
+  justify-items: center;
+  margin-bottom: 2vh;
 }
-body main span {
+body main #scoreboard span {
   position: relative;
   background-color: #E9DCC9;
   border-radius: 0.6em;
   padding: 0.5em;
   margin: 1.4em;
 }
-body main table {
+body main #scoreboard table {
   position: relative;
   border-radius: 1em;
   outline: none;
@@ -67,27 +72,33 @@ body main table {
   background-color: #E9DCC9;
   margin-inline: auto;
 }
-body main table tbody {
+body main #scoreboard table tbody {
   outline: none;
 }
-body main table tbody td {
+body main #scoreboard table tbody td {
   outline: 1px solid black;
 }
-body main table tbody #dr {
+body main #scoreboard table tbody #dr {
   outline: 1px solid black;
   border-radius: 0% 0% 1em 0%;
 }
-body main table tbody #ga {
+body main #scoreboard table tbody #ga {
   border-radius: 0% 0% 0% 1em;
   outline: 1px solid black;
 }
-body main table thead td {
+body main #scoreboard table thead td {
   outline: 1px solid black;
 }
-body main table thead #ga {
+body main #scoreboard table thead #ga {
   border-radius: 1em 0% 0% 0%;
 }
-body main table thead #dr {
+body main #scoreboard table thead #dr {
   outline: 1px solid black;
   border-radius: 0% 1em 0% 0%;
+}
+body main #scoreboard table td {
+  padding: 0.5em;
+}
+body main #history {
+  grid-column: 3;
 }/*# sourceMappingURL=scoreboard.css.map */

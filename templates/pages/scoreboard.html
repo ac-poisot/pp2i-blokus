@@ -1,31 +1,49 @@
 <main>
-    {% if scoreboard|length == 1 or scoreboard[0][1] == scoreboard[1][1] %}
-    <span id="status" data="draw_table"></span>
-    {% else %}
-    <span id="status" data="victory">{{scoreboard[0][0]}}</span>
-    {% endif %} 
-    <p></p>
-    <p></p>
-    <table id="scores">
-        <thead>
-            <td data="username_table" id="ga"></td>
-            <td data="score_table" id="dr"></td>
-        </thead>
-        <tbody>
-            {% for s in scoreboard %}
-            {% if s == scoreboard[-1] %}
-            <tr>
-                <td id="ga">{{s[0]}}</td>
-                <td id="dr">{{s[1]}}</td>
-            </tr>
-            {% else %}
-            <tr>
-                <td>{{s[0]}}</td>
-                <td>{{s[1]}}</td>
-            </tr>
-            {% endif %}
+    <article id="scoreboard">
+        {% if scoreboard|length == 1 or scoreboard[0][1] == scoreboard[1][1] %}
+        <span id="status" data="draw_table"></span>
+        {% else %}
+        <span id="status" data="victory">{{scoreboard[0][0]}}</span>
+        {% endif %} 
+        <p></p>
+        <p></p>
+        <table id="scores">
+            <thead>
+                <td data="username_table" id="ga"></td>
+                <td data="score_table" id="dr"></td>
+            </thead>
+            <tbody>
+                {% for s in scoreboard %}
+                {% if s == scoreboard[-1] %}
+                <tr>
+                    <td id="ga">{{s[0]}}</td>
+                    <td id="dr">{{s[1]}}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{s[0]}}</td>
+                    <td>{{s[1]}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </article>
+    <table id="grid">
+        {% for i in range(grid|length) %}
+        <tr>
+            {% for j in range(grid[i]|length) %}
+            {% set x = i %}
+            {% set y = j %}
+            <td class="c{{ grid[i][j] }}" onMouseOver="selectSpot({{x}}, {{y}})" onMouseOut="unselectSpot()" onClick="play()"></td>
+
             {% endfor %}
-        </tbody>
+        </tr>
+        {% endfor %}
+
     </table>
+    {% from 'widgets/historyElt.txt' import historyElt %}
+    {{ historyElt(history) }}
 </main>
 <link rel="stylesheet" href="{{url_for('static', filename='css/pages/scoreboard.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/widgets/grid.css')}}">
