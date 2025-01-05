@@ -63,6 +63,7 @@ body main #scoreboard span {
   border-radius: 0.6em;
   padding: 0.5em;
   margin: 1.4em;
+  display: inline-block;
 }
 body main #scoreboard table {
   position: relative;
