@@ -59,8 +59,9 @@
     "empty_slot": "Emplacement vide",
 
     "forfeit": "Déclarer forfait",
-    "played": " a joué",
-    "at": "à la position ",
+    "history_forfeit": " a déclaré forfait",
+    "history_played": " a joué",
+    "history_at": "à la position ",
 
     "username_table": "Pseudo",
     "score_table": "Score",

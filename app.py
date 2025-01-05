@@ -8,7 +8,7 @@ from hashlib import sha512
 app = Flask(__name__)
 app.secret_key = b',DTuzn=#c9"F.)_'
 
-## Only display errors and criticals 
+# Only display errors and criticals 
 
 import flask.cli    
 flask.cli.show_server_banner = lambda *args: None
@@ -30,7 +30,7 @@ def get_db():
     return db
 
 def init_db():
-    c = get_db().cursor() # create the file
+    c = get_db().cursor() # Create the file
 
     if os.path.getsize(DATABASE) == 0:
         with open("scheme.txt", 'r') as file:
@@ -107,7 +107,7 @@ def signup():
         username = request.form["username"]
         password = request.form["password"]
 
-        # check different requirements
+        # Check different requirements
         valid = True
         if(password!=request.form["confirmation"]):
             valid = False
@@ -156,7 +156,7 @@ def login():
         if request.form["username"] and pid:
             password = request.form["password"].encode("utf-8")
 
-            # If the password is correct
+            # If the password matches
             if(sha512(password).digest()==get_password(pid)):
                 res = new_player(request.form["username"], request.form["password"])
                 token, exptoken = update_token(pid)
@@ -309,9 +309,9 @@ def game():
     history = []
     for i in range(len(raw_history)):
         if(raw_history[i][3]==-1):
-            history.append((players[raw_history[i][2]-1]))
+            history.append((players[raw_history[i][2]-1],))
         else:
-            ## Append the player, the piece as a matrix and its 2 coordinates
+            # Append the player, the piece as a matrix and its coordinates
             history.append((raw_history[i][2], players[raw_history[i][2]-1], rotate(raw_history[i][3], raw_history[i][6], raw_history[i][7]), (raw_history[i][4], raw_history[i][5])))
 
     return wrap(render_template("pages/game.html", grid=grid, players=players, pieces=pieceList, piecesids=piecesids, scores=scores, you=you, autoforfeit=gameData[7], history=history), responsive=False)
@@ -353,7 +353,7 @@ def players():
                 if(pindex != 0): return jsonify({"error": "Not allowed"})
                 if "needAI" in request.json.keys(): # We create an AI if one is requested at a certain index
                     needAI = request.json["needAI"]
-                    players[int(needAI['index'])] = f"AI {needAI['index']}-{int(needAI['level'])}" ## TODO : add the AI
+                    players[int(needAI['index'])] = f"AI {needAI['index']}-{int(needAI['level'])}"
                 set_room(players, roomid)
                 return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
             
@@ -401,7 +401,7 @@ def handle_data():
                 if(raw_history[i][3]==-1):
                     history.append((players[raw_history[i][2]-1]))
                 else:
-                    ## Append the player, the piece as a matrix and its 2 coordinates
+                    # Append the player, the piece as a matrix and its coordinates
                     history.append((raw_history[i][2], players[raw_history[i][2]-1], rotate(raw_history[i][3], raw_history[i][6], raw_history[i][7]), (raw_history[i][4], raw_history[i][5])))
 
 
@@ -436,7 +436,7 @@ def handle_data():
                 gameList[gameid] = recreateGame(gameid) 
             game = gameList[gameid]
             pindex = list(gameData)[1:5].index(str(pid)) # Index of the player in the list of players
-            # If the move given can be made and it's the player's turn
+            # Check if it’s the player’s turn
             if str(pid) == gameData[game.players[game.is_playing_index]]:
 
                 # If the player wishes to forfeit
@@ -486,7 +486,7 @@ def handle_data():
                             game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                             if game.players: game.is_playing = game.players[game.is_playing_index]
 
-            # If it is a local player's turn  and he can play the move he chose
+            # If it is a local player’s turn and the specified move can be played
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]]:
                 # If the player wishes to forfeit
                 if "piece" not in data.keys():
@@ -567,7 +567,7 @@ def handle_data():
                 if(raw_history[i][3]==-1):
                     history.append((players[raw_history[i][2]-1]))
                 else:
-                    ## Append the player, the piece as a matrix and its 2 coordinates
+                    # Append the player, the piece as a matrix and its coordinates
                     history.append((raw_history[i][2], players[raw_history[i][2]-1], rotate(raw_history[i][3], raw_history[i][6], raw_history[i][7]), (raw_history[i][4], raw_history[i][5])))
 
             return {

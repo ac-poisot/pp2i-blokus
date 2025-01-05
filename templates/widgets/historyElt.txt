@@ -3,10 +3,10 @@
     {% from 'widgets/piece.txt' import piece %}
     {% for item in items %}
         {% if item|length == 1 %}
-        <li>{{item}} has surrendered</li>
+        <li>{{item[0]}}<span data="history_forfeit"></span></li>
         {% else %}
         <li>
-        {{item[1]}} <span data="played"></span> {{piece(item[2], item[0])}} <span data="at"></span> {{item[3]}}
+        {{item[1]}}<span data="history_played"></span> {{piece(item[2], item[0])}} <span data="history_at"></span> {{item[3]}}
         </li>
         {% endif %}
     {% endfor %}

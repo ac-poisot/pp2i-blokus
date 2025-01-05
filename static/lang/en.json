@@ -58,8 +58,9 @@
     "empty_slot": "Empty slot",
 
     "forfeit": "Forfeit",
-    "played": " played",
-    "at": "at the position ",
+    "history_forfeit": " has surrendered",
+    "history_played": " played",
+    "history_at": "at position ",
 
     "username_table": "Username",
     "score_table": "Score",
