@@ -53,9 +53,9 @@ function togglePasswordVisibility() {
     const toggleImage = document.getElementById("toggleImage");
     passwordInput.type = toggleCheckbox.checked ? "text" : "password";
     if (toggleCheckbox.checked) {
-        toggleImage.src = "/static/images/cacher.png"; 
+        toggleImage.src = "/static/images/hide_eye.png"; 
     } else {
-        toggleImage.src = "/static/images/oeil.png";
+        toggleImage.src = "/static/images/show_eye.png";
     }
 }
 
