@@ -20,13 +20,6 @@ for p in range(len(pieces)):
             if new_piece[y_max-1][x_max-1] == 2 : 
                 initial_possibilities.append((p,r,b,(21-x_max+1,21-y_max+1)))
 
-bcolors = {
-    "COLOR1": '\033[92m',
-    "COLOR2": '\033[91m',
-    "COLOR3": '\033[94m',
-    "COLOR4": '\033[93m',
-    "ENDC": '\033[0m'
-}
 class Game :
     def __init__(self, players:int):
         """initialise le jeu"""
@@ -119,10 +112,11 @@ class Game :
         if(len(self.available[playing-1]) == 21):
             self.possible_moves[playing-1] = []
             self.red_pieces[playing-1] = 0
-
+        
+        # add the piece et update red_pieces
         for i in range(length):
             for j in range(height):
-                if p_to_add[j][i] == 1 : # add the piece
+                if p_to_add[j][i] == 1 :
                     self.board[y+j][x+i] = playing
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0:
                     self.red_pieces[playing-1] = self.red_pieces[playing-1] + 1
@@ -181,10 +175,6 @@ class Game :
         if len(self.available[playing-1]) == 0 and piece == 1:
             self.bonus[playing-1] = True
 
-        #print(bcolors[f"COLOR{playing}"] + f"After player {playing} played {piece, rotation, position, flipped}, the possible moves are:" + bcolors['ENDC'])
-        #for i in range(self.maxn):
-        #    print(bcolors[f"COLOR{i+1}"] + f"\tPlayer {i+1} : {self.possible_moves[i]}" + bcolors['ENDC'])
-
     def remove_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool) -> None :
         """
         Removes a piece from the board and updates the game state accordingly.
@@ -202,15 +192,13 @@ class Game :
         length = len(p_to_add[0])
         height = len(p_to_add)
 
-        
-
         for i in range(length):
             for j in range(height):
                 if p_to_add[j][i] == 1 : # remove the piece
                     self.board[y+j][x+i] = 0
         
-        # remove current piece from available
-        self.available[self.is_playing-1].append(piece) # add the piece back (what about the new index?)
+        # add the piece back
+        self.available[self.is_playing-1].append(piece) 
 
         if(len(self.available[self.is_playing-1]) == 21):
             self.red_pieces[self.is_playing-1] = 4 ## SHOULD BE THE NUMBER OF CORNERS STILL AVAILABLE
@@ -249,6 +237,7 @@ class Game :
         self.players.remove(player)
     
     def play_game(self):
+        """play a game with a random choice for pieces"""
         while self.players:
             pos = self.possible_moves[self.is_playing-1]
 
