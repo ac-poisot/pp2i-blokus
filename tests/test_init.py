@@ -11,5 +11,5 @@ def test_maxn():
 
 def test_possible_moves():
     g1 = Game(2)
-    # la calcul correspond au nombre de possibilites des positions.
-    assert len(g1.possible_moves[0]) == 4*(8*7+6*5+4*7+2)
+    # le calcul correspond au nombre de coups possibles au tout début du jeu
+    assert len(g1.possible_moves[0]) == 4 * (8 * 7 + 6 * 5 + 4 * 7 + 2)

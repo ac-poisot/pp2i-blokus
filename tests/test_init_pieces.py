@@ -5,25 +5,24 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from pieces import *
 
 
-def init_moves(p:int) -> list[tuple[int,int,bool,tuple[int,int]]] :
+def init_moves(p:int) -> list[tuple[int, int, bool, tuple[int, int]]]:
     moves = []
-    for r in [0,90,180,270] :
-            for b in [True,False]:
-                new_piece = rotate(p,r,b)
+    for r in [0, 90, 180, 270] :
+            for b in [True, False]:
+                new_piece = rotate(p, r, b)
                 x_min = 0
                 x_max = len(new_piece[0])
                 y_min = 0
                 y_max = len(new_piece)
-                if new_piece[y_min][x_min] == 2 : 
-                    moves.append((p,r,b,(0,0)))
-                if new_piece[y_max-1][x_min] == 2 : 
-                    moves.append((p,r,b,(0,21-y_max+1)))
-                if new_piece[y_min][x_max-1] == 2 : 
-                    moves.append((p,r,b,(21-x_max+1,0)))
-                if new_piece[y_max-1][x_max-1] == 2 : 
-                    moves.append((p,r,b,(21-x_max+1,21-y_max+1)))
+                if new_piece[y_min][x_min] == 2: 
+                    moves.append((p, r, b, (0, 0)))
+                if new_piece[y_max-1][x_min] == 2: 
+                    moves.append((p, r, b, (0, 21 - y_max + 1)))
+                if new_piece[y_min][x_max-1] == 2: 
+                    moves.append((p, r, b, (21 - x_max + 1, 0)))
+                if new_piece[y_max-1][x_max-1] == 2: 
+                    moves.append((p, r, b, (21 - x_max + 1, 21 - y_max + 1)))
     return moves
-
 
 def test_p21():
     assert init_moves(21) == []

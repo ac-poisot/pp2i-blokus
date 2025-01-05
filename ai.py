@@ -85,10 +85,10 @@ def ai3(gameid, game):
 def realboard(board):
     """
     Extracts the inner part of a 2D board, excluding the outermost rows and columns.
-    Args:
-        board (list of list of any): A 2D list representing the board.
-    Returns:
-        list of list of any: A 2D list representing the inner part of the board.
+
+    board (list of list of any): a 2D list representing the board
+
+    Returns a 2D list representing the inner part of the board
     """
     
     return [board[i][1:-1] for i in range(1, len(board)-1)]
@@ -106,7 +106,7 @@ def cnn_ai(modelname):
         for p in posList:
             piece, rotation, flipped, (x, y) = p
             # if(g.is_legal(piece, rotation, (x, y), flipped, g.is_playing)): # TO BE REMOVED WHEN POSSIBLE_MOVES WILL WORK
-            c+=1
+            c += 1
             g.add_piece(piece, rotation, (x, y), flipped, g.is_playing)
             g.is_playing_index = (g.is_playing_index + 1) % (len(g.players))
 
@@ -140,4 +140,4 @@ cnn_ai3 = cnn_ai("model2_3.h5")
 
 # ais = [ai_easy] + [cnn_ai(model) for model in modelList]
 ais = [ai_easy, ai2, ai3, cnn_ai3]
-aiNames=["easyAI", "mediumAI", "hardAI", "CNN"]
+aiNames = ["easyAI", "mediumAI", "hardAI", "CNN"]

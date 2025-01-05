@@ -35,7 +35,7 @@ class Game :
         for j in range(players):
             poss[j] = initial_possibilities.copy()
                         
-        self.available = [[i for i in range(1,22)] for _ in range(players)]
+        self.available = [[i for i in range(1, 22)] for _ in range(players)]
         self.board = game_board
         self.bonus = [False for _ in range(players)]
         self.is_playing = 1
@@ -66,7 +66,7 @@ class Game :
             print(line)
         print("")
     
-    def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int,int], flipped:bool, player:int) -> bool:
+    def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, player:int) -> bool:
         """ 
         Checks the legality of a move
 
@@ -225,7 +225,7 @@ class Game :
         if len(self.available[self.is_playing-1]) == 0 and piece == 1:
             self.bonus[self.is_playing-1] = False
 
-    def score(self,player:int) -> int :
+    def score(self, player:int) -> int :
         """
         Calculates the score of a player
 
@@ -275,7 +275,7 @@ class Game :
 
             if len(self.possible_moves[self.is_playing-1]) != 0 :
                 piece, rotation, flipped, (x, y) = choice(pos)
-                self.add_piece(piece,rotation, (x, y), flipped)
+                self.add_piece(piece, rotation, (x, y), flipped)
 
                 self.is_playing_index = (self.is_playing_index + 1) % len(self.players)
             
