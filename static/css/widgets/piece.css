@@ -1,3 +1,50 @@
+body {
+  height: -moz-min-content;
+  height: min-content;
+  min-height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+main, #not_available {
+  margin: 0;
+  margin-top: 2vh;
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
+button[type=simple_button] {
+  width: auto;
+  min-width: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  border-radius: 4px;
+  background-color: #f3a942;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
+}
 .piece {
   position: relative;
 }
@@ -31,6 +78,9 @@
   top: 75%;
   left: 50%;
   transform: translate(-50%, -75%);
+}
+.piece.chosenOne table {
+  visibility: hidden;
 }
 .piece.chosenOne .rotate, .piece.chosenOne .reverse {
   visibility: visible;

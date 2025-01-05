@@ -3,10 +3,56 @@
 body {
     background-color: $background;
     text-align: center;
-    #pieces_table {
-        table {
+    
+
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2vh;
+        padding: 2vh;
+
+        article {
+            display: inline-block;
+            width: fit-content;
+            padding: 2vh;
+            padding-top: 0;
+            background-color: $content-background;
+            border-radius: 2vh;
+        }
+
+        #pieces_table {
+            margin: 0 auto 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 12vh);
+            background-color: $content-background;
+            border-radius: 2vh;
+    
+            .piece {
+                margin: auto;
+            }
+        }
+    
+        #presentation {
+            max-width: 90vw;
+            padding: 2vh;
+            background-color: $content-background;
+            border-radius: 2vh;
             margin: 0 auto 0 auto;
         }
     }
 
+}
+
+@media (min-width: 1281px) {
+    #pieces_table {
+        width: 84vh;
+    }
+}
+
+@media (max-width: 1281px) {
+    #pieces_table {
+        width: calc((90vw / 14vh) * 14vh - 2vh);
+        gap: 1vh;
+    }
 }

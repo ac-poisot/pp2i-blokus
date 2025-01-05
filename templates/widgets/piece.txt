@@ -1,13 +1,15 @@
 {% macro piece(shape, color, id=-1) -%}
 <div class="piece n{{id}}">
     <table onClick="selectPiece(event, this, {{shape}}, {{color}}, {{id}})">
-        {% for i in range(1, shape|length - 1) %}
-            <tr>
-                {% for j in range(1, shape[i]|length - 1) %}
-                    <td class="c{{color if shape[i][j] == 1 else ''}}"></td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
+        <tbody>
+            {% for i in range(1, shape|length - 1) %}
+                <tr>
+                    {% for j in range(1, shape[i]|length - 1) %}
+                        <td class="c{{color if shape[i][j] == 1 else ''}}"></td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
     <img class='rotate' src="{{url_for('static', filename='images/rotate.svg')}}" alt='rotate' onClick="rotatePiece()">
     <img class='reverse' src="{{url_for('static', filename='images/reverse.svg')}}" alt='rotate' onClick="reversePiece()">

@@ -40,13 +40,49 @@
     border-color: transparent transparent black transparent;
   }
 
+  .tooltip .tooltiptext_up {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    position: absolute;
+    z-index: 1;
+   
+    width: 120px;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+  }
+
+  .tooltip:hover .tooltiptext_up {
+    visibility: visible;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+    
+
+
 /* forms */
 
 .form_container {
   width: 100%;
   max-width: 300px;
   padding: 20px;
-  background-color: #ff5f00;
+  background-color: $FOOT;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   text-align: center;
@@ -104,21 +140,23 @@ button[type="submit"]:hover {
   display: none;
 }
 
-.eye-icon {
-  position: absolute;
-  left: 295px;
-  top: 181px;
-  cursor: pointer;
-  font-size: 20px;
+.inputWithEye {
+  position: relative;
+  width: 100%;
+
+  .eye-icon, .eye-icon-conf {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+
+  .img-eye-icon-conf {
+    width: 1em;  
+  }
 }
 
-.eye-icon-conf {
-  position: absolute;
-  left: 295px;
-  top: 306px;
-  cursor: pointer;
-  font-size: 20px;
-}
 body {
   background-color: $background;
 }

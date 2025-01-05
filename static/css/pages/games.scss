@@ -2,3 +2,17 @@
 body {
     background-color: $background;
   }
+
+#currentGames {
+  width: 20vw;
+  padding: 2vh;
+  margin: 2vh;
+  background-color: $content-background;
+  border-radius: 2vh;
+}
+
+@media (max-width: 1281px) {
+  #currentGames {
+    width: 80vw;
+  }
+}

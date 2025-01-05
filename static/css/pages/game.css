@@ -1,30 +1,54 @@
 body {
   height: -moz-min-content;
   height: min-content;
+  min-height: 100vh;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-main {
+main, #not_available {
   margin: 0;
-  min-height: 82vh;
+  margin-top: 2vh;
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
 }
 
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
 button[type=simple_button] {
   width: auto;
   min-width: 1vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
+}
 #gameInterface {
   display: grid;
   grid-template-columns: calc((90vw - 70vh) / 2) 70vh calc((90vw - 70vh) / 2);
+  grid-template-rows: 80vh 80vh;
   gap: 2vh;
   width: -moz-min-content;
   width: min-content;
@@ -52,6 +76,17 @@ button[type=simple_button] {
   border-radius: 2vh;
   background-color: gold;
 }
+#gameInterface .playerInterface.playing .playerName {
+  margin: 1vh;
+}
+#gameInterface .playerInterface.playing .playerName span {
+  position: relative;
+  background-color: #E9DCC9;
+  margin: 1vh;
+  padding: 1vh;
+  border-radius: 2px;
+  outline: 1px solid black;
+}
 #gameInterface .playerInterface .playerName {
   height: 1.2vh;
   padding: 1.5vh;
@@ -62,11 +97,11 @@ button[type=simple_button] {
   display: grid;
   height: calc(95.5% - 5vh);
   justify-content: center;
-  margin: 0 2vh 2vh 2vh;
+  margin: 1vh 2vh 2vh 2vh;
   grid-template-columns: repeat(auto-fit, 12vh);
   padding: 0.5vh;
   gap: 0.25vh;
-  overflow: scroll;
+  overflow-y: scroll;
   border: 1px solid black;
   border-radius: 2vh;
   background-color: black;
@@ -77,6 +112,8 @@ button[type=simple_button] {
   border: solid black 1px;
   border-radius: 5%;
   background-color: white;
+  display: flex;
+  align-items: center;
 }
 #gameInterface .playerInterface .pieces .piece table {
   margin: auto;

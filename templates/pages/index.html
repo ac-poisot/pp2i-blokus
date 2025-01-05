@@ -1,31 +1,30 @@
 <main>
     <h1 data="title_temp"></h1>
 
-    <table>
-        <tbody>
-            <td> <img src="{{url_for('static', filename='images/image_plateau.jpg')}}" alt="Image d’un plateau de Blokus">  </td>
-            <td>
-                <p data="what_is_blokus">
-                </p>
-                <p data="discover"> <a href="/rules"><button type="simple_button">guide</button></a></p>
-                <p data="want_to_play"></p>
+    <article>
+        <img src="{{url_for('static', filename='images/image_plateau.jpg')}}" alt="Image d’un plateau de Blokus">
+        <div id="presentation">
+            <p data="what_is_blokus">
+            </p>
+            <p data="discover"> <a href="/rules"><button type="simple_button">guide</button></a></p>
+            <p data="want_to_play"></p>
+            {% if pid == -1 %}
                 <ul>
-                    <li>
-
-                    </li>
                     <li id="login">
                         <a href="/login" ><button type="simple_button" data="login"></button></a>
                     </li>
                     <li id="signup">
                         <a href="/signup" ><button type="simple_button" data="signup"></button></a>
                     </li>
-                    <li>
-                        
+                </ul>
+            {% else %}
+                <ul>
+                    <li id="play">
+                        <a href="/games"><button type="simple_button" data="play"></button></a>
                     </li>
                 </ul>
-
-            </td>
-        </tbody>
-    </table>
+            {% endif %}
+        </div>
+    </article>
 </main>
 <link rel="stylesheet" href="{{url_for('static', filename='css/pages/homepage.css')}}">

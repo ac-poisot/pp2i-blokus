@@ -1,27 +1,50 @@
 body {
   height: -moz-min-content;
   height: min-content;
+  min-height: 100vh;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-main {
+main, #not_available {
   margin: 0;
-  min-height: 82vh;
+  margin-top: 2vh;
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
 }
 
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
 button[type=simple_button] {
   width: auto;
   min-width: 1vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
+}
 #navbar > ul {
   display: flex;
   flex-direction: row;
@@ -40,7 +63,6 @@ button[type=simple_button] {
   border-radius: 100%;
   overflow: hidden;
   position: relative;
-  bottom: -15%;
   background-color: blue;
   display: inline-block;
   vertical-align: middle;
@@ -61,6 +83,8 @@ header {
   top: 0;
   left: 50%;
   transform: translate(-50%);
+  position: relative;
+  z-index: 5;
 }
 
 body {
@@ -72,20 +96,29 @@ body button[type=head_button] {
   height: auto;
   padding: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
+@media (max-width: 1281px) {
+  #games {
+    display: none !important;
+  }
+  .circular_image {
+    width: 40px;
+    height: 40px;
+  }
+}
 .open-btn {
   cursor: pointer;
 }
 
 .menu {
   text-align: center;
-  height: 0;
+  height: 0vh;
   width: 10vw;
   position: absolute;
   top: 8vh;
@@ -93,7 +126,7 @@ body button[type=head_button] {
   background-color: #ff5f00;
   overflow-x: hidden;
   transition: 0.5s;
-  z-index: 1;
+  z-index: 4;
 }
 .menu a {
   text-decoration: none;
@@ -115,4 +148,13 @@ body button[type=head_button] {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+@media (max-width: 1281px) {
+  button[type=head_button] {
+    min-height: 6vh;
+  }
+  .menu {
+    width: 50vw;
+  }
 }/*# sourceMappingURL=header.css.map */

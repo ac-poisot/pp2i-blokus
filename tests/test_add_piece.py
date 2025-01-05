@@ -29,32 +29,32 @@ for j in range(2):
                    poss[j].append((p,r,b,(0,21-x_max)))
                 if new_piece[y_max][x_max] == 2 : 
                    poss[j].append((p,r,b,(21-y_max,21-x_max)))
-g.availible = [[2,6] for j in range(2)]
+g.available = [[2,6] for j in range(2)]
 g.bonus = [False for _ in range(2)]
 g.possible_moves = poss
 g.red_pieces = [4 for _ in range(2)]
 
 def test_add_on_board():
     g = Game(2)
-    g.availible = [[2,6] for j in range(2)]
+    g.available = [[2,6] for j in range(2)]
     g.bonus = [False for _ in range(2)]
     g.possible_moves = poss.copy()
     g.red_pieces = [4 for _ in range(2)]
     g.add_piece(6,90,(0,0),False) # faire attention a rester dans {1,2,4,6}
-    g.print_board() # attention si on veut voir le tableau à le mettre hors de la fonction (rappel donc plante car availible a change)
+    g.print_board() # attention si on veut voir le tableau à le mettre hors de la fonction (rappel donc plante car available a change)
 
-def test_remove_availible():
+def test_remove_available():
     g = Game(2)
-    g.availible = [[2,6] for j in range(2)]
+    g.available = [[2,6] for j in range(2)]
     g.bonus = [False for _ in range(2)]
     g.possible_moves = poss.copy()
     g.red_pieces = [4 for _ in range(2)]
     g.add_piece(6,90,(0,0),False)
-    assert g.availible[0] == [2]
+    assert g.available[0] == [2]
 
 def test_possible_moves():
     g = Game(2)
-    g.availible = [[2,6] for j in range(2)]
+    g.available = [[2,6] for j in range(2)]
     g.bonus = [False for _ in range(2)]
     g.possible_moves = poss.copy()
     g.red_pieces = [4 for _ in range(2)]
@@ -66,8 +66,8 @@ def test_possible_moves():
 
 def test_poss_mvt_0():
     g = Game(2)
-    g.availible[0] = [1,12]
-    g.availible[1] = []
+    g.available[0] = [1,12]
+    g.available[1] = []
     g.red_pieces = [0,0]
     g.possible_moves[0] = [(12,0,False,(10,10))]
     g.possible_moves[1] = []
@@ -83,8 +83,8 @@ def test_poss_mvt_0():
 
 def test_poss_mvt_coin_haut_droite():
     g = Game(2)
-    g.availible[0] = [1,12]
-    g.availible[1] = []
+    g.available[0] = [1,12]
+    g.available[1] = []
     g.red_pieces = [0,0]
     g.possible_moves[0] = [(12,0,False,(10,10))]
     g.possible_moves[1] = []
@@ -118,8 +118,8 @@ def test_poss_mvt_coin_haut_droite():
 
 def test_poss_mvt_coin_bas_droite():
     g = Game(2)
-    g.availible[0] = [1,12]
-    g.availible[1] = []
+    g.available[0] = [1,12]
+    g.available[1] = []
     g.red_pieces = [0,0]
     g.possible_moves[0] = [(12,0,False,(10,10))]
     g.possible_moves[1] = []
@@ -153,8 +153,8 @@ def test_poss_mvt_coin_bas_droite():
 
 def test_poss_mvt_coin_bas_gauche():
     g = Game(2)
-    g.availible[0] = [1,12]
-    g.availible[1] = []
+    g.available[0] = [1,12]
+    g.available[1] = []
     g.red_pieces = [0,0]
     g.possible_moves[0] = [(12,0,False,(10,10))]
     g.possible_moves[1] = []
@@ -188,8 +188,8 @@ def test_poss_mvt_coin_bas_gauche():
 
 def test_poss_mvt_coin_haut_gauche():
     g = Game(2)
-    g.availible[0] = [1,12]
-    g.availible[1] = []
+    g.available[0] = [1,12]
+    g.available[1] = []
     g.red_pieces = [0,0]
     g.possible_moves[0] = [(12,0,False,(10,10))]
     g.possible_moves[1] = []
@@ -222,8 +222,8 @@ def test_poss_mvt_coin_haut_gauche():
 
 def test_poss_mvt_all():
     g = Game(2)
-    g.availible[0] = [1,12]
-    g.availible[1] = []
+    g.available[0] = [1,12]
+    g.available[1] = []
     g.red_pieces = [0,0]
     g.possible_moves[0] = [(12,0,False,(10,10))]
     g.possible_moves[1] = []
@@ -242,8 +242,8 @@ def test_poss_mvt_2():
     g = Game(2)
     g.is_playing = 2
     g.is_playing_index = 1
-    g.availible[0] = [7]
-    g.availible[1] = [11,12]
+    g.available[0] = [7]
+    g.available[1] = [11,12]
     g.red_pieces = [0,0] #faux mais on s'en tape pour le moment
     g.possible_moves[0] = [(7, 270, True, (3, 5)), (7, 270, False, (3, 5)), (7, 0, False, (0, 15)), (7, 180, True, (0, 15)), (7, 270, True, (14, 10)), (7, 270, False, (14, 10)), (7, 0, False, (2, 16)), (7, 180, True, (2, 16)), (7, 90, True, (3, 17)), (7, 90, False, (3, 17))]
     g.possible_moves[1] = [(11, 270, True, (2, 12)), (11, 0, True, (2, 15)), (11, 90, False, (2, 15)), (11, 180, False, (1, 15)), (12, 0, True, (2, 15)), (12, 0, False, (1, 15)), (12, 180, True, (2, 15)), (12, 180, False, (1, 15)), (11, 0, False, (1, 15))]
@@ -278,8 +278,8 @@ def test_poss_mvt_2():
 
 def test_red_pieces():
     g = Game(2)
-    g.availible[0] = []
-    g.availible[1] = [14,15]
+    g.available[0] = []
+    g.available[1] = [14,15]
     g.is_playing = 2
     g.is_playing_index = 1
     g.red_pieces = [0,5]

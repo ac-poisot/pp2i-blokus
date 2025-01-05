@@ -1,0 +1,42 @@
+@import '../widgets/variable';
+
+ul#history {
+    width: 70vh;
+    height: 75vh;
+    overflow-y: scroll;
+    list-style-type: none;
+    padding: 2vh 0 2vh 0;
+    margin: 0;
+    background-color: $content-background;
+    border-radius: 5vh;
+
+    grid-column: 2;
+
+
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    align-items: center;
+
+    li {
+        height: 20vh;
+        width: 66vh;
+        padding: 1vh;
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-radius: 5vh;
+
+        span {
+            white-space: pre;
+        }
+
+        .piece {
+            width: 20vh;
+
+            table {
+                margin: auto;
+            }
+        }
+    }
+}

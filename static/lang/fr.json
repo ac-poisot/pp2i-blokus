@@ -42,6 +42,7 @@
     "room_date": "Date de la salle",
     "leave_room": "Quitter le salon",
     "copy": "Copier",
+    "auto-forfeit": "<span class='tooltip'>Forfait automatique<span class='tooltiptext_up'>passe automatiquement le tour si aucun coup n’est possible</span></span>",
     "create_game": "Créer la partie&thinsp;!",
     "add_human": "Ajouter un humain",
     "add_AI": "Ajouter un ordi",
@@ -50,7 +51,17 @@
     "remove_local":"Jouer en ligne",
     "guest": "Local ",
     "AI": "Ordi ",
+    "choose_AI": "Difficulté de l’ordi",
+    "easyAI": "Facile",
+    "mediumAI": "Moyen",
+    "hardAI": "Difficile",
+    "CNN": "Tentative de CNN",
     "empty_slot": "Emplacement vide",
+
+    "forfeit": "Déclarer forfait",
+    "history_forfeit": " a déclaré forfait",
+    "history_played": " a joué",
+    "history_at": "à la position ",
 
     "username_table": "Pseudo",
     "score_table": "Score",
@@ -74,12 +85,29 @@
     "room_full": "Ce salon est complet pour le moment&thinsp;!",
 
     "404": "404&nbsp;: cette page n’existe pas&thinsp;!",
+    "not_available": "Notre jeu n’est disponible que sur ordinateur&thinsp;!",
 
+
+    "rules": "RÈGLES",
+    "contents_q": "De quoi se compose le jeu&thinsp;?",
+    "contents_a": "Le Blokus se joue sur un plateau de 20&thinsp;&times;&thinsp;20 cases avec un total de 21 pièces par personne.",
+    
+    "how_to_play_q": "Comment jouer&thinsp;?",
+    "how_to_play1": "L’objectif du jeu est de placer l’ensemble des 21 pièces que vous possédez",
+    "how_to_play2": "Au début du jeu, vous posez le coin d’une de vos pièces dans un des coins du plateau. Pour le reste de la partie, lorsque vous poserez une pièce, elle ne doit toucher vos autres pièces que par les coins. Vous pouvez toucher les pièces de vos adversaires. Si vous ne pouvez plus placer de pièces, vous passez votre tour&thinsp;!",
+    "how_to_play3": "Pour poser vos pièces, vous pouvez les tourner, les retourner… L’objectif est de les faire rentrer&thinsp;!",
+    "how_to_play4": "La partie s’arrête quand tous le monde a passé son tour.",
+
+    "scoring_q": "Comment compter les points&thinsp;?",
+    "scoring1": "Chaque carré non posé vous donne &minus;1 point.",
+    "scoring2": "Si vous avez posé toutes vos pièces, vous gagnez 15 points bonus.",
+    "scoring3": "Si en plus vous avez fini par la pièce d’un carré, vous gagnez 20 points bonus pour votre gestion des pièces&thinsp;!",
+    "scoring4": "Celui ou celle qui a le plus de points a gagné&thinsp;!",
 
     "credits_localisation": "Localisation Anglais–Français",
     "credits_localisation2": "Localisation Français–Anglais",
     "credits_director": "Directeur Manager",
     "credits_chocolate": "Directrice de la logistique des barres chocolatées",
-    "credits_illogic": "Manager de l’inefficacité illogique",
+    "credits_illogic": "Manager de l’efficacité logique",
     "credits_support": "Support émotionnel sans limite"
 }

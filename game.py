@@ -35,7 +35,7 @@ class Game :
         for j in range(players):
             poss[j] = initial_possibilities.copy()
                         
-        self.availible = [[i for i in range(1,22)] for j in range(players)]
+        self.available = [[i for i in range(1,22)] for j in range(players)]
         self.board = game_board
         self.bonus = [False for _ in range(players)]
         self.is_playing = 1
@@ -70,13 +70,13 @@ class Game :
     def is_legal(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int,int], flipped:bool, player:int) -> bool :
         """ 
         returns the legality of a move :
-            - the piece is availible
+            - the piece is available
             - a corner of a piece is in a corner of an other one of the same color
             - the piece is located only on free cells
             - the piece isn't directly next to another of the same color"""
         
         # check avaibility
-        if piece not in self.availible[player-1] :
+        if piece not in self.available[player-1] :
             return False
         
         x, y = position
@@ -99,32 +99,11 @@ class Game :
                     return False
                 
         # Check if the piece is at a corner
-        if len(self.availible[player-1]) == 21:
+        if len(self.available[player-1]) == 21:
             if (x == 0 and y == 0) or (x == 21 - length + 1 and y == 0) or (x == 0 and y == 21 - height + 1) or (x == 21 - length + 1 and y == 21 - height + 1):
                 return True
 
         return valid
-    
-    def is_red_cell(self, x, y, player):
-        """"
-        Returns whether a piece of the chosen player can start at this cell or not
-        """
-        angleContact = False
-        if self.board[y][x] != 0: return False
-
-        if y-1 >= 0:
-            if self.board[y-1][x] == player: return False
-            if x-1 >= 0 and self.board[y-1][x-1] == player: angleContact = True
-            if x+1 < len(self.board[y]) and self.board[y-1][x+1] == player: angleContact = True
-        # print("here")
-        if y+1 < len(self.board):
-            if self.board[y+1][x] == player: return False
-            if x-1 >= 0 and self.board[y+1][x-1] == player: angleContact = True
-            if x+1 < len(self.board[y]) and self.board[y+1][x+1] == player: angleContact = True
-        if x-1 >= 0 and self.board[y][x-1] == player: return False
-        if x+1 < len(self.board[y]) and self.board[y][x+1] == player: return False
-        # print(angleContact)
-        return angleContact
 
     
     def add_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool, playing:int = None) -> None :
@@ -137,7 +116,7 @@ class Game :
         height = len(p_to_add)
 
         # Remove the other corners from the possibilities list
-        if(len(self.availible[playing-1]) == 21):
+        if(len(self.available[playing-1]) == 21):
             self.possible_moves[playing-1] = []
             self.red_pieces[playing-1] = 0
 
@@ -150,8 +129,8 @@ class Game :
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == playing :
                     self.red_pieces[playing-1] = self.red_pieces[playing-1] - 1
 
-        # remove current piece from availible
-        self.availible[playing-1].remove(piece)
+        # remove current piece from available
+        self.available[playing-1].remove(piece)
 
         x_min = x-4
         y_min = y-4
@@ -182,7 +161,7 @@ class Game :
         self.possible_moves[playing-1] = res.copy()
 
         # add new possibles moves
-        t = len(self.availible[playing-1])
+        t = len(self.available[playing-1])
         for k in range(t):
             for r in [0,90,180,270] :
                 for b in [True,False] :
@@ -199,7 +178,7 @@ class Game :
                                 self.possible_moves[playing-1].append((p,r,b,pos))
         
         # bonus if the last piece placed is the monomino
-        if len(self.availible[playing-1]) == 0 and piece == 1:
+        if len(self.available[playing-1]) == 0 and piece == 1:
             self.bonus[playing-1] = True
 
         #print(bcolors[f"COLOR{playing}"] + f"After player {playing} played {piece, rotation, position, flipped}, the possible moves are:" + bcolors['ENDC'])
@@ -229,26 +208,22 @@ class Game :
             for j in range(height):
                 if p_to_add[j][i] == 1 : # remove the piece
                     self.board[y+j][x+i] = 0
-                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0 : # update red_pieces
-                    self.red_pieces[self.is_playing-1] = self.red_pieces[self.is_playing-1] - 1
-                elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == self.is_playing : # update red_pieces
-                    self.red_pieces[self.is_playing-1] = self.red_pieces[self.is_playing-1] + 1
         
-        # remove current piece from availible
-        self.availible[self.is_playing-1].append(piece) # add the piece back (what about the new index?)
+        # remove current piece from available
+        self.available[self.is_playing-1].append(piece) # add the piece back (what about the new index?)
 
-        if(len(self.availible[self.is_playing-1]) == 21):
+        if(len(self.available[self.is_playing-1]) == 21):
             self.red_pieces[self.is_playing-1] = 4 ## SHOULD BE THE NUMBER OF CORNERS STILL AVAILABLE
         
         # bonus if the last piece placed is the monomino
-        if len(self.availible[self.is_playing-1]) == 0 and piece == 1:
-            self.bonus[self.is_playing-1] = True
+        if len(self.available[self.is_playing-1]) == 0 and piece == 1:
+            self.bonus[self.is_playing-1] = False
 
     def score(self,player:int) -> int :
         """ return the score of a player"""
 
         total = 0
-        for piece in self.availible[player-1]:
+        for piece in self.available[player-1]:
             shape = pieces[piece-1]
             height = len(shape)
             length = len(shape[0])
@@ -257,7 +232,7 @@ class Game :
                     if shape[j][i] == 1:
                         total = total - 1
         
-        if len(self.availible[player-1]) == 0 :
+        if len(self.available[player-1]) == 0 :
             total = total + 20
         
         if self.bonus[player-1]:
@@ -284,7 +259,7 @@ class Game :
                 self.is_playing_index = (self.is_playing_index + 1) % len(self.players)
             
             else :
-                print(f"Player {self.is_playing} does not have any availible move!")
+                print(f"Player {self.is_playing} does not have any available move!")
                 self.players.remove(self.is_playing)
                 if self.is_playing_index >= len(self.players):
                     self.is_playing_index = 0
@@ -295,7 +270,7 @@ class Game :
         self.print_board()
         print("Game is over!")
         for player in range(1, self.maxn + 1):
-            print(f"Player {player} pieces left: {self.availible[player-1]}")
+            print(f"Player {player} pieces left: {self.available[player-1]}")
             print(f"Score: {self.score(player)}")
 
     def copy_game(self):
@@ -306,7 +281,7 @@ class Game :
         """
         g = Game(len(self.players))
         g.board = [row.copy() for row in self.board]
-        g.availible = [row.copy() for row in self.availible]
+        g.available = [row.copy() for row in self.available]
         g.bonus = self.bonus.copy()
         g.is_playing = self.is_playing
         g.is_playing_index = self.is_playing_index
@@ -322,20 +297,29 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
     """
     g = Game(players)
 
+    if not moves:
+        return g
+
     player = g.players[-1]
     for move in moves:
         _, _, player, piece, x, y, rotation, flipped = move
-        g.add_piece(piece, rotation, (x, y), flipped, player)
+        g.is_playing_index = g.players.index(player)
 
-    for i in range(players):
-        if i < len(g.players) and not g.can_play(g.players  [i]):
-            g.players.remove(g.players[i])
+        if piece != -1:
+            g.add_piece(piece, rotation, (x, y), flipped, player)
+        else:
+            g.delete_player(player)
 
-    g.is_playing_index = g.players.index(player) + 1
-    if g.is_playing_index == len(g.players):
-        g.is_playing_index = 0
+    new_players = list()
 
-    g.is_playing = g.players[g.is_playing-1] 
+    for p in g.players:
+        if g.can_play(p):
+            new_players.append(p)
+    g.players = new_players
+    if g.players:
+        g.is_playing_index = (g.is_playing_index + 1) % (g.maxn-1)
+
+        g.is_playing = g.players[g.is_playing_index] 
     return g
 
 

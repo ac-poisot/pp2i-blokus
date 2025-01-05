@@ -10,13 +10,13 @@ def test_begining():
 
 def test_end():
     g = Game(2)
-    g.availible[1] = []
+    g.available[1] = []
     g.bonus[1] = True
-    g.availible[0] = []
+    g.available[0] = []
     assert g.score(2) == 25
     assert g.score(1) == 20
 
 def test_mid():
     g = Game(2)
-    g.availible[0] = [1,2,3,5,9]
+    g.available[0] = [1,2,3,5,9]
     assert g.score(1) == -14

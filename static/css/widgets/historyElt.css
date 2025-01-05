@@ -1,0 +1,80 @@
+body {
+  height: -moz-min-content;
+  height: min-content;
+  min-height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+main, #not_available {
+  margin: 0;
+  margin-top: 2vh;
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
+button[type=simple_button] {
+  width: auto;
+  min-width: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  border-radius: 4px;
+  background-color: #f3a942;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
+}
+ul#history {
+  width: 70vh;
+  height: 75vh;
+  overflow-y: scroll;
+  list-style-type: none;
+  padding: 2vh 0 2vh 0;
+  margin: 0;
+  background-color: #E9DCC9;
+  border-radius: 5vh;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  align-items: center;
+}
+ul#history li {
+  height: 20vh;
+  width: 66vh;
+  padding: 1vh;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 5vh;
+}
+ul#history li span {
+  white-space: pre;
+}
+ul#history li .piece {
+  width: 20vh;
+}
+ul#history li .piece table {
+  margin: auto;
+}/*# sourceMappingURL=historyElt.css.map */

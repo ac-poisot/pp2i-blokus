@@ -1,0 +1,18 @@
+#background {
+  z-index: 1;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+#background .piece {
+  position: absolute;
+  visibility: hidden;
+}
+
+@keyframes go_down {
+  100% {
+    transform: translateY(100vh);
+  }
+}/*# sourceMappingURL=background.css.map */

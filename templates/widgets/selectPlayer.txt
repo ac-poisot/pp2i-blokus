@@ -1,4 +1,4 @@
-{% macro selectPlayer(color, username=None, state=0, master=false) -%}
+{% macro selectPlayer(color, ais, username=None, state=0, master=false) -%}
 <div class="{{"selectPlayer grayed c"+(color|string) if state == 0 else "selectPlayer c"+(color|string)}}">
     <div class="{{"content grayed" if state == 0 else "content"}}">
     {% if username == None %}
@@ -16,11 +16,21 @@
     {{ piece([[2,3,2,0],[3,1,3,2],[3,1,1,3],[2,3,3,2]], color)}}
     </div>
     {% if master and color != 1 %}
-    <button type="create_games_button" class="addHuman" onClick="addHumanPlayer(this, {{color}})" data="add_human"></button>
-    <button type="create_games_button" class="addAI" onClick="addAIPlayer(this,{{color}})" data="add_AI"></button>
-    <button type="create_games_button" class="remove" onClick="removePlayer(this, {{color}})" data="remove_player"></button>
-    <button type="create_games_button" class="{{"addLocal" if username == "Empty slot" or ((username != None) and (not " " in username) and (username|int == 0) and (not "AI" in username)) else "addLocal hidden"}}" onClick="addLocalPlayer(this, {{color}})" data="add_local"></button>
-    <button type="create_games_button" class="{{"removeLocal" if username != None and " " in username and username != "Empty slot" else "removeLocal hidden"}}" onClick="removeLocalPlayer(this, {{color}})" data="remove_local"></button>
+    <button class="addHuman" onClick="addHumanPlayer(this, {{color}})" data="add_human"></button>
+    <button class="addAI" onClick="addAIPlayer(this,{{color}})" data="add_AI"></button>
+    <button class="remove" onClick="removePlayer(this, {{color}})" data="remove_player"></button>
+    <button class="{{"addLocal" if username == "Empty slot" or ((username != None) and (not " " in username) and (username|int == 0) and (not "AI" in username)) else "addLocal hidden"}}" onClick="addLocalPlayer(this, {{color}})" data="add_local"></button>
+    <button class="{{"removeLocal" if username != None and " " in username and username != "Empty slot" and username[:3] != "AI " else "removeLocal hidden"}}" onClick="removeLocalPlayer(this, {{color}})" data="remove_local"></button>
+    <div class="{{"chooseAi" if username != None and username[:3] == "AI " else "chooseAi hidden"}}">
+        <label data="choose_AI" for="chooseAI"></label>
+        <select name="chooseAI" onChange="chooseAI(event)" onfocus="this.size=3;" onblur="this.size=0;" onchange="this.size=1; this.blur()">
+        {% for i in range(ais|length) %}
+            <option value="{{i}}" data="{{ais[i]}}"></option>
+        {% endfor %}
+        </select>
+    </div>
+
+
     {% endif %}
 </div>
 <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/piece.css')}}">

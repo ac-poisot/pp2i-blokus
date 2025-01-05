@@ -36,11 +36,6 @@
                             <a href="/signup" ><button type="head_button" data="signup"></button></a>
                         </li>
                     {% endif %}
-<!--                        <li id="english">
-                        </li>                      
-                        <li id="french">
-
-                        </li>-->
                         <li>
                             <button type="head_button" class="open-btn" onclick="openMenuL()" data="menu"></button>
                         </li>
@@ -50,8 +45,6 @@
     <div id="menu" class="menu">
         <a href="" onclick="changeLanguage('en')">English</a>
         <a href="" onclick="changeLanguage('fr')">Français</a>
-        <a href="/credits">Español</a>
-        <a href="/signup">日本語</a>
     </div>
     <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/header.css')}}">
     <script src="{{url_for('static', filename='main.js')}}"></script>
