@@ -18,7 +18,7 @@ Notons que :
 « 3 » désigne les zones où il ne doit pas y avoir d’autres pièces du joueur (vert).
 
 - Orientation et retournement
-Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 degrés pour les faire tourner. Pour les retournements, on retourne d'abord la piece horizontalemnt puis on la tourne.
+Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 degrés pour les faire tourner. Pour les retournements, on tourne d'abord la piece puis on la retourne verticalement.
   O        O
   OOO →  OOO  → on tourne avec la même convention
    O      O
