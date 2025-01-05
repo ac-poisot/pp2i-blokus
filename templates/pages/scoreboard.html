@@ -1,9 +1,20 @@
 <main>
     <article id="scoreboard">
         {% if scoreboard|length == 1 or scoreboard[0][1] == scoreboard[1][1] %}
-        <span id="status" data="draw_table"></span>
+        <div id="status" data="draw_table"></div>
         {% else %}
-        <span id="status" data="victory">{{scoreboard[0][0]}}</span>
+        <div id="status">
+        {% if scoreboard[0][0][:6] == "Guest " %}
+            <span data="guest">{{scoreboard[0][0][6:]}}</span>
+        {% elif scoreboard[0][0][:3] == "AI " %}
+            <span data="AI">{{scoreboard[0][0][3:]}}</span>
+        {% else %}
+            <span>{{scoreboard[0][0]}}</span>
+        {% endif %}
+            <span data="victory"></span>
+
+
+        </div>
         {% endif %} 
         <p></p>
         <p></p>
@@ -16,12 +27,24 @@
                 {% for s in scoreboard %}
                 {% if s == scoreboard[-1] %}
                 <tr>
-                    <td id="ga">{{s[0]}}</td>
+                    {% if s[0][:6] == "Guest " %}
+                        <td data="guest" id="ga">{{s[0][6:]}}</td>
+                    {% elif s[0][:3] == "AI " %}
+                        <td data="AI" id="ga">{{s[0][3:]}}</td>
+                    {% else %}
+                        <td id="ga">{{s[0]}}</td>
+                    {% endif %}
                     <td id="dr">{{s[1]}}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td>{{s[0]}}</td>
+                        {% if s[0][:6] == "Guest " %}
+                            <td data="guest">{{s[0][6:]}}</td>
+                        {% elif s[0][:3] == "AI " %}
+                            <td data="AI">{{s[0][3:]}}</td>
+                        {% else %}
+                            <td>{{s[0]}}</td>
+                        {% endif %}
                     <td>{{s[1]}}</td>
                 </tr>
                 {% endif %}

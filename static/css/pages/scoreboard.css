@@ -57,7 +57,7 @@ body main {
   justify-items: center;
   margin-bottom: 2vh;
 }
-body main #scoreboard span {
+body main #scoreboard div {
   position: relative;
   background-color: #E9DCC9;
   border-radius: 0.6em;

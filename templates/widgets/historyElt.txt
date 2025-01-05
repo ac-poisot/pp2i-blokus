@@ -3,7 +3,16 @@
     {% from 'widgets/piece.txt' import piece %}
     {% for item in items %}
         {% if item|length == 1 %}
-        <li>{{item[0]}}<span data="history_forfeit"></span></li>
+        <li>
+        {% if item[0][:6] == "Guest " %}
+            <span data="guest">{{item[0][6:]}}</span>
+        {% elif item[0][:3] == "AI " %}
+            <span data="AI">{{item[0][3:]}}</span>
+        {% else %}
+            <span>{{item[0]}}</span>
+        {% endif %}
+        <span data="history_forfeit"></span></li>
+        
         {% else %}
         <li>
         {% if item[1][:6] == "Guest " %}
