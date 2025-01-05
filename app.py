@@ -8,6 +8,12 @@ from hashlib import sha512
 app = Flask(__name__)
 app.secret_key = b',DTuzn=#c9"F.)_'
 
+# Constants
+
+MAX_USERNAME_LENGTH = 20
+MIN_PASSWORD_LENGTH = 8
+SPECIAL_CHARS = ".,!:;?/%*#@{}[]$£€~^&|§<>"
+
 # Only display errors and criticals 
 
 import flask.cli    
@@ -118,10 +124,10 @@ def signup():
         if ' ' in username:
             valid = False
             flash("error_space")
-        if len(password) < 8 or not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password) or not any(char in ".,!:;?/%*#@{}[]$£€~^&|§<>" for char in password):
+        if len(password) < MIN_PASSWORD_LENGTH or not any(char.isdigit() for char in password) or not any(char.isalpha() for char in password) or not any(char in SPECIAL_CHARS for char in password):
             valid = False
             flash("error_requirements")
-        if len(username) > 20:
+        if len(username) > MAX_USERNAME_LENGTH:
             valid = False
             flash("error_username_length")
         if (username and get_pid(username)) or username == "DELETED":
@@ -337,7 +343,7 @@ def players():
         return jsonify({"error": "Not allowed"})
     if(not get_room(roomid)): return jsonify({"redirection": "/game"}) # If the room isn’t open, check if the game is open
     room = get_room(roomid)
-    if pid in get_room(roomid) : # If the player is part of the room
+    if pid in get_room(roomid): # If the player is part of the room
         if request.method == 'GET': # If it is just a GET request, allow it
             return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
         else: # If it is a POST request

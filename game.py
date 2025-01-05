@@ -2,10 +2,12 @@ from pieces import *
 from random import choice
 import time
 
+BOARD_SIZE = 21
+
 initial_possibilities = list()
 
 for p in range(len(pieces)):
-    for r in [0, 90, 180, 270] :
+    for r in [0, 90, 180, 270]:
         for b in [True, False]:
             new_piece = rotate(p, r, b)
             x_min = 0
@@ -15,13 +17,13 @@ for p in range(len(pieces)):
             if new_piece[y_min][x_min] == 2: 
                 initial_possibilities.append((p, r, b, (0, 0)))
             if new_piece[y_max-1][x_min] == 2: 
-                initial_possibilities.append((p, r, b, (0, 21 - y_max +1)))
+                initial_possibilities.append((p, r, b, (0, BOARD_SIZE + 1 - y_max + 1)))
             if new_piece[y_min][x_max-1] == 2: 
-                initial_possibilities.append((p, r, b, (21 - x_max + 1, 0)))
+                initial_possibilities.append((p, r, b, (BOARD_SIZE + 1 - x_max + 1, 0)))
             if new_piece[y_max-1][x_max-1] == 2: 
-                initial_possibilities.append((p, r, b, (21 - x_max + 1, 21 - y_max + 1)))
+                initial_possibilities.append((p, r, b, (BOARD_SIZE + 1 - x_max + 1, BOARD_SIZE + 1 - y_max + 1)))
 
-class Game :
+class Game:
     def __init__(self, players:int):
         """
         Initialises the game 
@@ -30,12 +32,12 @@ class Game :
 
         Returns the newly created instance
         """
-        game_board = [[0 for _ in range(22)] for _ in  range(22)]
+        game_board = [[0 for _ in range(BOARD_SIZE + 2)] for _ in  range(BOARD_SIZE + 2)]
         poss = [[] for _ in  range(players)]
         for j in range(players):
             poss[j] = initial_possibilities.copy()
                         
-        self.available = [[i for i in range(1, 22)] for _ in range(players)]
+        self.available = [[i for i in range(1, len(pieces)+1)] for _ in range(players)]
         self.board = game_board
         self.bonus = [False for _ in range(players)]
         self.is_playing = 1
@@ -49,9 +51,9 @@ class Game :
         """
         Displays the board as it would be seen on a game page
         """
-        for i in range(1, 21):
+        for i in range(1, BOARD_SIZE + 1):
             line = str()
-            for j in range(1, 21):
+            for j in range(1, BOARD_SIZE + 1):
                 if self.board[i][j] == 1:
                     line = line + "🟩 " 
                 elif self.board[i][j] == 2:
@@ -79,11 +81,11 @@ class Game :
             — the piece is available
             — a corner of a piece is in a corner of another one of the same colour
             — the piece is located only on free cells
-            — the piece isn’t directly next to another of the same colour
+            — the piece isn't directly next to another of the same colour
         """
         
         # Check availability
-        if piece not in self.available[player-1] :
+        if piece not in self.available[player-1]:
             return False
         
         x, y = position
@@ -92,7 +94,7 @@ class Game :
         height = len(p_to_add)
 
         # Check if the piece would be in bounds
-        if x < 0 or y < 0 or x + length > 22 or y + height > 22:
+        if x < 0 or y < 0 or x + length > BOARD_SIZE + 2 or y + height > BOARD_SIZE + 2:
             return False
         
         valid = False
@@ -106,8 +108,8 @@ class Game :
                     return False
                 
         # Handle the case of the first move
-        if len(self.available[player-1]) == 21:
-            if (x == 0 and y == 0) or (x == 21 - length + 1 and y == 0) or (x == 0 and y == 21 - height + 1) or (x == 21 - length + 1 and y == 21 - height + 1):
+        if len(self.available[player-1]) == len(pieces):
+            if (x == 0 and y == 0) or (x == BOARD_SIZE + 1 - length + 1 and y == 0) or (x == 0 and y == BOARD_SIZE + 1 - height + 1) or (x == BOARD_SIZE + 1 - length + 1 and y == BOARD_SIZE + 1 - height + 1):
                 return True
 
         return valid
@@ -129,11 +131,11 @@ class Game :
         height = len(p_to_add)
 
         # Remove the other corners from the list of possibilities
-        if (len(self.available[playing-1]) == 21):
+        if (len(self.available[playing-1]) == len(pieces)):
             self.possible_moves[playing-1] = []
             self.red_pieces[playing-1] = 0
         
-        # add the piece et update red_pieces
+        # Add the piece and update red_pieces
         for i in range(length):
             for j in range(height):
                 if p_to_add[j][i] == 1:
@@ -158,10 +160,10 @@ class Game :
                 xp, yp = p[3]
                 if playing != player and (xp >= x_min and yp >= y_min and xp <= x_max and yp <= y_max and not self.is_legal(p[0], p[1], p[3], p[2], player)):
                     to_be_removed.append(p)
-            res = list(filter(lambda elem : not elem in to_be_removed, self.possible_moves[player-1]))
+            res = list(filter(lambda elem: not elem in to_be_removed, self.possible_moves[player-1]))
             self.possible_moves[player-1] = res.copy()
 
-        # Remove moves that are now not legal
+        # Remove moves that are now illegal
         x_min = x - 5
         y_min = y - 5
         x_max = x + length
@@ -171,7 +173,7 @@ class Game :
             xp, yp = p[3]
             if (p[0] == piece) or (xp >= x_min and yp >= y_min and xp <= x_max and yp <= y_max and not self.is_legal(p[0], p[1], p[3], p[2], playing)):
                 to_be_removed.append(p)
-        res = list(filter(lambda elem : not elem in to_be_removed, self.possible_moves[playing-1]))
+        res = list(filter(lambda elem: not elem in to_be_removed, self.possible_moves[playing-1]))
         self.possible_moves[playing-1] = res.copy()
 
         # Add new possibles moves
@@ -192,7 +194,7 @@ class Game :
                                 self.possible_moves[playing-1].append((p, r, b, pos))
         
         # Bonus if the last piece placed is the monomino
-        if len(self.available[playing-1]) == 0 and piece == 1:
+        if not self.available[playing-1] and piece == 1:
             self.bonus[playing-1] = True
 
     def remove_piece(self, piece:int, rotation:{0, 90, 180, 270}, position:tuple[int, int], flipped:bool) -> None:
@@ -212,20 +214,20 @@ class Game :
 
         for i in range(length):
             for j in range(height):
-                if p_to_add[j][i] == 1 : # remove the piece
+                if p_to_add[j][i] == 1: # Remove the piece
                     self.board[y+j][x+i] = 0
         
-        # add the piece back
+        # Add the piece back
         self.available[self.is_playing-1].append(piece) 
 
-        if(len(self.available[self.is_playing-1]) == 21):
+        if(len(self.available[self.is_playing-1]) == len(pieces)):
             self.red_pieces[self.is_playing-1] = 4 ## SHOULD BE THE NUMBER OF CORNERS STILL AVAILABLE
         
-        # bonus if the last piece placed is the monomino
-        if len(self.available[self.is_playing-1]) == 0 and piece == 1:
+        # Bonus if the last piece placed is the monomino
+        if not self.available[self.is_playing-1] and piece == 1:
             self.bonus[self.is_playing-1] = False
 
-    def score(self, player:int) -> int :
+    def score(self, player:int) -> int:
         """
         Calculates the score of a player
 
@@ -244,7 +246,7 @@ class Game :
                     if shape[j][i] == 1:
                         total = total - 1
         
-        if len(self.available[player-1]) == 0:
+        if not self.available[player-1]:
             total = total + 20
         
         if self.bonus[player-1]:
@@ -273,19 +275,19 @@ class Game :
         while self.players:
             pos = self.possible_moves[self.is_playing-1]
 
-            if len(self.possible_moves[self.is_playing-1]) != 0 :
+            if len(self.possible_moves[self.is_playing-1]) != 0:
                 piece, rotation, flipped, (x, y) = choice(pos)
                 self.add_piece(piece, rotation, (x, y), flipped)
 
                 self.is_playing_index = (self.is_playing_index + 1) % len(self.players)
             
-            else :
+            else:
                 print(f"Player {self.is_playing} does not have any available move!")
                 self.players.remove(self.is_playing)
                 if self.is_playing_index >= len(self.players):
                     self.is_playing_index = 0
             
-            if self.players : 
+            if self.players: 
                 self.is_playing = self.players[self.is_playing_index]
             
         self.print_board()
@@ -314,7 +316,7 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
     """
     Recreates a game using database data
 
-    moves: list of moves with all required information sorted by when the piece is placed, as given by db.py’s get_game_history function
+    moves: list of moves with all required information sorted by when the piece is placed, as given by db.py's get_game_history function
     
     Returns the Game object created from the list of moves
     """
@@ -345,9 +347,8 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
     return g
 
 
-
-if __name__ == "__main__" : 
+if __name__ == "__main__": 
     g1 = Game(4)
     start = time.time()
     g1.play_game()
-    print(f"Time taken: {time.time() - start}")
+    print(f"Time taken: {round(time.time() - start, 3)}s")
