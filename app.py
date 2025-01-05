@@ -199,10 +199,10 @@ def games():
     roomList = []
     for i in range(len(data)):
         if(data[i][3] == -1):
-            gameList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
+            gameList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0].upper()})
 
         elif(data[i][3] == -2):
-            roomList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0]})
+            roomList.append({"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0].upper()})
     return wrap(render_template("pages/games.html", games=gameList, rooms=roomList))
 
 @app.route("/create")
@@ -228,7 +228,7 @@ def create_game():
     
     players = get_room(roomid)
     if(pid in players): # If the player is part of the room
-        return wrap(render_template("pages/create_game.html", roomid=roomid, master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid), ais=ai.aiNames), responsive=False)
+        return wrap(render_template("pages/create_game.html", roomid=roomid.upper(), master=players[0] == pid, players=get_playername_list(roomid), usernames=get_playername_list(roomid), ais=ai.aiNames), responsive=False)
     
     else: # Else, deny access
         flash("not_allowed")
@@ -272,7 +272,7 @@ def join():
 
 @app.route("/game")
 def game():
-    gameid = request.args.get("gameid")
+    gameid = request.args.get("gameid").lower()
     if(not gameid): return redirect("/games") # If no gameid is given
     gameData = get_game(gameid)
 
@@ -392,7 +392,7 @@ def handle_data():
         token = request.cookies.get("token")
         if(not token or get_token(pid) != token): return jsonify({"error": "Not connected"}) # If the token doesn’t exist, doesn’t match, or is outdated
 
-        gameid = request.args.get("gameid")
+        gameid = request.args.get("gameid").lower()
         if(not gameid): return jsonify({"error": "Not allowed"}) # If no gameid is given
 
         gameData = get_game(gameid)
@@ -442,7 +442,7 @@ def handle_data():
         token = request.cookies.get("token")
         if(not token or get_token(pid) != token): return jsonify({"error": "Not connected"}) # If the token doesn’t exist, doesn’t match, or is outdated
 
-        gameid = request.args.get("gameid")
+        gameid = request.args.get("gameid").lower()
         if(not gameid): return jsonify({"error": "Not allowed"}) # If no gameid is given
 
         gameData = get_game(gameid)
@@ -681,7 +681,7 @@ def profile(pid):
                 else:
                     nbdefeats += 1
                     states.append("-1")
-            games = [{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0], "state":states[i]} for i in range(len(data))]
+            games = [{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0].upper(), "state":states[i]} for i in range(len(data))]
             ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
             return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
         else:
