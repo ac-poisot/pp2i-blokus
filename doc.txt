@@ -86,3 +86,19 @@ On définit ensuite les méthodes suivantes :
   * play_game : joue une partie en mode aléatoire
   * copy_game : renvoie une copie de la partie en cours
   * retrieve_game : recréer un jeu à l'aide de la base de données, en se basant sur les informations de db.py
+
+
+********************************* Web ****************************************
+
+La partie web du projet est centré autour d'un unique fichier, app.py.
+Celui-ci fait appel à des templates situés dans le fichier éponyme et organisés en deux catégories, les pages et les widgets, les widgets pouvant être utilisés dans plusieurs pages.
+De même, le css, stocké dans static/css s'organise également dans des sous-dossiers pages et widgets. On trouve, dans ceux-ci, les fichiers .scss et les fichiers .css correspondants. Les fichiers .css sont issus de la compilation des fichiers .scss dans lesquels nous écrivions nos instructions de style. Nous vous fournissons tout de même les fichiers .css pour que le code soit du "prêt à lancer" dès que les librairies sont installées.
+Nous disposons également d'un _variable.scss dans le dossier de style des widgets. Celui-ci permet d'introduire des règles appliquées dans tous les fichiers de style dans lesquels _variable.scss est importé.
+Nous avons également, dans static, un dossier d'images /images, un dossier contenant les traductions en différentes langues sous forme de json dans /lang et des fichiers de script js, importés par les pages html.
+
+********************************* AI ****************************************
+Le coeur de l'IA se trouve dans le fichier ai.py.
+Il contient ainsi les fonctions qui nous permettent d'introduire l'algorithme de minmax ainsi que de construire des ais utilisant les modèles entrainés situés dans /models.
+Ceux-ci sont des réseaux neuronaux convolutifs. Leur script d'entraînement est training/training.py. Il repose sur des datasets créés dans /training par training/generate_data.py. Celui-ci fait jouer les IA existantes dans des parties qui servent ensuite de données d'entraînement.
+L'entraînement peut-être suivi avec les graphes de perte dans training/training_data.
+Nous avons également écris un script pour essayer de classer les IA selon leurs performances dans rate_ais.py
