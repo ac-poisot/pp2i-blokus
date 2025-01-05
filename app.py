@@ -460,6 +460,7 @@ def handle_data():
                             game.is_playing = game.players[game.is_playing_index]  
                         while list(gameData)[1:5][game.is_playing-1][:3] == "AI " and len(game.players) != 0:
                             if(not game.can_play(game.is_playing)):
+                                new_move(gameid, game.is_playing, -1, 0, 0, 0, False)
                                 game.delete_player(game.is_playing)
                                 if game.is_playing_index >= len(game.players):
                                     game.is_playing_index = 0
@@ -482,6 +483,7 @@ def handle_data():
                     if gameData[7]: # If auto-forfeit is on
                         while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing-1][:3] == "AI ") and len(game.players) != 0:
                             if(not game.can_play(game.is_playing)):
+                                new_move(gameid, game.is_playing, -1, 0, 0, 0, False)
                                 game.delete_player(game.is_playing)
                                 if game.is_playing_index >= len(game.players):
                                     game.is_playing_index = 0
@@ -509,6 +511,7 @@ def handle_data():
                         game.is_playing = game.players[game.is_playing_index]  
                     while list(gameData)[1:5][game.is_playing-1][:3] == "AI " and len(game.players) != 0:
                         if(not game.can_play(game.is_playing)):
+                            new_move(gameid, game.is_playing, -1, 0, 0, 0, False)
                             game.delete_player(game.is_playing)
                             if game.is_playing_index >= len(game.players):
                                 game.is_playing_index = 0
@@ -533,6 +536,7 @@ def handle_data():
                     if gameData[7]: # If auto-forfeit is on
                         while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing-1][:3] == "AI ") and len(game.players) != 0:
                             if(not game.can_play(game.is_playing)):
+                                new_move(gameid, game.is_playing, -1, 0, 0, 0, False)
                                 game.delete_player(game.is_playing)
                                 if game.is_playing_index >= len(game.players):
                                     game.is_playing_index = 0
