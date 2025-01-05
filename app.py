@@ -56,6 +56,10 @@ def recreateGame(gameid):
     for i in range(4):
         if playerlist[i] == None or playerlist[i] == "Empty slot":
             game.delete_player(i+1)
+
+    if game.players:
+        game.is_playing_index = game.is_playing_index % len(game.players)
+        game.is_playing = game.players[game.is_playing_index]
     return game
 
 
@@ -294,11 +298,11 @@ def game():
         scoreboard.sort(reverse = True, key = lambda elt: elt[1])
         return wrap(render_template("pages/scoreboard.html", scoreboard=scoreboard))
     
-    grid=[game.board[i][1:-1] for i in range(1, 21)]
+    grid = [game.board[i][1:-1] for i in range(1, 21)]
     players = get_playername_list(gameid)
     pieceList = [[pieces[elt-1] for elt in game.available[i]] for i in range(game.maxn)]
-    piecesids = [[elt for elt in game.available[i]] for i in range(game.maxn)]    
-    scores=[0, 0, 0, 0]
+    piecesids = [[elt for elt in game.available[i]] for i in range(game.maxn)]
+    scores = [0, 0, 0, 0]
     isplaying = game.players[game.is_playing_index]
     you = isplaying-1 if "Guest " in players[isplaying-1] and list(gameData)[1:5].index(str(pid)) == 0 else list(gameData)[1:5].index(str(pid))
     raw_history = get_history(gameid)[::-1]
@@ -327,7 +331,6 @@ def players():
             return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
         else: # If it is a POST request
             if("autoforfeit" in request.json.keys()):
-                print("a")
                 set_auto_forfeit(request.json["autoforfeit"], roomid)
                 return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
             elif("players" in request.json.keys()): # If the request asks to change the player list
@@ -433,13 +436,12 @@ def handle_data():
                 gameList[gameid] = recreateGame(gameid) 
             game = gameList[gameid]
             pindex = list(gameData)[1:5].index(str(pid)) # Index of the player in the list of players
-            # print(game.players, game.is_playing)
             # If the move given can be made and it's the player's turn
             if str(pid) == gameData[game.players[game.is_playing_index]]:
 
                 # If the player wishes to forfeit
                 if "piece" not in data.keys():
-                        new_move(gameid, pindex+1, -1, 0, 0, 0, False) # Indicate forfeit
+                        new_move(gameid, game.is_playing, -1, 0, 0, 0, False) # Indicate forfeit
                         game.delete_player(game.is_playing)
                         if game.is_playing_index >= len(game.players):
                             game.is_playing_index = 0
@@ -468,7 +470,6 @@ def handle_data():
 
                     if gameData[7]: # If auto-forfeit is on
                         while ((not game.can_play(game.is_playing)) or list(gameData)[1:5][game.is_playing-1][:3] == "AI ") and len(game.players) != 0:
-                            print(game.players, game.is_playing)
                             if(not game.can_play(game.is_playing)):
                                 game.delete_player(game.is_playing)
                                 if game.is_playing_index >= len(game.players):
@@ -476,7 +477,6 @@ def handle_data():
                                 if len(game.players) != 0:
                                     game.is_playing = game.players[game.is_playing_index]
                             else:
-                                print("a", game.players, game.is_playing)
                                 ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
                                 game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                                 if game.players: game.is_playing = game.players[game.is_playing_index]
@@ -490,7 +490,7 @@ def handle_data():
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]]:
                 # If the player wishes to forfeit
                 if "piece" not in data.keys():
-                    new_move(gameid, pindex+1, -1, 0, 0, 0, False) # Indicate forfeit
+                    new_move(gameid, game.is_playing, -1, 0, 0, 0, False) # Indicate forfeit
                     game.delete_player(game.is_playing)
                     if game.is_playing_index >= len(game.players):
                         game.is_playing_index = 0
@@ -511,7 +511,7 @@ def handle_data():
 
                 
                 
-                if data['piece'] in game.available[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]):
+                elif data['piece'] in game.available[game.players[game.is_playing_index]-1] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]):
                     game.add_piece(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted']) # We play the move
                     new_move(gameid, game.players[game.is_playing_index], int(data['piece']), data['y'], data['x'], data['orientation']*90, data['inverted'])
 

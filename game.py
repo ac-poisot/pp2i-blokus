@@ -293,20 +293,29 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
     """
     g = Game(players)
 
+    if not moves:
+        return g
+
     player = g.players[-1]
     for move in moves:
         _, _, player, piece, x, y, rotation, flipped = move
         g.is_playing_index = g.players.index(player)
-        g.add_piece(piece, rotation, (x, y), flipped, player)
 
-    for i in range(players):
-        if i < len(g.players) and not g.can_play(g.players[i]):
-            g.players.remove(g.players[i])
+        if piece != -1:
+            g.add_piece(piece, rotation, (x, y), flipped, player)
+        else:
+            g.delete_player(player)
 
-        # else:
-        #     g.delete_player(player)
+    new_players = list()
 
-    g.is_playing = g.players[g.is_playing-1] 
+    for p in g.players:
+        if g.can_play(p):
+            new_players.append(p)
+    g.players = new_players
+    if g.players:
+        g.is_playing_index = (g.is_playing_index + 1) % (g.maxn-1)
+
+        g.is_playing = g.players[g.is_playing_index] 
     return g
 
 
