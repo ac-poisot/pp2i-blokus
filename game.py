@@ -152,7 +152,6 @@ class Game :
         y_min = y-5
         x_max = x+length
         y_max = y+height
-
         to_be_removed = []
         for p in self.possible_moves[playing-1]:
             xp, yp = p[3]
@@ -164,12 +163,17 @@ class Game :
         # add new possibles moves
         t = len(self.available[playing-1])
         for k in range(t):
-            p = self.available[playing-1][k]
-            for i in range(x_min,x_max):
-                for j in range(y_min,y_max):
-                    pos = (i,j)
-                    for r in [0,90,180,270] :
-                        for b in [True,False]:
+            for r in [0,90,180,270] :
+                for b in [True,False] :
+                    p = self.availible[playing-1][k]
+                    p2 = rotate(p,r,b)
+                    x_min = x-len(p2[0])+2
+                    y_min = y-len(p2)+2
+                    x_max = x+length
+                    y_max = y+height
+                    for i in range(x_min,x_max):
+                        for j in range(y_min,y_max):
+                            pos = (i,j)
                             if self.is_legal(p,r,pos,b,playing) and not (p,r,b,pos) in self.possible_moves[playing-1]:
                                 self.possible_moves[playing-1].append((p,r,b,pos))
         

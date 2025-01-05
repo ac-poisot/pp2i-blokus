@@ -312,3 +312,21 @@ def test_red_pieces():
     assert(g.red_pieces[1]) == 8
     #g.add_piece(14,0,(13,11),False)
     #assert g.red_pieces[1] == 9
+
+    
+    
+    
+def test_poss_mvt_debut():
+    g = Game(3)
+    g.add_piece(1,0,(0,19),False)
+    g.is_playing = 2
+    g.is_playing_index = 1
+    g.add_piece(18,0,(0,0),False)
+    assert not (1,0,False,(0,0)) in g.possible_moves[2]
+    assert not (1,90,False,(0,0)) in g.possible_moves[2]
+    assert not (1,180,False,(0,0)) in g.possible_moves[2]
+    assert not (1,270,False,(0,0)) in g.possible_moves[2]
+    assert not (1,0,True,(0,0)) in g.possible_moves[2]
+    assert not (1,90,True,(0,0)) in g.possible_moves[2]
+    assert not (1,180,True,(0,0)) in g.possible_moves[2]
+    assert not (1,270,True,(0,0)) in g.possible_moves[2]
