@@ -487,7 +487,7 @@ def handle_data():
                                 game.delete_player(game.is_playing)
                                 if game.is_playing_index >= len(game.players):
                                     game.is_playing_index = 0
-                                if len(game.players) != 0:
+                                if game.players:
                                     game.is_playing = game.players[game.is_playing_index]
                             else:
                                 ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
@@ -495,9 +495,17 @@ def handle_data():
                                 if game.players: game.is_playing = game.players[game.is_playing_index]
                     else:
                         while list(gameData)[1:5][game.is_playing-1][:3] == "AI " and len(game.players) != 0:
-                            ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
-                            game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-                            if game.players: game.is_playing = game.players[game.is_playing_index]
+                            if(not game.can_play(game.is_playing)):
+                                new_move(gameid, game.is_playing, -1, 0, 0, 0, False)
+                                game.delete_player(game.is_playing)
+                                if game.is_playing_index >= len(game.players):
+                                    game.is_playing_index = 0
+                                if len(game.players) != 0:
+                                    game.is_playing = game.players[game.is_playing_index]
+                            else:
+                                ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
+                                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                                if game.players: game.is_playing = game.players[game.is_playing_index]
 
             # If it is a local player’s turn and the specified move can be played
             elif pindex == 0 and "Guest " in gameData[game.players[game.is_playing_index]]:
@@ -548,9 +556,18 @@ def handle_data():
                                 if game.players: game.is_playing = game.players[game.is_playing_index]
                     else:
                         while list(gameData)[1:5][game.is_playing-1][:3] == "AI " and len(game.players) != 0:
-                            ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
-                            game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
-                            if game.players: game.is_playing = game.players[game.is_playing_index]
+                            if(not game.can_play(game.is_playing)):
+                                new_move(gameid, game.is_playing, -1, 0, 0, 0, False)
+                                game.delete_player(game.is_playing)
+                                if game.is_playing_index >= len(game.players):
+                                    game.is_playing_index = 0
+                                if len(game.players) != 0:
+                                    game.is_playing = game.players[game.is_playing_index]
+                            else:
+                                ai.ais[int(list(gameData)[1:5][game.is_playing-1][-1])](gameid, game)
+                                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
+                                if game.players: game.is_playing = game.players[game.is_playing_index]
+
 
             grid = [game.board[i][1:-1] for i in range(1, 21)]
             players = get_playername_list(gameid)
