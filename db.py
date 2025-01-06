@@ -91,7 +91,9 @@ def get_username(pid:int) -> str:
     """
     username = get_temp("username", "Players", "pid", pid)
     if username:
-        return username[0][0]
+        if username[0][0] is not None:
+            return username[0][0]
+        return "410 deleted"
     else:
         return None
 
