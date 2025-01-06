@@ -22,6 +22,11 @@ article{
   justify-content: center;
   gap: 1vw;
 
+  img {
+    width: 30vw;
+    border-radius: 2vh;
+  }
+
   #presentation {
     background-color: $content-background;
     border-radius: 2vh;

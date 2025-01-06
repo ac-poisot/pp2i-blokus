@@ -68,6 +68,10 @@ article {
   justify-content: center;
   gap: 1vw;
 }
+article img {
+  width: 30vw;
+  border-radius: 2vh;
+}
 article #presentation {
   background-color: #E9DCC9;
   border-radius: 2vh;
