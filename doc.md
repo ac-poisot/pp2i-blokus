@@ -3,18 +3,19 @@
 ## Choix d'implémenation
 
 ### Les pièces
-- Stockage
+
+**Stockage**
+
 Les pièces sont rangées dans des rectangles plus grands :
 
 Ex :
-|||||
-| --- | --- | --- | --- |
 | 0 | 2 | 3 | 2 |
-| 0 | 3 | 1 | 3 |
-|0 | 3 | 1  | 3 |
-|2 | 3 | 1 | 3 |
-|3 | 1 | 1 | 3 |
-|2 | 3 | 3 | 2 |
+| --- | --- | --- | --- |
+| **0** | **3** | **1** | **3** |
+|**0** | **3** | **1**  | **3** |
+|**2** | **3** | **1** | **3** |
+|**3** | **1** | **1** | **3** |
+|**2** | **3** | **3** | **2** |
 
 Notons que :
 - **0** désigne une zone qui ne concerne pas la pièce (blanc),
@@ -22,7 +23,8 @@ Notons que :
 - **2** est la zone qui doit être en contact avec une autre pièce (les coins) (rouge),
 - **3** désigne les zones où il ne doit pas y avoir d’autres pièces du joueur (vert).
 
-- **Orientation et retournement**
+
+**Orientation et retournement**
 Les pièces sont pas défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 degrés pour les faire tourner. Pour les retournements, on tourne d'abord la piece puis on la retourne verticalement.
 
  ⬜⬜⬛ → ⬛⬜⬜
@@ -32,7 +34,7 @@ Les pièces sont pas défaut représentées sans orientation. On utilisera ensui
 on tourne avec la même convention
 
 
-### le jeu
+### Le jeu
 
 On commence par créer la liste des coups possibles au début.
 
@@ -75,7 +77,6 @@ On définit ensuite les méthodes suivantes :
   * méthode **init** : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles avant.
   * méthode **print_board** : affiche le plateau de jeu
   * méthode **is_legal** : vérifie qu'un coup est légal pour le joueur passé en paramètre. Pour cela, la pièce doit être disponible et ne doit pas sortir du plateau. les autres conditions permettent de vérifier que 1) la pièce est bien posée sur une case vide, 2) vérifier que la pièce est bien posée sur un coin (valid est un booléen de controle → vrai si un coin a été vu), 3) vérifier que la pièce n'est pas tangente à celle d'une même couleur. Dans le cas où la pièce est posée dans un coin (au début), il n'y a pas encore de pièces, valid est forcément à False, donc on rajoute ce cas à la main.
-  * méthode **is_red_cell** : vérifie qu'une pièce est posée sur une case rouge, c'est à dire au coin d'une autre pièce de la même couleur. Si la case où la pièce est à côté ([y-1][x]), on renvoie False, sinon si une des cases en diagonale à gauche est de la même couleur que le joueur, on est à un coin donc on passe un flag à True. Même chose pour l'autre côté. **Manque cas en x ?**
   * **add_piece** : ajoute la pièce sans vérification de la légalité du mouvement. Pour cela, on commence par vérifier si on est dans un coin (début de la partie donc toutes les pièces sont disponibles) pour retirer les autres coins au joueur. On met ensuite la pièce sur le plateau, puis on retire la pièce des pièces disponibles. Afin d'éviter le calcul des coups possibles à chaque tour (200 en moyenne), on calcul les coups possibles à chaque fois qu'on pose une pièce. Cela nécessite de retirer les coups qui ne sont plus disponibles de tous les joueurs puis de rajouter les mouvements du joueur qui joue. Il y a également le bonus si la dernère pièce posée est le monomino.
   * **remove_piece** : retire une pièce du plateau. On commence par retirer la pièce du plateau (remettre des 0), puis on la rajoute aux pièces disponibles. On retire ensuite les mouvements qui ne sont plus possibles et on rajoute les nouveaux.
   * **score** : renvoie le score du joueur définit par les règles du jeu
