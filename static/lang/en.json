@@ -50,7 +50,6 @@
     "remove_local": "Play online",
     "guest": "Guest ",
     "AI": "AI ",
-    "choose_AI": "A.I. Difficulty",
     "easyAI": "Easy",
     "mediumAI": "Medium",
     "hardAI": "Hard",
@@ -58,7 +57,7 @@
     "empty_slot": "Empty slot",
 
     "forfeit": "Forfeit",
-    "history_forfeit": " has surrendered",
+    "history_forfeit": " surrendered",
     "history_played": " played",
     "history_at": "at position ",
 

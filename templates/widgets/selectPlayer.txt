@@ -22,8 +22,8 @@
     <button class="{{"addLocal" if username == "Empty slot" or ((username != None) and (not " " in username) and (username|int == 0) and (not "AI" in username)) else "addLocal hidden"}}" onClick="addLocalPlayer(this, {{color}})" data="add_local"></button>
     <button class="{{"removeLocal" if username != None and " " in username and username != "Empty slot" and username[:3] != "AI " else "removeLocal hidden"}}" onClick="removeLocalPlayer(this, {{color}})" data="remove_local"></button>
     <div class="{{"chooseAi" if username != None and username[:3] == "AI " else "chooseAi hidden"}}">
-        <label data="choose_AI" for="chooseAI"></label>
-        <select name="chooseAI" onChange="chooseAI(event)" onfocus="this.size=4;" onblur="this.size=0;" onchange="this.size=1; this.blur()">
+        <br>
+        <select name="chooseAI" onChange="chooseAI(this, event)" onfocus="this.size=4;" onblur="this.size=0;" onchange="this.size=1; this.blur()">
         {% for i in range(ais|length) %}
             <option value="{{i}}" data="{{ais[i]}}"></option>
         {% endfor %}

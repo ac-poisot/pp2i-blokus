@@ -24,22 +24,25 @@ body {
                 border-width: 5px !important;
                 .chooseAi {
                     select {
-                        position: absolute;
+                        position: relative;
+                        z-index: 1000;
+                        text-align: center;
+                        overflow:visible;
                         background-color: $button-color;
                         color: white;
                         border-radius: 1vh;
 
                         option:nth-child(1):hover {
-                            background-color: $button-color;
+                            background-color: mix($button-color, black, 90%);
                         }
                         option:nth-child(2):hover {
-                            background-color: mix($button-color,black,80%);
+                            background-color: mix($button-color, black, 80%);
                         }
                         option:nth-child(3):hover {
-                            background-color: mix($button-color,black,50%);
+                            background-color: mix($button-color, black, 50%);
                         }
                         option:nth-child(4):hover {
-                            background-color: mix($button-color,black,30%);
+                            background-color: mix($button-color, black, 30%);
                         }
                     }
                 }        

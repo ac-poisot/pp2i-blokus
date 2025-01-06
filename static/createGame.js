@@ -171,9 +171,10 @@ function removeLocalPlayer(btn, i) {
     }).then(res => handleRes(res))
 }
 
-function chooseAI(event) {
+function chooseAI(btn, event) {
     var aiLevel = event.target.value
     var i = parseInt(event.target.parentElement.parentElement.classList[1][1]) - 1
+    btn.blur()
     fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
