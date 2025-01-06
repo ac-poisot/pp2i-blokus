@@ -667,14 +667,12 @@ def profile(pid):
             nbdefeats = 0
             nbdraws = 0
             data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
-            data = list(filter(lambda elt: elt[3] != -2, data))
+            data = list(filter(lambda elt: elt[3] >= 0, data))
             states = []
             for i in range(len(data)):
                 if(data[i][3] == 0):
                     nbdraws += 1
                     states.append("0")
-                elif(data[i][3] == -1):
-                    states.append("?")
                 elif(data[i][1][data[i][3]-1] == int(pid)):
                     nbvictories += 1
                     states.append("1")
@@ -683,7 +681,7 @@ def profile(pid):
                     states.append("-1")
             games = [{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0].upper(), "state":states[i]} for i in range(len(data))]
             ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
-            return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
+            return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = reversed(games), vis_username=vis_username))
         else:
             if username:
                 flash("deleted_user")

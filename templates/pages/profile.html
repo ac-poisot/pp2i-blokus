@@ -17,18 +17,21 @@
         {% endif %}
         <table id="stats">
             <tr>
-                <td>
-                    <span data="wins"> {{nbvictories}}</span>
+                <td class="vict">
+                    <span data="wins"></span>
+                    <br><strong class="number" id="v">{{nbvictories}}</strong>
                 </td>
                 <td>
-                    <span data="losses"> {{nbdefeats}}</span>
+                    <span data="losses"></span>
+                    <br><strong class="number" id="l">{{nbdefeats}}</strong>
                 </td>
                 <td>
-                    <span data="draws"> {{nbdraws}}</span>
+                    <span data="draws"></span>
+                    <br><strong class="number">{{nbdraws}}</strong>
                 </td>
             </tr>
             <tr>
-                <td colspan="3" data="ratio"> {{ratio}}</td>
+                <td colspan="3" data="ratio"> <strong>{{ratio}}</strong></td>
             </tr>
 
         </table>
@@ -43,14 +46,26 @@
                 {% if p == games[-1]%}
                 <tr>
                     <td id="ga">{{p.date}}</td>
-                    <td>{{p.id}}</td>
-                    <td id="dr">{{p.state}}</td>
+                    <td class="id"><a href="/game?gameid={{p.id}}">{{p.id}}</a></td>
+                    {% if p.state == "1" %}
+                    <td class="vict" id="dr"></td>
+                    {% elif p.state == "-1" %}
+                    <td class="loss" id="dr"></td>
+                    {% else %}
+                    <td class="draw" id="dr"></td>               
+                    {% endif %}
                 </tr>
                 {% else %}
                 <tr>
                     <td>{{p.date}}</td>
-                    <td><a href="/game?gameid={{p.id}}">{{p.id}}</a></td>
-                    <td>{{p.state}}</td>
+                    <td class="id"><a href="/game?gameid={{p.id}}">{{p.id}}</a></td>
+                    {% if p.state == "1" %}
+                    <td class="vict"></td>
+                    {% elif p.state == "-1" %}
+                    <td class="loss"></td>
+                    {% else %}
+                    <td class="draw"></td>               
+                    {% endif %}
                 </tr>
                 {% endif %}
                 {% endfor %}
