@@ -6,6 +6,7 @@ Les Algorithmes que nous souhaitons étudier ici essayent de répondre à une qu
 Ces algorithmes sont donc inclus dans le domaine de la Théorie des Jeux.
 
 ## Heuristique:
+
 Un problème se pose toutefois. Dans un jeu donné, dans une situation donnée, comment savoir si nous sommes proches de gagner ?
 Il suffit de calculer tous les prochains coups, et de voir si on trouve une série de coups gagnante, comme au Morpion, c'est assez simple. Enfin, ça l'est pour le morpion seulement, mais rapidement pour des jeux comme les échecs où à chaque coup une centaine de coups est possible, cela devient rapidement compliqué. Alors pour notre jeu, où l'on peut faire au maximum 21 coups, mais que chaque pièce a jusqu'à 8 positions différentes, et jusqu'à une vingtaine d'emplacements différents, cela devient trop compliqué. Nous devons donc définir une heuristique, une manière de savoir notre "distance" à la victoire, et là aussi, nous viens une quantité d'Heuristique toute différentes. Pour le jeu des Dames, pourtant, il existe plusieurs manières ou facteurs de calculer l'heuristique, se baser sur le nombre de pion, où sur l'emplacement de ceux-ci par exemple. Ces manières peuvent être mélangées entre elles naturellement.
 Pour le Blokus, nous avons trouvé plusieurs facteurs, et réfléchis à leurs implémentations:
