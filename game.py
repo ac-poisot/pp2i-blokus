@@ -2,7 +2,7 @@ from pieces import *
 from random import choice
 import time
 
-BOARD_SIZE = 21
+BOARD_SIZE = 20
 
 initial_possibilities = list()
 
