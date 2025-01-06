@@ -81,7 +81,7 @@ class Game:
             — the piece is available
             — a corner of a piece is in a corner of another one of the same colour
             — the piece is located only on free cells
-            — the piece isn't directly next to another of the same colour
+            — the piece isn’t directly next to another of the same colour
         """
         
         # Check availability
@@ -221,7 +221,7 @@ class Game:
         self.available[self.is_playing-1].append(piece) 
 
         if(len(self.available[self.is_playing-1]) == len(pieces)):
-            self.red_pieces[self.is_playing-1] = 4 ## SHOULD BE THE NUMBER OF CORNERS STILL AVAILABLE
+            self.red_pieces[self.is_playing-1] = 4
         
         # Bonus if the last piece placed is the monomino
         if not self.available[self.is_playing-1] and piece == 1:
@@ -316,7 +316,7 @@ def retrieve_game(players:int, moves:list[list[str, int, int, int, int, int, int
     """
     Recreates a game using database data
 
-    moves: list of moves with all required information sorted by when the piece is placed, as given by db.py's get_game_history function
+    moves: list of moves with all required information sorted by when the piece is placed, as given by db.py’s get_game_history function
     
     Returns the Game object created from the list of moves
     """

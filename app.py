@@ -352,7 +352,7 @@ def players():
                 return jsonify({"players": get_room(roomid), "usernames": get_playername_list(roomid)})
             elif("players" in request.json.keys()): # If the request asks to change the player list
                 players = request.json["players"] # Set the “players” list to the new list
-                pindex = room.index(pid) # index of the player in the list of players
+                pindex = room.index(pid) # Index of the player in the list of players
 
                 if(get_game(roomid)[6] != -2): return jsonify({"error": "Non-existent room"}) # If the room isn’t open
 
@@ -478,7 +478,7 @@ def handle_data():
                                 if game.players: game.is_playing = game.players[game.is_playing_index]
 
                 # If the move given can be made and it’s the player’s turn
-                elif data['piece'] in game.available[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]): # (data['piece'], data['orientation']*90, data['inverted'], (data['x'], data['y'])) in game.possible_moves[game.is_playing_index]
+                elif data['piece'] in game.available[pindex] and game.is_legal(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted'], game.players[game.is_playing_index]):
                     game.add_piece(data['piece'], data['orientation']*90, (data['y'], data['x']), data['inverted']) # We play the move
                     new_move(gameid, pindex+1, int(data['piece']), data['y'], data['x'], data['orientation']*90, data['inverted'])
 

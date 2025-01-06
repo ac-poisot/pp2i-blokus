@@ -131,7 +131,7 @@ def get_game_history(pid:int) -> list[tuple[any]]:
     Returns a list of all the ids, the 4 players, the starting time and the state of games the player has participated in
     """
     c = get_db().cursor()
-    c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4) ## remove  winner <>-1 AND
+    c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4)
     return c.fetchall()
 
 def verify_identity(pid:int, token:str) -> bool:
@@ -305,7 +305,7 @@ def colour(gameid:str, pid:int) -> int:
     Returns an integer corresponding to the number of the player (between 1 and 4) 
     """
     players = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)[0]
-    return list.index(pid)+1
+    return list.index(pid) + 1
 
 def new_move(gameid:str, colour:int, piece:int, x:int, y:int, angle:{0, 90, 180, 270}, flipped:bool) -> None:
     """

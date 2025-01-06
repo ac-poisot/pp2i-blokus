@@ -4,7 +4,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from pieces import *
 
-to_test = 12 #piece qui n'a pas de symetrique et qui possede une hauteur differente de sa largeur
+to_test = 12 # pièce qui n’a pas de symétrie et qui possède une hauteur différente de sa largeur
 
 def test_possible_rotation():
     rots = possible_rotations(to_test)

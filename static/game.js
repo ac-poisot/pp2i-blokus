@@ -7,7 +7,7 @@ var currentShape = [[]]
 var currentid = -1
 var currx = -1
 var curry = -1
-var color = parseInt(document.querySelector(".playerInterface").classList[1][1]);
+var colour = parseInt(document.querySelector(".playerInterface").classList[1][1]);
 var spots = []
 var oriented = 0
 var correct = false
@@ -70,7 +70,7 @@ function updatedata() {
             }
             document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
             document.querySelector("#player").prepend(elt2)
-            color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+            colour = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
             players = document.querySelectorAll("#otherPlayers>div")
         }
         document.querySelectorAll(".playerInterface").forEach(elt => {
@@ -84,9 +84,7 @@ function updatedata() {
         interesting.reverse().forEach(elt => {
             var newMove = document.createElement("li")
 
-            console.log(elt)
             if(elt.length != 4) {
-                console.log(elt, " forfeited")
                 var newPlayer = document.createElement("span")
                 newPlayer.textContent = elt
 
@@ -138,7 +136,7 @@ function updatedata() {
     })
 }
 
-// Functions to open at most one other player's interface in addition to the player's
+// Functions to open at most one other player’s interface in addition to the player’s
 
 function closeAll() {
     players.forEach(p => {
@@ -157,12 +155,6 @@ function playerSelected(elt) {
         elt.classList.add("closed")
     }
 }
-
-
-// for(i = 0; i < players.length; i++) {
-//     players[i].children[0].addEventListener("click", playerSelected.bind(null, i))
-// }
-
 
 // Functions to select and move pieces
 
@@ -184,7 +176,7 @@ function selectPiece(event, elt, shape, col, id) {
     currentid = id
     oriented = 0
     inverted = false
-    color = col
+    colour = col
 }
 
 function rotateMat(mat) {
@@ -210,7 +202,7 @@ function rotatePiece() {
     for(let i = 1; i < currentShape.length - 1; i++) {
         code += "<tr>"
         for(let j = 1; j < currentShape[i].length - 1; j++) {
-            code += `<td class="c${currentShape[i][j] == 1 ? color : ''}"></td>`
+            code += `<td class="c${currentShape[i][j] == 1 ? colour : ''}"></td>`
         }
         code += "</tr>"
     }
@@ -225,7 +217,7 @@ function reversePiece() {
     for(let i = 1; i < currentShape.length - 1; i++) {
         code += "<tr>"
         for(let j = 1; j < currentShape[i].length - 1; j++) {
-            code += `<td class="c${currentShape[i][j] == 1 ? color : ''}"></td>`
+            code += `<td class="c${currentShape[i][j] == 1 ? colour : ''}"></td>`
         }
         code += "</tr>"
     }
@@ -251,9 +243,9 @@ function selectSpot(x, y) {
             } else if(currentShapeClean[i][j] == 1) {
                 spots.push(document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`))
                 if(!document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains("c0")) possible = false
-            } else if(currentShapeClean[i][j] == 2 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${color}`)) {
+            } else if(currentShapeClean[i][j] == 2 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${colour}`)) {
                 angleContact = true;
-            } else if(currentShapeClean[i][j] == 3 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${color}`)) {
+            } else if(currentShapeClean[i][j] == 3 && document.querySelector(`#grid > tbody:nth-child(1) > tr:nth-child(${x+i}) > td:nth-child(${y+j})`).classList.contains(`c${colour}`)) {
                 possible = false
             }
         }
@@ -261,7 +253,7 @@ function selectSpot(x, y) {
     if(possible && angleContact) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
         correct = true
-    } else if(possible && document.querySelectorAll(`#grid > tbody > tr > td.c${color}`).length == 0 && ((x == 0 && y == 0 && currentShapeClean[1][1] == 1) || (x == 0 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[1][currentShapeClean[1].length - 2] == 1) || (x + currentShapeClean.length - 3 == 19 && y == 0 && currentShapeClean[currentShapeClean.length - 2][1] == 1) || (x + currentShapeClean.length - 3 == 19 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[currentShapeClean.length - 2][currentShapeClean[1].length - 2] == 1))) {
+    } else if(possible && document.querySelectorAll(`#grid > tbody > tr > td.c${colour}`).length == 0 && ((x == 0 && y == 0 && currentShapeClean[1][1] == 1) || (x == 0 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[1][currentShapeClean[1].length - 2] == 1) || (x + currentShapeClean.length - 3 == 19 && y == 0 && currentShapeClean[currentShapeClean.length - 2][1] == 1) || (x + currentShapeClean.length - 3 == 19 && y + currentShapeClean[1].length - 3 == 19 && currentShapeClean[currentShapeClean.length - 2][currentShapeClean[1].length - 2] == 1))) {
         spots.forEach(elt => elt.style.border = "solid 3px green")
         correct = true
     } else {
@@ -308,7 +300,7 @@ document.addEventListener("click", (event) => {
 })
 
 function play() {
-    if(correct && isplaying == color) {
+    if(correct && isplaying == colour) {
         var selected = document.querySelector(".selected")
         if(selected) selected.remove()
         document.querySelector(".chosenOne").remove()
@@ -344,10 +336,10 @@ function play() {
                 }
                 document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
                 document.querySelector("#player").prepend(elt2)
-                color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+                colour = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
                 players = document.querySelectorAll("#otherPlayers>div")
             }
-            color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+            colour = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
             players = document.querySelectorAll("#otherPlayers>div")
         })
         currentShape = [[]]
@@ -389,10 +381,10 @@ function forfeit() {
                 }
                 document.querySelector("#otherPlayers").insertBefore(elt1, elt2)
                 document.querySelector("#player").prepend(elt2)
-                color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+                colour = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
                 players = document.querySelectorAll("#otherPlayers>div")
             }
-            color = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
+            colour = parseInt(document.querySelector("#player > .playerInterface").classList[1][1])
             players = document.querySelectorAll("#otherPlayers>div")
         })
         currentShape = [[]]

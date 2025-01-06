@@ -84,4 +84,8 @@ footer ul li .circular_image {
 }
 footer ul li .circular_image img {
   width: 100%;
+}
+footer ul li .tn {
+  background-color: white;
+  border-radius: 5px;
 }/*# sourceMappingURL=footer.css.map */

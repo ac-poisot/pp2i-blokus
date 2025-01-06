@@ -20,18 +20,17 @@ from random import randint
 
 BOARD_SIZE = 20
 
-def create_model():
+def create_model() -> models.Sequential:
     """
     Creates and compiles a Convolutional Neural Network (CNN) model using Keras.
     The model architecture consists of:
-    - Three convolutional layers with ReLU activation and max pooling.
-    - A flattening layer to convert the 2D matrix to a 1D vector.
-    - Two dense (fully connected) layers with ReLU activation.
-    - A dropout layer to prevent overfitting.
-    - An output dense layer with sigmoid activation for binary classification.
-    The model is compiled with the Adam optimizer, mean squared error loss, and mean absolute error as a metric.
-    Returns:
-        keras.models.Sequential: The compiled CNN model.
+    — Three convolutional layers with ReLU activation and max pooling,
+    — A flattening layer to convert the 2D matrix to a 1D vector,
+    — Two dense (fully connected) layers with ReLU activation,
+    — A dropout layer to prevent overfitting, and
+    — An output dense layer with sigmoid activation for binary classification.
+    The model is compiled with the Adam optimiser, mean squared error loss, and mean absolute error as a metric.
+    Returns the compiled CNN model.
     """
 
     model = models.Sequential()
@@ -61,15 +60,15 @@ def create_model():
 
     return model
 
-def load_data(dirname: str):
+def load_data(dirname:str) -> tuple[np.ndarray, list[int]]:
     """
     Loads data from JSON files and parses them as numpy arrays.
-    Args:
-        dirname (str): The directory name containing the JSON files.
-    Returns:
-        tuple: A tuple containing two numpy arrays:
-            - games (np.ndarray): The game states loaded from games.json.
-            - scores (list[int]): The scores loaded from scores.json.
+
+    dirname (str): The directory name containing the JSON files
+
+    Returns a tuple containing two numpy arrays:
+            — games (np.ndarray): The game states loaded from games.json
+            — scores (list[int]): The scores loaded from scores.json
     """
     games_path = os.path.join("training", "datasets2", dirname, "games.json")
     scores_path = os.path.join("training", "datasets2", dirname, "scores.json")
@@ -85,13 +84,13 @@ def load_data(dirname: str):
 
     return games, scores
 
-def load_all_data():
+def load_all_data() -> tuple[np.ndarray, list[int]]:
     """
-    Loads all data from the "datasets" directory and concatenates them into single numpy arrays.
-    Returns:
-        tuple: A tuple containing two numpy arrays:
-            - all_games (np.ndarray): The concatenated game states.
-            - all_scores (list[int]): The concatenated scores.
+    Loads all data from the “datasets” directory and concatenates them into single numpy arrays.
+
+    Returns a tuple containing two numpy arrays:
+            — all_games (np.ndarray): The concatenated game states
+            — all_scores (list[int]): The concatenated scores
     """
     all_games = []
     all_scores = []
@@ -106,19 +105,18 @@ def load_all_data():
 
     return all_games, all_scores
 
-def train(model, data):
+def train(model:models.Sequential, data:tuple):
     """
     Trains the given model using the provided data and saves the training history and validation results.
-    Args:
-        model: The machine learning model to be trained.
-        data: A tuple containing the training data and labels.
-    Returns:
-        None
+    
+    model: The machine learning model to be trained.
+    data: A tuple containing the training data and labels.
+
     The function performs the following steps:
-    1. Generates validation data.
-    2. Trains the model for 4 iterations, saving the model and validation results after each iteration.
-    3. Plots and saves the training loss for each iteration.
-    4. Prints the validation results and the final prediction errors.
+    1. Generates validation data
+    2. Trains the model for 4 iterations, saving the model and validation results after each iteration
+    3. Plots and saves the training loss for each iteration
+    4. Prints the validation results and the final prediction errors
     """
 
     validation = generate_data(10)

@@ -7,7 +7,7 @@ from pieces import *
 
 def init_moves(p:int) -> list[tuple[int, int, bool, tuple[int, int]]]:
     moves = []
-    for r in [0, 90, 180, 270] :
+    for r in [0, 90, 180, 270]:
             for b in [True, False]:
                 new_piece = rotate(p, r, b)
                 x_min = 0

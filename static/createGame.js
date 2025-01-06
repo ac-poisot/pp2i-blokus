@@ -122,7 +122,7 @@ function addHumanPlayer(btn, i) {
 function addAIPlayer(btn, i) {    
     btn.parentElement.classList.remove("grayed")
     btn.parentElement.children[0].classList.remove("grayed")
-    btn.parentElement.children[6].children[1].value = 1 // Set the AI level to 1 (default value)
+    btn.parentElement.children[6].children[1].value = 1 // Set the A.I. level to 1 (default value)
     btn.parentElement.children[6].classList.remove("hidden")
     var needAI = {
         index: i-1,

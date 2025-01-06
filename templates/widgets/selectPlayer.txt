@@ -17,7 +17,7 @@
     </div>
     {% if master and color != 1 %}
     <button class="addHuman" onClick="addHumanPlayer(this, {{color}})" data="add_human"></button>
-    <button class="addAI" onClick="addAIPlayer(this,{{color}})" data="add_AI"></button>
+    <button class="addAI" onClick="addAIPlayer(this, {{color}})" data="add_AI"></button>
     <button class="remove" onClick="removePlayer(this, {{color}})" data="remove_player"></button>
     <button class="{{"addLocal" if username == "Empty slot" or ((username != None) and (not " " in username) and (username|int == 0) and (not "AI" in username)) else "addLocal hidden"}}" onClick="addLocalPlayer(this, {{color}})" data="add_local"></button>
     <button class="{{"removeLocal" if username != None and " " in username and username != "Empty slot" and username[:3] != "AI " else "removeLocal hidden"}}" onClick="removeLocalPlayer(this, {{color}})" data="remove_local"></button>

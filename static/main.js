@@ -73,7 +73,6 @@ function togglePasswordConfVisibility() {
 
 
 function openMenuL() {
-    console.log(document.getElementById("menu").offsetHeight)
     if (document.getElementById("menu").offsetHeight == 0) {
         document.getElementById("menu").style.height = "14vh";
     }

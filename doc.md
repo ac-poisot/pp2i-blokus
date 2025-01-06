@@ -68,7 +68,7 @@ On définit ensuite les méthodes suivantes :
   - ``retrieve_game: int, list[list[str, int, int, int, int, int, int, bool]] -> Game``
 
 
-### Les méthodes de la classe Game
+### Les méthodes de la classe ``Game``
   * ``init`` : initialise le jeu avec les attributs cités plus haut. On fait le calcul des mouvements possibles avant.
   * ``print_board`` : affiche le plateau de jeu.
   * ``is_legal`` : vérifie qu’un coup est légal pour le joueur passé en paramètre. Pour cela, la pièce doit être disponible et ne doit pas sortir du plateau. Les autres conditions permettent de vérifier que 1) la pièce est bien posée sur des cases libres, 2) vérifier que la pièce est bien posée sur un coin (``valid`` est un booléen de controle → vrai si un coin a été vu), 3) vérifier que la pièce n’est pas tangente à celle d’une même couleur. Dans le cas où la pièce est posée dans un coin (au début), il n’y a pas encore de pièces, ``valid`` est forcément à ``False``, donc on rajoute ce cas manuellement.

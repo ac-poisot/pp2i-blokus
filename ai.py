@@ -4,13 +4,13 @@ from db import new_move
 from tensorflow.keras import models
 import numpy as np
 
-def ai_easy(gameid, game):
+def ai_easy(gameid:str, game) -> None:
     pos = game.possible_moves[game.is_playing-1]
     piece, rotation, flipped, (x, y) = pos[randint(0, len(pos) - 1)]
     game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
     if(gameid): new_move(gameid, game.players[game.is_playing_index], piece, x, y, rotation, flipped)
 
-def heuristic1(game, player):
+def heuristic1(game, player:int) -> int:
     ownscore = game.red_pieces[player]
     opposcore = -1
     for i in range(len(game.players)):
@@ -18,7 +18,7 @@ def heuristic1(game, player):
             opposcore = max(opposcore, game.red_pieces[i])
     return ownscore - opposcore
 
-def rec_minmax(game, depth, player, heuristic):
+def rec_minmax(game, depth:int, player:int, heuristic) -> int:
     if depth == 0:
         return heuristic(game, player)
     elif game.can_play(game.is_playing):
@@ -33,8 +33,7 @@ def rec_minmax(game, depth, player, heuristic):
             if game.players: game.is_playing = game.players[game.is_playing_index]
             while (not game.can_play(game.is_playing)):
                 print(game.is_playing)
-                # game.delete_player(game.is_playing)
-                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players)) # tmp ?
+                game.is_playing_index = (game.is_playing_index + 1) % (len(game.players))
                 if game.is_playing_index >= len(game.players):
                     game.is_playing_index = 0
                 if game.players: game.is_playing = game.players[game.is_playing_index]
@@ -49,13 +48,12 @@ def rec_minmax(game, depth, player, heuristic):
         return heuristic(game, player)
 
 
-def min_max(gameid, game, depth, heuristic):
+def min_max(gameid:str, game, depth:int, heuristic) -> None:
     best = -999999999999
     bestp = None
     g = game.copy_game()
     posList = g.possible_moves[g.is_playing-1].copy()
     initial_red_pieces = g.red_pieces.copy()
-    # print(len(posList), g.is_playing, g.is_playing_index)
     for p in posList:
         piece, rotation, flipped, (x, y) = p
         g.add_piece(piece, rotation, (x, y), flipped, g.is_playing)
@@ -73,20 +71,20 @@ def min_max(gameid, game, depth, heuristic):
     game.add_piece(piece, rotation, (x, y), flipped, game.is_playing)
     if(gameid): new_move(gameid, game.players[game.is_playing_index], piece, x, y, rotation, flipped)
 
-def ai2(gameid, game):
+def ai2(gameid:str, game) -> None:
     min_max(gameid, game, 1, heuristic1)
 
-def ai3(gameid, game):
+def ai3(gameid:str, game) -> None:
     min_max(gameid, game, 2, heuristic1)
 
 
 
 # Function to convert the current game board to a matrix of integers
-def realboard(board):
+def realboard(board:list[list[any]]) -> list[list[any]]:
     """
     Extracts the inner part of a 2D board, excluding the outermost rows and columns.
 
-    board (list of list of any): a 2D list representing the board
+    board: a 2D list representing the board
 
     Returns a 2D list representing the inner part of the board
     """
@@ -94,18 +92,16 @@ def realboard(board):
     return [board[i][1:-1] for i in range(1, len(board)-1)]
 
 
-def cnn_ai(modelname):
+def cnn_ai(modelname:str):
     model = models.load_model(f"models/{modelname}")
 
-    def cnn_ai_inner(gameid, game):
-        # min_max(gameid, game, 1, heuristic)
+    def cnn_ai_inner(gameid:str, game):
         g = game.copy_game()
         posList = g.possible_moves[g.is_playing-1].copy()
         possible_datas = []
         c = 0
         for p in posList:
             piece, rotation, flipped, (x, y) = p
-            # if(g.is_legal(piece, rotation, (x, y), flipped, g.is_playing)): # TO BE REMOVED WHEN POSSIBLE_MOVES WILL WORK
             c += 1
             g.add_piece(piece, rotation, (x, y), flipped, g.is_playing)
             g.is_playing_index = (g.is_playing_index + 1) % (len(g.players))

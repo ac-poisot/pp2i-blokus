@@ -26,12 +26,7 @@ body {
                 flex-direction: column;
         
                 .playerInterface {
-                    //max-height: 93%;
                     max-height: calc(90% - 6vh);
-                    
-                    // .playerName {
-                    //     height: calc(4.5% + 1.2vh);
-                    // }
                 }
             }
         
@@ -60,8 +55,6 @@ body {
         
                 .playerName {
                     height: 1.2vh;
-                    //height: calc(90% - 6vh);
-                    //padding: 1.5vh 1.5vh 1.5vh 2vh;
                     padding: 1.5vh;
                     width: 100%;
         
@@ -70,11 +63,9 @@ body {
                 .pieces {
                     flex-grow: 1;
                     display: grid;
-                    //height: calc(80% - 7vh);
                     height: calc(95.5% - 5vh);
                     justify-content: center;
                     margin: 1vh 2vh 2vh 2vh;
-                    //grid-template-columns: repeat(2, 9vh);
                     grid-template-columns: repeat(auto-fit, 12vh);
                     padding: 0.5vh;
                     gap:0.25vh;
