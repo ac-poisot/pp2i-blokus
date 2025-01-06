@@ -681,7 +681,7 @@ def profile(pid):
                     states.append("-1")
             games = [{"date":str(datetime.fromtimestamp(data[i][2]))[:-7], "id":data[i][0].upper(), "state":states[i]} for i in range(len(data))]
             ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
-            return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
+            return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = reversed(games), vis_username=vis_username))
         else:
             if username:
                 flash("deleted_user")

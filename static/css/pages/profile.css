@@ -63,6 +63,19 @@ body main #profile {
 body main #profile h1 {
   margin: 2vh;
 }
+body main #profile table#stats {
+  border-spacing: 20px;
+}
+body main #profile table#stats .number {
+  font-size: x-large;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body main #profile table#stats #v {
+  color: rgb(0, 100, 0);
+}
+body main #profile table#stats #l {
+  color: rgb(100, 0, 0);
+}
 body main #profile table#games {
   position: relative;
   border-radius: 1em;
@@ -100,6 +113,9 @@ body main #profile table#games .loss {
 }
 body main #profile table#games .draw {
   background-color: lightgray;
+}
+body main #profile table#games .id {
+  font-family: Arial, Helvetica, sans-serif;
 }
 body main #profile button[type=profile_button] {
   border: none;
