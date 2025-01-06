@@ -108,7 +108,7 @@ def signup():
             return wrap(render_template("pages/signup.html"))
         else:
             flash("already_logged_in")
-            return wrap(render_template("pages/404.html"))
+            return wrap(render_template("pages/error.html"))
     else:
         username = request.form["username"]
         password = request.form["password"]
@@ -156,7 +156,7 @@ def login():
             return wrap(render_template("pages/login.html"))
         else:
             flash("already_logged_in")
-            return wrap(render_template("pages/404.html"))
+            return wrap(render_template("pages/error.html"))
     else:
         pid = get_pid(request.form["username"])
         if request.form["username"] and pid:
@@ -187,12 +187,12 @@ def games():
     pid = request.cookies.get("pid")
     if(not pid): # If not connected
         flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
 
     pid = int(pid)
     if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If the token doesn’t exist, doesn’t match, or is outdated
         flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
 
     data = list(map(lambda elt: (elt[0], (elt[1], elt[2], elt[3], elt[4]), elt[5], elt[6]), get_game_history(pid)))
     gameList = []
@@ -209,12 +209,12 @@ def games():
 def create_game():
     if(not request.cookies.get("pid")): # If not connected
         flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     
     pid = int(request.cookies.get("pid"))
     if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If the token doesn’t exist, doesn’t match, or is outdated
         flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     
     roomid = request.args.get("roomid")
     if(roomid == None):   # If no roomid is given, create a room
@@ -224,7 +224,7 @@ def create_game():
     
     elif (not get_room(roomid)): # If the roomid isn’t valid
         flash("non_existent_room")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     
     players = get_room(roomid)
     if(pid in players): # If the player is part of the room
@@ -232,19 +232,19 @@ def create_game():
     
     else: # Else, deny access
         flash("not_allowed")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     
 @app.route("/join")
 def join():
     if(not request.cookies.get("pid")): # If not connected
         flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     pid = int(request.cookies.get("pid"))
 
     # If the token doesn’t exist, doesn’t match, or is outdated
     if(not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")):
         flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     roomid = request.args.get("roomid")
 
     if(roomid == None): return redirect("/games") # If no roomid is given
@@ -254,7 +254,7 @@ def join():
     # If there are no players in the room (hence no room)
     if(not players):
         flash("non_existent_room")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     
     # If the player is part of the room
     elif(pid in players):
@@ -268,7 +268,7 @@ def join():
     # If they aren’t part of the room and the room is full
     else:
         flash("room_full")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
 
 @app.route("/game")
 def game():
@@ -282,11 +282,11 @@ def game():
 
     if((not pid) or not request.cookies.get("token") or get_token(pid) != request.cookies.get("token")): # If not connected properly
         flash("error_not_connected")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     
     if(not pid in room): # If the player isn’t in the list of players of the game
         flash("not_allowed")
-        return wrap(render_template("pages/404.html"))
+        return wrap(render_template("pages/error.html"))
     
     if(gameData[6] == -2): return redirect(f"/create?roomid={gameid}") # If the game hasn’t been started yet
 
@@ -626,13 +626,13 @@ def change_username():
         pid = request.cookies.get('pid')
         if((not pid) or not request.cookies.get("token") or get_token(int(pid)) != request.cookies.get("token")): # If the player isn’t connected properly
             flash("error_not_connected")
-            return wrap(render_template("pages/404.html"))
+            return wrap(render_template("pages/error.html"))
         return wrap(render_template("pages/change_username.html"))
     else:
         pid = request.cookies.get('pid')
         if((not pid) or not request.cookies.get("token") or get_token(int(pid)) != request.cookies.get("token")): # If the player isn’t connected properly
             flash("error_not_connected")
-            return wrap(render_template("pages/404.html"))
+            return wrap(render_template("pages/error.html"))
         if request.form["username"]:
             password = request.form["password"].encode("utf-8")
             if(sha512(password).digest() == get_password(pid)):
@@ -662,7 +662,7 @@ def profile(pid):
             vis_username = get_username(request.cookies.get('pid'))
 
         username = get_username(pid)
-        if username:
+        if username and username != "410 deleted":
             nbvictories = 0
             nbdefeats = 0
             nbdraws = 0
@@ -685,8 +685,12 @@ def profile(pid):
             ratio = round(nbvictories/nbdefeats, 2) if nbdefeats != 0 else "?"
             return wrap(render_template("pages/profile.html", username = username, nbvictories = nbvictories, nbdefeats = nbdefeats, nbdraws = nbdraws, ratio = ratio, games = games, vis_username=vis_username))
         else:
-            flash("non_existent_user")
-            return wrap(render_template("pages/404.html"))
+            if username:
+                flash("deleted_user")
+                return wrap(render_template("pages/error.html"))
+            else:
+                flash("non_existent_user")
+                return wrap(render_template("pages/error.html"))
     else:
         
         delete_player(pid)
@@ -696,7 +700,7 @@ def profile(pid):
 @app.errorhandler(404)
 def page_not_found(e):
     flash("404")
-    return wrap(render_template('pages/404.html'))
+    return wrap(render_template('pages/error.html'))
 
 @app.route("/credits", methods=['GET', 'POST'])
 def credit():

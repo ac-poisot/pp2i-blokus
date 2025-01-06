@@ -76,16 +76,17 @@
     "error_space": "Spaces are not allowed in usernames!",
     "error_username": "This user doesn’t exist!",
     "error_password": "Wrong password!",
-    "error_not_connected": "You need to be logged in to perform this action…",
-    "already_logged_in": "You are already logged in!",
-    "non_existent_user": "User doesn’t exist!",
+    "error_not_connected": "401: You need to be logged in to perform this action…",
+    "already_logged_in": "403: You are already logged in!",
+    "non_existent_user": "404: User doesn’t exist!",
+    "deleted_user": "410: User has been deleted!",
     
-    "non_existent_room": "This room does not exist!",
-    "not_allowed": "You do not have access to this game!",
-    "room_full": "This room is currently full!",
+    "non_existent_room": "404: This room does not exist!",
+    "not_allowed": "403: You do not have access to this game!",
+    "room_full": "409: This room is currently full!",
 
     "404": "404: Page doesn’t exist!",
-    "not_available": "Sorry, our site is only available on desktop!",
+    "not_available": "406: Sorry, our site is only available on desktop!",
 
 
     "rules": "RULES",
