@@ -92,6 +92,15 @@ body main #profile table#games #ga {
   border-radius: 0% 0% 0% 1em;
   outline: 1px solid black;
 }
+body main #profile table#games .vict {
+  background-color: rgb(104, 248, 104);
+}
+body main #profile table#games .loss {
+  background-color: rgb(240, 73, 73);
+}
+body main #profile table#games .draw {
+  background-color: lightgray;
+}
 body main #profile button[type=profile_button] {
   border: none;
   width: 200px;

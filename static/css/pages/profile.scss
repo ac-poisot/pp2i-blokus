@@ -47,6 +47,15 @@ body {
                     border-radius: 0% 0% 0% 1em ;
                     outline: 1px solid black;
                 }
+                .vict {
+                    background-color: rgb(104, 248, 104);
+                }
+                .loss {
+                    background-color: rgb(240, 73, 73);
+                }
+                .draw {
+                    background-color: lightgray;
+                }
             }
             button[type="profile_button"] {
                 border: none;
