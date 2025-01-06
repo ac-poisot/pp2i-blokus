@@ -104,10 +104,10 @@ body button[type=head_button] {
 }
 
 @media (max-width: 1281px) {
-  #games {
+  header #games {
     display: none !important;
   }
-  .circular_image {
+  header .circular_image {
     width: 40px;
     height: 40px;
   }

@@ -62,13 +62,15 @@ body {
 }
 
 @media (max-width: 1281px) {
-    #games {
-        display: none !important;
-    }
-
-    .circular_image {
-        width: 40px;
-        height: 40px;
+    header {
+        #games {
+            display: none !important;
+        }
+    
+        .circular_image {
+            width: 40px;
+            height: 40px;
+        }
     }
 }
 
