@@ -59,8 +59,9 @@ Elle répète cela pour chaque nœud, en rajoutant 0/+1 où +1/+1 si perdu où g
 
 ### Réseaux neuronaux convolutifs
 
-Les Réseaux neuronaux sont des modèles qui reposent en partie sur notre compréhension du cerveau humain. Le côté convolutif va faire en sorte qu'en utilisant des filtres, on va trouver des "concepts". Quand on cherche des chiffres en alphanumérique par exemple, ça va représenter les barres, les angles, etc.
-
+Les Réseaux neuronaux sont des modèles qui reposent en partie sur notre compréhension du cerveau humain. Le côté convolutif va faire en sorte qu'en utilisant des filtres, on va trouver des "concepts". Quand on cherche des chiffres par exemple, cela va représenter les barres ou encore les angles, afin de déterminer ensuite les chiffres représentés.
+Dans le cas du Blokus, cela peut permettre de déterminer les éléments, les configurations de pièces ou de grille favorisant la victoire et ainsi, donner un score dépendant de cela. Cela peut donc être une heuristique.
+On peut alors appliquer cette heuristique à toutes les possibilités de coups pouvant être joués au prochain tour et trouver le meilleur parmi ceux-ci.
 
 
 
