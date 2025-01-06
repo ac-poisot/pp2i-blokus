@@ -651,6 +651,9 @@ def change_username():
             flash("error_empty_username")
             return wrap(render_template("pages/change_username.html"))
 
+@app.route("/credits", methods=['GET', 'POST'])
+def credit():
+    return wrap(render_template('pages/credits.html'))
 
 @app.route("/profile/<pid>", methods=['GET', 'POST'])
 def profile(pid):
@@ -700,6 +703,6 @@ def page_not_found(e):
     flash("404")
     return wrap(render_template('pages/error.html'))
 
-@app.route("/credits", methods=['GET', 'POST'])
-def credit():
-    return wrap(render_template('pages/credits.html'))
+@app.route("/creditss", methods=['GET', 'POST'])
+def credits():
+    return wrap(render_template('pages/creditss.html'))

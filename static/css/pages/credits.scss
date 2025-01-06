@@ -4,6 +4,14 @@ body {
     background-color: $background;
 
     article {
+        #test {
+            width: 30vw;
+        }
+        .together {
+            display: flex;
+            flex-direction: row;
+            margin-top: 3vh;
+        }
         padding: 2vh;
         width: fit-content;
         background-color: $content-background;

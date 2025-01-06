@@ -57,6 +57,14 @@ body article {
   border-radius: 2vh;
   margin: 0 auto 0 auto;
 }
+body article #test {
+  width: 30vw;
+}
+body article .together {
+  display: flex;
+  flex-direction: row;
+  margin-top: 3vh;
+}
 body article h3 {
   color: black;
   margin-bottom: -1em;
