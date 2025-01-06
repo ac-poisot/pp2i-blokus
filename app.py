@@ -673,7 +673,7 @@ def profile(pid):
                 if(data[i][3] == 0):
                     nbdraws += 1
                     states.append("0")
-                elif(data[i][1][data[i][3]-1] == int(pid)):
+                elif(data[i][1][data[i][3]-1] == pid):
                     nbvictories += 1
                     states.append("1")
                 else:
