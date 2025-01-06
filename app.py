@@ -10,7 +10,7 @@ app.secret_key = b',DTuzn=#c9"F.)_'
 
 # Constants
 
-MAX_USERNAME_LENGTH = 20
+MAX_USERNAME_LENGTH = 14
 MIN_PASSWORD_LENGTH = 8
 SPECIAL_CHARS = ".,!:;?/%*#@{}[]$£€~^&|§<>"
 
