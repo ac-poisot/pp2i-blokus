@@ -9,6 +9,11 @@
     .piece {
         position:absolute;
         visibility: hidden;
+
+        &#duck {
+            width: 100px;
+            height: 100px;
+        }
     }
 }
 

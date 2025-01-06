@@ -1,10 +1,13 @@
 <div id="background">
     {% from 'widgets/piece.txt' import piece %}
-    {% for i in range(4) %}
-        {% for p in pieces %}
-            {{ piece(p, i+1)}}
+    {% for i in range(5) %}
+        {% for i in range(4) %}
+            {% for p in pieces %}
+                {{ piece(p, i+1)}}
+            {% endfor %}
         {% endfor %}
     {% endfor %}
+    <img src="{{url_for('static', filename='images/duck.svg')}}" alt="duck" class="piece" id="duck">
 </div>
 
 <link rel="stylesheet" href="{{url_for('static', filename='css/widgets/piece.css')}}">

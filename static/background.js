@@ -6,7 +6,6 @@ function make_down() {
 
     if (!blocks[index].style.animation) {
         blocks[index].style.left = Math.floor(Math.random()*(window.innerWidth-blocks[index].offsetWidth + 2.5/100 * window.innerWidth)) -5/100 * window.innerWidth + 'px'
-        // console.log(blocks[index].style.left)
         blocks[index].style.animation = `go_down  ${animation_time}s linear`
         blocks[index].style.visibility = "visible"
         setTimeout(()=>{
@@ -17,4 +16,4 @@ function make_down() {
     }
 }
 
-setInterval(make_down, 100)
+setInterval(make_down, 150  )
