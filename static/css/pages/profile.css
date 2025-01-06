@@ -53,7 +53,7 @@ body {
 body main #profile {
   display: flex;
   flex-direction: column;
-  width: 20vw;
+  width: 50vw;
   align-items: center;
   margin: 0 auto 0 auto;
   padding-bottom: 2vh;

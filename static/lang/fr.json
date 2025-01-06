@@ -73,7 +73,7 @@
     "error_username_taken": "Ce pseudo est déjà pris&thinsp;!",
     "error_empty_username": "Le nom d’utilisateur ne peut pas être vide&thinsp;!",
     "error_confirmation": "Les deux mots de passe ne correspondent pas…",
-    "error_username_length": "Pseudo trop long&thinsp;! Vingt caractères maximum.",
+    "error_username_length": "Pseudo trop long&thinsp;! Quatorze caractères maximum.",
     "error_space": "Les espaces ne sont pas autorisées dans les noms d’utilisateurs&thinsp;!",
     "error_username": "Ce compte n’existe pas&thinsp;!",
     "error_not_connected": "401&nbsp;: Il faut d’abord se connecter pour effectuer cette action…",
