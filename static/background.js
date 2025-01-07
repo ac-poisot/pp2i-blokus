@@ -5,15 +5,14 @@ function make_down() {
     var index = Math.floor(Math.random()*(blocks.length))
 
     if (!blocks[index].style.animation) {
-        blocks[index].style.left = Math.floor(Math.random()*(window.innerWidth-blocks[index].offsetWidth + 2.5/100 * window.innerWidth)) -5/100 * window.innerWidth + 'px'
+        blocks[index].style.left = Math.floor(Math.random()*(window.innerWidth-blocks[index].offsetWidth + 2.5/100 * window.innerWidth)) - 5/100 * window.innerWidth + 'px'
         blocks[index].style.animation = `go_down  ${animation_time}s linear`
         blocks[index].style.visibility = "visible"
         setTimeout(()=>{
-            // pour enlever l'animation, cette forme de texte est normale
             blocks[index].style.animation = ""
             blocks[index].style.visibility = "hidden"
-        }, animation_time*1000)
+        }, animation_time * 1000)
     }
 }
 
-setInterval(make_down, 150  )
+setInterval(make_down, 150)
