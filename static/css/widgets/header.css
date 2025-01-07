@@ -90,6 +90,7 @@ header {
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 body button[type=head_button] {
   box-sizing: border-box;

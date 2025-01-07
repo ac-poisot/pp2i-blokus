@@ -48,6 +48,7 @@ header {
 }
 body {
     margin:0;
+    overflow-x: hidden;
     button[type="head_button"] {
         box-sizing: border-box;
         width: 100%;
