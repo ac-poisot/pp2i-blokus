@@ -2,6 +2,7 @@
 
 #navbar>ul {
     display: flex;
+    align-items: center;
     flex-direction: row;
     padding: 10px;
     margin:0;
@@ -18,8 +19,7 @@
                 border-radius: 100%;
                 overflow: hidden;
                 position: relative;
-                bottom : -15%;
-                background-color: blue;
+                background-color: $blue-color;
                 display:inline-block;
                 vertical-align:middle;
               
@@ -37,19 +37,25 @@
 header {
     background-color: $FOOT;
     height: 8vh;
+    min-height: 3em;
     position: relative;
     width:100vw;
     top: 0;
     left: 50%;
     transform: translate(-50%,);
+    position: relative;
+    z-index: 5;
 }
 body {
     margin:0;
+    overflow-x: hidden;
     button[type="head_button"] {
+        box-sizing: border-box;
         width: 100%;
-        padding: 10px;
+        height: auto;
+        padding: 1vh;
         border-radius: 4px;
-        background-color: #ffb247c4;
+        background-color: $button-color;
         color: white;
         border: none;
         cursor: pointer;
@@ -57,14 +63,22 @@ body {
       }
 }
 
-//La suite c'est pour le menu coulissant
+@media (max-width: 1281px) {
+    header {
+        #games {
+            display: none !important;
+        }
+    
+        .circular_image {
+            width: 40px;
+            height: 40px;
+        }
+    }
+}
 
-
-
+// Dropdown menu
 
 $menu-width: 250px;
-
-
 
 .open-btn {
     cursor: pointer;
@@ -72,15 +86,15 @@ $menu-width: 250px;
 
 .menu {
     text-align: center;
-    height: 0;
+    height: 0vh;
     width: 10vw;
-    position: fixed;
+    position: absolute;
     top: 8vh;
     right: 0; 
     background-color: $FOOT;
     overflow-x: hidden;
     transition: 0.5s;
-    z-index: 1;
+    z-index: 4;
     a {
         text-decoration: none;
         font-size: 25px;
@@ -102,5 +116,16 @@ $menu-width: 250px;
         background: none;
         border: none;
         cursor: pointer;
+    }
+}
+
+
+@media (max-width: 1281px) {
+    button[type="head_button"] {
+        min-height: 6vh;
+    }
+
+    .menu {
+        width: 50vw;
     }
 }

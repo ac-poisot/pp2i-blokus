@@ -1,0 +1,68 @@
+@import "../widgets/variable";
+body {
+    background-color: $background;
+    text-align: center;
+    main {
+        padding: 1vh;
+        display: grid;
+        grid-template-columns: 15vw 80vh auto;
+        gap: 2vh;
+        justify-items: center;
+        margin-bottom: 2vh;
+        
+        #scoreboard {
+            div {
+                position: relative;
+                background-color: $content-background;
+                border-radius: 0.6em;
+                padding:0.5em;
+                margin: 1.4em;
+                display: inline-block;
+            }
+    
+            table {
+                position: relative;
+                border-radius: 1em;
+                outline: none;
+                border-collapse: collapse;
+                background-color: $content-background;
+                margin-inline:auto;
+                tbody {
+                    outline: none;
+                    td {
+                        outline: 1px solid black;
+                    }
+                    #dr {
+                        outline: 1px solid black;
+                        border-radius: 0% 0% 1em 0%;
+                    }
+                    #ga {
+                        border-radius: 0% 0% 0% 1em ;
+                        outline: 1px solid black;
+                    }
+                }
+                thead {
+                    td {
+                        outline: 1px solid black;
+                    }
+                    #ga {
+                        border-radius: 1em 0% 0% 0%;
+                    }
+                    #dr {
+                        outline: 1px solid black;
+                        border-radius: 0% 1em 0% 0%;
+                    }
+                }
+
+                td {
+                    padding: 0.5em;
+                }
+    
+            }
+        }
+
+        #history {
+            grid-column: 3;
+        }
+    }
+}

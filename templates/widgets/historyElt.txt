@@ -1,0 +1,31 @@
+{% macro historyElt(items) %}
+<ul id="history">
+    {% from 'widgets/piece.txt' import piece %}
+    {% for item in items %}
+        {% if item|length == 1 %}
+        <li>
+        {% if item[0][:6] == "Guest " %}
+            <span data="guest">{{item[0][6:]}}</span>
+        {% elif item[0][:3] == "AI " %}
+            <span data="AI">{{item[0][3:]}}</span>
+        {% else %}
+            <span>{{item[0]}}</span>
+        {% endif %}
+        <span data="history_forfeit"></span></li>
+        
+        {% else %}
+        <li>
+        {% if item[1][:6] == "Guest " %}
+            <span data="guest">{{item[1][6:]}}</span>
+        {% elif item[1][:3] == "AI " %}
+            <span data="AI">{{item[1][3:]}}</span>
+        {% else %}
+            <span>{{item[1]}}</span>
+        {% endif %}
+        <span data="history_played"></span> {{piece(item[2], item[0])}} <span data="history_at"></span> {{item[3]}}
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/widgets/historyElt.css')}}">
+{% endmacro %}

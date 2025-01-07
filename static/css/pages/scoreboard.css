@@ -1,0 +1,105 @@
+body {
+  height: -moz-min-content;
+  height: min-content;
+  min-height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+main, #not_available {
+  margin: 0;
+  margin-top: 2vh;
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
+button[type=simple_button] {
+  width: auto;
+  min-width: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  border-radius: 4px;
+  background-color: #f3a942;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
+}
+body {
+  background-color: #6A0DAD;
+  text-align: center;
+}
+body main {
+  padding: 1vh;
+  display: grid;
+  grid-template-columns: 15vw 80vh auto;
+  gap: 2vh;
+  justify-items: center;
+  margin-bottom: 2vh;
+}
+body main #scoreboard div {
+  position: relative;
+  background-color: #E9DCC9;
+  border-radius: 0.6em;
+  padding: 0.5em;
+  margin: 1.4em;
+  display: inline-block;
+}
+body main #scoreboard table {
+  position: relative;
+  border-radius: 1em;
+  outline: none;
+  border-collapse: collapse;
+  background-color: #E9DCC9;
+  margin-inline: auto;
+}
+body main #scoreboard table tbody {
+  outline: none;
+}
+body main #scoreboard table tbody td {
+  outline: 1px solid black;
+}
+body main #scoreboard table tbody #dr {
+  outline: 1px solid black;
+  border-radius: 0% 0% 1em 0%;
+}
+body main #scoreboard table tbody #ga {
+  border-radius: 0% 0% 0% 1em;
+  outline: 1px solid black;
+}
+body main #scoreboard table thead td {
+  outline: 1px solid black;
+}
+body main #scoreboard table thead #ga {
+  border-radius: 1em 0% 0% 0%;
+}
+body main #scoreboard table thead #dr {
+  outline: 1px solid black;
+  border-radius: 0% 1em 0% 0%;
+}
+body main #scoreboard table td {
+  padding: 0.5em;
+}
+body main #history {
+  grid-column: 3;
+}/*# sourceMappingURL=scoreboard.css.map */

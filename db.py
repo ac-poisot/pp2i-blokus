@@ -91,7 +91,9 @@ def get_username(pid:int) -> str:
     """
     username = get_temp("username", "Players", "pid", pid)
     if username:
-        return username[0][0]
+        if username[0][0] is not None:
+            return username[0][0]
+        return "410 deleted"
     else:
         return None
 
@@ -129,7 +131,7 @@ def get_game_history(pid:int) -> list[tuple[any]]:
     Returns a list of all the ids, the 4 players, the starting time and the state of games the player has participated in
     """
     c = get_db().cursor()
-    c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4) ## remove  winner <>-1 AND
+    c.execute("SELECT * FROM Games WHERE (p1 = (?) OR p2 = (?) OR p3 = (?) OR p4 = (?)) ORDER BY start_time ASC;", (pid,)*4)
     return c.fetchall()
 
 def verify_identity(pid:int, token:str) -> bool:
@@ -233,7 +235,7 @@ def get_game(gameid:str) -> tuple:
     gameid: the game's id
 
     Returns a list of all the data in the format 
-        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, state:int)
+        (gameid:str, p1:int, p2:int, p3:int, p4:int, start_time:float, state:int, auto-forfeit:bool)
     """
     if get_temp("*", "Games", "gameid", gameid): return get_temp("*", "Games", "gameid", gameid)[0]
     return None
@@ -257,7 +259,8 @@ def change_game_state(gameid:str, state:int) -> None:
     Function to change the state of a game
 
     gameid: the id of the game to end
-    state: new state of the game
+    state: new state of the game 
+        (-2 if the game is being created, -1 if the game is ongoing, 0 if it has ended in a draw, number of the winner in the game otherwise)
     """
     set_temp("Games", "state", state, "gameid", gameid)
 
@@ -271,7 +274,7 @@ def end_game(gameid:str, winner:int) -> None:
     set_temp("Games", "winner", winner, "gameid", gameid)
 
 
-def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
+def new_game(p1:int, p2:int, p3:int, p4:int, autoforfeit:bool) -> str:
     """
     Function to create a new game with the players's ids
 
@@ -288,7 +291,7 @@ def new_game(p1:int, p2:int, p3:int, p4:int) -> str:
     while get_temp("*", "Games", "gameid", gameid):
         gameid = ''.join(choice(GAMEID_CHARS) for i in range(GAMEID_LENGTH))
 
-    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), -2)) 
+    c.execute("INSERT INTO Games VALUES ((?), (?), (?), (?), (?), (?), (?), (?));", (gameid, p1, p2, p3, p4, time.time(), -2, autoforfeit)) 
     get_db().commit()
     return gameid
 
@@ -302,14 +305,14 @@ def colour(gameid:str, pid:int) -> int:
     Returns an integer corresponding to the number of the player (between 1 and 4) 
     """
     players = get_temp("p1, p2, p3, p4", "Games", "gameid", gameid)[0]
-    return list.index(pid)+1
+    return list.index(pid) + 1
 
 def new_move(gameid:str, colour:int, piece:int, x:int, y:int, angle:{0, 90, 180, 270}, flipped:bool) -> None:
     """
     Function to push a specific move to the database, assumes the move is valid
 
     gameid: the game's id
-    colour: the player that placed the piece
+    colour: the player that placed the piece (or -1 if the move consists in forfeiting)
     piece: the number of the piece
     x: the piece's first coordinate
     y: the piece's second coordinate
@@ -334,6 +337,17 @@ def set_room(players: list[int], gameid: str):
     if(get_temp("state", "Games", "gameid", gameid)[0][0] == -2):
         for i in range(4):
             set_temp("Games", f"p{i+1}", str(players[i]) if players[i] else None, "gameid", gameid)
+
+def set_auto_forfeit(autoforfeit: bool, gameid: str):
+    """
+    Function to toggle auto-forfeit mode on or off
+
+    autoforfeit: whether to turn it on or off
+    gameid: the id of the game/room
+    """
+    if(get_temp("state", "Games", "gameid", gameid)[0][0] == -2):
+        set_temp("Games", "autoforfeit", autoforfeit, "gameid", gameid)
+
 
 def get_room(gameid:str):
     """

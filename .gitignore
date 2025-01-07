@@ -371,3 +371,7 @@ $RECYCLE.BIN/
 
 # Sass .css.map files
 *.css.map
+
+# Datasets folders
+datasets/
+datasets2/

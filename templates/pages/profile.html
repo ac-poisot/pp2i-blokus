@@ -1,52 +1,77 @@
 <main>
-    {% if username[0] in "aeiouyAEIOUYéèêëàâäôöûüùîïÿÉÈÊËÀÂÄÔÖÛÜÙÎÏ" %}
+    <div id="profile">
+        {% if username[0] in "aeiouyAEIOUYéèêëàâäôöûüùîïÿÉÈÊËÀÂÄÔÖÛÜÙÎÏ" %}
         <h1 data="profile_vowel">{{username}}</h1>
-    {% else %}{% if username[-1] in "sS" %}
-        <h1 data="profile_s">{{username}}</h1>
-    {% else %}
-        <h1 data="profile">{{username}}</h1>
-    {% endif %}
-    {% endif %}
-    {% if username == vis_username %}
-    <a href="../../change_username"><button type="profile_button" data="change_username"></button></a>
-    <form action="" method="post">
-    <p></p>
-    <button data="delete_account" type="profile_button" onclick="deleteCookies()"></button>
-    </form>
-    {% endif %}
-    <table id="stats">
-        <tr>
-            <td>
-                <span data="wins"> {{nbvictories}}</span>
-            </td>
-            <td>
-                <span data="losses"> {{nbdefeats}}</span>
-            </td>
-            <td>
-                <span data="draws"> {{nbdraws}}</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" data="ratio"> {{ratio}}</td>
-        </tr>
-
-    </table>
-    <table id="games">
-        <thead>
-            <td data="game_date"></td>
-            <td data="game_id"></td>
-            <td data="game_state"></td>
-        </thead>
-        <tbody>
-            {% for p in games %}
+        {% else %}{% if username[-1] in "sS" %}
+            <h1 data="profile_s">{{username}}</h1>
+        {% else %}
+            <h1 data="profile">{{username}}</h1>
+        {% endif %}
+        {% endif %}
+        {% if username == vis_username %}
+        <a href="../../change_username"><button type="profile_button" data="change_username"></button></a>
+        <form action="" method="post">
+        <p></p>
+        <button data="delete_account" type="profile_button" onclick="deleteCookies()"></button>
+        </form>
+        {% endif %}
+        <table id="stats">
             <tr>
-                <td>{{p.date}}</td>
-                <td>{{p.id}}</td>
-                <td>{{p.state}}</td>
+                <td class="vict">
+                    <span data="wins"></span>
+                    <br><strong class="number" id="v">{{nbvictories}}</strong>
+                </td>
+                <td>
+                    <span data="losses"></span>
+                    <br><strong class="number" id="l">{{nbdefeats}}</strong>
+                </td>
+                <td>
+                    <span data="draws"></span>
+                    <br><strong class="number">{{nbdraws}}</strong>
+                </td>
             </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <tr>
+                <td colspan="3" data="ratio"> <strong>{{ratio}}</strong></td>
+            </tr>
+
+        </table>
+        <table id="games">
+            <thead>
+                <td data="game_date" id="hg"></td>
+                <td data="game_id"></td>
+                <td data="game_state" id="hd"></td>
+            </thead>
+            <tbody>
+                {% for p in games %}
+                {% if p == games[-1]%}
+                <tr>
+                    <td id="ga">{{p.date}}</td>
+                    <td class="id"><a href="/game?gameid={{p.id}}">{{p.id}}</a></td>
+                    {% if p.state == "1" %}
+                    <td class="vict" id="dr"></td>
+                    {% elif p.state == "-1" %}
+                    <td class="loss" id="dr"></td>
+                    {% else %}
+                    <td class="draw" id="dr"></td>               
+                    {% endif %}
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{p.date}}</td>
+                    <td class="id"><a href="/game?gameid={{p.id}}">{{p.id}}</a></td>
+                    {% if p.state == "1" %}
+                    <td class="vict"></td>
+                    {% elif p.state == "-1" %}
+                    <td class="loss"></td>
+                    {% else %}
+                    <td class="draw"></td>               
+                    {% endif %}
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 </main>
 <link rel="stylesheet" href="{{url_for('static', filename='css/pages/profile.css')}}">

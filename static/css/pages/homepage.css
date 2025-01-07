@@ -1,48 +1,113 @@
 body {
   height: -moz-min-content;
   height: min-content;
+  min-height: 100vh;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-main {
+main, #not_available {
   margin: 0;
+  margin-top: 2vh;
   position: relative;
-  min-height: 82vh;
+  z-index: 2;
+  flex-grow: 1;
 }
 
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
 button[type=simple_button] {
   width: auto;
   min-width: 1vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
+}
 body {
-  background-color: #6c65d6;
+  background-color: #6A0DAD;
   text-align: center;
 }
 
-table {
-  padding: auto;
-  padding-left: 10vw;
+#title_cont {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  width: 18vw;
+  height: 6vw;
+  background-color: #E9DCC9;
+  overflow: hidden;
+  margin: auto;
+  border-radius: 2vh;
 }
-table p {
+#title_cont img {
+  width: 15vw;
+  margin: auto;
+}
+
+article {
+  padding: 2vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1vw;
+}
+article img {
+  width: 30vw;
+  border-radius: 2vh;
+}
+article #presentation {
+  background-color: #E9DCC9;
+  border-radius: 2vh;
+}
+article #presentation p {
   width: 50vw;
 }
-table ul {
+article #presentation ul {
   transform: translate(-3vw);
   width: 50vw;
   display: flex;
   flex-direction: row;
+  gap: 5vw;
+  justify-content: center;
+  margin-bottom: 2vh;
 }
-table ul li {
+article #presentation ul li {
   padding: auto;
-  margin-inline: auto;
   display: flex;
+}
+
+@media (max-width: 1281px) {
+  article {
+    flex-direction: column;
+    width: 90vw;
+    height: -moz-min-content;
+    height: min-content;
+  }
+  article img {
+    width: 90vw;
+    margin: auto;
+  }
 }/*# sourceMappingURL=homepage.css.map */

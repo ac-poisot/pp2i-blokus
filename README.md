@@ -25,14 +25,14 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 
 ## Description du projet
 
-- **Sujet : Blokus en ligne** 
-- **Objectifs : Réalisation d'un Blokus en version web jouable en local et à distance**
-- **Technologies utilisées : Python, Flask, HTML, SASS, JS, SQlite3**
+- **Sujet** : Blokus en ligne
+- **Objectifs** : Réalisation d’un Blokus en version web jouable en local et à distance
+- **Technologies utilisées** : Python, Flask, HTML, SASS, JavaScript, SQlite3
 
 
 ## Prérequis
 
-- **Langages :** Python 3.10, JavaScript, HTML, Sass (sous la syntaxe scss)
+- **Langages :** Python 3.10, JavaScript, HTML, Sass (sous la syntaxe SCSS)
 - **Frameworks :** Flask
 - **Dépendances :** Voir le fichier `requirements.txt`
 
@@ -47,7 +47,7 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
    cd grp02
    ```
 
-2. Installez les dépendances (si applicable) :
+2. Installez les dépendances si nécessaire :
     ```bash
     pip install -r requirements.txt
     ```
@@ -60,4 +60,6 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
     flask run
     ```
 
-2. Aller sur la page "/" pour initialiser la base de données
+2. Rendez-vous sur la page d’accueil `/` pour initialiser la base de données.
+
+3. Bienvenue sur le site ! Bon jeu !

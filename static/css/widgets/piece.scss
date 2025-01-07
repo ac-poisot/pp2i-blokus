@@ -1,3 +1,6 @@
+
+@import "../widgets/variable";
+
 .piece {
     position: relative;
 
@@ -7,19 +10,19 @@
     }
 
     .c1 {
-        background-color: red;
+        background-color: $red-color;
     }
     
     .c2 {
-        background-color: green;
+        background-color: $green-color;
     }
     
     .c3 {
-        background-color: yellow;
+        background-color: $yellow-color;
     }
     
     .c4 {
-        background-color: blue;
+        background-color: $blue-color;
     }
 
     .rotate, .reverse {
@@ -42,6 +45,10 @@
     }
 
     &.chosenOne {
+
+        table {
+            visibility: hidden;
+        }
         
         .rotate, .reverse {
             visibility: visible;

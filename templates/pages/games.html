@@ -10,7 +10,7 @@
                 {% for r in rooms %}
                 <tr>
                     <td>{{r.date}}</td>
-                    <td><a href="/create?roomid={{r.id}}">{{r.id}}</a></td>
+                    <td class="id"><a href="/create?roomid={{r.id}}">{{r.id}}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -24,7 +24,7 @@
                 {% for p in games %}
                 <tr>
                     <td>{{p.date}}</td>
-                    <td><a href="/game?gameid={{p.id}}">{{p.id}}</a></td>
+                    <td class="id"><a href="/game?gameid={{p.id}}">{{p.id}}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

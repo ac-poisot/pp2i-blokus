@@ -4,18 +4,22 @@
             <label for="username" data="username"></label>
             <input type="text" name="username">
             <label for="password" data="password"></label>
-            <input type="password" name="password" id="password">
-            <input type="checkbox" id="togglePassword" class="eye-checkbox" onclick="togglePasswordVisibility()">
-            <label for="togglePassword" class="eye-icon">👁️</label>
+            <div class="inputWithEye">
+                <input type="password" name="password" id="password">
+                <input type="checkbox" id="togglePassword" class="eye-checkbox" onclick="togglePasswordVisibility()">
+                <label for="togglePassword" class="eye-icon"><img id="toggleImage" src="{{url_for('static', filename='images/show_eye.png')}}" class="img-eye-icon-conf"></label>
+            </div>
             <p data="password_requirements" class="info">
-                    <span class="tooltiptext">. , ! : ; ? / % * # @ { } [ ] $ £ € ~ ^ & | § < ></span>
+                    <span class="tooltiptext">. , ! : ; ? / & * # @ { } [ ] $ £ € ~ ^ & | § &lt; &gt;</span>
                 </span>
     
             </p>
             <label for="confirmation" data="password_confirmation"></label>
-            <input type="password" name="confirmation" id="confirmation">
-            <input type="checkbox" id="togglePasswordConf" class="eye-checkbox" onclick="togglePasswordConfVisibility()">
-            <label for="togglePasswordConf" class="eye-icon-conf">👁️</label>
+            <div class="inputWithEye">
+                <input type="password" name="confirmation" id="confirmation">
+                <input type="checkbox" id="togglePasswordConf" class="eye-checkbox" onclick="togglePasswordConfVisibility()">
+                <label for="togglePasswordConf" class="eye-icon-conf"><img id="toggleImageConf" src="{{url_for('static', filename='images/show_eye.png')}}" class="img-eye-icon-conf"></label>
+            </div>
             <button type="submit" data="signup_button"></button>
         </form>
         {% with messages = get_flashed_messages() %}

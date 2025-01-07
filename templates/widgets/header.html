@@ -18,12 +18,10 @@
                     <li id="credits">
                         <a href="/credits"><button type="head_button" data="credits"></button></a>
                     </li>
-
-
-                    <!-- <p>{{pid}}</p> -->
+                    
                     {% if pid != -1 %}
                         <li id="profile">
-                            <a href="/profile/{{pid}}"><img class="circular_image" title="" data-title="my_profile" src="../static/images/icone.jpg"width="20" height="20"></a>
+                            <a href="/profile/{{pid}}"><img class="circular_image" title="" data-title="my_profile" src="../static/images/icon.jpg"width="20" height="20"></a>
                         </li>
                         <li>
                             <button data="logout" type="head_button" onclick="deleteCookies()"></button>
@@ -36,11 +34,6 @@
                             <a href="/signup" ><button type="head_button" data="signup"></button></a>
                         </li>
                     {% endif %}
-<!--                        <li id="english">
-                        </li>                      
-                        <li id="french">
-
-                        </li>-->
                         <li>
                             <button type="head_button" class="open-btn" onclick="openMenuL()" data="menu"></button>
                         </li>
@@ -48,7 +41,6 @@
             </nav>
     </header>
     <div id="menu" class="menu">
-        <a href="javascript:void(0)" class="close-btn" onclick="closeMenuL()">&times;</a>
         <a href="" onclick="changeLanguage('en')">English</a>
         <a href="" onclick="changeLanguage('fr')">Français</a>
     </div>

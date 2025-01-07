@@ -1,7 +1,13 @@
+
+@import "../widgets/variable";
+
 #grid {
     display: table;
     grid-column: 2;
-    margin: auto;
+    padding: 0.7vh;
+    width: 80vh;
+    background-color: $content-background;
+    border-radius: 2vh;
 
     td {
         width:3vh;
@@ -14,18 +20,18 @@
     }
     
     .c1 {
-        background-color: red;
+        background-color: $red-color;
     }
     
     .c2 {
-        background-color: green;
+        background-color: $green-color;
     }
     
     .c3 {
-        background-color: yellow;
+        background-color: $yellow-color;
     }
     
     .c4 {
-        background-color: blue;
+        background-color: $blue-color;
     }
 }

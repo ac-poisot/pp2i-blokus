@@ -1,36 +1,58 @@
 body {
   height: -moz-min-content;
   height: min-content;
+  min-height: 100vh;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-main {
+main, #not_available {
   margin: 0;
+  margin-top: 2vh;
   position: relative;
-  min-height: 82vh;
+  z-index: 2;
+  flex-grow: 1;
 }
 
+@media (min-width: 1281px) {
+  #not_available {
+    display: none;
+  }
+}
 button[type=simple_button] {
   width: auto;
   min-width: 1vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
   border-radius: 4px;
-  background-color: rgba(255, 178, 71, 0.768627451);
+  background-color: #f3a942;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
+@media (max-width: 1281px) {
+  .not_responsive {
+    display: none;
+  }
+  #not_available {
+    display: block;
+  }
+  #not_available #content {
+    background-color: #E9DCC9;
+    border-radius: 2vh;
+  }
+}
 footer {
   min-height: 5vh;
   display: flex;
   justify-content: center;
   background-color: #ff5f00;
+  position: relative;
+  z-index: 5;
   width: 100vw;
-  bottom: 0px;
-  left: 50%;
   /*Normalement le footer devient centrer*/
 }
 footer ul {
@@ -62,4 +84,8 @@ footer ul li .circular_image {
 }
 footer ul li .circular_image img {
   width: 100%;
+}
+footer ul li .tn {
+  background-color: white;
+  border-radius: 5px;
 }/*# sourceMappingURL=footer.css.map */

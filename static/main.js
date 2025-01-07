@@ -41,28 +41,43 @@ function change_username() {
 }
 
 function deleteCookies() {
-    document.cookie = `exptoken=${new Date()/1000-1000*60*60*24}; path=/`;
+    document.cookie = `pid=; expires=${new Date()/1000-1000*60*60*24}; path=/`;
+    document.cookie = `exptoken=; expires=${new Date()/1000-1000*60*60*24}; path=/`;
+    document.cookie = `token=; expires=${new Date()/1000-1000*60*60*24}; path=/`;
     location.reload()
 }
 
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     const toggleCheckbox = document.getElementById("togglePassword");
+    const toggleImage = document.getElementById("toggleImage");
     passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+    if (toggleCheckbox.checked) {
+        toggleImage.src = "/static/images/hide_eye.png"; 
+    } else {
+        toggleImage.src = "/static/images/show_eye.png";
+    }
 }
 
 function togglePasswordConfVisibility() {
     const passwordInput = document.getElementById("confirmation");
     const toggleCheckbox = document.getElementById("togglePasswordConf");
+    const toggleImage = document.getElementById("toggleImageConf");
     passwordInput.type = toggleCheckbox.checked ? "text" : "password";
+    if (toggleCheckbox.checked) {
+        toggleImage.src = "/static/images/hide_eye.png"; 
+    } else {
+        toggleImage.src = "/static/images/show_eye.png";
+    }
 }
 
 
 function openMenuL() {
-    document.getElementById("menu").style.height = "25vh";
+    if (document.getElementById("menu").offsetHeight == 0) {
+        document.getElementById("menu").style.height = "14vh";
+    }
+    else {
+        document.getElementById("menu").style.height = "0vh";
+    }
 }
 
-
-function closeMenuL() {
-    document.getElementById("menu").style.height = "0vh";
-}

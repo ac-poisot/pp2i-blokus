@@ -12,6 +12,7 @@ function copyLink(roomid) {
 }
 
 var players = [getCookie("pid"), undefined, undefined, undefined]
+var autoforfeit = false
 var usernames = players
 var playerNameSpans = document.querySelectorAll(".content > .playerName")
 var blocks = document.querySelectorAll(".selectPlayer")
@@ -121,9 +122,11 @@ function addHumanPlayer(btn, i) {
 function addAIPlayer(btn, i) {    
     btn.parentElement.classList.remove("grayed")
     btn.parentElement.children[0].classList.remove("grayed")
+    btn.parentElement.children[6].children[1].value = 1 // Set the A.I. level to 1 (default value)
+    btn.parentElement.children[6].classList.remove("hidden")
     var needAI = {
         index: i-1,
-        level: 2
+        level: 1
     }
     fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
@@ -137,6 +140,7 @@ function removePlayer(btn, i) {
     btn.parentElement.children[0].classList.add("grayed")
     btn.parentElement.children[4].classList.add("hidden")
     btn.parentElement.children[5].classList.add("hidden")
+    btn.parentElement.children[6].classList.add("hidden")
     players[i-1] = undefined
     fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
         method: "POST",
@@ -167,8 +171,16 @@ function removeLocalPlayer(btn, i) {
     }).then(res => handleRes(res))
 }
 
-
-
+function chooseAI(btn, event) {
+    var aiLevel = event.target.value
+    var i = parseInt(event.target.parentElement.parentElement.classList[1][1]) - 1
+    btn.blur()
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({players, needAI: {index: i, level: aiLevel}})
+    }).then(res => handleRes(res))
+}
 
 function leaveRoom() {
     i = players.indexOf(parseInt(getCookie("pid")))
@@ -180,6 +192,13 @@ function leaveRoom() {
     }).then(res => handleRes(res))
 }
 
+function toggleAutoForfeit() {
+    autoforfeit = !autoforfeit
+    fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({autoforfeit})
+    }).then(res => handleRes(res))}
 
 function createGame() {
     fetch(`/API/create?roomid=${urlParams.get("roomid")}`, {
@@ -192,8 +211,9 @@ function createGame() {
 }
 
 
-// Automatically update the game informations
+
+// Automatically update the game information
 
 setInterval(() => {
     updatedata()
-}, 1000)
+}, 100)
