@@ -137,5 +137,5 @@ cnn_ai3 = cnn_ai("model2_3.h5")
 # modelList = ["model3_0.h5", "model3_3.h5", "model3_6.h5", "model3_7.h5", "model3_8.h5"]
 
 # ais = [ai_easy] + [cnn_ai(model) for model in modelList]
-ais = [ai_easy, ai2, ai3, cnn_ai3]
-aiNames = ["easyAI", "mediumAI", "hardAI", "CNN"]
+ais = [ai_easy, ai2, ai3]
+aiNames = ["easyAI", "mediumAI", "hardAI"]
