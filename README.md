@@ -27,7 +27,7 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 
 - **Sujet** : Blokus en ligne
 - **Objectifs** : Réalisation d’un Blokus en version web jouable en local et à distance
-- **Technologies utilisées** : Python, Flask, HTML, SASS, JS, SQlite3
+- **Technologies utilisées** : Python, Flask, HTML, SASS, JavaScript, SQlite3
 
 
 ## Prérequis

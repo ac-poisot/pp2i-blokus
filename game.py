@@ -141,9 +141,9 @@ class Game:
                 if p_to_add[j][i] == 1:
                     self.board[y+j][x+i] = playing
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == 0:
-                    self.red_pieces[playing-1] = self.red_pieces[playing-1] + 1
+                    self.red_pieces[playing-1] += 1
                 elif p_to_add[j][i] == 2 and self.board[y+j][x+i] == playing:
-                    self.red_pieces[playing-1] = self.red_pieces[playing-1] - 1
+                    self.red_pieces[playing-1] -= 1
 
         # Remove current piece from available pieces
         self.available[playing-1].remove(piece)

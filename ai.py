@@ -11,12 +11,14 @@ def ai_easy(gameid:str, game) -> None:
     if(gameid): new_move(gameid, game.players[game.is_playing_index], piece, x, y, rotation, flipped)
 
 def heuristic1(game, player:int) -> int:
-    ownscore = game.red_pieces[player]
+    # ownscore = game.red_pieces[player]
+    ownscore = len(game.possible_moves[player])
     opposcore = -1
     for i in range(len(game.players)):
         if i != player:
-            opposcore = max(opposcore, game.red_pieces[i])
-    return ownscore - opposcore
+            # opposcore = max(opposcore, game.red_pieces[i])
+            opposcore = max(opposcore, len(game.possible_moves[i]))
+    return opposcore - ownscore
 
 def rec_minmax(game, depth:int, player:int, heuristic) -> int:
     if depth == 0:
