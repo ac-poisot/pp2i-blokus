@@ -30,11 +30,12 @@ Notons que
 
 ### Orientation et retournement
 
-Les pièces sont par défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 degrés pour les faire tourner. Pour les retournements, on tourne d’abord la pièce puis on la retourne verticalement.
+Les pièces sont par défaut représentées sans orientation. On utilisera ensuite le sens horaire et des rotations de 0 (pas de rotation), 90, 180 et 270 degrés pour les faire tourner. Pour les « retournements », on tourne d’abord la pièce puis on la retourne par rapport à la verticale.
 
- ⬜⬜⬛ → ⬜⬛⬜  
+Exemple (pièce nº 20) :  
+ ⬜⬜⬛ → ⬛⬜⬜  
  ⬛⬛⬛ → ⬛⬛⬛  
- ⬜⬛⬜ → ⬜⬜⬛
+ ⬜⬛⬜ → ⬜⬛⬜
  
 ## Le jeu
 
