@@ -5,13 +5,20 @@ body {
   text-align: center;
 }
 
-h1 {
-  display: inline-block;
-  width: fit-content;
-  margin: 0 auto 0 auto;
-  padding: 1vh;
+#title_cont {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  width: 18vw;
+  height: 6vw;
   background-color: $content-background;
+  overflow: hidden;
+  margin: auto;
   border-radius: 2vh;
+  img {
+    width: 15vw;
+    margin: auto;
+  }
 }
 
 article{

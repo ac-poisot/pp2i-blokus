@@ -50,14 +50,20 @@ body {
   text-align: center;
 }
 
-h1 {
-  display: inline-block;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin: 0 auto 0 auto;
-  padding: 1vh;
+#title_cont {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  width: 18vw;
+  height: 6vw;
   background-color: #E9DCC9;
+  overflow: hidden;
+  margin: auto;
   border-radius: 2vh;
+}
+#title_cont img {
+  width: 15vw;
+  margin: auto;
 }
 
 article {
