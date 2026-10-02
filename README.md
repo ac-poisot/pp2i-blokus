@@ -7,6 +7,7 @@
 4. [Prérequis](#prérequis)
 5. [Installation](#installation)
 6. [Exécution](#exécution)
+7. [Quelques images du jeu](#quelques-images-du-jeu)
 
 ---
 
