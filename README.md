@@ -70,16 +70,16 @@ Bienvenue dans le projet **PPII — Semestre S5**. Ce projet est réalisé dans 
 ## Quelques images du jeu
 
 Voici la page d'accueil du jeu, qui vous permet ensuite de vous connecter et/ou découvrir les règles.
-![écran d'accueil du jeu](/pp2i-blokus/pictures/blokus_welcome.png)
+![écran d'accueil du jeu](/pictures/blokus_welcome.png)
 
 Vous pouvez créer votre partie. Jouer seul contre des AI, en local ou en ligne avec vos amis !
-![écran de création de partie](/pp2i-blokus/pictures/blokus_create_game.png)
+![écran de création de partie](/pictures/blokus_create_game.png)
 
 Voici une partie en cours.
-![example d'une partie en cours](/pp2i-blokus/pictures/blokus_in_game.png)
+![example d'une partie en cours](/pictures/blokus_in_game.png)
 
 Voici une partie finie.
-![example de fin de partie](/pp2i-blokus/pictures/blokus_endgame.png)
+![example de fin de partie](/pictures/blokus_endgame.png)
 
 Dans votre profil, vous pouvez retrouver votre historique des parties.
-![profil d'un joueur](/pp2i-blokus/pictures/blokus_history.png)
+![profil d'un joueur](/pictures/blokus_history.png)
